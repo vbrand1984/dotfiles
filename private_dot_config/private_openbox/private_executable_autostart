@@ -1,0 +1,42 @@
+# Openbox autostart script
+
+# --== Compositor ==--
+#xcompmgr &
+#compton -bCG --backend glx
+picom --daemon &
+
+# --== Panel ==-- 
+tint2 &
+
+# --== Desktop Background ==--
+# The --force-setter option is necessary in Debian, otherwise the thing doesn't work
+nitrogen --restore --force-setter=xwindows &
+
+# --== Setting keyboard and mouce parameters ==--
+xset m 20/10 10 r rate 200 35 b off
+
+# --== Varisous Stuff ==--
+emacs --daemon &
+udiskie --smart-tray --notify --automount &
+redshift-gtk &
+
+# --== Screensaver ==--
+xscreensaver --no-splash &
+
+# --== Clipboard Manager ==--
+# NB: Diodon is started via xdg autostart shortcut
+# Clipit is broken in Debian/Devuan for whatever reason
+# It is available in Debian 10 (buster)
+clipit &
+#diodon &
+
+# --== Sound Volume Manager ==--
+(sleep 2; volumeicon) &
+#pnmixer &
+
+# --== Conky System Monitor ==--
+(sleep 1; conky --pause=3 --daemonize) &
+
+# --== Keyboard Switcher Indicator ==--
+# Either gxkb or xxkb
+(sleep 2; gxkb) &
