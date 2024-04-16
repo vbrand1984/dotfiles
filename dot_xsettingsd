@@ -1,0 +1,15 @@
+# Theme settings
+Net/ThemeName "Greylooks"
+Net/IconThemeName "Papirus-Light"
+Gtk/CursorThemeName "DMZ-White"
+Gtk/DecorationLayout ":minimize,maximize,close"
+Net/EnableEventSounds 0
+
+# Font settings
+Xft/Antialias 1
+Xft/DPI 98304
+Xft/HintStyle "hintslight"
+Xft/Hinting 1
+Xft/RGBA "rgb"
+Xft/lcdfilter "lcddefault"
+

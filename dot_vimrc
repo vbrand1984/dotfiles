@@ -1,0 +1,69 @@
+syntax on
+
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+highlight Visual cterm=none ctermfg=black ctermbg=grey
+call plug#begin('~/.vim/plugged')
+	Plug 'sainnhe/everforest'
+	Plug 'morhetz/gruvbox'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+call plug#end()
+
+" Search options
+set nohlsearch
+set ignorecase smartcase
+
+set number
+set background=dark
+
+" Current cursor line highlighting
+set cursorline
+set cursorlineopt=number
+
+set tabstop=4
+set shiftwidth=0
+"set expandtab
+
+" This is needed in order to make background color work properly in kitty
+"let &t_ut=''
+
+" Don't print warning about mixed whitespaces in airline
+let g:airline#extensions#whitespace#enabled = 0
+
+
+"############################################################
+" Theme setup
+"############################################################
+
+if ($TERM != 'linux')
+	if (has("termguicolors"))
+		set termguicolors
+		let g:gruvbox_termcolors = 256
+	else
+		let g:gruvbox_termcolors = 16
+	endif
+	if (expand('$EUID') != '0')
+		let g:gruvbox_italic = 1
+		let g:gruvbox_contrast_dark = 'hard'
+		let g:gruvbox_contrast_light = 'soft'
+		let g:gruvbox_invert_selection = 0
+		let g:airline_theme = 'gruvbox'
+		autocmd vimenter * ++nested colorscheme gruvbox
+	else
+		let g:everforest_background = 'hard'
+		colorscheme everforest
+		let g:airline_theme = 'everforest'
+	endif
+else
+	colorscheme desert
+	let g:airline_theme = 'term'
+endif
+
+

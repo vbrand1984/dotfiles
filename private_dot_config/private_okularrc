@@ -1,0 +1,77 @@
+1920x1080 screen: Window-Maximized=true
+State=AAAA/wAAAAD9AAAAAQAAAAAAAADKAAADy/wCAAAAAfsAAAAcAG8AawB1AGwAYQByAF8AcwBpAGQAZQBiAGEAcgEAAAA+AAADywAAAAAAAAAAAAAHgAAAA8sAAAAEAAAABAAAAAgAAAAI/AAAAAMAAAABAAAAAQAAACwAcQB1AGkAYwBrAEEAbgBuAG8AdABhAHQAaQBvAG4AVABvAG8AbABCAGEAcgIAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAiAGEAbgBuAG8AdABhAHQAaQBvAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+
+[Desktop Entry]
+FullScreen=false
+
+[General]
+LockSidebar=true
+ShowSidebar=true
+
+[MainWindow]
+1280x800 screen: Height=753
+1280x800 screen: Width=1280
+1280x800 screen: XPosition=0
+1280x800 screen: YPosition=47
+1920x1080 screen: Height=1033
+1920x1080 screen: Width=1920
+1920x1080 screen: Window-Maximized=true
+1920x1080 screen: XPosition=0
+1920x1080 screen: YPosition=47
+HDMI-0=HDMI-0
+HDMI-0 Height 1024x768=721
+HDMI-0 Height 1080=1035
+HDMI-0 Height 1920x1080=1033
+HDMI-0 Height 1920x1080 HDMI-0=1033
+HDMI-0 Width 1024x768=1024
+HDMI-0 Width 1920=1920
+HDMI-0 Width 1920x1080=1920
+HDMI-0 Width 1920x1080 HDMI-0=1920
+HDMI-0 Window-Maximized 1920x1080=true
+HDMI-0 Window-Maximized 1920x1080 HDMI-0=true
+HDMI-0 XPosition=0
+HDMI-0 XPosition 1024x768=0
+HDMI-0 XPosition 1920x1080=0
+HDMI-0 XPosition 1920x1080 HDMI-0=0
+HDMI-0 YPosition=45
+HDMI-0 YPosition 1024x768=47
+HDMI-0 YPosition 1920x1080=47
+HDMI-0 YPosition 1920x1080 HDMI-0=47
+HDMI-A-0=HDMI-A-0
+HDMI-A-0 Height 1920x1080 HDMI-A-0=1033
+HDMI-A-0 Width 1920x1080 HDMI-A-0=1920
+HDMI-A-0 Window-Maximized 1920x1080 HDMI-A-0=true
+HDMI-A-0 XPosition 1920x1080 HDMI-A-0=0
+HDMI-A-0 YPosition 1920x1080 HDMI-A-0=47
+State=AAAA/wAAAAD9AAAAAQAAAAAAAADKAAADy/wCAAAAAfsAAAAcAG8AawB1AGwAYQByAF8AcwBpAGQAZQBiAGEAcgEAAAA+AAADywAAAAAAAAAAAAAHgAAAA8sAAAAEAAAABAAAAAgAAAAI/AAAAAMAAAABAAAAAQAAACwAcQB1AGkAYwBrAEEAbgBuAG8AdABhAHQAaQBvAG4AVABvAG8AbABCAGEAcgIAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAAgAAAAEAAAAiAGEAbgBuAG8AdABhAHQAaQBvAG4AVABvAG8AbABCAGEAcgAAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+eDP1 Height 768=723
+eDP1 Width 1366=1366
+eDP1 Window-Maximized 1366x768=true
+eDP1 XPosition=0
+eDP1 YPosition=45
+
+[Recent Files]
+File1[$e]=$HOME/Documents/books/История/Древний мир/Сочинения древних авторов/Die Fragmente der Vorsokratiker/Фрагменты ранних греческих философов. Часть І (Памятники философской мысли) - 1989.djvu
+File10[$e]=$HOME/Documents/books/Философия/Чанышев/Чанышев - Философия Древнего мира. - 1999.djvu
+File2[$e]=$HOME/Documents/books/Философия/2005. Философия_0.pdf
+File3[$e]=$HOME/Documents/books/Философия/Мареев/Мареев С.Н., Мареева Е.В. - История философии (Gaudeamus) - 2003/Мареев С.Н., Мареева Е.В. - История философии (Gaudeamus) - 2003.djvu
+File4[$e]=$HOME/Documents/books/Философия/Зотов А. Ф., Миронов В. В., Разин А. В.(ред.) - Философия (Классический университетский учебник) (6-е изд.) - 2009.djvu
+File5[$e]=$HOME/Documents/books/Психология/Рупперт, Франц/Моё тело, моя травма, моё Я (Mein Körper, mein Trauma, mein Ich) (Ф. Рупперт, X. Банцхаф (Franz Ruppert etc.) (z-lib.org).pdf
+File6[$e]=$HOME/Documents/books/Психология/cm2009.pdf
+File7[$e]=$HOME/Documents/books/Психология/cm01.pdf
+File8[$e]=$HOME/Documents/books/Компьютеры/Emacs/M.Petersen - Mastering Emacs(2022).pdf
+File9[$e]=$HOME/Documents/books/Компьютеры/Linux/UNIX and Linux System Administration Handbook by Evi Nemeth et al. (z-lib.org).pdf
+Name1[$e]=Фрагменты ранних греческих философов. Часть І (Памятники философской мысли) - 1989.djvu
+Name10[$e]=Чанышев - Философия Древнего мира. - 1999.djvu
+Name2[$e]=2005. Философия_0.pdf
+Name3[$e]=Мареев С.Н., Мареева Е.В. - История философии (Gaudeamus) - 2003.djvu
+Name4[$e]=Зотов А. Ф., Миронов В. В., Разин А. В.(ред.) - Философия (Классический университетский учебник) (6-е изд.) - 2009.djvu
+Name5[$e]=Моё тело, моя травма, моё Я (Mein Körper, mein Trauma, mein Ich) (Ф. Рупперт, X. Банцхаф (Franz Ruppert etc.) (z-lib.org).pdf
+Name6[$e]=cm2009.pdf
+Name7[$e]=cm01.pdf
+Name8[$e]=M.Petersen - Mastering Emacs(2022).pdf
+Name9[$e]=UNIX and Linux System Administration Handbook by Evi Nemeth et al. (z-lib.org).pdf
+
+[UiSettings]
+ColorScheme=
