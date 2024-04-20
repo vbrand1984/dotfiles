@@ -337,7 +337,7 @@ ${template6 System\ Volume /}
 ${template6 Data\ Volume ]] .. find_data_volume() .. [[}
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 ~/.scripts/python-opyt/opyt1.py}${voffset -10}]];
+${execpi 900 /usr/bin/python3 ~/.scripts/conky-weather-advanced.py}${voffset -10}]];
 --${color2}St. Petersburg${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS073\|SAINTPETERSBURG\|}
 --${color2}Moscow${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS052\|MOSCOW\|}
 -- °C
