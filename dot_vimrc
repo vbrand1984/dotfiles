@@ -40,6 +40,7 @@ set foldmethod=marker
 let g:airline#extensions#whitespace#enabled = 0
 
 autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
+autocmd BufRead,BufNewFile *conky.conf* set filetype=lua
 
 
 "############################################################
