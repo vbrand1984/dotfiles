@@ -12,13 +12,13 @@ tint2 &
 # The --force-setter option is necessary in Debian, otherwise the thing doesn't work
 nitrogen --restore --force-setter=xwindows &
 
-# --== Setting keyboard and mouce parameters ==--
+# --== Setting keyboard and mouse parameters ==--
 xset m 20/10 10 r rate 200 35 b off
 
 # --== Varisous Stuff ==--
 emacs --daemon &
 udiskie --smart-tray --notify --automount &
-redshift-gtk &
+##redshift-gtk &
 
 # --== Screensaver ==--
 xscreensaver --no-splash &

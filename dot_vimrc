@@ -31,11 +31,15 @@ set tabstop=4
 set shiftwidth=0
 "set expandtab
 
+set foldmethod=marker
+
 " This is needed in order to make background color work properly in kitty
 "let &t_ut=''
 
 " Don't print warning about mixed whitespaces in airline
 let g:airline#extensions#whitespace#enabled = 0
+
+autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
 
 
 "############################################################
