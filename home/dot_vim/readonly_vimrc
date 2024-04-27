@@ -1,0 +1,127 @@
+syntax on
+
+" These lines copy default config of Debian and Gentoo,
+" but let's keep these just for the case
+set nocompatible
+set nomodeline
+set history=50
+set ruler
+
+set viminfo='50,f1,<500,n~/.vim/.viminfo
+
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+    Plug 'sainnhe/everforest'
+    Plug 'morhetz/gruvbox'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'aristeo812/ob3-vim-syntax'
+    Plug 'lifepillar/vim-solarized8'
+call plug#end()
+
+" Search options
+set nohlsearch
+set ignorecase smartcase
+set incsearch
+
+" Current cursor line highlighting
+set number
+set cursorline
+set cursorlineopt=number
+highlight Visual cterm=none ctermfg=black ctermbg=grey
+
+" Tabulation options
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+
+"augroup custom_indentation
+"  autocmd!
+"autocmd FileType xml setlocal ts=2 sw=2
+"autocmd FileType template setlocal ts=2 sw=2 expandtab
+"autocmd FileType vim setlocal ts=2 sw=2
+"augroup END
+
+" Indent options
+set autoindent
+"set smartindent
+
+" Varia
+set foldmethod=marker
+set background=dark
+
+" This is needed in order to make background color work properly in kitty
+"let &t_ut=''
+
+" Don't print warning about mixed whitespaces in airline
+let g:airline#extensions#whitespace#enabled = 0
+
+" Automatic colorization of letters
+autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
+autocmd BufRead,BufNewFile *conky.conf* set filetype=lua
+"autocmd BufRead,BufNewFile */openbox-3/themerc set filetype=ob3
+
+
+" Some chezmoi-related stuff. Automatic assigning filetypes to templates
+autocmd BufRead,BufNewFile *.py.tmpl set filetype=python
+autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*_dunstrc.tmpl set filetype=conf
+autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
+autocmd BufRead,BufNewFile *_bash_logout*,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=bash
+autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
+autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
+autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
+autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
+autocmd BufRead,BufNewFile *.pl.tmpl set filetype=perl
+autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
+
+
+" Imported from defaults.vim
+" Put these in an autocmd group, so that you can revert them with:
+" ":augroup vimStartup | exe 'au!' | augroup END"
+augroup vimStartup
+    au!
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid, when inside an event handler
+    " (happens when dropping a file on gvim) and for a commit message (it's
+    " likely a different one than last time).
+    autocmd BufReadPost *
+        \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ |   exe "normal! g`\""
+        \ | endif
+augroup END
+
+"############################################################
+" Theme setup
+"############################################################
+
+if ($TERM != 'linux' || has("guirunning"))
+  if (has("termguicolors"))
+    set termguicolors
+    let g:gruvbox_termcolors = 256
+  else
+    let g:gruvbox_termcolors = 16
+  endif
+  if (expand('$EUID') != '0')
+    let g:gruvbox_italic = 1
+    let g:gruvbox_contrast_dark = 'hard'
+    let g:gruvbox_contrast_light = 'hard'
+    let g:gruvbox_invert_selection = 0
+    let g:airline_theme = 'gruvbox'
+    autocmd vimenter * ++nested colorscheme gruvbox
+  else
+    let g:everforest_background = 'hard'
+    colorscheme everforest
+    let g:airline_theme = 'everforest'
+  endif
+else
+  colorscheme desert
+  let g:airline_theme = 'term'
+endif

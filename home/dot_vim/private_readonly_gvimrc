@@ -1,0 +1,19 @@
+" A cool font
+set guifont=JetBrains\ Mono\ Medium\ 13
+
+" Disable unnecessary graphic stuff
+" Menu
+set guioptions -=m
+" Toolbar
+set guioptions -=T
+" Right scrollbar
+set guioptions -=r
+
+" Set gruvbox theme
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_invert_selection = 0
+let g:airline_theme = 'gruvbox'
+autocmd vimenter * ++nested colorscheme gruvbox
+

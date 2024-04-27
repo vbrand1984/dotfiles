@@ -1,0 +1,10 @@
+# This file is sourced by bash for login shells.  The following line
+# runs your .bashrc and is recommended by the bash info pages.
+if [[ -r ~/.bashrc ]] ; then
+  . ~/.bashrc
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [[ -d $HOME/{{ .mySystem.localBin }} ]] ; then
+  PATH="$PATH:$HOME/{{ .mySystem.localBin }}"
+fi

@@ -1,0 +1,9 @@
+{{/* Convert image size like "24" or "48" into a part of a path to the image. */ -}}
+{{/* Some image packs like Papirus use the following notation: */ -}}
+{{/* /usr/share/icons/Papirus/24x24/apps/whatever.svg */ -}}
+{{/* Other image packs may use another format, like this: */ -}}
+{{/* /usr/share/icons/Evolvere/24/apps/whatever.svg */ -}}
+{{/* Moreover, programs like dunst or obmenu-generator require to specify */ -}}
+{{/* just mere icon size like "24" or "48". Thus we need a conversion tool. */ -}}
+{{/* Usage of the template: {{template "imageSizePath" .varia.obmenuIconSize }} */ -}}
+{{ int . }}x{{ int . -}}

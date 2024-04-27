@@ -1,0 +1,4 @@
+[ -f ~/.Xresources ] && xrdb -merge -I$HOME ~/.Xresources
+
+# Launching DE/WM of choice
+exec dbus-launch --exit-with-session openbox-session

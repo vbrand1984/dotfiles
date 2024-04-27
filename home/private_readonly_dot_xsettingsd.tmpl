@@ -1,0 +1,21 @@
+# See: https://codeberg.org/derat/xsettingsd
+# See: https://www.freedesktop.org/wiki/Specifications/XSettingsRegistry/
+
+# Theme settings
+Net/ThemeName {{ .gtk.themeName | quote }}
+Net/IconThemeName {{ .gtk.iconTheme | quote }}
+Gtk/CursorThemeName {{ .gtk.cursorTheme | quote }}
+Gtk/FontName {{ .gtk.fontName | quote }}
+Gtk/DecorationLayout {{ .gtk.decorationLayout | quote }}
+Net/EnableEventSounds {{ int .gtk.enableEventSounds }}
+Net/EnableInputFeedbackSounds {{ int .gtk.enableInputFeedbackSounds }}
+
+# The value must be 1024*DPI
+Xft/DPI {{ mul .fontConfig.dpi 1024 }}
+
+# Font settings
+Xft/Antialias {{ int .fontConfig.antialias }}
+Xft/Hinting {{ int .fontConfig.hinting }}
+Xft/HintStyle {{ .fontConfig.hintStyle | quote }}
+Xft/RGBA {{ .fontConfig.rgba | quote }}
+Xft/lcdfilter {{ .fontConfig.lcdfilter | quote }}

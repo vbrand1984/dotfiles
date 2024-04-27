@@ -1,0 +1,153 @@
+#!/usr/bin/python3
+# chezmoi:template:missing-key=zero
+
+# In order to utilize the API of OpenWeatherMap, you MUST register there and get an AppID
+# See: https://openweathermap.org/api
+# See also the get_weather_json() function below
+
+# Also, this script utilizes the weather-icons font, which can be downloaded here:
+# https://github.com/erikflowers/weather-icons/blob/master/font/weathericons-regular-webfont.ttf
+
+import urllib.request
+import json
+
+error_message = ''
+default_weather_symbol = '\uF021'
+
+# Download weather data from the site 
+def get_weather_json():
+
+    # The ID of the city where to look for the weather
+    city_id = '{{ .varia.weatherCityId }}'
+
+    # Initialize appid with the template variable mySecrets.weatherAppId.
+    # See above on how to obtain this appid
+    appid = '{{ .mySecrets.weatherAppId }}'
+
+    try:
+        weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric').read()
+    except (urllib.error.URLError, urllib.error.HTTPError):
+        error_message = 'Error loading data'
+        weather_json = 'tough luck'
+    return weather_json
+
+
+# Translate wind direction in degree into the name of this direction
+# A silly, but working approach (keep it stupid, simple!)
+def define_wind_direction(grad):
+    direction = ''
+    if grad >= 11.25 and grad < 33.75:
+        direction = 'NNE'
+    elif grad >= 33.75 and grad < 56.25:
+        direction = 'NE'
+    elif grad >= 56.25 and grad < 78.75:
+        direction = 'ENE'
+    elif grad >= 78.75 and grad < 101.25:
+        direction = 'E'
+    elif grad >= 101.25 and grad < 123.75:
+        direction = 'ESE'
+    elif grad >= 123.75 and grad < 146.25:
+        direction = 'SE'
+    elif grad >= 146.25 and grad < 168.75:
+        direction = 'SSE'
+    elif grad >= 168.75 and grad < 191.25:
+        direction = 'S'
+    elif grad >= 191.25 and grad < 213.75:
+        direction = 'SSW'
+    elif grad >= 213.75 and grad < 236.25:
+        direction = 'SW'
+    elif grad >= 236.25 and grad < 258.75:
+        direction = 'WSW'
+    elif grad >= 258.75 and grad < 281.25:
+        direction = 'W'
+    elif grad >= 281.25 and grad < 303.75:
+        direction = 'WNW'
+    elif grad >= 303.75 and grad < 326.25:
+        direction = 'NW'
+    elif grad >= 326.25 and grad < 348.75:
+        direction = 'NNW'
+    else:
+        direction = 'N'
+    return direction
+
+# There is a filename of the weather icon in the JSON we obtain
+# Since we use symbolic font, we must convert the filename into UTF code of the corresponding symbol
+def find_weather_symbol(icon_name):
+    symbols_correspondence = {
+        '01d': '\uF00D', # Clear Day
+        '01n': '\uF02E', # Clear Night
+        '02d': '\uF002', # Few Clouds Day
+        '02n': '\uF086', # Few Clouds Night
+        '03d': '\uF041', # Scattered Clouds Day
+        '03n': '\uF041', # Scattered Clouds Night
+        '04d': '\uF013', # Broken Clouds Day
+        '04n': '\uF013', # Broken Clouds Night
+        '09d': '\uF01c', # Shower Rain Day
+        '09n': '\uF01c', # Shower Rain Night
+        '10d': '\uF00b', # Rain Day
+        '10n': '\uF02b', # Rain Night
+        '11d': '\uF01E', # Thunderstorm Day
+        '11n': '\uF01E', # Thunderstorm Night
+        '13d': '\uF064', # Snow Day
+        '13n': '\uF064', # Snow Night
+        '50d': '\uF021', # Mist Day
+        '50n': '\uF021', # Mist Night
+        }
+    try:
+        the_symbol = symbols_correspondence[icon_name]
+    except KeyError:
+        the_symbol = default_weather_symbol
+    return the_symbol
+
+# Loading the data from the site
+contents = get_weather_json() 
+
+try:
+    # Trying to parse the data
+    weather = json.loads(contents)
+
+    # If it is OK, we populate our variables with meaningful data
+    temperature = round(weather["main"]["temp"])
+    conditions = weather["weather"][0]["main"]
+    humidity = weather["main"]["humidity"]
+    wind = weather["wind"]["speed"]
+    wind_direction = " " + define_wind_direction(int(weather["wind"]["deg"])) 
+    weather_symbol = find_weather_symbol(weather["weather"][0]["icon"])
+
+    # It is going to be part of a header, and these are uppercased in our conky
+    city_name = str(weather["name"]).upper()
+    # We must screen spaces because this string is to be used inside conky's template
+    city_name = "\ IN\ " + city_name.replace(' ', '\ ')
+
+    # Converting hPa to mmph
+    pressure = round(weather["main"]["pressure"] / 1.3332239)
+
+
+except (KeyError, ValueError):
+    # Whoops! Something went terribly wrong.
+    temperature = 'N/A'
+    pressure = 'N/A'
+    humidity = 'N/A '
+    wind = 'N/A'
+    wind_direction = ''
+    weather_symbol = default_weather_symbol
+
+    # Let's tell user the truth in the header of the section
+    # Again screening spaces because of conky's template
+    city_name = '\ (NOT\ WORKING)'
+
+    # error_message variable could be modified inside the get_weather_json() function
+    if error_message == '':
+        error_message = 'Error parsing JSON'
+    # Error message to be printed in the bottom
+    conditions = error_message
+
+
+col1 = 180 
+celsius_sign = '\u2103'
+
+# Without further ado, let's dive straight into our business.
+output = '${template0 WEATHER' + city_name + '}\n${color3}${font weathericons:bold:size=18}' + weather_symbol + '${color4}${font DejaVu Sans:bold:size=20} ' + str(temperature) + celsius_sign + '${font}\n${voffset -30}${goto ' + str(col1) + '}${color2}Wind:${alignr}${color3}' + str(wind) + ' m/s' + wind_direction + '\n${goto ' + str(col1) + '}${color2}Pressure:${alignr}${color3}' + str(pressure) + ' mmph\n' + str(conditions) + '${goto ' + str(col1) + '}${color2}Humidity:${alignr}${color3}' + str(humidity) + '%'
+
+print(output, end="")
+
