@@ -1,0 +1,25 @@
+[distros]
+    # List of Debian-based distros supported by this config
+    debBased = ["debian", "devuan"]
+
+    # List of strict non-systemd distros supported by this config
+    # Gentoo should not be in this list!
+    strictNonSystemd = ["devuan", "void"]
+
+[sysDirs]
+    localBin = ".local/bin"
+    scripts = ".Scripti"
+    obPipemenus = ".Scripti/openbox-pipemenus"
+
+[defaults]
+    defaultBaseDataDir = "/home"
+    defaultTerminalEmulator = "lxterminal"
+
+[personal]
+    desktopRigName = "saturn"
+    oldLaptopName = "antares"
+    userName = "victor"
+
+[varia]
+    # This is an editor for config files to be invoked via Openbox menu entries
+    chezmoiEditorFromMenu = "gvim --nofork"

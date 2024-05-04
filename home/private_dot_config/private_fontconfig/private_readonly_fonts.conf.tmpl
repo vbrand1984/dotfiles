@@ -5,6 +5,7 @@
 <fontconfig>
 
 <!--{{{ General fontconfig settings -->
+
   <match target="font">
     <edit name="autohint" mode="assign">
       <bool>[[ .fontConfig.autohint ]]</bool>
@@ -40,9 +41,11 @@
       <double>[[ .fontConfig.dpi ]]</double>
     </edit>
   </match>
+
 <!--}}}-->
 
 <!--{{{ Defining fonts: sans-serif -->
+
   <alias binding="strong">
     <family>Golos Text</family>
     <default><family>sans-serif</family></default>
@@ -77,9 +80,10 @@
       <family>Golos Text</family>
     </prefer>
   </alias>
-<!--}}}-->
 
+<!--}}}-->
 <!--{{{ Defining fonts: monospace -->
+
   <alias binding="strong">
     <family>Fira Code</family>
     <default><family>monospace</family></default>
@@ -100,9 +104,10 @@
       <family>Fira Code</family>
     </prefer>
   </alias>
-<!--}}}-->
 
+<!--}}}-->
 <!--{{{ Defining fonts: serif -->
+
   <alias binding="strong">
     <family>PT Serif</family>
     <default><family>serif</family></default>
@@ -118,9 +123,10 @@
       <family>PT Astra Serif</family>
     </prefer>
   </alias>
-<!--}}}-->
 
+<!--}}}-->
 <!--{{{ Defining fonts: ui-system -->
+
   <alias binding="strong">
     <family>PT Root UI</family>
     <default><family>ui-system</family></default>
@@ -136,6 +142,7 @@
       <family>Golos UI</family>
     </prefer>
   </alias>
+
 <!--}}}-->
 
 <!--{{{ Various tweaks (Fira Code, JetBrains Mono...) -->

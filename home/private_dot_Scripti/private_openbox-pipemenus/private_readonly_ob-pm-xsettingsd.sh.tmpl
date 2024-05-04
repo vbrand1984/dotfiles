@@ -1,0 +1,36 @@
+#!/bin/sh
+
+echo '<openbox_pipe_menu>'
+
+if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
+    cat << "EOF"
+<item label='Restart XSettingsD' icon='{{ template "obmenuIcons" . }}/actions/view-refresh.{{ .gtk.iconExt }}'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart xsettingsd]]></command></execute>
+    </action>
+</item>
+<item label='Stop XSettingsD' icon='{{ template "obmenuIcons" . }}/actions/process-stop.{{ .gtk.iconExt }}'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh stop xsettingsd]]></command></execute>
+    </action>
+</item>
+EOF
+else
+    cat << "EOF"
+<item label='Start XSettingsD' icon='{{ template "obmenuIcons" . }}/places/user-desktop.{{ .gtk.iconExt }}'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh start xsettingsd]]></command></execute>
+    </action>
+</item>
+EOF
+fi
+
+cat << "EOF"
+<separator />
+<item label='XSettingsD configuration' icon='{{ template "obmenuIcons" . }}/actions/edit.{{ .gtk.iconExt }}'>
+    <action name='Execute'>
+        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/xsettingsd/xsettingsd.conf]]></command></execute>
+    </action>
+</item>
+</openbox_pipe_menu>
+EOF

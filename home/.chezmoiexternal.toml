@@ -1,4 +1,23 @@
+# Vim plugin manager
 [".vim/autoload/plug.vim"]
     type = "file"
     url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     refreshPeriod = "168h"
+
+{{ if has .chezmoi.osRelease.id .distros.debBased }}
+# In Debian-based distros, we need to install obmenu-generator externally
+["{{ .sysDirs.scripts }}/obmenu-generator"]
+    type= "file"
+    url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
+    refreshPeriod = "168h"
+{{ end }}
+
+
+{{ if has .chezmoi.osRelease.id .distros.strictNonSystemd }}
+["{{ .sysDirs.scripts }}/gentoo-pipewire-launcher"]
+    type= "file"
+    url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
+    filter.command = "sed"
+    filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
+    refreshPeriod = "168h"
+{{ end }}

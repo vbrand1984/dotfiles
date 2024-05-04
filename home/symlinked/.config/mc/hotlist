@@ -3,9 +3,11 @@ ENTRY "/mnt/data" URL "/mnt/data"
 ENTRY "/home/victor/.local/share/chezmoi/home" URL "/home/victor/.local/share/chezmoi/home"
 ENTRY "/home/victor/.local/bin" URL "/home/victor/.local/bin"
 GROUP "dotfiles"
+  ENTRY "/home/victor/.config/dunst" URL "/home/victor/.config/dunst"
   ENTRY "/home/victor/.config/conky" URL "/home/victor/.config/conky"
   ENTRY "/home/victor/.config/tint2" URL "/home/victor/.config/tint2"
   ENTRY "/home/victor/.config/openbox" URL "/home/victor/.config/openbox"
+  ENTRY "/home/victor/.config/obmenu-generator" URL "/home/victor/.config/obmenu-generator"
 ENDGROUP
 GROUP "Bookmarks"
 ENDGROUP

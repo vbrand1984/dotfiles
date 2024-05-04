@@ -1,7 +1,7 @@
 #!/bin/sh
 
 die() {
-    notify-send --urgency=critical 'Epic Fail' $1
+    dunstify --urgency=critical 'Epic Fail' "$1"
     exit 1
 }
 
@@ -11,13 +11,13 @@ delay_interval=5
 [ -r "$HOME/.config/xdg-user-dirs.dir" ] && . "$HOME/.config/xdg-user-dirs.dir"
 picdir="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
 
-if [ ! -d $picdir ] ; then
-    mkdir -p $picdir || die "Could not create directory $picdir!"
+if [ ! -d "$picdir" ] ; then
+    mkdir -p "$picdir" || die "Could not create directory $picdir!"
 fi
 
 scrotopts=""
 
-case $1 in
+case "$1" in
     fullscreen)
         scrotopts='-z' # --silent
         ;;
@@ -34,11 +34,15 @@ case $1 in
         ;;
 esac
 
-if [ "x$1" != "xselection" ] && [ -n $2 ] && [ "x$2" = 'xdelay' ] ; then
+if [ "x$1" != 'xselection' ] && [ -n "$2" ] && [ "x$2" = 'xdelay' ] ; then
     scrotopts="${scrotopts}d$delay_interval"
     notify-send -t 3000 "Taking a $1 screenshot in $delay_interval seconds..."
 fi
 
-scrot_execute="notify-send -i '/usr/share/icons/{{ .gtk.iconTheme }}/{{ template "iconSizePath" .varia.dunstIconSize }}/emblems/emblem-photos.{{ .gtk.iconExt }}' -t 3000 'Screenshot Saved' '\$n'"
-scrot -e "$scrot_execute" "$scrotopts" -F "$picdir/$picname_pattern" || die "Couldn't save a screenshot in $picdir!"
+scrot_execute="dunstify -A 'open_dir,Open Directory' -I '/usr/share/icons/{{ .gtk.iconTheme }}/{{ template "iconSizePath" .varia.dunstIconSize }}/emblems/emblem-photos.{{ .gtk.iconExt }}' -t 3000 'Screenshot Saved' '\$n'"
+got_action=$(scrot -e "$scrot_execute" "$scrotopts" -F "$picdir/$picname_pattern" || die "Couldn't save a screenshot in $picdir!")
+
+if [ "x$got_action" = 'xopen_dir' ] ; then
+    exec xdg-open "$picdir"
+fi
 

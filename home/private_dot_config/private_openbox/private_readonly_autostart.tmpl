@@ -1,0 +1,59 @@
+# chezmoi:template: left-delimiter=[[ right-delimiter=]]
+# Openbox autostart script
+
+# --== Setting keyboard and mouse parameters ==--
+xset mouse 20/10 10 r rate [[ int .varia.kbdDelay ]] [[ int .varia.kbdRepeat ]] b off
+
+# --== XSettings daemon ==--
+xsettingsd &
+
+[[ if eq .mySystem.xCompositor "picom" "xcompmgr" -]]
+# --== Compositor ==--
+[[ if eq .mySystem.xCompositor "picom" -]]
+picom --daemon &
+[[ else -]]
+xcompmgr &
+[[- end ]]
+[[ end -]]
+
+# --== Panel ==-- 
+tint2 &
+
+# --== Desktop Background ==--
+[[ if has .chezmoi.osRelease.id .distros.debBased -]]
+# The --force-setter option is necessary in Debian/Devuan, otherwise the thing doesn't work
+nitrogen --restore --force-setter=xwindows &
+[[- else -]]
+nitrogen --restore &
+[[- end ]]
+
+# --== Varisous Stuff ==--
+[[ if .mySystem.emacsDaemon -]]
+emacs --bg-daemon &
+[[ end -]]
+udiskie --smart-tray --notify --automount &
+# Redshift is started via ~/.config/autostart .desktop file
+#redshift-gtk &
+
+# --== Screensaver ==--
+xscreensaver --no-splash &
+
+# --== Clipboard Manager ==--
+# NB: Diodon is started via xdg autostart shortcut
+# Clipit is broken in Debian/Devuan for whatever reason
+# It is available in Debian 10 (buster)
+clipit &
+#diodon &
+
+# --== Sound Volume Manager ==--
+(sleep 2; volumeicon) &
+#pnmixer &
+
+# --== Conky System Monitor ==--
+(sleep 1; conky --pause=[[ int .conky.startupDelay ]] --daemonize) &
+
+[[ if eq .mySystem.kbdLayoutSwitcher "gxkb" "xxkb" -]]
+# --== Layout Switcher Indicator ==--
+# Either gxkb or xxkb
+(sleep 2; [[ .mySystem.kbdLayoutSwitcher ]]) &
+[[ end -]]

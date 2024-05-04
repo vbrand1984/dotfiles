@@ -7,3 +7,4 @@
 {{/* just mere icon size like "24" or "48". Thus we need a conversion tool. */ -}}
 {{/* Usage of the template: {{template "imageSizePath" .varia.obmenuIconSize }} */ -}}
 {{ int . }}x{{ int . -}}
+{{/* {{ . -}} */ -}}

@@ -42,13 +42,6 @@ set shiftwidth=4
 set expandtab
 set smarttab
 
-"augroup custom_indentation
-"  autocmd!
-"autocmd FileType xml setlocal ts=2 sw=2
-"autocmd FileType template setlocal ts=2 sw=2 expandtab
-"autocmd FileType vim setlocal ts=2 sw=2
-"augroup END
-
 " Indent options
 set autoindent
 "set smartindent
@@ -63,23 +56,33 @@ set background=dark
 " Don't print warning about mixed whitespaces in airline
 let g:airline#extensions#whitespace#enabled = 0
 
+augroup custom_indentation
+    autocmd!
+    autocmd FileType xml setlocal ts=2 sw=2 expandtab
+    "autocmd FileType template setlocal ts=2 sw=2 expandtab
+    "autocmd FileType vim setlocal ts=2 sw=2
+augroup END
+
 " Automatic colorization of letters
 autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
 autocmd BufRead,BufNewFile *conky.conf* set filetype=lua
 "autocmd BufRead,BufNewFile */openbox-3/themerc set filetype=ob3
 
-
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
+" Filetypes
 autocmd BufRead,BufNewFile *.py.tmpl set filetype=python
-autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*_dunstrc.tmpl set filetype=conf
-autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
-autocmd BufRead,BufNewFile *_bash_logout*,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=bash
-autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
-autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
-autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
 autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
 autocmd BufRead,BufNewFile *.pl.tmpl set filetype=perl
+autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
+autocmd BufRead,BufNewFile *.desktop.tmpl set filetype=desktop
+" Certain config files
+autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
+autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
+autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=bash
+autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
+autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
 autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
+autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
 
 
 " Imported from defaults.vim

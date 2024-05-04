@@ -1,10 +1,9 @@
 -- vim: ft=lua:fm=marker
--- chezmoi:template:missing-key=zero
--- chezmoi:template:left-delimiter=--{{
+-- chezmoi:template:left-delimiter=--||* right-delimiter=*||
 
-local default_palette = '--{{ .conky.palette }}'
-local fully_transparent = --{{ .conky.fullyTransparent }}
-local conky_argb_value = --{{ .conky.argbValue }}
+local default_palette = --||* .conky.palette | squote *||
+local fully_transparent = --||* .conky.fullyTransparent *||
+local conky_argb_value = --||* int .conky.argbValue *||
 
 --== PALETTES ==--
 
@@ -40,7 +39,7 @@ local conky_palettes = {
         background      = '#32302f',    -- Background colour of the window
         border          = '#504945',    -- The colour of the border
         headers         = '#be8c3d',    -- b78727 (University of California Gold) bc823c (Gold Trinket) d7942d (Golden Orange) ddad56 (Rob Roy) ce8f2d
-        captions        = '#9ab973',    -- 87a96b (Asparagus), 9ab973 (Olivine)
+        captions        = '#87a96b',    -- 87a96b (Asparagus), 9ab973 (Olivine) 819c8b (Celadon)
         text            = '#d4be98',    -- Lightgray colour for the main text
         temperatures    = '#d7875f',    -- Orange colour for the temperatures
         progressbars    = '#a89984',    -- A little bit dimmer lightgray colour for the progressbars
@@ -244,19 +243,19 @@ end -- function populate_hwmon_table()
 -- Returns the table of CPU cores usage
 local function display_cpu_usage()
     local ncores = tonumber(get_cmd_output('nproc'))
-    local output_string = ''
+    local output_string = '${template0 CPU}\n'
 
     for i = 1, ncores, 1 do
         output_string = output_string .. '${template2 ' .. tostring(i) .. ' ' .. tostring(i - 1) .. '}\n'
     end
 
     return output_string
-end -- function cpu_table()
+end -- function display_cpu_usage()
 
 
 -- Returns the table of the <top_number> top processes
 local function display_top_processes(top_number)
-    local output_string = '${template3}\n'
+    local output_string = '${template0 TOP\\ PROCESSES}\n${template3}\n'
     for i = 1, top_number, 1 do
         output_string = output_string .. '${template4 ' .. i .. '}\n'
     end
@@ -296,7 +295,6 @@ ${template0 SYSTEM\ INFO}
 ${template1 Kernel\ Version ${kernel}}
 ${template1 Uptime ${uptime}}
 
-${template0 CPU}
 ]] .. display_cpu_usage() .. [[
 
 ${template0 TEMPERATURES}
@@ -310,7 +308,6 @@ ${template9 Bottom\ Rear ]] .. mod_mobo .. [[ 5 Bottom\ Front ]] .. mod_mobo .. 
 ${template9 Front\ Top ]] .. mod_mobo .. [[ 6 Front\ Bottom ]] .. mod_mobo .. [[ 7}
 ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 
-${template0 TOP\ PROCESSES}
 ]] .. display_top_processes(4) .. [[
 
 ${template0 MEMORY\ USAGE}
@@ -319,10 +316,10 @@ ${template5 Swap swap}
 
 ${template0 STORAGE}
 ${template6 System\ Volume /}
-${template6 Data\ Volume --{{ .baseDataDir }}}
+${template6 Data\ Volume --||* .sysDirs.baseDataDir *||}
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 --{{ joinPath .chezmoi.homeDir .mySystem.localLib }}/conky-weather-advanced.py}${voffset -10}]];
+${execpi 900 /usr/bin/python3 -- --||* joinPath .chezmoi.homeDir .sysDirs.scripts *||/conky-weather-advanced.py}${voffset -10}]];
 --${color2}St. Petersburg${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS073\|SAINTPETERSBURG\|}
 --${color2}Moscow${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS052\|MOSCOW\|}
 -- °C

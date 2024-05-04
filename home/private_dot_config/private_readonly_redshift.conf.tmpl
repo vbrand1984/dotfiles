@@ -1,8 +1,13 @@
 [redshift]
-fade=0
-adjustment-method=randr
-location-provider={{ .varia.redshiftProvider }}
+fade={{ int .redshift.fade }}
+adjustment-method={{ .redshift.adjustmentMethod }}
+location-provider={{ .redshift.provider }}
 
+temp-day={{ int .redshift.tempDay }}
+temp-night={{ int .redshift.tempNight }}
+
+{{ if eq .redshift.provider "manual" -}}
 [manual]
-lat={{ .varia.redshiftLat }}
-lon={{ .varia.redshiftLon }}
+lat={{ int .redshift.lat }}
+lon={{ int .redshift.lon }}
+{{ end -}}

@@ -1,0 +1,17 @@
+{{ if has .chezmoi.osRelease.id .distros.strictNonSystemd -}}
+# In non-systemd distros (which are not Gentoo), we need a way to launch pipewire
+# We grab this thing from Gentoo
+[Desktop Entry]
+Version=1.0
+Name[de]=PipeWire Mediensystem
+Name=PipeWire Media System
+Comment[de]=Das PipeWire Mediensystem starten
+Comment=Start the PipeWire Media System
+Exec=/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/gentoo-pipewire-launcher
+Terminal=false
+Type=Application
+X-GNOME-HiddenUnderSystemd=true
+X-KDE-HiddenUnderSystemd=true
+X-systemd-skip=true
+Hidden=false
+{{ end -}}

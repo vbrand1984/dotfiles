@@ -1,0 +1,14 @@
+#!/bin/sh
+#chezmoi:template: left-delimiter=[[ right-delimiter=]]
+
+# Graphical reconfiguration. With this setup, don't use programs like lxappearance to adjust graphical settings.
+# Instead, edit the [gtk.data] section in ~/.config/chezmoi/chezmoi.toml,
+# then run chezmoi apply, and after that execute this script
+
+# restart dunst, xsettingsd, tint2
+for the_service in dunst xsettingsd tint2 ; do
+    /bin/sh -e [[ joinPath .chezmoi.homeDir .sysDirs.scripts ]]/manage-service.sh restart $the_service
+done
+
+# reconfigure openbox
+openbox --reconfigure && dunstify --urgency=low 'Openbox reconfigured'

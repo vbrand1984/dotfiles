@@ -1,4 +1,6 @@
+{{ if eq .chezmoi.hostname .personal.desktopRigName -}}
 #!/usr/bin/python3
+# vim: ft=python
 # chezmoi:template:missing-key=zero
 
 # In order to utilize the API of OpenWeatherMap, you MUST register there and get an AppID
@@ -18,11 +20,11 @@ default_weather_symbol = '\uF021'
 def get_weather_json():
 
     # The ID of the city where to look for the weather
-    city_id = '{{ .varia.weatherCityId }}'
+    city_id = '{{ .conky.weatherCityId }}'
 
     # Initialize appid with the template variable mySecrets.weatherAppId.
     # See above on how to obtain this appid
-    appid = '{{ .mySecrets.weatherAppId }}'
+    appid = '{{ .conky.weatherAppId }}'
 
     try:
         weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric').read()
@@ -151,3 +153,4 @@ output = '${template0 WEATHER' + city_name + '}\n${color3}${font weathericons:bo
 
 print(output, end="")
 
+{{ end -}}

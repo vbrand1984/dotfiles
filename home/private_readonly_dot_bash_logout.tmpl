@@ -2,7 +2,7 @@
 
 # when leaving the console clear the screen to increase privacy
 
-{{- if eq .chezmoi.osRelease.id "debian" "devuan" }}
+{{- if has .chezmoi.osRelease.id .distros.debBased }}
 if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi

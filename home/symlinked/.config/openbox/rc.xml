@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <!-- vim: ft=xml:fm=marker:ts=2 -->
+  <!-- vim: ft=xml:fm=marker:ts=2: -->
   <!--{{{ resistance -->
   <resistance>
     <strength>10</strength>
@@ -194,11 +194,11 @@
   <!-- User defined keybindings -->
   <!-- See: https://bbs.archlinux.org/viewtopic.php?pid=1082499#p1082499 -->
   <keyboard>
-    <!--{{{ Applications (Win-Ctrl + letters) -->
+    <!--{{{ Applications (Super-Ctrl + letters) -->
     <!-- Super-Ctrl-B: Web Browser -->
     <keybind key="W-C-B">
       <action name="Execute">
-        <command>firefox-esr</command>
+        <command>xdg-open http://</command>
       </action>
     </keybind>
     <!-- Super-Ctrl-C: LibreOffice Calc -->
@@ -216,7 +216,7 @@
     <!-- Super-Ctrl-F: File manager -->
     <keybind key="W-C-F">
       <action name="Execute">
-        <command>xdg-open ~/.</command>
+          <command><![CDATA[xdg-open ~/.]]></command>
       </action>
     </keybind>
     <!-- Super-Ctrl-I: LibreOffice Impress -->
@@ -258,33 +258,33 @@
     <!-- Ctrl-Alt-Del: System monitor -->
     <keybind key="C-A-Delete">
       <action name="Execute">
-        <command>mate-system-monitor</command>
+          <command><![CDATA[/bin/sh -c -- 'if command -v mate-system-monitor ; then exec mate-system-monitor ; else exec x-terminal-emulator -e htop ; fi']]></command>
       </action>
     </keybind>
     <!--}}}-->
-    <!--{{{ rofi (Win-Enter + optional stuff) -->
+    <!--{{{ rofi (Super-Enter + optional stuff) -->
     <!-- Super-F1: rofi calc module -->
     <keybind key="W-F1">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/bin/start-rofi.sh calc</command>
+        <command>/bin/sh -e ~/.Scripti/start-rofi.sh calc</command>
       </action>
     </keybind>
     <!-- Super-Tab: rofi window switching module -->
     <keybind key="W-Tab">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/bin/start-rofi.sh window</command>
+        <command>/bin/sh -e ~/.Scripti/start-rofi.sh window</command>
       </action>
     </keybind>
     <!-- Super-Enter: rofi run -->
     <keybind key="W-Return">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/bin/start-rofi.sh run</command>
+        <command>/bin/sh -e ~/.Scripti/start-rofi.sh run</command>
       </action>
     </keybind>
     <!-- Super-Shift-Enter: rofi drun -->
     <keybind key="W-S-Return">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/bin/start-rofi.sh drun</command>
+        <command>/bin/sh -e ~/.Scripti/start-rofi.sh drun</command>
       </action>
     </keybind>
     <!--}}}-->
@@ -292,31 +292,31 @@
     <!-- PrtScr: Take a screenshot (fullscreen) -->
     <keybind key="Print">
       <action name="Execute">
-        <command>take-screenshot-x.sh fullscreen</command>
+          <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh fullscreen</command>
       </action>
     </keybind>
     <!-- Alt-PrtScr: Screenshot of the current window -->
     <keybind key="A-Print">
       <action name="Execute">
-        <command>take-screenshot-x.sh window</command>
+        <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh window</command>
       </action>
     </keybind>
     <!-- Ctrl-PrtScr: Screenshot of selection -->
     <keybind key="C-Print">
       <action name="Execute">
-        <command>take-screenshot-x.sh selection</command>
+        <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh selection</command>
       </action>
     </keybind>
     <!-- Super-PrtScr: Take a screenshot (fullscreen) with a 5 sec delay -->
     <keybind key="W-Print">
       <action name="Execute">
-        <command>take-screenshot-x.sh fullscreen delay</command>
+        <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh fullscreen delay</command>
       </action>
     </keybind>
     <!-- Super-Alt-PrtScr: Screenshot of the current window with a 5 sec delay -->
     <keybind key="W-A-Print">
       <action name="Execute">
-        <command>take-screenshot-x.sh window delay</command>
+        <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh window delay</command>
       </action>
     </keybind>
     <!--}}}-->
@@ -324,13 +324,14 @@
     <!-- Super-Shift-A: Reconfigure whole appearance -->
     <keybind key="W-S-A">
       <action name="Execute">
-        <command>reconfigure-appearance.sh</command>
+          <command>/bin/sh -e ~/.Scripti/reconfigure-appearance.sh</command>
       </action>
     </keybind>
     <!-- Super-Shift-C: Reconfigure Openbox -->
     <keybind key="W-S-C">
+      <action name="Reconfigure" />
       <action name="Execute">
-        <command>reconfigure-openbox.sh</command>
+        <command>dunstify --urgency=low 'Openbox reconfigured'</command>
       </action>
     </keybind>
     <!-- Super-Esc: Openbox main menu -->
@@ -354,7 +355,7 @@
     <!-- Super-Ctrl-Q: Run logout dialogue -->
     <keybind key="W-C-Q">
       <action name="Execute">
-        <command>obsession-logout</command>
+        <command><![CDATA[lxsession-logout --prompt='<big><big><b>Vero exire a sessione vis?</b></big></big>']]></command>
       </action>
     </keybind>
     <!-- Super-Shift-Q: Quit from Openbox -->
@@ -364,7 +365,7 @@
       </action>
     </keybind>
     <!--}}}-->
-    <!--{{{ Navigating between desktops (Win + digits and Super-Shift + arrows) -->
+    <!--{{{ Navigating between desktops (Super + digits and Super-Shift + arrows) -->
     <!-- Navigating between desktops by their numbers. I use 4 desktops btw -->
     <!-- Super-1: Go to desktop #1 -->
     <keybind key="W-1">
@@ -420,7 +421,7 @@
       </action>
     </keybind>
     <!--}}}-->
-    <!--{{{ Moving windows between desktops (Win-Shift + arrows and digits) -->
+    <!--{{{ Moving windows between desktops (Super-Shift + arrows and digits) -->
     <!-- Move the window to a desktop by its number (Win-Shift + digit) -->
     <!-- Super-Shift-1: Move the window to desktop #1 (and switch to it) -->
     <keybind key="W-S-1">
@@ -568,7 +569,7 @@
       </action>
     </keybind>
     <!--}}}-->
-    <!--{{{ (Semi-)Tiling (Win + arrows and Win + PgUp/PgDn/Home/End) -->
+    <!--{{{ (Semi-)Tiling (Super + arrows and Super + PgUp/PgDn/Home/End) -->
     <!-- See: https://thomashunter.name/posts/2019-01-27-treating-openbox-like-a-tiling-windowmanager -->
     <!-- Half-screen resizing of windows -->
     <!-- Super-Left: Move the window to the left half of the screen -->

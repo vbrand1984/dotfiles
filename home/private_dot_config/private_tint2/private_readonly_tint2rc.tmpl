@@ -6,43 +6,26 @@
 
 # Gradient 1: Panel
 gradient = vertical
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-start_color = #2f3032 100
-end_color = #333436 100
-[[ else -]]
-start_color = #d2cdc5 100
-end_color = #bcb5a8 100
-[[ end -]]
+start_color = #cfc9c0 100
+end_color = #c8c2b7 100
 
 # Gradient 2: Unpressed button on taskbar
 gradient = vertical
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-start_color = #4f5053 100
-color_stop = 33 #57585b 100
-end_color = #37383a 100
-[[ else -]]
-start_color = #d4cfc3 100
-color_stop = 33 #dedad2 100
-end_color = #bcb5a2 100
-[[ end -]]
+start_color = #cfc9c0 100
+color_stop = 33 #ddd9d3 100
+end_color = #bdb6a9 100
 
 # Gradient 3: Unpressed button on taskbar HOVER
 gradient = vertical
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-start_color = #dad7cd 100
-color_stop = 33 #e5e2db 100
-end_color = #c2bcac 100
-[[ else -]]
-start_color = #dad7cd 100
-color_stop = 33 #e5e2db 100
-end_color = #c2bcac 100
-[[ end -]]
+start_color = #d8d5d0 100
+color_stop = 33 #e3e1dd 100
+end_color = #beb9b0 100
 
 # Gradient 4: Pressed button on taskbar
 gradient = vertical
-start_color = #b5ad99 100
-color_stop = 33 #aea58f 100
-end_color = #c6c0b1 100
+start_color = #b9b2a4 100
+color_stop = 33 #afa697 100
+end_color = #c1baae 100
 
 # Gradient 5: Active workspace name on taskbar
 gradient = vertical
@@ -60,33 +43,19 @@ rounded = 0
 border_width = 1
 border_sides = B
 gradient_id = 1
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
 background_color = #cbc8c2 100 
-border_color = #374145 100
-[[ else -]]
-background_color = #cbc8c2 100 
-border_color = #a69c8b 100
-[[ end -]]
+border_color = #b8b4ac 100
 
 # Background 2: Default task, Iconified task
 rounded = 3
 border_width = 1
 border_sides = TBLR
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-background_color = #dbd7ce 0
-border_color = #5b5c60 100
-border_color_hover = #999792 100
-border_color_pressed = #88847e 100
-background_color_hover = #ece5d4 100
-background_color_pressed = #ddd4c5 100
-[[ else -]]
 background_color = #dbd7ce 0
 border_color = #89827c 100
 border_color_hover = #999792 100
 border_color_pressed = #88847e 100
 background_color_hover = #ece5d4 100
 background_color_pressed = #ddd4c5 100
-[[ end -]]
 gradient_id = 2
 gradient_id_hover = 3
 gradient_id_pressed = 4
@@ -230,8 +199,8 @@ taskbar_name_active_background_id = 7
 taskbar_name_font = Ubuntu Bold 12
 #taskbar_name_font_color = #1d2021 100
 #taskbar_name_active_font_color = #1d2021 100
-taskbar_name_font_color = #dbd7d0 100
-taskbar_name_active_font_color = #dbd7d0 100
+taskbar_name_font_color = #d8d5d0 100
+taskbar_name_active_font_color = #d8d5d0 100
 taskbar_distribute_size = 1
 taskbar_sort_order = none
 task_align = left
@@ -259,17 +228,10 @@ mouse_middle = close
 mouse_right = none
 mouse_scroll_up = prev_task
 mouse_scroll_down = next_task
-
 # Colors
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-task_font_color = #f0eee4 100
-task_active_font_color = #d8d5d0 100
+task_font_color = #080808 100
+task_active_font_color = #030303 100
 task_iconified_font_color = #66676c 100
-[[ else -]]
-task_font_color = #1d2021 100
-task_active_font_color = #000000 100
-task_iconified_font_color = #66676c 100
-[[ end -]]
 
 # }}}
 # {{{ Systray
@@ -299,11 +261,7 @@ clock_rclick_command = gsimplecal
 clock_mclick_command = 
 clock_uwheel_command = 
 clock_dwheel_command = 
-[[ if eq .gtk.iconTheme "Papirus" "Papirus-Dark" -]]
-clock_font_color = #d8d5d0 100
-[[ else -]]
 clock_font_color = #32302f 100
-[[ end -]]
 
 # }}}
 # {{{ Tooltip
@@ -312,7 +270,7 @@ tooltip_show_timeout = 0.5
 tooltip_hide_timeout = 0.1
 tooltip_padding = 6 4
 tooltip_background_id = 5
-tooltip_font_color = #131415 100
+tooltip_font_color = #080808 100
 tooltip_font = [[ .gtk.fontName ]]
 
 # }}}
@@ -321,7 +279,7 @@ tooltip_font = [[ .gtk.fontName ]]
 # Separator between Taskbar and Systray
 separator = new
 separator_background_id = 0
-separator_color = #8b877e 100
+separator_color = #898275 100
 separator_style = line
 separator_size = 1
 separator_padding = 5 3

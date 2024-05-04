@@ -5,6 +5,6 @@ if [[ -r ~/.bashrc ]] ; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [[ -d $HOME/{{ .mySystem.localBin }} ]] ; then
-  PATH="$PATH:$HOME/{{ .mySystem.localBin }}"
+if [[ -d $HOME/.local/bin ]] ; then
+  PATH="$PATH:$HOME/.local/bin"
 fi
