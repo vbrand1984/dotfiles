@@ -75,7 +75,7 @@
       <name>Ubuntu</name>
       <size>12</size>
       <!-- font size in points -->
-      <weight>Bold</weight>
+      <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
       <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
@@ -216,7 +216,7 @@
     <!-- Super-Ctrl-F: File manager -->
     <keybind key="W-C-F">
       <action name="Execute">
-          <command><![CDATA[xdg-open ~/.]]></command>
+        <command><![CDATA[xdg-open ~/.]]></command>
       </action>
     </keybind>
     <!-- Super-Ctrl-I: LibreOffice Impress -->
@@ -229,6 +229,12 @@
     <keybind key="W-C-O">
       <action name="Execute">
         <command>obconf</command>
+      </action>
+    </keybind>
+    <!-- Super-Ctrl-P: Pavucontrol -->
+    <keybind key="W-C-P">
+      <action name="Execute">
+        <command>pavucontrol --tab=3</command>
       </action>
     </keybind>
     <!-- Super-Ctrl-R: Tor Browser -->
@@ -258,7 +264,7 @@
     <!-- Ctrl-Alt-Del: System monitor -->
     <keybind key="C-A-Delete">
       <action name="Execute">
-          <command><![CDATA[/bin/sh -c -- 'if command -v mate-system-monitor ; then exec mate-system-monitor ; else exec x-terminal-emulator -e htop ; fi']]></command>
+        <command><![CDATA[/bin/sh -c -- 'if command -v mate-system-monitor ; then exec mate-system-monitor ; else exec x-terminal-emulator -e htop ; fi']]></command>
       </action>
     </keybind>
     <!--}}}-->
@@ -292,7 +298,7 @@
     <!-- PrtScr: Take a screenshot (fullscreen) -->
     <keybind key="Print">
       <action name="Execute">
-          <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh fullscreen</command>
+        <command>/bin/sh -e ~/.Scripti/take-screenshot-x.sh fullscreen</command>
       </action>
     </keybind>
     <!-- Alt-PrtScr: Screenshot of the current window -->
@@ -324,12 +330,12 @@
     <!-- Super-Shift-A: Reconfigure whole appearance -->
     <keybind key="W-S-A">
       <action name="Execute">
-          <command>/bin/sh -e ~/.Scripti/reconfigure-appearance.sh</command>
+        <command>/bin/sh -e ~/.Scripti/reconfigure-appearance.sh</command>
       </action>
     </keybind>
     <!-- Super-Shift-C: Reconfigure Openbox -->
     <keybind key="W-S-C">
-      <action name="Reconfigure" />
+      <action name="Reconfigure"/>
       <action name="Execute">
         <command>dunstify --urgency=low 'Openbox reconfigured'</command>
       </action>

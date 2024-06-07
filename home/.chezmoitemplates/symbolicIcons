@@ -1,0 +1,1 @@
+{{ joinPath "/usr/share/icons" .gtk.iconTheme "symbolic" -}}

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Usage: ch-config.sh <variable> <old-value> <new-value> [doapply]
+# Replaces the value of the variable from old value to the new one in chezmoi config file
+# If the 'doapply' parameter is specified, then the script runs 'chezmoi apply --force'
+
+die() {
+    echo "$1"
+    exit 1
+}
+
+if [[ $# -ne 3 ]] && [[ $# -ne 4 ]] ; then
+    die 'Wrong parameters!'
+fi
+
+chezmoi_config={{ .chezmoi.configFile | squote }}
+[[ -f "$chezmoi_config" ]] || die "File '$chezmoi_config' not found!"
+
+param="$1"
+old_val="$2"
+new_val="$3"
+
+# Get the line number in the config file where our parameter is specified
+line_number=$(sed -n "/${param} = .*${old_val}/=" "$chezmoi_config" 2>/dev/null)
+re='^[0-9]+$'
+
+# Check if our result is a single number
+if [[ "$line_number" =~ $re ]] ; then
+    echo "Replacing the pattern..."
+    sed --in-place='.bak' "${line_number}s/$old_val/$new_val/" "$chezmoi_config"
+    if [[ "x$4" = 'xdoapply' ]] ; then
+        echo 'Running chezmoi apply...'
+        chezmoi apply --force
+    fi
+else
+    [[ -z "$line_number" ]] && die 'Pattern not found' || die 'Pattern found multiple times!'
+fi
+

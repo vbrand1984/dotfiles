@@ -23,3 +23,5 @@
 [varia]
     # This is an editor for config files to be invoked via Openbox menu entries
     chezmoiEditorFromMenu = "gvim --nofork"
+
+    variable = "bugaga"
