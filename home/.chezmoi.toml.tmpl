@@ -1,0 +1,145 @@
+{{ $baseHomeDir := promptString "baseHomeDir" "/home" -}}
+
+# {{{ sysDirs
+
+[data.sysDirs]
+    # 
+    baseDataDir = {{ $baseHomeDir | quote }}
+
+# }}}
+# {{{ gtk (Graphical settings: theme, font, icons, etc.)
+
+[data.gtk]
+    # General theming
+    fontName = "Roboto Regular 11"
+    themeName = "Greylooks"
+    iconTheme = "Papirus-Light"
+
+    # This setting is required for icons in Openbox menu and dunst
+    iconExt = "svg"
+
+    # Mouse cursor
+    cursorTheme = "DMZ-White"
+    cursorSize = 18
+
+    # Various GTK settings 
+    decorationLayout = "menu:minimize,maximize,close"
+    buttonImages = true
+    menuImages = true
+    enableEventSounds = false
+    enableInputFeedbackSounds = false
+
+    # See: https://docs.gtk.org/gtk3/enum.IconSize.html
+    toolbarIconSize = "GTK_ICON_SIZE_SMALL_TOOLBAR"
+
+    # See: https://docs.gtk.org/gtk3/enum.ToolbarStyle.html
+    toolbarStyle = "GTK_TOOLBAR_BOTH_HORIZ"
+
+# }}}
+# {{{ fontConfig (fontconfig options: hinting, antialias, lcdfilter, etc.)
+
+[data.fontConfig]
+    dpi = 96
+    autohint = false
+    antialias = true
+    hinting = true
+    hintStyle = "hintslight"
+    rgba = "rgb"
+    lcdfilter = "lcdlight"
+
+# }}}
+# {{{ mySystem
+
+[data.mySystem]
+
+    # Default shell: bash or zsh
+    # zsh configuration is not supported yet though
+    defaultShell = "bash"
+
+    # Whether to autostart emacs daemon or not
+    emacsDaemon = true
+
+    # Xorg compositor: either picom or xcompmgr
+    # Empty string to disable X compositor
+    xCompositor = "picom"
+
+    # Keyboard layout switcher
+    # Supported options: either gkxb or xxkb
+    kbdLayoutSwitcher = "gxkb"
+
+# }}}
+# {{{ varia (Various settings)
+
+[data.varia]
+
+    # Icon sizes for various applications
+    obmenuIconSize = 32
+    dunstIconSize = 48
+
+    # Keyboard settings
+    kbdDelay = 200
+    kbdRepeat = 35
+
+# }}}
+# {{{ redshift
+
+[data.redshift]
+    # See redshift(1), look at ~/.config/redshift.conf
+
+    fade = false
+
+    # See: redshift -m list
+    adjustmentMethod = "randr"
+
+    # See: redshift -l list
+    provider = "manual"
+
+    # Latitude and longitude of your location for redshift
+    lat = 60
+    lon = 30
+
+    # Day temperature in K, default 6500
+    tempDay = 6500
+    # Night temperature in K, default 4500
+    tempNight = 4500
+
+# }}}
+# {{{ rofi
+
+[data.rofi]
+    font = "JetBrains Mono Medium 14"
+    theme = "/usr/share/rofi/themes/gruvbox-dark-soft.rasi"
+
+# }}}
+# {{{ conky
+
+[data.conky]
+    # Startup delay in autostart script, seconds. It's the value of conky's '--pause=' argument
+    # Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
+    startupDelay = 3
+
+    # Will conky be fully transparent or semi-transparent
+    fullyTransparent = true
+    argbValue = 160
+
+    # Default palette to use
+    # Available palettes: catpuccin, everforest, gruvbox, mixed
+    palette = "mixed"
+
+    # appid from openweathermap.org
+    weatherAppId = ""
+
+    # City ID to be used with openweathermap.org in advanced conky weather widget
+    # Used in conky-weather-advanced.py
+    weatherCityId = "498817"
+
+# }}}
+# {{{ mySecrets
+
+# Secrets are stored here
+[data.mySecrets]
+    # Git variables
+    gitEmail = ""
+    gitCredentials = ""
+
+# }}}
