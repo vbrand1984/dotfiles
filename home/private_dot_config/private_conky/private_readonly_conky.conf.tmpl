@@ -155,7 +155,7 @@ conky.config = {
     -- Parameter 4: Right column caption
     -- Parameter 5: hwmon subdirectory number for the right column
     -- Parameter 6: hwmon fan number for the right column
-    template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4${alignr}${color3}${hwmon \5 fan \6}]],
+    template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
 
 };
 
@@ -288,10 +288,16 @@ local nr_mem            = t_gpu['lbl']['mem']
 
 --== CONKY.TEXT ==--
 
-conky.text = [[${template0 HODIE}
+--||* if lookPath "hodie" -*||
+local hodie_text = [[${template0 HODIE}
 ${color3}${execi 60 hodie}
 
-${template0 SYSTEM\ INFO}
+]];
+--||*- else *||
+local hodie_text = ''
+--||*- end *||
+
+conky.text = hodie_text .. [[${template0 SYSTEM\ INFO}
 ${template1 Kernel\ Version ${kernel}}
 ${template1 Uptime ${uptime}}
 
@@ -319,7 +325,7 @@ ${template6 System\ Volume /}
 ${template6 Data\ Volume --||* .sysDirs.baseDataDir *||}
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 -- --||* joinPath .chezmoi.homeDir .sysDirs.scripts *||/conky-weather-advanced.py}${voffset -10}]];
+${execpi 900 /usr/bin/python3 -- --||* joinPath .chezmoi.homeDir .sysDirs.scripts *||/conky-weather-advanced.py}--||* if ne .chezmoi.osRelease.id "void" *||${voffset -10}--||* end *||]];
 --${color2}St. Petersburg${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS073\|SAINTPETERSBURG\|}
 --${color2}Moscow${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS052\|MOSCOW\|}
 -- °C
