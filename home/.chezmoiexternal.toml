@@ -13,7 +13,7 @@
 {{ end }}
 
 
-{{ if has .chezmoi.osRelease.id .distros.strictNonSystemd }}
+{{ if and (has .chezmoi.osRelease.id .distros.strictNonSystemd) (ne .chezmoi.osRelease.id "void") }}
 ["{{ .sysDirs.scripts }}/gentoo-pipewire-launcher"]
     type= "file"
     url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"

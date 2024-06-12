@@ -26,7 +26,7 @@ require "$ENV{HOME}/.config/obmenu-generator/config.pl";
 
 ## Text editor
 my $editor = $CONFIG->{editor};
-my $chezmoi_editor = 'env EDITOR="gvim --nofork" chezmoi edit --apply';
+my $chezmoi_editor = 'env EDITOR={{ .varia.chezmoiEditorFromMenu | quote }} chezmoi edit --apply';
 
 our $SCHEMA = [
 
@@ -82,7 +82,7 @@ our $SCHEMA = [
 
             {sep  => undef},
 
-            {item => ['/usr/bin/perl -- {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/obmenu-generator -d', 'Refresh cache', '{{ template "symbolicIcons" . }}/actions/view-refresh-symbolic.svg']},
+            {item => ['/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -d', 'Refresh cache', '{{ template "symbolicIcons" . }}/actions/view-refresh-symbolic.svg']},
         {end => undef},
 
         # Openbox configuration category

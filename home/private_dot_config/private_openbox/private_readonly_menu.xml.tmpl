@@ -2,5 +2,5 @@
 <openbox_menu xmlns="https://openbox.org/"
  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://openbox.org/">
-  <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/perl -- {{ if has .chezmoi.osRelease.id .distros.debBased }}{{ joinPath .chezmoi.homeDir .sysDirs.scripts }}{{ else }}/usr/bin{{ end }}/obmenu-generator -i" />
+  <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -i" />
 </openbox_menu>
