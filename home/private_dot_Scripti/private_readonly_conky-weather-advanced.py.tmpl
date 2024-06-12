@@ -119,7 +119,7 @@ try:
     # It is going to be part of a header, and these are uppercased in our conky
     city_name = str(weather["name"]).upper()
     # We must screen spaces because this string is to be used inside conky's template
-    city_name = "\ IN\ " + city_name.replace(' ', '\ ')
+    city_name = "\\ IN\\ " + city_name.replace(' ', "\\ ")
 
     # Converting hPa to mmph
     pressure = round(weather["main"]["pressure"] / 1.3332239)
@@ -136,7 +136,7 @@ except (KeyError, ValueError):
 
     # Let's tell user the truth in the header of the section
     # Again screening spaces because of conky's template
-    city_name = '\ (NOT\ WORKING)'
+    city_name = "\\ (NOT\\ WORKING)"
 
     # error_message variable could be modified inside the get_weather_json() function
     if error_message == '':

@@ -20,7 +20,7 @@
     iconExt = "svg"
 
     # Mouse cursor
-    cursorTheme = "DMZ-White"
+    cursorTheme = [[ if eq .chezmoi.osRelease.id "void" "arch" "artix" ]]"Vanilla-DMZ"[[ else ]]"DMZ-White"[[ end ]]
     cursorSize = 18
 
     # Various GTK settings 

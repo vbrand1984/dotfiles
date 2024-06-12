@@ -75,6 +75,7 @@ autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
 autocmd BufRead,BufNewFile *.pl.tmpl set filetype=perl
 autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
 autocmd BufRead,BufNewFile *.desktop.tmpl set filetype=desktop
+autocmd BufRead,BufNewFile *.toml.tmpl set filetype=toml
 " Certain config files
 autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
 autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
