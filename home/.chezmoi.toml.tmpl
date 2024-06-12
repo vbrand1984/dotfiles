@@ -1,10 +1,11 @@
-{{ $baseHomeDir := promptString "baseHomeDir" "/home" -}}
+# chezmoi:template:left-delimiter=[[ right-delimiter=]]
+[[ $baseHomeDir := promptString "baseHomeDir" "/home" -]]
 
 # {{{ sysDirs
 
 [data.sysDirs]
     # 
-    baseDataDir = {{ $baseHomeDir | quote }}
+    baseDataDir = [[ $baseHomeDir | quote ]]
 
 # }}}
 # {{{ gtk (Graphical settings: theme, font, icons, etc.)
