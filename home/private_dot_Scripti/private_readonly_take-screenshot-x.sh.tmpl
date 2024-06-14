@@ -1,14 +1,15 @@
 #!/bin/sh
 
 die() {
-    dunstify --urgency=critical 'Epic Fail' "$1"
+    notify-send --urgency=critical 'Epic Fail' "$1"
     exit 1
 }
 
 picname_pattern='Screenshot at %Y-%m-%d %H:%M:%S $wx$h.png'
 delay_interval=5
+user_dirs_file="${HOME}/.config/user-dirs.dirs"
 
-[ -r "$HOME/.config/xdg-user-dirs.dir" ] && . "$HOME/.config/xdg-user-dirs.dir"
+[ -r "${user_dirs_file}" ] && . "${user_dirs_file}"
 picdir="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
 
 if [ ! -d "$picdir" ] ; then
@@ -39,7 +40,7 @@ if [ "x$1" != 'xselection' ] && [ -n "$2" ] && [ "x$2" = 'xdelay' ] ; then
     notify-send -t 3000 "Taking a $1 screenshot in $delay_interval seconds..."
 fi
 
-scrot_execute="dunstify -A 'open_dir,Open Directory' -I '/usr/share/icons/{{ .gtk.iconTheme }}/{{ template "iconSizePath" .varia.dunstIconSize }}/emblems/emblem-photos.{{ .gtk.iconExt }}' -t 3000 'Screenshot Saved' '\$n'"
+scrot_execute="notify-send -A 'open_dir,Open Directory' -i '{{ template "dunstIcons" . }}/emblems/emblem-photos.{{ .gtk.iconExt }}' -t 3000 'Screenshot Saved' '\$n'"
 got_action=$(scrot -e "$scrot_execute" "$scrotopts" -F "$picdir/$picname_pattern" || die "Couldn't save a screenshot in $picdir!")
 
 if [ "x$got_action" = 'xopen_dir' ] ; then

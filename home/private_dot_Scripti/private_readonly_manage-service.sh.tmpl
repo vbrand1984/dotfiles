@@ -16,17 +16,17 @@ die_with_dignity() {
 
 start_conky () {
     if pgrep -c conky 1>/dev/null 2>&1 ; then
-        dunstify --urgency=$urg_std --raw-icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'Conky is already started!'
+        notify-send --urgency=$urg_std --icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'Conky is already started!'
     else
-        conky --daemonize && dunstify --urgency=$urg_std 'Conky started' || dunstify --urgency=$urg_achtung 'Error starting conky!'
+        conky --daemonize && notify-send --urgency=$urg_std 'Conky started' || notify-send --urgency=$urg_achtung 'Error starting conky!'
     fi
 }
 
 stop_conky() {
     if pgrep --count conky 1>/dev/null 2>&1 ; then
-        killall conky && dunstify --urgency=$urg_std 'Conky stopped'
+        killall conky && notify-send --urgency=$urg_std 'Conky stopped'
     else
-        dunstify --urgency=$urg_std --raw-icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'Conky is not running. Nothing to stop.'
+        notify-send --urgency=$urg_std --icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'Conky is not running. Nothing to stop.'
     fi
 }
 
@@ -55,7 +55,7 @@ do_conky () {
 do_dunst() {
     if [ "x$1" = 'xrestart' ] ; then
         killall dunst
-        dunstify --urgency=$urg_std 'Dunst restarted'
+        notify-send --urgency=$urg_std 'Dunst restarted'
     else
         die_with_dignity
     fi
@@ -67,7 +67,7 @@ do_dunst() {
 do_tint2() {
     if [ "x$1" = 'xrestart' ] ; then
         killall -SIGUSR1 tint2
-        dunstify --urgency=$urg_std 'Tint2 restarted'
+        notify-send --urgency=$urg_std 'Tint2 restarted'
     else
         die_with_dignity
     fi
@@ -78,18 +78,18 @@ do_tint2() {
 
 start_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        dunstify --urgency=$urg_std -raw-icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'XSettingsD is already started!'
+        notify-send --urgency=$urg_std -raw-icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'XSettingsD is already started!'
     else
         xsettingsd &
-        [ $? ] && dunstify --urgency=$urg_std 'XSettingsD started' || dunstify --urgency=$urg_achtung 'Error starting XSettingsD!'
+        [ $? ] && notify-send --urgency=$urg_std 'XSettingsD started' || notify-send --urgency=$urg_achtung 'Error starting XSettingsD!'
     fi
 }
 
 stop_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        killall xsettingsd && dunstify --urgency=$urg_std 'XSettingsD stopped'
+        killall xsettingsd && notify-send --urgency=$urg_std 'XSettingsD stopped'
     else
-        dunstify --urgency=$urg_std --raw-icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'XSettingsD is not running. Nothing to stop.'
+        notify-send --urgency=$urg_std --icon='{{* template "dunstIcons" . *}}/status/dialog-warning.{{* .gtk.iconExt *}}' 'XSettingsD is not running. Nothing to stop.'
     fi
 }
 

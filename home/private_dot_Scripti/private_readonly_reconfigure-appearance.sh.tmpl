@@ -11,4 +11,4 @@ for the_service in dunst xsettingsd tint2 ; do
 done
 
 # reconfigure openbox
-openbox --reconfigure && dunstify --urgency=low 'Openbox reconfigured'
+openbox --reconfigure && notify-send --urgency=low 'Openbox reconfigured'

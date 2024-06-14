@@ -76,8 +76,7 @@ case "$TERM" in
         ;;
 esac
 ##*- else if eq .chezmoi.osRelease.id "void" *##
-#PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1='\[\e[01;32m\][\u@\h \[\e[01;37m\]\w\[\e[01;32m\]]\[\e[00m\]\\$ '
+PS1='\[\e[01;32m\][\u@\h \[\e[01;37m\]\w\[\e[01;32m\]]\$\[\e[00m\] '
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
