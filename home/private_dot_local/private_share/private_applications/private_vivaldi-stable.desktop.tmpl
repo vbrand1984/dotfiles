@@ -108,7 +108,7 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=/usr/bin/vivaldi-stable --disk-cache-dir=$XDG_RUNTIME_DIR/vivaldi-cache --enable-features=VaapiVideoDecoder %U
+Exec=/usr/bin/vivaldi-stable --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder %U
 StartupNotify=true
 Terminal=false
 Icon=vivaldi
@@ -169,7 +169,7 @@ Name[uk]=Нове вікно
 Name[vi]=Cửa sổ Mới
 Name[zh_CN]=新建窗口
 Name[zh_TW]=開新視窗
-Exec=/usr/bin/vivaldi-stable --new-window --disk-cache-dir=$XDG_RUNTIME_DIR/vivaldi-cache --enable-features=VaapiVideoDecoder
+Exec=/usr/bin/vivaldi-stable --new-window --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder
 
 [Desktop Action new-private-window]
 Name=New Private Window
@@ -221,5 +221,5 @@ Name[uk]=Нове приватне вікно
 Name[vi]=Cửa sổ Riêng tư Mới
 Name[zh_CN]=新建隐私窗口
 Name[zh_TW]=新增無痕視窗
-Exec=/usr/bin/vivaldi-stable --incognito --disk-cache-dir=$XDG_RUNTIME_DIR/vivaldi-cache --enable-features=VaapiVideoDecoder
+Exec=/usr/bin/vivaldi-stable --incognito --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder
 {{ end -}}
