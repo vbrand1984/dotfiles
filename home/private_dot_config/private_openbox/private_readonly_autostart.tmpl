@@ -1,36 +1,36 @@
-# chezmoi:template: left-delimiter=[[ right-delimiter=]]
+# chezmoi:template: left-delimiter=#_ right-delimiter=_#
 # Openbox autostart script
 
 # --== Setting keyboard and mouse parameters ==--
-xset mouse 20/10 10 r rate [[ int .varia.kbdDelay ]] [[ int .varia.kbdRepeat ]] b off
+xset mouse 20/10 10 r rate #_ int .varia.kbdDelay _# #_ int .varia.kbdRepeat _# b off
 
 # --== XSettings daemon ==--
 xsettingsd &
 
-[[ if eq .mySystem.xCompositor "picom" "xcompmgr" -]]
+#_ if eq .mySystem.xCompositor "picom" "xcompmgr" -_#
 # --== Compositor ==--
-[[ if eq .mySystem.xCompositor "picom" -]]
+#_ if eq .mySystem.xCompositor "picom" -_#
 picom --daemon &
-[[ else -]]
+#_ else -_#
 xcompmgr &
-[[- end ]]
-[[ end -]]
+#_- end _#
+#_ end -_#
 
 # --== Panel ==-- 
 tint2 &
 
 # --== Desktop Background ==--
-[[ if has .chezmoi.osRelease.id .distros.debBased -]]
+#_ if has .chezmoi.osRelease.id .distros.debBased -_#
 # The --force-setter option is necessary in Debian/Devuan, otherwise the thing doesn't work
 nitrogen --restore --force-setter=xwindows &
-[[- else -]]
+#_- else -_#
 nitrogen --restore &
-[[- end ]]
+#_- end _#
 
 # --== Varisous Stuff ==--
-[[ if .mySystem.emacsDaemon -]]
+#_ if .mySystem.emacsDaemon -_#
 emacs --bg-daemon &
-[[ end -]]
+#_ end -_#
 udiskie --smart-tray --notify --automount &
 # Redshift is started via ~/.config/autostart .desktop file
 #redshift-gtk &
@@ -50,10 +50,10 @@ clipit &
 #pnmixer &
 
 # --== Conky System Monitor ==--
-(sleep 1; conky --pause=[[ int .conky.startupDelay ]] --daemonize) &
+(sleep 1; conky --pause=#_ int .conky.startupDelay _# --daemonize) &
 
-[[ if eq .mySystem.kbdLayoutSwitcher "gxkb" "xxkb" -]]
+#_ if eq .mySystem.kbdLayoutSwitcher "gxkb" "xxkb" -_#
 # --== Layout Switcher Indicator ==--
 # Either gxkb or xxkb
-(sleep 2; [[ .mySystem.kbdLayoutSwitcher ]]) &
-[[ end -]]
+(sleep 2; #_ .mySystem.kbdLayoutSwitcher _#) &
+#_ end -_#

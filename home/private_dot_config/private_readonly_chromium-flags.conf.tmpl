@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.osRelease.id "arch" "artix" -}}
 --start-maximized
 --enable-accelerated-video-decode
 --enable-features=VaapiVideoDecoder
@@ -5,4 +6,4 @@
 --enable-gpu-rasterization
 --enable-zero-copy
 --js-flags=--jitless
-
+{{- end }}

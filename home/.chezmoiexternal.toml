@@ -4,8 +4,17 @@
     url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     refreshPeriod = "168h"
 
-{{ if has .chezmoi.osRelease.id .distros.debBased }}
+# Font with weather icons which is used in my python-powered conky weather widget
+# Only used on my desktop rig
+{{ if and (eq .chezmoi.hostname .personal.desktopRigName) (eq .chezmoi.username .personal.username) }}
+[".local/share/fonts/weathericons-regular-webfont.ttf"]
+    type = "file"
+    url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
+    refreshPeriod = "168h"
+{{ end }}
+
 # In Debian-based distros, we need to install obmenu-generator externally
+{{ if has .chezmoi.osRelease.id .distros.debBased }}
 ["{{ .sysDirs.scripts }}/obmenu-generator"]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
@@ -13,6 +22,7 @@
 {{ end }}
 
 
+# Pipewire-launcher script from Gentoo to be installed and used in Devuan
 {{ if and (has .chezmoi.osRelease.id .distros.strictNonSystemd) (ne .chezmoi.osRelease.id "void") }}
 ["{{ .sysDirs.scripts }}/gentoo-pipewire-launcher"]
     type= "file"

@@ -1,5 +1,5 @@
 [user]
-	name = Victor Brand
+	name = {{ .personal.gitFullName | quote }}
 	email = {{ .mySecrets.gitEmail | quote }}
 [credential]
 	helper = store

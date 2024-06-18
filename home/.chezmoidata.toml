@@ -10,18 +10,8 @@
     localBin = ".local/bin"
     scripts = ".Scripti"
     obPipemenus = ".Scripti/openbox-pipemenus"
-
-[defaults]
-    defaultBaseDataDir = "/home"
-    defaultTerminalEmulator = "lxterminal"
-
-[personal]
-    desktopRigName = "saturn"
-    oldLaptopName = "antares"
-    userName = "victor"
+    localCacheDir = ".cache"
 
 [varia]
     # This is an editor for config files to be invoked via Openbox menu entries
     chezmoiEditorFromMenu = "gvim --nofork"
-
-    variable = "bugaga"

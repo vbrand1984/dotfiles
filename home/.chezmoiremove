@@ -1,0 +1,9 @@
+.conkyrc
+.dircolors
+.git-credentials
+.gitconfig
+.gvimrc
+.tmux.conf
+.viminfo
+.vimrc
+.xsettingsd

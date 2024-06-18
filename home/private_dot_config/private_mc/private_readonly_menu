@@ -1,15 +1,19 @@
-m	Edit ~/.config/mc/menu
-	chezmoi edit --apply ~/.config/mc/menu
+m   Edit ~/.config/mc/menu
+    cd ~/.config/mc
+    chezmoi edit --apply menu
 =
-c	Edit chezmoi.toml
-	/usr/bin/vim ~/.config/chezmoi/chezmoi.toml
-C	Edit conky.conf
-	chezmoi edit --apply ~/.config/conky/conky.conf
-r	Edit vimrc
-	chezmoi edit --apply ~/.vim/vimrc
+c   Edit chezmoi.toml
+    cd ~/.config/chezmoi
+    /usr/bin/vim chezmoi.toml
+C   Edit conky.conf
+    cd ~/.config/conky
+    chezmoi edit --apply conky.conf
+r   Edit vimrc
+    cd ~/.vim
+    chezmoi edit --apply vimrc
 =+ t rl
-e	Run chezmoi edit with current file
-	chezmoi edit --apply %f
+e   Run chezmoi edit with current file
+    chezmoi edit --apply %f
 + t r & T r
-v	vimdiff files in both panels
-	vimdiff %d/%f %D/%F
+v   vimdiff files in both panels
+    vimdiff %d/%f %D/%F

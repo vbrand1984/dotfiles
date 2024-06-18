@@ -1,16 +1,51 @@
-# chezmoi:template:left-delimiter=[[ right-delimiter=]]
-[[ $baseHomeDir := promptString "baseHomeDir" "/home" -]]
+# chezmoi:template:left-delimiter=##* right-delimiter=*##
 
+##*- $desktopRigName := "saturn" -*##
+##*- $oldLaptopName := "antares" -*##
+##*- $personalUsername := "victor" -*##
+##*- $defaultBaseDataDir := "/home" -*##
+##*- $scriptsTmp := joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scripts" -*##
+
+##*- $baseHomeDir := promptString "baseHomeDir" $defaultBaseDataDir -*##
+
+# {{{ General chezmoi config
+
+# Redefine the temporary directory for scripts in case of /tmp is mounted with the noexec option
+# See: https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-chezmoi-forkexec-tmpxxxxxxxxxxxx-permission-denied-when-executing-a-script
+scriptTempDir = ##* $scriptsTmp | quote *##
+
+# Set chezmoi cache to be on disk in case of system cache is in memory
+cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
+
+[scriptEnv]
+    TMPDIR = ##* $scriptsTmp | quote *##
+
+[diff]
+    scriptContents = false
+
+# }}}
+# {{{ Personal data
+
+[data.personal]
+
+    desktopRigName = ##* $desktopRigName | quote *##
+    oldLaptopName = ##* $oldLaptopName | quote *##
+    username = ##* $personalUsername | quote *##
+    gitFullName = "Victor Brand"
+
+# }}}
 # {{{ sysDirs
 
 [data.sysDirs]
-    # 
-    baseDataDir = [[ $baseHomeDir | quote ]]
+    # Default for this is /home
+    baseDataDir = ##* $baseHomeDir | quote *##
+    defaultBaseDataDir = ##* $defaultBaseDataDir | quote *##
 
 # }}}
 # {{{ gtk (Graphical settings: theme, font, icons, etc.)
 
 [data.gtk]
+
     # General theming
     fontName = "Roboto Regular 11"
     themeName = "Greylooks"
@@ -20,7 +55,7 @@
     iconExt = "svg"
 
     # Mouse cursor
-    cursorTheme = [[ if eq .chezmoi.osRelease.id "void" "arch" "artix" ]]"Vanilla-DMZ"[[ else ]]"DMZ-White"[[ end ]]
+    cursorTheme = ##* if eq .chezmoi.osRelease.id "void" "arch" "artix" -*## "Vanilla-DMZ" ##*- else -*## "DMZ-White" ##*- end *##
     cursorSize = 18
 
     # Various GTK settings 
@@ -74,7 +109,7 @@
 [data.varia]
 
     # Icon sizes for various applications
-    obmenuIconSize = 32
+    obmenuIconSize = 24
     dunstIconSize = 48
 
     # Keyboard settings
@@ -85,8 +120,8 @@
 # {{{ redshift
 
 [data.redshift]
-    # See redshift(1), look at ~/.config/redshift.conf
 
+    # See redshift(1), look at ~/.config/redshift.conf
     fade = false
 
     # See: redshift -m list
@@ -108,6 +143,7 @@
 # {{{ rofi
 
 [data.rofi]
+
     font = "JetBrains Mono Medium 14"
     theme = "/usr/share/rofi/themes/gruvbox-dark-soft.rasi"
 
@@ -115,9 +151,10 @@
 # {{{ conky
 
 [data.conky]
+
     # Startup delay in autostart script, seconds. It's the value of conky's '--pause=' argument
     # Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
-    startupDelay = 3
+    startupDelay = ##* if and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $baseHomeDir $defaultBaseDataDir) -*## 7 ##*- else -*## 3 ##*- end *##
 
     # Will conky be fully transparent or semi-transparent
     fullyTransparent = true
@@ -127,20 +164,20 @@
     # Available palettes: catpuccin, everforest, gruvbox, mixed
     palette = "mixed"
 
-    # appid from openweathermap.org
-    weatherAppId = ""
-
-    # City ID to be used with openweathermap.org in advanced conky weather widget
-    # Used in conky-weather-advanced.py
-    weatherCityId = "498817"
-
 # }}}
 # {{{ mySecrets
 
 # Secrets are stored here
 [data.mySecrets]
+
     # Git variables
     gitEmail = ""
     gitCredentials = ""
+##*- if and (eq .chezmoi.hostname $desktopRigName) (eq .chezmoi.username $personalUsername) *##
+    # appid from openweathermap.org
+    weatherAppId = ""
+    # City ID to be used with openweathermap.org in advanced conky weather widget
+    weatherCityId = ""
+##*- end *##
 
 # }}}
