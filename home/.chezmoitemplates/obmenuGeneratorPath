@@ -1,1 +1,1 @@
-{{ if has .chezmoi.osRelease.id .distros.debBased }}{{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/obmenu-generator{{ else }}{{ lookPath "obmenu-generator" }}{{ end -}}
+{{ if has .chezmoi.osRelease.id .distros.debBased }}{{ joinPath .chezmoi.homeDir .sysDirs.localBin }}/obmenu-generator{{ else }}{{ lookPath "obmenu-generator" }}{{ end -}}

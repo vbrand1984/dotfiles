@@ -71,14 +71,17 @@ our $SCHEMA = [
         # Nitrogen
         {item => ['nitrogen', 'Desktop wallpaper', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-wallpaper-symbolic.svg']},
         # Reconfiguration of the whole appearance
-        {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/reconfigure-appearance.sh', 'Reconfigure appearance', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-remote-desktop-symbolic.svg']},
+        {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.localBin }}/reconfigure-appearance.sh', 'Reconfigure appearance', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-remote-desktop-symbolic.svg']},
 
         {sep => undef},
 
+        # Conky category (pipemenu)
+        {pipe => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-conky.sh', 'Conky', '{{ template "symbolicIcons" . }}/apps/utilities-system-monitor-symbolic.svg']},
+
         # obmenu-generator category
         {beg => ['Obmenu-Generator', '{{ template "symbolicIcons" . }}/actions/edit-tag-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/schema.pl", 'schema.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/config.pl", 'config.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/schema.pl", 'Edit schema.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/config.pl", 'Edit config.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
 
             {sep  => undef},
 
@@ -93,28 +96,26 @@ our $SCHEMA = [
 
             {sep => undef},
 
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart", 'autostart', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",  'menu.xml',  '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",            'rc.xml',    '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart", 'Edit autostart script', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",  'Edit menu.xml',         '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",            'Edit rc.xml',           '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
         {end => undef},
-
-        # XSettingsD category (pipemenu)
-        {pipe => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pm-xsettingsd.sh', 'XSettingsD', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-apps-symbolic.svg']},
 
         # Varia category
         # settings-configure
         {beg => ['Varia', '{{ template "symbolicIcons" . }}/apps/preferences-system-details-symbolic.svg']},
-            {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart conky', 'Restart conky', 'conky']},
-            {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart tint2', 'Restart tint2', 'tint2']},
+            {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart tint2', 'Restart tint2', '{{ template "symbolicIcons" . }}/apps/preferences-ubuntu-panel-symbolic.svg']},
             {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart dunst', 'Restart dunst', '{{ template "symbolicIcons" . }}/apps/notifications-applet-symbolic.svg']},
 
             {sep => undef},
 
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/conky/conky.conf",  'conky.conf',  '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/tint2/tint2rc",     'tint2rc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/dunst/dunstrc",     'dunstrc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/picom/picom.conf",  'picom.conf',  '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/tint2/tint2rc",     'Edit tint2rc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/dunst/dunstrc",     'Edit dunstrc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/picom/picom.conf",  'Edit picom.conf',  '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
         {end => undef},
+
+        # XSettingsD category (pipemenu)
+        {pipe => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-xsettingsd.sh', 'XSettingsD', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-apps-symbolic.svg']},
 
     {end => undef},
 

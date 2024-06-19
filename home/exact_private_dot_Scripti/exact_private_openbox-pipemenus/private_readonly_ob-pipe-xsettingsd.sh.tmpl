@@ -27,7 +27,7 @@ fi
 
 cat << "EOF"
 <separator />
-<item label='xsettingsd.conf' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
+<item label='Edit xsettingsd.conf' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
     <action name='Execute'>
         <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/xsettingsd/xsettingsd.conf]]></command></execute>
     </action>

@@ -1,9 +1,10 @@
 #!/bin/bash
+# vim ft=bash
 # This is a bash script! Because of handy urldecode substitution (see below)
 
 filemanager='xdg-open'
-bookmarks_file='{{ .chezmoi.homeDir }}/.config/gtk-3.0/bookmarks'
-user_dirs_file='{{ .chezmoi.homeDir }}/.config/user-dirs.dirs'
+bookmarks_file={{ joinPath .chezmoi.homeDir ".config/gtk-3.0/bookmarks" | squote }}
+user_dirs_file={{ joinPath .chezmoi.homeDir ".config/user-dirs.dirs" | squote }}
 
 # First item is always our home folder
 echo "<openbox_pipe_menu><item label='Home Directory' icon='{{ template "obmenuIcons" . }}/places/folder-home.{{ .gtk.iconExt }}'><action name='Execute'><execute><command><![CDATA[$filemanager {{ .chezmoi.homeDir }}]]></command></execute></action></item>"

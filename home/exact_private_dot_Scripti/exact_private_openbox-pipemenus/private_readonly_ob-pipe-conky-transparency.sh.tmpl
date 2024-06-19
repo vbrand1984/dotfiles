@@ -1,0 +1,28 @@
+#!/bin/sh
+# chezmoi:template:left-delimiter=#{{ right-delimiter=}}#
+
+echo '<openbox_pipe_menu>'
+
+for variant in 'Full' 'Semi' 'None' ; do
+    if [ "x${variant}" = 'x#{{ .conky.currentTransparency }}#' ] ; then
+        the_command="notify-send 'Current conky transparency: #{{ .conky.currentTransparency }}#'"
+        icon_name=" icon='#{{ template "symbolicIcons" . }}#/emblems/emblem-ok-symbolic.svg'"
+    else
+        the_command="/bin/bash -e #{{ joinPath .chezmoi.homeDir .sysDirs.scripts }}#/ch-config.sh 'currentTransparency' #{{ .conky.currentTransparency | squote }}# '${variant}' 'doapply'"
+        icon_name=''
+    fi
+    cat << EOF
+<item label='${variant}'${icon_name}>
+    <action name='Execute'>
+        <execute><command><![CDATA[${the_command}]]></command></execute>
+    </action>
+</item>
+EOF
+done
+
+#{{ if eq .conky.currentTransparency "Semi" -}}#
+echo "<separator /><menu id='conky_argb_values_sub_menu' label='ARGB values' execute='/bin/sh -e #{{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}#/ob-pipe-conky-argb-values.sh' icon='{{ template "symbolicIcons" . }}/categories/applications-graphics-symbolic.svg' />"
+
+#{{ end -}}#
+
+echo '</openbox_pipe_menu>'

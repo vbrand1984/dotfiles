@@ -4,7 +4,7 @@
 ##*- $oldLaptopName := "antares" -*##
 ##*- $personalUsername := "victor" -*##
 ##*- $defaultBaseDataDir := "/home" -*##
-##*- $scriptsTmp := joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scripts" -*##
+##*- $defaultTerminalEmulator := "lxterminal" -*##
 
 ##*- $baseHomeDir := promptString "baseHomeDir" $defaultBaseDataDir -*##
 
@@ -12,13 +12,13 @@
 
 # Redefine the temporary directory for scripts in case of /tmp is mounted with the noexec option
 # See: https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-chezmoi-forkexec-tmpxxxxxxxxxxxx-permission-denied-when-executing-a-script
-scriptTempDir = ##* $scriptsTmp | quote *##
+scriptTempDir = ##* joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scripts" | quote *##
 
 # Set chezmoi cache to be on disk in case of system cache is in memory
 cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
 [scriptEnv]
-    TMPDIR = ##* $scriptsTmp | quote *##
+    TMPDIR = ##* joinPath "/run/user" (toString .chezmoi.uid) | quote *##
 
 [diff]
     scriptContents = false
@@ -92,6 +92,8 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     # zsh configuration is not supported yet though
     defaultShell = "bash"
 
+    terminalEmulator = ##* $defaultTerminalEmulator | quote *##
+
     # Whether to autostart emacs daemon or not
     emacsDaemon = true
 
@@ -156,13 +158,17 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     # Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
     startupDelay = ##* if and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $baseHomeDir $defaultBaseDataDir) -*## 7 ##*- else -*## 3 ##*- end *##
 
-    # Will conky be fully transparent or semi-transparent
-    fullyTransparent = true
+    # Will conky be fully transparent, semi-transparent or non-transparent
+    # Possible values: "Full", "Semi", "None"
+    currentTransparency = "Full"
+
+    # ARGB value is only used when conky is semi-transparent.
+    # It has range 0 to 255. The more this value is, the less transparent is conky
     argbValue = 160
 
-    # Default palette to use
-    # Available palettes: catpuccin, everforest, gruvbox, mixed
-    palette = "mixed"
+    # Palette to use with conky
+    # Available default palettes: Catpuccin, Everforest, Gruvbox-Bright, Mixed
+    currentPalette = "Mixed"
 
 # }}}
 # {{{ mySecrets

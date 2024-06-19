@@ -1,1 +1,3 @@
+{{- if ne .chezmoi.osRelease.id "void" -}}
 {{ .chezmoi.sourceDir }}/symlinked/.config/mc/mc.ext.ini
+{{- end -}}

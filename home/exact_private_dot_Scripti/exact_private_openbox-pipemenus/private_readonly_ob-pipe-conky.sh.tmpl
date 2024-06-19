@@ -1,0 +1,45 @@
+#!/bin/sh
+# vim: ft=sh
+
+echo '<openbox_pipe_menu>'
+
+if pgrep --count conky 1>/dev/null 2>&1 ; then
+    cat << "EOF"
+<item label='Restart conky' icon='{{ template "symbolicIcons" . }}/actions/view-refresh-symbolic.svg'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart conky]]></command></execute>
+    </action>
+</item>
+<item label='Stop conky' icon='{{ template "symbolicIcons" . }}/actions/process-stop-symbolic.svg'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh stop conky]]></command></execute>
+    </action>
+</item>
+<separator />
+<menu id='conky_palettes_sub_menu' label='Conky palette' execute='/usr/bin/lua -- {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-conky-palettes.lua' icon='{{ template "symbolicIcons" . }}/categories/applications-graphics-symbolic.svg' />
+<menu id='conky_transparency_sub_menu' label='Conky transparency' execute='/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-conky-transparency.sh' icon='{{ template "symbolicIcons" . }}/apps/preferences-color-symbolic.svg' />
+EOF
+else
+    cat << "EOF"
+<item label='Start conky' icon='{{ template "symbolicIcons" . }}/actions/system-restart-symbolic.svg'>
+    <action name='Execute'>
+        <execute><command><![CDATA[/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh start conky]]></command></execute>
+    </action>
+</item>
+EOF
+fi
+
+cat << "EOF"
+<separator />
+<item label='Edit conky.conf' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
+    <action name='Execute'>
+        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/conky/conky.conf]]></command></execute>
+    </action>
+</item>
+<item label='Edit conky-palettes.lua' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
+    <action name='Execute'>
+        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/conky/conky-palettes.lua]]></command></execute>
+    </action>
+</item>
+</openbox_pipe_menu>
+EOF

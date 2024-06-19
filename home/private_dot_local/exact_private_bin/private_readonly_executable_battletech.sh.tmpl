@@ -1,0 +1,16 @@
+# chezmoi:template:left-delimiter=##* right-delimiter=*##
+##*- if and (eq .chezmoi.hostname .personal.desktopRigName) (ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir) -*##
+#!/bin/sh
+# vim: ft=sh
+
+game_dir="${HOME}/Games/SSD/BATTLETECH"
+
+if [ ! -x "${game_dir}/start.sh" ] ; then
+	echo "There is no executable 'start.sh' in ${game_dir}! Exiting."
+	exit 1
+fi
+
+cd "${game_dir}"
+
+taskset -c 1,3,5,7,9,11,13,15 ./start.sh
+##*- end *##

@@ -1,53 +1,17 @@
 -- vim: ft=lua:fm=marker
 -- chezmoi:template:left-delimiter=--##* right-delimiter=*##
 
-local default_palette = --##* .conky.palette | squote *##
-local fully_transparent = --##* .conky.fullyTransparent *##
-local conky_argb_value = --##* int .conky.argbValue *##
+--== CONKY.CONFIG ==--
 
---== PALETTES ==--
+-- Palette initialization {{{
 
-local conky_palettes = {
-    catpuccin = {
-        background      = '#1d2021',    -- Background colour of the window
-        border          = '#504945',    -- The colour of the border
-        headers         = '#eed49f',    -- Yellow colour for the captions and horizontal lines
-        captions        = '#8bd5ca',    -- Blue colour for the captions
-        text            = '#e1ddc9',    -- Lightgray colour for the main text
-        temperatures    = '#f5a97f',    -- Orange colour for the temperatures
-        progressbars    = '#a89984',    -- A little bit dimmer lightgray colour for the progressbars
-    },
-    everforest = {
-        background      = '#1d2021',    -- Background colour of the window
-        border          = '#53605c',    -- The colour of the border
-        headers         = '#dbbc7f',    -- Yellow colour for the captions and horizontal lines
-        captions        = '#83c092',    -- Aqua colour for the captions
-        text            = '#dcd8c4',    -- Lightgray colour for the main text
-        temperatures    = '#e69875',    -- Orange colour for the temperatures
-        progressbars    = '#bdc3af',    -- A little bit dimmer lightgray colour for the progressbars
-    },
-    gruvbox_bright = {
-        background      = '#1d2021',    -- Background colour of the window
-        border          = '#504945',    -- The colour of the border
-        headers         = '#d79921',    -- Yellow colour for the captions and horizontal lines
-        captions        = '#89b482',    -- Aqua colour for the captions
-        text            = '#d5c4a1',    -- Lightgray colour for the main text
-        temperatures    = '#d7875f',    -- Orange colour for the temperatures
-        progressbars    = '#a89984',    -- A little bit dimmer lightgray colour for the progressbars
-    },
-    mixed = {
-        background      = '#32302f',    -- Background colour of the window
-        border          = '#504945',    -- The colour of the border
-        headers         = '#be8c3d',    -- b78727 (University of California Gold) bc823c (Gold Trinket) d7942d (Golden Orange) ddad56 (Rob Roy) ce8f2d
-        captions        = '#87a96b',    -- 87a96b (Asparagus), 9ab973 (Olivine) 819c8b (Celadon)
-        text            = '#d4be98',    -- Lightgray colour for the main text
-        temperatures    = '#d7875f',    -- Orange colour for the temperatures
-        progressbars    = '#a89984',    -- A little bit dimmer lightgray colour for the progressbars
-    },
-};
+-- Loading palettes
+dofile(--##* joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote *##)
 
+local current_palette = --##* .conky.currentPalette | squote *##
 
---== MAIN CONFIGURATION ==--
+-- }}}
+-- conky.config {{{ 
 
 conky.config = {
 
@@ -97,11 +61,11 @@ conky.config = {
     --== COLOURS ==--
     default_outline_color   = 'black',
     default_shade_color     = 'black',
-    color1                  = conky_palettes[default_palette]['headers'],
-    color2                  = conky_palettes[default_palette]['captions'],
-    color3                  = conky_palettes[default_palette]['text'],
-    color4                  = conky_palettes[default_palette]['temperatures'],
-    color5                  = conky_palettes[default_palette]['progressbars'],
+    color1                  = conky_palettes[current_palette]['headers'],
+    color2                  = conky_palettes[current_palette]['captions'],
+    color3                  = conky_palettes[current_palette]['text'],
+    color4                  = conky_palettes[current_palette]['temperatures'],
+    color5                  = conky_palettes[current_palette]['progressbars'],
 
     --== TEMPLATES ==--
 
@@ -159,25 +123,39 @@ conky.config = {
 
 };
 
---== ADJUST TRANSPARENCY SETTINGS ==--
+-- }}}
+-- {{{ Transparency settings
 
-if fully_transparent then
-    conky.config['own_window_transparent']  = true
-    conky.config['own_window_argb_visual']  = false
-    conky.config['border_width']            = 0
-else
-    conky.config['own_window_transparent']  = false
-    conky.config['own_window_argb_visual']  = true
-    conky.config['own_window_argb_value']   = conky_argb_value
-    conky.config['border_width']            = 1
-    conky.config['own_window_colour']       = conky_palettes[default_palette]['background']
-    conky.config['default_color']           = conky_palettes[default_palette]['border']
-end
+--##* if eq .conky.currentTransparency "Full" -*##
+-- Full transparency
+conky.config['own_window_transparent']  = true
+conky.config['own_window_argb_visual']  = false
+conky.config['border_width']            = 0
+--##*- else if eq .conky.currentTransparency "Semi" -*##
+-- Semi-transparent conky
+conky.config['own_window_transparent']  = false
+conky.config['own_window_argb_visual']  = true
+conky.config['own_window_argb_value']   = --##* int .conky.argbValue *##
+conky.config['border_width']            = 1
+conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
+conky.config['default_color']           = conky_palettes[current_palette]['border']
+--##*- else -*##
+-- Non-transparent conky
+conky.config['own_window_transparent']  = false
+conky.config['own_window_argb_visual']  = false
+--conky.config['own_window_argb_value']   = conky_argb_value
+conky.config['border_width']            = 1
+conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
+conky.config['default_color']           = conky_palettes[current_palette]['border']
+--##*- end *##
 
+-- }}}
 
 --== FUNCTIONS ==--
 
--- Reads a string from file. One string only!
+-- {{{ Common functions: file and shell operations
+
+-- Reads a string from a file. One string only!
 local function read_from_file(path_to_file)
     local f = io.open(path_to_file, 'r')
     local the_data = f:read() or ''
@@ -185,7 +163,6 @@ local function read_from_file(path_to_file)
     the_data = string.gsub(the_data, '\n$', '')
     return the_data
 end -- function read_from_file()
-
 
 -- Returns the first string of a shell command output. The first string only!
 local function get_cmd_output(the_cmd)
@@ -196,6 +173,57 @@ local function get_cmd_output(the_cmd)
     return the_data
 end -- function get_cmd_output()
 
+-- }}}
+-- {{{ Common functions for conky.text
+
+local function display_system_info()
+    local distro_id = get_cmd_output('lsb_release -i -s 2>/dev/null')
+    distro_id = string.upper(distro_id)
+    return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
+${template1 Kernel\ Version ${kernel}}
+${template1 Uptime ${uptime}}
+${template1 Hodie ${time\ %a\ %d\ %b\ %Y}}
+]];
+end
+
+-- Returns the table of CPU cores usage
+local function display_cpu_usage()
+    local ncores = tonumber(get_cmd_output('nproc'))
+    local output_string = '${template0 CPU}\n'
+
+    for i = 1, ncores, 1 do
+        output_string = output_string .. '${template2 ' .. tostring(i) .. ' ' .. tostring(i - 1) .. '}\n'
+    end
+
+    return output_string
+end
+
+-- Returns the table of the <top_number> top processes
+local function display_top_processes(top_number)
+    local output_string = '${template0 TOP\\ PROCESSES}\n${template3}\n'
+    for i = 1, top_number, 1 do
+        output_string = output_string .. '${template4 ' .. i .. '}\n'
+    end
+    return output_string
+end
+
+local function display_memory_usage()
+    return [[${template0 MEMORY\ USAGE}
+${template5 RAM mem}
+${template5 Swap swap}
+]];
+end
+
+local function display_storage()
+    return [[${template0 STORAGE}
+${template6 System\ Volume /}
+${template6 Data\ Volume --##* .sysDirs.baseDataDir *##}
+]];
+end
+
+-- }}}
+--##* if eq .chezmoi.hostname .personal.desktopRigName .personal.oldLaptopName -*##
+-- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
 -- Format of the output: work_table[<module_name>][#] - a table for a certain hwmon module called <module_name>,
@@ -239,32 +267,15 @@ local function populate_hwmon_table()
     return work_table
 end -- function populate_hwmon_table()
 
+-- }}}
+-- Machine-specific initialization: let's populate! {{{
 
--- Returns the table of CPU cores usage
-local function display_cpu_usage()
-    local ncores = tonumber(get_cmd_output('nproc'))
-    local output_string = '${template0 CPU}\n'
-
-    for i = 1, ncores, 1 do
-        output_string = output_string .. '${template2 ' .. tostring(i) .. ' ' .. tostring(i - 1) .. '}\n'
-    end
-
-    return output_string
-end -- function display_cpu_usage()
-
-
--- Returns the table of the <top_number> top processes
-local function display_top_processes(top_number)
-    local output_string = '${template0 TOP\\ PROCESSES}\n${template3}\n'
-    for i = 1, top_number, 1 do
-        output_string = output_string .. '${template4 ' .. i .. '}\n'
-    end
-    return output_string
-end -- function display_top_processes()
-
-
--- Let's initialize our internal variables
+-- Let's call our precious function
 local hwmon_table = populate_hwmon_table()
+
+-- }}}
+--##* if eq .chezmoi.hostname .personal.desktopRigName -*##
+-- {{{ Initialization of internal variables: Desktop Rig
 
 local t_mobo            = hwmon_table['nct6798'][1]
 local t_gpu             = hwmon_table['amdgpu'][1]
@@ -285,12 +296,20 @@ local nr_Tccd1          = t_cpu['lbl']['Tccd1']
 local nr_junction       = t_gpu['lbl']['junction']
 local nr_mem            = t_gpu['lbl']['mem']
 
+-- }}}
+--##*- else if eq .chezmoi.hostname .personal.oldLaptopName -*##
+-- {{{ Initialization of internal variables: Old Laptop
+
+-- }}}
+--##*- end *##
+--##*- end *##
 
 --== CONKY.TEXT ==--
 
-conky.text = [[${template0 SYSTEM\ INFO}
-${template1 Kernel\ Version ${kernel}}
-${template1 Uptime ${uptime}}
+--##* if eq .chezmoi.hostname .personal.desktopRigName -*##
+-- {{{ conky.text for Desktop Rig
+
+conky.text = display_system_info() .. [[
 
 ]] .. display_cpu_usage() .. [[
 
@@ -307,17 +326,39 @@ ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 
 ]] .. display_top_processes(6) .. [[
 
-${template0 MEMORY\ USAGE}
-${template5 RAM mem}
-${template5 Swap swap}
+]] .. display_memory_usage() .. [[
 
-${template0 STORAGE}
-${template6 System\ Volume /}
-${template6 Data\ Volume --##* .sysDirs.baseDataDir *##}
+]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
 ${execpi 900 /usr/bin/python3 -- --##* joinPath .chezmoi.homeDir .sysDirs.scripts *##/conky-weather-advanced.py}--##* if ne .chezmoi.osRelease.id "void" *##${voffset -10}--##* end *##]];
+
+-- }}}
+--##*- else if eq .chezmoi.hostname .personal.oldLaptopName -*##
+-- {{{ conky.text for Old Laptop
+
+-- }}}
+--##*- else -*##
+-- {{{ Generic conky.text for other machines
+
+conky.text = display_system_info() .. [[
+
+]] .. display_cpu_usage() .. [[
+
+]] .. display_top_processes(5) .. [[
+
+]] .. display_memory_usage() .. [[
+
+]] .. display_storage();
+
+-- }}}
+--##*- end *##
+
+--##*- if false -*##
+-- {{{ Non-needed stuff
 --${color2}St. Petersburg${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS073\|SAINTPETERSBURG\|}
 --${color2}Moscow${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS052\|MOSCOW\|}
 -- °C
 -- ${color2}Rear${goto 140}${color3}${hwmon 4 fan 4}
+-- }}}
+--##*- end -*##

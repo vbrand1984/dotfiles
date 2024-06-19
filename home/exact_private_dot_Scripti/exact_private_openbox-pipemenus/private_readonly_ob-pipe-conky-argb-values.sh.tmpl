@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo '<openbox_pipe_menu>'
+
+k=14
+
+while [ $k -le 22 ] ; do
+    argb_value=$(( k * 10 ))
+    k=$(( k + 1 ))
+    if [ $argb_value -eq {{ .conky.argbValue }} ] ; then
+        the_command="notify-send 'Current conky ARGB value: {{ .conky.argbValue }}'"
+        icon_name=" icon='{{ template "symbolicIcons" . }}/emblems/emblem-ok-symbolic.svg'"
+    else
+        the_command="/bin/bash -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/ch-config.sh 'argbValue' {{ .conky.argbValue | squote }} '${argb_value}' 'doapply'"
+        icon_name=''
+    fi
+    cat << EOF
+<item label='${argb_value}'${icon_name}>
+    <action name='Execute'>
+        <execute><command><![CDATA[${the_command}]]></command></execute>
+    </action>
+</item>
+EOF
+done
+
+echo '</openbox_pipe_menu>'
