@@ -85,6 +85,7 @@ autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
 autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
 autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
 autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
+autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
 
 
 " Imported from defaults.vim
