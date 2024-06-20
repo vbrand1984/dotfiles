@@ -11,3 +11,4 @@ GROUP "dotfiles"
 ENDGROUP
 GROUP "Bookmarks"
 ENDGROUP
+ENTRY "/home/victor/Documents/coding/git-repos" URL "/home/victor/Documents/coding/git-repos"
