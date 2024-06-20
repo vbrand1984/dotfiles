@@ -23,7 +23,9 @@ conky.config = {
     out_to_console          = false,
     out_to_stderr           = false,
     out_to_x                = true,
+--##* if ne .chezmoi.osRelease.id "gentoo" -*##
     out_to_wayland          = false,
+--##*- end *##
 
     --== Base window properties ==--
     own_window              = true,
@@ -176,13 +178,14 @@ end -- function get_cmd_output()
 -- }}}
 -- {{{ Common functions for conky.text
 
+-- Returns the text block for system info
 local function display_system_info()
     local distro_id = get_cmd_output('lsb_release -i -s 2>/dev/null')
     distro_id = string.upper(distro_id)
     return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
+${template1 Hodie ${time\ %a\ %d\ %b\ %Y}}
 ${template1 Kernel\ Version ${kernel}}
 ${template1 Uptime ${uptime}}
-${template1 Hodie ${time\ %a\ %d\ %b\ %Y}}
 ]];
 end
 
@@ -207,6 +210,7 @@ local function display_top_processes(top_number)
     return output_string
 end
 
+-- Returns the block for memory usage
 local function display_memory_usage()
     return [[${template0 MEMORY\ USAGE}
 ${template5 RAM mem}
@@ -214,6 +218,7 @@ ${template5 Swap swap}
 ]];
 end
 
+-- Returns the block for disk usage
 local function display_storage()
     return [[${template0 STORAGE}
 ${template6 System\ Volume /}

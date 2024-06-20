@@ -4,6 +4,15 @@
     url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     refreshPeriod = "168h"
 
+# Our default GTK and Openbox theme
+[".local/share/themes/Greylooks"]
+    type = "archive"
+    url = "https://github.com/vbrand1984/greylooks/archive/refs/heads/master.zip"
+    exact = true
+    stripComponents = 2
+    include = ["greylooks-master/Greylooks/**"]
+    refreshPeriod = "168h"
+
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
 {{ if and (eq .chezmoi.hostname .personal.desktopRigName) (eq .chezmoi.username .personal.username) }}
@@ -21,7 +30,6 @@
     refreshPeriod = "168h"
     executable = true
 {{ end }}
-
 
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
 {{ if and (has .chezmoi.osRelease.id .distros.strictNonSystemd) (ne .chezmoi.osRelease.id "void") }}

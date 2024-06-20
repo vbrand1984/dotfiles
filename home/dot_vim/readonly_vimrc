@@ -21,7 +21,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'morhetz/gruvbox'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-    Plug 'aristeo812/ob3-vim-syntax'
+    Plug 'vbrand1984/ob3-vim-syntax'
     Plug 'lifepillar/vim-solarized8'
 call plug#end()
 

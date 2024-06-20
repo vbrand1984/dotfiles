@@ -3,3 +3,7 @@
 	email = {{ .mySecrets.gitEmail | quote }}
 [credential]
 	helper = store
+[init]
+    defaultBranch = master
+[pull]
+    rebase = false
