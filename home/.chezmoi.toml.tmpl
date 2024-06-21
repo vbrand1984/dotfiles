@@ -93,11 +93,13 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     isDebBased = ##* $isDebBased *## 
     isVoid = ##* eq .chezmoi.osRelease.id "void" *##
     isGentoo = ##* eq .chezmoi.osRelease.id "gentoo" *##
-    # True if this is my private PC
-    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
     hasSystemd = ##* lookPath "systemctl" | not | not *##
+
     # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
     suApp = ##* if and (not $isDebBased) (lookPath "doas") -*## "doas" ##*- else -*## "sudo" ##*- end *##
+
+    # True if this is my private PC
+    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
 
     # Default shell: bash or zsh
     # zsh configuration is not supported yet though
@@ -186,6 +188,7 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
 # Secrets are stored here
 [data.mySecrets]
+
     # Git variables
     gitEmail = ""
     gitCredentials = ""
