@@ -12,6 +12,7 @@ packages:
       - lm-sensors
       - lsb-release
       - pwgen
+      - rsync
       - vim
       - vrms
       # }}}
@@ -118,7 +119,7 @@ packages:
       - geeqie
       - gimp
       - gparted
-      - jabref
+      #- jabref
       - kolourpaint
       - mpv
       - neofetch
