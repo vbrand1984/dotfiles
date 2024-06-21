@@ -1,0 +1,157 @@
+packages:
+  debian:
+    stable:
+      # {{{ Current config dependencies
+      - libgtk3-perl
+      - libmodule-build-perl
+      - python3-tomlkit
+      # }}}
+      # {{{ System utilities
+      - bash-completion
+      - hodie
+      - lm-sensors
+      - lsb-release
+      - pwgen
+      - vim
+      - vrms
+      # }}}
+      # {{{ Archivers
+      - arj
+      - cabextract
+      - p7zip
+      - rar
+      - rpm
+      - unace
+      - unrar
+      - unzip
+      - xz-utils
+      - zip
+      - zstd
+      # }}}
+      # {{{ X server
+      - dbus-x11
+      - x11-utils
+      - x11-xserver-utils
+      - xinit
+      # }}}
+      # {{{ Audio and video utilities
+      - alsa-utils
+      - libasound2-plugins
+      - mesa-utils
+      - vainfo
+      - vdpauinfo
+      # }}}
+      # {{{ Dictionaries
+      - hunspell
+      - hunspell-de-de
+      - hunspell-en-gb
+      - hunspell-ru
+      # }}}
+      # {{{ Fonts
+      - fonts-dejavu
+      - fonts-dejavu-extra
+      - fonts-freefont-ttf
+      - fonts-hack-ttf
+      - fonts-jetbrains-mono
+      - fonts-liberation
+      - fonts-liberation2
+      - fonts-noto
+      - fonts-noto-cjk
+      - fonts-noto-color-emoji
+      - fonts-paratype
+      - fonts-roboto
+      - fonts-ubuntu
+      - ttf-mscorefonts-installer
+      # }}}
+      # {{{ Themes and icons
+      - breeze-icon-theme
+      - dmz-cursor-theme
+      - gnome-extra-icons
+      - gnome-icon-theme
+      - gtk2-engines
+      - mate-themes
+      # }}}
+      # {{{ WM and desktop utilities
+      - alacritty
+      - caffeine
+      - conky
+      - curl
+      - gsimplecal
+      - gxkb
+      - libfm-modules
+      - libnotify-bin
+      - lxappearance
+      - lxpolkit
+      - lxrandr
+      - lxsession-logout
+      - lxterminal
+      - network-manager-gnome
+      - nitrogen
+      - obconf
+      - openbox
+      - pcmanfm
+      - picom
+      - redshift-gtk
+      - rofi
+      - tint2
+      - udiskie
+      - volumeicon-alsa
+      - xdg-user-dirs
+      - xsettingsd
+      # }}}
+      # {{{ Browsers
+      - firefox-esr
+      - firefox-esr-l10n-de
+      - firefox-esr-l10n-ru
+      # }}}
+      # {{{ Desktop applications
+      - atril
+      - audacious
+      - dconf-editor
+      - djview4
+      - engrampa
+      - eom
+      - flatpak
+      - foliate
+      - galculator
+      - geeqie
+      - gimp
+      - gparted
+      - jabref
+      - kolourpaint
+      - mpv
+      - neofetch
+      - okular
+      - okular-extra-backends
+      - okular-mobile
+      - qbittorrent
+      - qt5-gtk2-platformtheme
+      - qt5ct
+      - qt6ct
+      - xdg-desktop-portal-gtk
+      # }}}
+    backports:
+      - emacs
+      - mc
+      - papirus-icon-theme
+      # {{{ Pipewire and pavucontrol
+      - pavucontrol
+      - pipewire
+      - pipewire-alsa
+      - pipewire-pulse
+      - wireplumber
+      # }}}
+      # {{{ WM and desktop utilities
+      - dunst
+      - scrot
+      - xscreensaver
+      # }}}
+      # {{{ Libreoffice
+      - libreoffice
+      - libreoffice-gtk3
+      - libreoffice-l10n-ru
+      # }}}
+    markauto:
+      - libfm-modules
+    cpan:
+      - 'Linux::DesktopFiles'

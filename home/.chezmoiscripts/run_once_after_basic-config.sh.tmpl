@@ -58,7 +58,7 @@ if [ ! -f {{* joinPath .chezmoi.homeDir ".config/volumeicon/volumeicon" | squote
     cat > {{* joinPath .chezmoi.homeDir ".config/volumeicon/volumeicon" | squote *}} <<- EOF
 [Alsa]
 card=default
-{{* if has .chezmoi.osRelease.id .distros.debBased -*}}
+{{* if .theSystem.isDebBased -*}}
 logarithmic_scale=true
 {{*- end *}}
 

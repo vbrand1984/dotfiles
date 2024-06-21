@@ -13,6 +13,8 @@ local current_palette = --##* .conky.currentPalette | squote *##
 -- }}}
 -- conky.config {{{ 
 
+local celsius_sign = utf8.char(0x2103)
+
 conky.config = {
 
     update_interval         = 4,
@@ -23,7 +25,7 @@ conky.config = {
     out_to_console          = false,
     out_to_stderr           = false,
     out_to_x                = true,
---##* if ne .chezmoi.osRelease.id "gentoo" -*##
+--##* if not .theSystem.isGentoo -*##
     out_to_wayland          = false,
 --##*- end *##
 
@@ -105,14 +107,15 @@ conky.config = {
     --== Disk temperature info ==--
     -- Parameter 1: Caption
     -- Parameter 2: Command to execute and receive a number of degree
-    template7 = [[${color2}\1${alignr}${color4}${\2}]] .. utf8.char(0x2103),
+    template7 = [[${color2}\1${alignr}${color4}${\2}]] .. celsius_sign,
 
+--##* if eq .chezmoi.hostname .personal.desktopRigName -*##
     --== Temperature info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: command to execute for the left column
     -- Parameter 3: Right column caption
     -- Parameter 4: command to execute for the right column
-    template8 = [[${color2}\1${goto 150}${color4}${\2}]] .. utf8.char(0x2103) .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. utf8.char(0x2103),
+    template8 = [[${color2}\1${goto 150}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 
     --== Fan info in two columns ==--
     -- Parameter 1: Left column caption
@@ -122,6 +125,7 @@ conky.config = {
     -- Parameter 5: hwmon subdirectory number for the right column
     -- Parameter 6: hwmon fan number for the right column
     template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
+--##*- end *##
 
 };
 
@@ -180,7 +184,7 @@ end -- function get_cmd_output()
 
 -- Returns the text block for system info
 local function display_system_info()
-    local distro_id = get_cmd_output('lsb_release -i -s 2>/dev/null')
+    local distro_id = get_cmd_output('lsb_release --id --short 2>/dev/null')
     distro_id = string.upper(distro_id)
     return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
 ${template1 Hodie ${time\ %a\ %d\ %b\ %Y}}
@@ -212,18 +216,25 @@ end
 
 -- Returns the block for memory usage
 local function display_memory_usage()
-    return [[${template0 MEMORY\ USAGE}
-${template5 RAM mem}
-${template5 Swap swap}
-]];
+    -- RAM usage
+    local output_string = "${template0 MEMORY\\ USAGE}\n${template5 RAM mem}\n"
+    -- Check if we have a swap. If so, add swap info to the output string.
+    local swaps = get_cmd_output("cat /proc/swaps | wc -l")
+    if tonumber(swaps) > 1 then
+        output_string = output_string .. "${template5 Swap swap}\n"
+    end
+    return output_string
 end
 
 -- Returns the block for disk usage
 local function display_storage()
-    return [[${template0 STORAGE}
-${template6 System\ Volume /}
-${template6 Data\ Volume --##* .sysDirs.baseDataDir *##}
-]];
+    local output_string = "${template0 STORAGE}\n${template6 System\\ Volume /}\n"
+    -- Check if .sysDirs.baseDataDir is mounted separately
+    local res = get_cmd_output("findmnt --noheadings --##* .sysDirs.baseDataDir | squote *## | wc -l")
+    if tonumber(res) > 0 then
+        output_string = output_string .. "${template6 Data\\ Volume --##* .sysDirs.baseDataDir *##}\n"
+    end
+    return output_string
 end
 
 -- }}}
@@ -336,11 +347,21 @@ ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 ]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 -- --##* joinPath .chezmoi.homeDir .sysDirs.scripts *##/conky-weather-advanced.py}--##* if ne .chezmoi.osRelease.id "void" *##${voffset -10}--##* end *##]];
+${execpi 900 /usr/bin/python3 -- --##* joinPath .chezmoi.homeDir .sysDirs.scripts *##/conky-weather-advanced.py}--##* if not .theSystem.isVoid *##${voffset -10}--##* end *##]];
 
 -- }}}
 --##*- else if eq .chezmoi.hostname .personal.oldLaptopName -*##
 -- {{{ conky.text for Old Laptop
+
+conky.text = display_system_info() .. [[
+
+]] .. display_cpu_usage() .. [[
+
+]] .. display_top_processes(5) .. [[
+
+]] .. display_memory_usage() .. [[
+
+]] .. display_storage();
 
 -- }}}
 --##*- else -*##

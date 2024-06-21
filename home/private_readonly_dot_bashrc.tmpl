@@ -33,7 +33,7 @@ shopt -s checkwinsize
 
 ### --== Setting PS1 ==-- ###
 
-##*- if has .chezmoi.osRelease.id .distros.debBased -*##
+##*- if .theSystem.isDebBased -*##
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
@@ -75,7 +75,7 @@ case "$TERM" in
     *)
         ;;
 esac
-##*- else if eq .chezmoi.osRelease.id "void" *##
+##*- else if .theSystem.isVoid *##
 PS1='\[\e[01;32m\][\u@\h \[\e[01;37m\]\w\[\e[01;32m\]]\$\[\e[00m\] '
 
 # If this is an xterm set the title to user@host:dir
@@ -86,7 +86,7 @@ case "$TERM" in
     *)
         ;;
 esac
-##*- else if ne .chezmoi.osRelease.id "gentoo" *##
+##*- else if not .theSystem.isGentoo *##
 PS1='[\u@\h \w]\\$'
 ##*- end *##
 
@@ -105,11 +105,11 @@ fi
 
 ### Various handy aliases ###
 
-##* if ne .chezmoi.osRelease.id "gentoo" -*##
+##* if not .theSystem.isGentoo -*##
 # Coloured man pages for non-Gentoo distros
 alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
-##*- end *##
 
+##* end -*##
 # chezmoi edit file
 alias chedit="chezmoi edit --apply"
 
@@ -142,7 +142,8 @@ tabs -4
 GPG_TTY=$(tty)
 export GPG_TTY
 
-##* if ne .chezmoi.osRelease.id "gentoo" -*##
+##*- if not .theSystem.isGentoo *##
+
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 ##*- end -*##

@@ -1,0 +1,22 @@
+# chezmoi:template:left-delimiter=##* right-delimiter=*##
+##* if or .theSystem.isDebBased .theSystem.isVoid -*##
+# vim ft=bash
+# This is an include file for chezmoi scripts
+
+function strip_square_brackets() {
+    the_string="${1}"
+    the_string="${the_string//\[/}"
+    the_string="${the_string//\]/}"
+    echo "${the_string}"
+}
+
+function ensure_sudo_is_working() {
+    echo "Let's ensure that ##* .theSystem.suApp *## is working..."
+    local sudo_working=1
+    while [ $sudo_working -ne 0 ] ; do
+        ##* .theSystem.suApp *## whoami >/dev/null
+        sudo_working=$?
+    done
+}
+
+##* end *##

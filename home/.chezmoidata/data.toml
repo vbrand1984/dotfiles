@@ -1,11 +1,3 @@
-[distros]
-    # List of Debian-based distros supported by this config
-    debBased = ["debian", "devuan"]
-
-    # List of strict non-systemd distros supported by this config
-    # Gentoo should not be in this list!
-    strictNonSystemd = ["devuan", "void"]
-
 [sysDirs]
     localBin = ".local/bin"
     scripts = ".Scripti"

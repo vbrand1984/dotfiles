@@ -2,9 +2,9 @@
 
 ##*- $desktopRigName := "saturn" -*##
 ##*- $oldLaptopName := "antares" -*##
+##*- $privatePCs := list $desktopRigName $oldLaptopName -*##
 ##*- $personalUsername := "victor" -*##
 ##*- $defaultBaseDataDir := "/home" -*##
-##*- $defaultTerminalEmulator := "lxterminal" -*##
 
 ##*- $baseHomeDir := promptString "baseHomeDir" $defaultBaseDataDir -*##
 
@@ -30,6 +30,7 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
     desktopRigName = ##* $desktopRigName | quote *##
     oldLaptopName = ##* $oldLaptopName | quote *##
+    privatePCs = ##* $privatePCs | toToml *##
     username = ##* $personalUsername | quote *##
     gitFullName = "Victor Brand"
 
@@ -84,15 +85,25 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     lcdfilter = "lcdlight"
 
 # }}}
-# {{{ mySystem
+# {{{ theSystem
 
-[data.mySystem]
+[data.theSystem]
+
+    ##* $isDebBased := (or (eq .chezmoi.osRelease.id "debian" "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian" "ubuntu"))) -*##
+    isDebBased = ##* $isDebBased *## 
+    isVoid = ##* eq .chezmoi.osRelease.id "void" *##
+    isGentoo = ##* eq .chezmoi.osRelease.id "gentoo" *##
+    # True if this is my private PC
+    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
+    hasSystemd = ##* lookPath "systemctl" | not | not *##
+    # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
+    suApp = ##* if and (not $isDebBased) (lookPath "doas") -*## "doas" ##*- else -*## "sudo" ##*- end *##
 
     # Default shell: bash or zsh
     # zsh configuration is not supported yet though
     defaultShell = "bash"
 
-    terminalEmulator = ##* $defaultTerminalEmulator | quote *##
+    terminalEmulator = "lxterminal"
 
     # Whether to autostart emacs daemon or not
     emacsDaemon = true
@@ -175,7 +186,6 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
 # Secrets are stored here
 [data.mySecrets]
-
     # Git variables
     gitEmail = ""
     gitCredentials = ""

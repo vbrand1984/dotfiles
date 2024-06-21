@@ -1,3 +1,3 @@
-{{- if not (has .chezmoi.osRelease.id .distros.debBased ) -}}
-{{- lookPath .mySystem.terminalEmulator -}}
+{{- if not .theSystem.isDebBased -}}
+{{- lookPath .theSystem.terminalEmulator -}}
 {{- end -}}

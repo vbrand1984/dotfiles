@@ -1,5 +1,5 @@
 {{/* In Void Linux, vivaldi is installed via flatpak */ -}}
-{{ if ne .chezmoi.osRelease.id "void" -}}
+{{ if not .theSystem.isVoid -}}
 # Options were added to make vivaldi keep its cache in $XDG_RUNTIME_DIR and use hardware video acceleration
 [Desktop Entry]
 Version=1.0
