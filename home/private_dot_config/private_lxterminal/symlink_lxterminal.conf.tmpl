@@ -1,1 +1,5 @@
-{{ .chezmoi.sourceDir }}/symlinked/.config/lxterminal/lxterminal.conf
+{{- if .theSystem.isOldLaptop -}}
+{{ .chezmoi.sourceDir }}/symlinked/.config/lxterminal/lxterminal.conf.old-laptop
+{{- else -}}
+{{ .chezmoi.sourceDir }}/symlinked/.config/lxterminal/lxterminal.conf.common
+{{- end -}}

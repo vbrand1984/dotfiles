@@ -116,16 +116,16 @@ if ($TERM != 'linux' || has("guirunning"))
     let g:gruvbox_termcolors = 16
   endif
   if (expand('$EUID') != '0')
-    let g:everforest_background = 'hard'
-    colorscheme everforest
-    let g:airline_theme = 'everforest'
-  else
     let g:gruvbox_italic = 1
-    let g:gruvbox_contrast_dark = 'soft'
+    let g:gruvbox_contrast_dark = 'medium'
     let g:gruvbox_contrast_light = 'hard'
     let g:gruvbox_invert_selection = 0
     let g:airline_theme = 'gruvbox'
     autocmd vimenter * ++nested colorscheme gruvbox
+  else
+    let g:everforest_background = 'hard'
+    colorscheme everforest
+    let g:airline_theme = 'everforest'
   endif
 else
   colorscheme desert

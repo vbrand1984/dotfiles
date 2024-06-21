@@ -80,6 +80,7 @@ packages:
       - gxkb
       - libfm-modules
       - libnotify-bin
+      - lua5.4
       - lxappearance
       - lxpolkit
       - lxrandr

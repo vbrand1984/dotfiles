@@ -35,6 +35,45 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     gitFullName = "Victor Brand"
 
 # }}}
+# {{{ theSystem
+
+[data.theSystem]
+
+    ##* $isDebBased := (or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian"))) -*##
+    ##* $isDesktopRig := eq .chezmoi.hostname $desktopRigName -*##
+    ##* $isOldLaptop := eq .chezmoi.hostname $oldLaptopName -*##
+    isDebBased = ##* $isDebBased *## 
+    isVoid = ##* eq .chezmoi.osRelease.id "void" *##
+    isGentoo = ##* eq .chezmoi.osRelease.id "gentoo" *##
+    hasSystemd = ##* lookPath "systemctl" | not | not *##
+
+    isDesktopRig = ##* $isDesktopRig *##
+    isOldLaptop = ##* $isOldLaptop *##
+
+    # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
+    suApp = ##* if and (not $isDebBased) (lookPath "doas") -*## "doas" ##*- else -*## "sudo" ##*- end *##
+
+    # True if this is my private PC
+    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
+
+    # Default shell: bash or zsh
+    # zsh configuration is not supported yet though
+    defaultShell = "bash"
+
+    terminalEmulator = "lxterminal"
+
+    # Whether to autostart emacs daemon or not
+    emacsDaemon = true
+
+    # Xorg compositor: either picom or xcompmgr
+    # Empty string to disable X compositor
+    xCompositor = "picom"
+
+    # Keyboard layout switcher
+    # Supported options: either gkxb or xxkb
+    kbdLayoutSwitcher = "gxkb"
+
+# }}}
 # {{{ sysDirs
 
 [data.sysDirs]
@@ -85,40 +124,6 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     lcdfilter = "lcdlight"
 
 # }}}
-# {{{ theSystem
-
-[data.theSystem]
-
-    ##* $isDebBased := (or (eq .chezmoi.osRelease.id "debian" "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian" "ubuntu"))) -*##
-    isDebBased = ##* $isDebBased *## 
-    isVoid = ##* eq .chezmoi.osRelease.id "void" *##
-    isGentoo = ##* eq .chezmoi.osRelease.id "gentoo" *##
-    hasSystemd = ##* lookPath "systemctl" | not | not *##
-
-    # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-    suApp = ##* if and (not $isDebBased) (lookPath "doas") -*## "doas" ##*- else -*## "sudo" ##*- end *##
-
-    # True if this is my private PC
-    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
-
-    # Default shell: bash or zsh
-    # zsh configuration is not supported yet though
-    defaultShell = "bash"
-
-    terminalEmulator = "lxterminal"
-
-    # Whether to autostart emacs daemon or not
-    emacsDaemon = true
-
-    # Xorg compositor: either picom or xcompmgr
-    # Empty string to disable X compositor
-    xCompositor = "picom"
-
-    # Keyboard layout switcher
-    # Supported options: either gkxb or xxkb
-    kbdLayoutSwitcher = "gxkb"
-
-# }}}
 # {{{ varia (Various settings)
 
 [data.varia]
@@ -159,7 +164,7 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
 [data.rofi]
 
-    font = "JetBrains Mono Medium 14"
+    font = "JetBrains Mono Medium ##* if $isOldLaptop -*## 13 ##*- else -*## 14 ##*- end *##"
     theme = "/usr/share/rofi/themes/gruvbox-dark-soft.rasi"
 
 # }}}
@@ -192,7 +197,7 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     # Git variables
     gitEmail = ""
     gitCredentials = ""
-##*- if and (eq .chezmoi.hostname $desktopRigName) (eq .chezmoi.username $personalUsername) *##
+##*- if and $isDesktopRig (eq .chezmoi.username $personalUsername) *##
     # appid from openweathermap.org
     weatherAppId = ""
     # City ID to be used with openweathermap.org in advanced conky weather widget

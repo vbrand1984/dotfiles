@@ -109,14 +109,15 @@ conky.config = {
     -- Parameter 2: Command to execute and receive a number of degree
     template7 = [[${color2}\1${alignr}${color4}${\2}]] .. celsius_sign,
 
---##* if eq .chezmoi.hostname .personal.desktopRigName -*##
+--##* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*##
     --== Temperature info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: command to execute for the left column
     -- Parameter 3: Right column caption
     -- Parameter 4: command to execute for the right column
-    template8 = [[${color2}\1${goto 150}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+    template8 = [[${color2}\1${goto --##* if .theSystem.isDesktopRig -*## 150 --##*- else -*## 115 --##*- end *##}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 
+--##* if .theSystem.isDesktopRig -*##
     --== Fan info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: hwmon subdirectory number for the left column
@@ -125,6 +126,10 @@ conky.config = {
     -- Parameter 5: hwmon subdirectory number for the right column
     -- Parameter 6: hwmon fan number for the right column
     template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
+--##*- else -*##
+    --== Weather widget (old) ==--
+    template9 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e --##* joinPath .chezmoi.homeDir .sysDirs.scripts "conky-weather-simple.sh" *##\ \2}]],
+--##*- end *##
 --##*- end *##
 
 };
@@ -238,7 +243,7 @@ local function display_storage()
 end
 
 -- }}}
---##* if eq .chezmoi.hostname .personal.desktopRigName .personal.oldLaptopName -*##
+--##* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*##
 -- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
@@ -290,7 +295,7 @@ end -- function populate_hwmon_table()
 local hwmon_table = populate_hwmon_table()
 
 -- }}}
---##* if eq .chezmoi.hostname .personal.desktopRigName -*##
+--##* if .theSystem.isDesktopRig -*##
 -- {{{ Initialization of internal variables: Desktop Rig
 
 local t_mobo            = hwmon_table['nct6798'][1]
@@ -313,8 +318,24 @@ local nr_junction       = t_gpu['lbl']['junction']
 local nr_mem            = t_gpu['lbl']['mem']
 
 -- }}}
---##*- else if eq .chezmoi.hostname .personal.oldLaptopName -*##
+--##*- else if .theSystem.isOldLaptop -*##
 -- {{{ Initialization of internal variables: Old Laptop
+
+local t_mobo    = hwmon_table['dell_smm'][1]
+local t_cpu     = hwmon_table['coretemp'][1]
+local t_ssd     = hwmon_table['drivetemp'][1]
+local t_hdd     = hwmon_table['drivetemp'][2]
+
+local mod_mobo  = t_mobo['nbr']
+local mod_cpu   = t_cpu['nbr']
+local mod_ssd   = t_ssd['nbr']
+local mod_hdd   = t_hdd['nbr']
+
+local nr_Core0  = t_cpu['lbl']['Core 0']
+local nr_Core1  = t_cpu['lbl']['Core 1']
+local nr_Other  = t_mobo['lbl']['Other']
+local nr_Memory = t_mobo['lbl']['SODIMM']
+local nr_GPU    = t_mobo['lbl']['GPU']
 
 -- }}}
 --##*- end *##
@@ -322,7 +343,7 @@ local nr_mem            = t_gpu['lbl']['mem']
 
 --== CONKY.TEXT ==--
 
---##* if eq .chezmoi.hostname .personal.desktopRigName -*##
+--##* if .theSystem.isDesktopRig -*##
 -- {{{ conky.text for Desktop Rig
 
 conky.text = display_system_info() .. [[
@@ -350,7 +371,7 @@ ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivete
 ${execpi 900 /usr/bin/python3 -- --##* joinPath .chezmoi.homeDir .sysDirs.scripts *##/conky-weather-advanced.py}--##* if not .theSystem.isVoid *##${voffset -10}--##* end *##]];
 
 -- }}}
---##*- else if eq .chezmoi.hostname .personal.oldLaptopName -*##
+--##*- else if .theSystem.isOldLaptop -*##
 -- {{{ conky.text for Old Laptop
 
 conky.text = display_system_info() .. [[
@@ -359,9 +380,19 @@ conky.text = display_system_info() .. [[
 
 ]] .. display_top_processes(5) .. [[
 
+${template0 TEMPERATURES}
+${template8 Core\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core0 .. [[ Core\ 1 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core1 .. [[}
+${color2}GPU${goto 115}${if_match "${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_GPU .. [[}" == "2"}${color3}Off${else}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_GPU .. [[}°C${endif}${goto 220}${color2}Other${alignr}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_Other .. [[}°C
+${color2}Fan${goto 115}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM${goto 220}${color2}Memory${alignr}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_Memory .. [[}°C
+
 ]] .. display_memory_usage() .. [[
 
-]] .. display_storage();
+]] .. display_storage() .. [[
+${template8 SSD\ Temp. hwmon\ ]] .. mod_ssd .. [[\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_hdd .. [[\ temp\ 1}
+
+${template0 WEATHER}
+${template9 Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
+${template9 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
 
 -- }}}
 --##*- else -*##
@@ -379,12 +410,3 @@ conky.text = display_system_info() .. [[
 
 -- }}}
 --##*- end *##
-
---##*- if false -*##
--- {{{ Non-needed stuff
---${color2}St. Petersburg${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS073\|SAINTPETERSBURG\|}
---${color2}Moscow${alignr}${color3}${execi 300 ~/.scripts/conky-weather.sh ASI\|RU\|RS052\|MOSCOW\|}
--- °C
--- ${color2}Rear${goto 140}${color3}${hwmon 4 fan 4}
--- }}}
---##*- end -*##
