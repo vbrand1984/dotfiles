@@ -2,96 +2,99 @@
 
 ## What's inside
 
+<details>
+  <summary>Expand</summary>
+
 <table>
     <tr>
         <th colspan="2">Applications and utilities</th>
     </tr>
     <tr>
         <td>Dotfiles manager</td>
-        <td>chezmoi</td>
+        <td>[chezmoi](https://www.chezmoi.io/)</td>
     </tr>
     <tr>
         <td>Window manager</td>
-        <td>Openbox</td>
+        <td>[Openbox](https://github.com/danakj/openbox)</td>
     </tr>
     <tr>
         <td>Panel</td>
-        <td>tint2</td>
+        <td>[tint2](https://github.com/o9000/tint2)</td>
     </tr>
     <tr>
         <td>Wallpaper manager</td>
-        <td>nitrogen</td>
+        <td>[nitrogen](https://github.com/l3ib/nitrogen)</td>
     </tr>
     <tr>
         <td>System monitor</td>
-        <td>conky</td>
+        <td>[conky](https://github.com/brndnmtthws/conky)</td>
     </tr>
     <tr>
         <td>Openbox menus</td>
-        <td>obmenu-generator</td>
+        <td>[obmenu-generator](https://github.com/trizen/obmenu-generator)</td>
     </tr>
     <tr>
         <td>Application launcher</td>
-        <td>rofi</td>
+        <td>[rofi](https://github.com/davatorium/rofi)</td>
     </tr>
     <tr>
         <td>Text processors</td>
-        <td>vim, emacs</td>
+        <td>[vim](https://github.com/vim/vim), [emacs](https://www.gnu.org/software/emacs/)</td>
     </tr>
     <tr>
         <td>Terminal emulator</td>
-        <td>lxterminal, alacritty</td>
+        <td>[lxterminal](https://github.com/lxde/lxterminal), [alacritty](https://github.com/alacritty/alacritty)</td>
     </tr>
     <tr>
         <td>File managers</td>
-        <td>mc, pcmanfm, caja</td>
+        <td>[mc](https://midnight-commander.org/), [pcmanfm](https://github.com/lxde/pcmanfm) or [caja](https://github.com/mate-desktop/caja)</td>
     </tr>
     <tr>
         <td>Sound volume</td>
-        <td>volumeicon</td>
+        <td>[volumeicon](https://github.com/Maato/volumeicon)</td>
     </tr>
     <tr>
         <td>Keyboard layout switcher</td>
-        <td>gxkb</td>
+        <td>[gxkb](https://github.com/zen-tools/gxkb)</td>
     </tr>
     <tr>
         <td>Clipboard manager</td>
-        <td>clipit</td>
+        <td>[clipit](https://github.com/CristianHenzel/ClipIt)</td>
     </tr>
     <tr>
         <td>Screensaver</td>
-        <td>xscreensaver</td>
+        <td>[xscreensaver](https://www.jwz.org/xscreensaver/)</td>
     </tr>
     <tr>
         <td>X settings daemon</td>
-        <td>xsettingsd</td>
+        <td>[xsettingsd](https://codeberg.org/derat/xsettingsd)</td>
     </tr>
     <tr>
         <td>Calendar</td>
-        <td>gsimplecal</td>
+        <td>[gsimplecal](https://github.com/dmedvinsky/gsimplecal)</td>
     </tr>
     <tr>
         <td>Screenshots</td>
-        <td>scrot</td>
+        <td>[scrot](https://github.com/dreamer/scrot)</td>
     </tr>
     <tr>
         <td>Miscellania</td>
-        <td>Caffeine-ng, Redshift</td>
+        <td>[Caffeine-ng](https://codeberg.org/WhyNotHugo/caffeine-ng), [Redshift](https://github.com/jonls/redshift)</td>
     </tr>
     <tr>
         <th colspan="2">Theming</th>
     </tr>
     <tr>
         <td>GTK and Openbox theme</td>
-        <td>Greylooks</td>
+        <td>[Greylooks](https://github.com/vbrand1984/greylooks)</td>
     </tr>
     <tr>
         <td>Icons</td>
-        <td>Papirus-Light</td>
+        <td>[Papirus-Light](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)</td>
     </tr>
     <tr>
         <td>Mouse cursor</td>
-        <td>DMZ-White</td>
+        <td>DMZ-White a.k.a. Vanilla-DMZ</td>
     </tr>
     <tr>
         <td>System font</td>
@@ -106,6 +109,8 @@
         <td>Ubuntu, DejaVu</td>
     </tr>
 </table>
+
+</details>
 
 ## Cheatsheet
 
