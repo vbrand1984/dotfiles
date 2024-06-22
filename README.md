@@ -406,7 +406,7 @@ This config excessively abuses templating features of chezmoi. Many settings are
 ### Theming and fontconfig options
 GTK options like theme, system font, mouse cursor theme, as well as fontconfig options like DPI, antialias and hinting are kept on a centralized basis in the `~/.config/chezmoi/chezmoi.toml` file in the `data.gtk` and `data.fontConfig` sections. One should not use programs like `lxappearance` in order to adjust these settings. Instead, edit the `~/.config/chezmoi/chezmoi.toml` file, run `chezmoi apply` and [`reconfigure-appearance.sh`](home/private_dot_local/exact_private_bin/private_readonly_executable_reconfigure-appearance.sh.tmpl) (or just press `Super-Shift-A` in order to invoke this script).
 
-The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox theme is downloaded and installed in the `~/.local/share/themes` directory automatically upon running `chezmoi init`.
+The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox theme is downloaded and installed in the `~/.local/share/themes` directory automatically upon applying the configuration.
 
 ## Caveats
 
