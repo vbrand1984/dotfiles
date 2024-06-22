@@ -11,86 +11,82 @@
     </tr>
     <tr>
         <td>Dotfiles manager</td>
-        <td>[chezmoi](https://www.chezmoi.io/)</td>
+        <td><a href="https://www.chezmoi.io/">chezmoi</a></td>
     </tr>
     <tr>
         <td>Window manager</td>
-        <td>[Openbox](https://github.com/danakj/openbox)</td>
+        <td><a href="https://github.com/danakj/openbox">Openbox</a></td>
     </tr>
     <tr>
         <td>Panel</td>
-        <td>[tint2](https://github.com/o9000/tint2)</td>
+        <td><a href="https://github.com/o9000/tint2">tint2</a></td>
     </tr>
     <tr>
         <td>Wallpaper manager</td>
-        <td>[nitrogen](https://github.com/l3ib/nitrogen)</td>
+        <td><a href="https://github.com/l3ib/nitrogen">nitrogen</a></td>
     </tr>
     <tr>
         <td>System monitor</td>
-        <td>[conky](https://github.com/brndnmtthws/conky)</td>
+        <td><a href="https://github.com/brndnmtthws/conky">conky</a></td>
     </tr>
     <tr>
         <td>Openbox menus</td>
-        <td>[obmenu-generator](https://github.com/trizen/obmenu-generator)</td>
+        <td><a href="https://github.com/trizen/obmenu-generator">obmenu-generator</a></td>
     </tr>
     <tr>
         <td>Application launcher</td>
-        <td>[rofi](https://github.com/davatorium/rofi)</td>
+        <td><a href="https://github.com/davatorium/rofi">rofi</a></td>
     </tr>
     <tr>
         <td>Text processors</td>
-        <td>[vim](https://github.com/vim/vim), [emacs](https://www.gnu.org/software/emacs/)</td>
+        <td><a href="https://github.com/vim/vim">vim</a>, <a href="https://www.gnu.org/software/emacs/">emacs</a></td>
     </tr>
     <tr>
         <td>Terminal emulator</td>
-        <td>[lxterminal](https://github.com/lxde/lxterminal), [alacritty](https://github.com/alacritty/alacritty)</td>
+        <td><a href="https://github.com/lxde/lxterminal">lxterminal</a>, <a href="https://github.com/alacritty/alacritty">alacritty</a></td>
     </tr>
     <tr>
         <td>File managers</td>
-        <td>[mc](https://midnight-commander.org/), [pcmanfm](https://github.com/lxde/pcmanfm) or [caja](https://github.com/mate-desktop/caja)</td>
+        <td><a href="https://midnight-commander.org/">mc</a>, <a href="https://github.com/lxde/pcmanfm">pcmanfm</a> or <a href="https://github.com/mate-desktop/caja">caja</a></td>
     </tr>
     <tr>
         <td>Sound volume</td>
-        <td>[volumeicon](https://github.com/Maato/volumeicon)</td>
-    </tr>
-    <tr>
-        <td>Keyboard layout switcher</td>
-        <td>[gxkb](https://github.com/zen-tools/gxkb)</td>
+        <td><a href="https://github.com/Maato/volumeicon">volumeicon</a></td>
     </tr>
     <tr>
         <td>Clipboard manager</td>
-        <td>[clipit](https://github.com/CristianHenzel/ClipIt)</td>
+        <td><a href="https://github.com/CristianHenzel/ClipIt">clipit</a></td>
     </tr>
     <tr>
         <td>Screensaver</td>
-        <td>[xscreensaver](https://www.jwz.org/xscreensaver/)</td>
+        <td><a href="https://www.jwz.org/xscreensaver/">xscreensaver</a></td>
     </tr>
     <tr>
         <td>X settings daemon</td>
-        <td>[xsettingsd](https://codeberg.org/derat/xsettingsd)</td>
+        <td><a href="https://codeberg.org/derat/xsettingsd">xsettingsd</a></td>
     </tr>
     <tr>
         <td>Calendar</td>
-        <td>[gsimplecal](https://github.com/dmedvinsky/gsimplecal)</td>
+        <td><a href="https://github.com/dmedvinsky/gsimplecal">gsimplecal</a></td>
     </tr>
     <tr>
         <td>Screenshots</td>
-        <td>[scrot](https://github.com/dreamer/scrot)</td>
+        <td><a href="https://github.com/dreamer/scrot">scrot</a></td>
     </tr>
     <tr>
         <td>Miscellania</td>
-        <td>[Caffeine-ng](https://codeberg.org/WhyNotHugo/caffeine-ng), [Redshift](https://github.com/jonls/redshift)</td>
+        <td><a href="https://codeberg.org/WhyNotHugo/caffeine-ng">Caffeine-ng</a>, <a href="https://github.com/jonls/redshift">Redshift</a></td>
     </tr>
     <tr>
         <th colspan="2">Theming</th>
     </tr>
     <tr>
         <td>GTK and Openbox theme</td>
-        <td>[Greylooks](https://github.com/vbrand1984/greylooks)</td>
+        <td><a href="https://github.com/vbrand1984/greylooks">Greylooks</a></td>
     </tr>
     <tr>
         <td>Icons</td>
-        <td>[Papirus-Light](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)</td>
+        <td><a href="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme">Papirus-Light</a></td>
     </tr>
     <tr>
         <td>Mouse cursor</td>
