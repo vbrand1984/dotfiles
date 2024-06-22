@@ -30,7 +30,7 @@
 ### Openbox keybindings
 
 <details>
-  <summary>Show Openbox keybindings</summary>
+  <summary>Expand</summary>
 
 <table>
     <tr>
@@ -88,20 +88,20 @@
         <th colspan="2">rofi</th>
     </tr>
     <tr>
+        <td>Super-Enter</td>
+        <td>run module (run a command)</td>
+    </tr>
+    <tr>
+        <td>Super-Shift-Enter</td>
+        <td>drun module (run desktop application)</td>
+    </tr>
+    <tr>
         <td>Super-F1</td>
         <td>calc module (not working in Debian-based installs)</td>
     </tr>
     <tr>
         <td>Super-Tab</td>
         <td>window switching module</td>
-    </tr>
-    <tr>
-        <td>Super-Enter</td>
-        <td>run module</td>
-    </tr>
-    <tr>
-        <td>Super-Shift-Enter</td>
-        <td>drun module</td>
     </tr>
     <tr>
         <th colspan="2">Screenshots</th>
@@ -291,30 +291,30 @@
 ## Features
 
 ### Supported distributions
-These dotfiles are tested in Gentoo, Debian/Devuan and Void. Theoretically, this config should also work in other Debian-based distros (systemd-free included), and in Ubuntu and Ubuntu-based distributions as well, but not all features may be supported.
+These dotfiles are tested in Gentoo, Debian/Devuan and Void. Theoretically, this config should also work in other Debian-based distros (systemd-free ones included), and in Ubuntu and Ubuntu-based distributions as well, but not all features may be supported.
 
 ### Automatic installations of packages
-In Debian-based distros, this config will automatically install needed packages using `aptitude`. The list of the packages to install is stored in the `.chezmoidata/packages-deb.yml` file.
+In Debian-based distros, this config will automatically install needed packages using `aptitude`. The list of the packages to install is stored in the [`.chezmoidata/packages-deb.yml`](home/.chezmoidata/packages-deb.yml) file.
 
 ### Local bin directory
 `~/.local/bin` is added in `$PATH` _after_ everything else. This directory contains severals scripts which have executable bit on.
 
 ### Most config files are readonly
-Most of the configuration files managed by chezmoi here are `private_` and `readonly_`. The reason for that is not only security, but also convenience. This prevents user from accidently editing a config file which is managed by chezmoi. Instead, the `chedit` alias is defined in `bash` for the `chezmoi edit --apply` command. This command is also available via the `mc` user menu, just navigate your cursor over the desired file, press `F2` and `e`.
+Most of the configuration files managed by chezmoi here are `private_` and `readonly_`. The reason for that is not only security, but also convenience. This prevents user from accidently editing a config file which is managed by chezmoi. Instead, the `chedit` alias is defined in `bash` for the `chezmoi edit --apply` command. This command is also available via the `mc` user menu: just navigate your cursor over the desired file, press `F2` and `e`.
 
 ### Local scripts directory
-Utility scripts without executable flag are stored in the `~/.Scripti` directory. Openbox pipemenu scripts are stored in `~/.Scripti/openbox-pipemenus`. All these scripts are invoked from other scripts directly, so that there is no need to add them in `$PATH`.
+Utility scripts without executable flag are stored in the [`~/.Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_dot_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to add them in `$PATH`.
 
 ### The chezmoi.toml file
-This config excessively abuses templating features of `chezmoi`. Many settings are stored in the `~/.config/chezmoi/chezmoi.toml` file which is defined by `.chezmoi.toml.tmpl`.
+This config excessively abuses templating features of `chezmoi`. Many settings are stored in the `~/.config/chezmoi/chezmoi.toml` file which is defined by [`.chezmoi.toml.tmpl`](home/.chezmoi.toml.tmpl).
 
 ### Theming and fontconfig options
-GTK options like theme, system font, mouse cursor theme, as well as fontconfig options like DPI, antialias and hinting are kept on a centralized basis in the `~/.config/chezmoi/chezmoi.toml` file in the `data.gtk` and `data.fontConfig` sections. One should not use programs like `lxappearance` in order to adjust these settings. Instead, edit the `chezmoi.toml` file, run `chezmoi apply` and `reconfigure-appearance.sh`, or just press `Super-Shift-A`.
+GTK options like theme, system font, mouse cursor theme, as well as fontconfig options like DPI, antialias and hinting are kept on a centralized basis in the `~/.config/chezmoi/chezmoi.toml` file in the `data.gtk` and `data.fontConfig` sections. One should not use programs like `lxappearance` in order to adjust these settings. Instead, edit the `~/.config/chezmoi/chezmoi.toml` file, run `chezmoi apply` and [`reconfigure-appearance.sh`](home/private_dot_local/exact_private_bin/private_readonly_executable_reconfigure-appearance.sh.tmpl) (or just press `Super-Shift-A` in order to invoke this script).
 
 
 ## Caveats
 
-* This config deletes several files in `~`, see the `.chezmoiremove` file. The reason for that is, configuration files for these programs are stored in `~/.config` instead.
+* This config deletes several files in `~`, see the [`.chezmoiremove`](home/.chezmoiremove) file. The reason for that is, configuration files for these programs are stored inside the `~/.config` directory instead.
 * `~/.local/bin` and `~/.config/autostart` directories both have the `exact_` chezmoi's prefix which means that anything not managed by chezmoi in these directories will be deleted upon executing `chezmoi apply` or `chezmoi update`.
 * Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and dunst). Using other icon themes may break some Openbox menu and dunst icons.
 * Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 and holding it (`aptitude hold` command). There is no automatic installation and support for this package so far.
