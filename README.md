@@ -390,11 +390,15 @@ In Debian-based distros, this config will automatically install needed packages 
 ### Local bin directory
 `~/.local/bin` is added in `$PATH` _after_ everything else. This directory contains several scripts which have executable bit on.
 
-### Most config files are readonly
-Most of the configuration files managed by chezmoi here are `private_` and `readonly_` (see the [docs](https://www.chezmoi.io/reference/source-state-attributes/)). The reason for that is not only security, but also convenience. This prevents user from accidently editing a config file which is managed by chezmoi. Instead, the `chedit` alias is defined in `bash` for the `chezmoi edit --apply` command. This command is also available via the `mc` user menu: just navigate your cursor over the desired file, press `F2` and `e`.
+`~/.local/bin` **has the `exact_` chezmoi's prefix in the config** (see the [docs](https://www.chezmoi.io/reference/source-state-attributes/)) which means that **anything not managed by chezmoi in this directory will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply`. If this behaviour is undesirable, rename the directory in the chezmoi source directory and wipe off the `exact_` prefix before applying the configuration.
 
-### Local scripts directory
+### Local scripts directories
 Utility scripts without executable flag are stored in the [`~/.Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to either add them in `$PATH` or enable executable bit at all.
+
+These directories both have the `exact_` prefix in the config as well.
+
+### Most config files are readonly
+Most of the configuration files managed by chezmoi here are `private_` and `readonly_`. The reason for that is not only security, but also convenience. This prevents user from accidently editing a config file which is managed by chezmoi. Instead, the `chedit` alias is defined in `bash` for the `chezmoi edit --apply` command. This command is also available via the `mc` user menu: just navigate your cursor over the desired file, press `F2` and `e`.
 
 ### The chezmoi.toml file
 This config excessively abuses templating features of chezmoi. Many settings are stored in the `~/.config/chezmoi/chezmoi.toml` file which is defined by [`$CHEZMOI_SOURCE_DIR/.chezmoi.toml.tmpl`](home/.chezmoi.toml.tmpl).
@@ -407,7 +411,7 @@ The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox
 ## Caveats
 
 * This config **may delete several config files in `$HOME`**, see the [`$CHEZMOI_SOURCE_DIR/.chezmoiremove`](home/.chezmoiremove) file for more details. The reason for that is, configuration files for these programs are stored inside the `~/.config` directory instead (and Vim config is stored in `~/.vim`).
-* `~/.local/bin` and `~/.config/autostart` directories both **have the `exact_` chezmoi's prefix in the config** (see the [docs](https://www.chezmoi.io/reference/source-state-attributes/)) which means that **anything not managed by chezmoi in these directories will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
+* `~/.local/bin` and `~/.config/autostart` directories both **have the `exact_` chezmoi's prefix in the config** which means that **anything not managed by chezmoi in these directories will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
 * `~/.Scripti` directory has the same `exact_` prefix in the config, by the way. Though this is just my personal directory, and it is not included in any standards.
 * Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and dunst; see the [`dunstIcons`](home/.chezmoitemplates/dunstIcons) and [`obmenuIcons`](home/.chezmoitemplates/obmenuIcons) templates). Using other icon themes may render some icons in Openbox menu and dunst invisible.
 * Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 and holding it (`aptitude hold` command). There is no automatic installation and support for this package in my dotfiles so far.
