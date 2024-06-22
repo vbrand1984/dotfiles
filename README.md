@@ -380,9 +380,9 @@
 ## Features
 
 ### Supported distributions
-These dotfiles are tested in [Gentoo](https://www.gentoo.org/), [Debian](https://www.debian.org/)/[Devuan](https://www.devuan.org/) and [Void](https://voidlinux.org/). Theoretically, this config should also work in other Debian-based distros (non-systemd ones included), and in [Ubuntu](https://ubuntu.com/) and Ubuntu-based distributions as well, but not all features may be supported.
+These dotfiles are tested in Gentoo, Debian/Devuan and Void Linux. Theoretically, this config should also work in other Debian-based distros (non-systemd ones included), and in Ubuntu and Ubuntu-based distributions as well, but not all features may be supported.
 
-The dotfiles are managed by [chezmoi](https://www.chezmoi.io/). In Void, the package for chezmoi is in the official repository; in Gentoo, there is an ebuild in the [guru](https://wiki.gentoo.org/wiki/Project:GURU) overlay. There is no official support for chezmoi in Debian though. One can install chezmoi in Debian and Debian-based distros in different ways. Personally, I prefer manual installation of the prebuilt `.deb` [package](https://www.chezmoi.io/install/#download-a-pre-built-linux-package). There is no support for automated chezmoi tracking and updating in Debian installs by this setup so far.
+The dotfiles are managed by [chezmoi](https://www.chezmoi.io/). In Void Linux, the package for chezmoi is in the official repository; in Gentoo, there is an ebuild in the guru overlay. There is no official support for chezmoi in Debian though. One can install chezmoi in Debian and Debian-based distros in different ways. Personally, I prefer manual installation of the prebuilt `.deb` package ([link](https://www.chezmoi.io/install/#download-a-pre-built-linux-package)). There is no support for automated chezmoi tracking and updating in Debian installs by this setup so far.
 
 ### Automated installation of packages
 In Debian-based distros, this config will automatically install needed packages using `aptitude`. The list of the packages to install is stored in the [`$CHEZMOI_SOURCE_DIR/.chezmoidata/packages-deb.yaml`](home/.chezmoidata/packages-deb.yaml) file. Installation is performed by [this](home/.chezmoiscripts/run_onchange_after_install-deb-based.sh.tmpl) script.
@@ -414,7 +414,7 @@ The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox
 * `~/.local/bin` and `~/.config/autostart` directories both **have the `exact_` chezmoi's prefix in the config** which means that **anything not managed by chezmoi in these directories will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
 * `~/.Scripti` directory has the same `exact_` prefix in the config, by the way. Though this is just my personal directory, and it is not included in any standards.
 * Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and dunst; see the [`dunstIcons`](home/.chezmoitemplates/dunstIcons) and [`obmenuIcons`](home/.chezmoitemplates/obmenuIcons) templates). Using other icon themes may render some icons in Openbox menu and dunst invisible.
-* Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 and holding it (`aptitude hold` command). There is no automatic installation and support for this package in my dotfiles so far.
+* Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 ([link](http://ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_amd64.deb)) and holding it (`aptitude hold` command). There is no automatic installation and support for this package in my dotfiles so far.
 
 ## License
 This project is free software and is published under the terms of the [GPL-2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) license.
