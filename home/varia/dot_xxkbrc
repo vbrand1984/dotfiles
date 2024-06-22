@@ -1,4 +1,3 @@
-{{ if eq .theSystem.kbdLayoutSwitcher "xxkb" -}}
 # vim: ft=xdefaults
 #XXkb.controls.two_state: yes
 XXkb.group.base: 1
@@ -28,4 +27,3 @@ XXkb.controls.mainwindow_delete: no
 XXkb.button.enable: no
 XXkb.button.label.enable: no
 XXkb.bell.enable: no
-{{ end -}}

@@ -7,14 +7,9 @@ xset mouse 20/10 10 r rate ##* int .varia.kbdDelay *## ##* int .varia.kbdRepeat 
 # --== XSettings daemon ==--
 xsettingsd &
 
-##* if eq .theSystem.xCompositor "picom" "xcompmgr" -*##
 # --== Compositor ==--
-##* if eq .theSystem.xCompositor "picom" -*##
 picom --daemon &
-##* else -*##
-xcompmgr &
-##*- end *##
-##* end -*##
+#xcompmgr &
 
 # --== Panel ==-- 
 tint2 &
@@ -28,22 +23,16 @@ nitrogen --restore &
 ##*- end *##
 
 # --== Varisous Stuff ==--
-##* if .theSystem.emacsDaemon -*##
+##* if .apps.emacsDaemon -*##
 emacs --bg-daemon &
-##* end -*##
+##*- end *##
 udiskie --smart-tray --notify --automount &
-# Redshift is started via ~/.config/autostart .desktop file
-#redshift-gtk &
 
 # --== Screensaver ==--
 xscreensaver --no-splash &
 
 # --== Clipboard Manager ==--
-# NB: Diodon is started via xdg autostart shortcut
-# Clipit is broken in Debian/Devuan for whatever reason
-# It is available in Debian 10 (buster)
 clipit &
-#diodon &
 
 # --== Sound Volume Manager ==--
 (sleep 2; volumeicon) &
@@ -52,8 +41,5 @@ clipit &
 # --== Conky System Monitor ==--
 (sleep 1; conky --pause=##* int .conky.startupDelay *## --daemonize) &
 
-##* if eq .theSystem.kbdLayoutSwitcher "gxkb" "xxkb" -*##
 # --== Layout Switcher Indicator ==--
-# Either gxkb or xxkb
-(sleep 2; ##* .theSystem.kbdLayoutSwitcher *##) &
-##* end -*##
+(sleep 2; gxkb) &

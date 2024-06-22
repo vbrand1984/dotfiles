@@ -9,15 +9,15 @@ yes_sir='--assume-yes'
 no_install_recommends='-R'
 
 echo 'Installing packages from stable repository...'
-ensure_sudo_is_working && ##* .theSystem.suApp *## aptitude install "${yes_sir}" "${no_install_recommends}" $(strip_square_brackets ##* .packages.debian.stable | toString | quote *##)
+ensure_sudo_is_working && ##* .apps.suApp *## aptitude install "${yes_sir}" "${no_install_recommends}" $(strip_square_brackets ##* .packages.debian.stable | toString | quote *##)
 
 echo 'Installing packages from the backports repository...'
-ensure_sudo_is_working && ##* .theSystem.suApp *## aptitude install "${yes_sir}" "${no_install_recommends}" -t stable-backports $(strip_square_brackets ##* .packages.debian.backports | toString | squote *##)
+ensure_sudo_is_working && ##* .apps.suApp *## aptitude install "${yes_sir}" "${no_install_recommends}" -t stable-backports $(strip_square_brackets ##* .packages.debian.backports | toString | squote *##)
 
 echo 'Performing markauto...'
-ensure_sudo_is_working && ##* .theSystem.suApp *## aptitude markauto $(strip_square_brackets ##* .packages.debian.markauto | toString | squote *##)
+ensure_sudo_is_working && ##* .apps.suApp *## aptitude markauto $(strip_square_brackets ##* .packages.debian.markauto | toString | squote *##)
 
 echo 'Installing packages from CPAN...'
-ensure_sudo_is_working && ##* .theSystem.suApp *## cpan $(strip_square_brackets ##* .packages.debian.cpan | toString | squote *##)
+ensure_sudo_is_working && ##* .apps.suApp *## cpan $(strip_square_brackets ##* .packages.debian.cpan | toString | squote *##)
 
 ##*- end *##
