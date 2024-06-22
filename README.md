@@ -1,5 +1,7 @@
 # Brand's Dotfiles
 
+![A screenshot](../assets/screenshots/screenshot01-gentoo.png?raw=true)
+
 ## What's inside
 
 <details>
