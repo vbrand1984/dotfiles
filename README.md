@@ -1,8 +1,8 @@
-# Brand's Dotfiles
+# The Dotfiles
 
 ![A screenshot](../assets/screenshots/screenshot01-gentoo.png?raw=true)
 
-## What's inside
+## What's Inside
 
 <details>
   <summary>Expand</summary>
@@ -415,7 +415,7 @@ The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox
 * This config **may delete several config files in `$HOME`**, see the [`$CHEZMOI_SOURCE_DIR/.chezmoiremove`](home/.chezmoiremove) file for more details. The reason for that is, configuration files for these programs are stored inside the `~/.config` directory instead (and Vim config is stored in `~/.vim`).
 * `~/.local/bin` and `~/.config/autostart` directories both **have the `exact_` chezmoi's prefix in the config** which means that **anything not managed by chezmoi in these directories will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
 * `~/.Scripti` directory has the same `exact_` prefix in the config, by the way. Though this is just my personal directory, and it is not included in any standards.
-* Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and dunst; see the [`dunstIcons`](home/.chezmoitemplates/dunstIcons) and [`obmenuIcons`](home/.chezmoitemplates/obmenuIcons) templates). Using other icon themes may render some icons in Openbox menu and dunst invisible.
+* Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and Dunst; see the [`dunstIcons`](home/.chezmoitemplates/dunstIcons) and [`obmenuIcons`](home/.chezmoitemplates/obmenuIcons) templates). Using other icon themes may render some icons in Openbox menu and Dunst invisible.
 * Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 ([link](http://ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_amd64.deb)) and holding it (`aptitude hold` command). There is no automatic installation and support for this package in my dotfiles so far.
 
 ## License
