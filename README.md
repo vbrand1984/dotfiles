@@ -1,29 +1,111 @@
 # Brand's Dotfiles
 
-## What's in it
+## What's inside
 
-* WM: Openbox
-* Panel: tint2
-* Wallpaper manager: nitrogen
-* System monitor: conky
-* Openbox menus: obmenu-generator
-* Application launcher: rofi
-* Text processors: vim, emacs
-* Terminal emulator: lxterminal, alacritty
-* File managers: mc, pcmanfm, caja
-* Sound volume: volumeicon
-* Keyboard layout switcher: gxkb
-* Clipboard manager: clipit
-* Screensaver: xscreensaver
-* X settings daemon: xsettingsd
-* Calendar: gsimplecal
-* Screenshots: scrot
-* System font: Roboto Regular 11
-* Monospace font: JetBrains Mono Medium
-* GTK and Openbox theme: [Greylooks](https://github.com/vbrand1984/greylooks)
-* Icons: Papirus-Light
-* Mouse cursor: DMZ-White
-* Miscellania: Caffeine-ng, Redshift
+<table>
+    <tr>
+        <th colspan="2">Applications and utilities</th>
+    </tr>
+    <tr>
+        <td>Dotfiles manager</td>
+        <td>chezmoi</td>
+    </tr>
+    <tr>
+        <td>Window manager</td>
+        <td>Openbox</td>
+    </tr>
+    <tr>
+        <td>Panel</td>
+        <td>tint2</td>
+    </tr>
+    <tr>
+        <td>Wallpaper manager</td>
+        <td>nitrogen</td>
+    </tr>
+    <tr>
+        <td>System monitor</td>
+        <td>conky</td>
+    </tr>
+    <tr>
+        <td>Openbox menus</td>
+        <td>obmenu-generator</td>
+    </tr>
+    <tr>
+        <td>Application launcher</td>
+        <td>rofi</td>
+    </tr>
+    <tr>
+        <td>Text processors</td>
+        <td>vim, emacs</td>
+    </tr>
+    <tr>
+        <td>Terminal emulator</td>
+        <td>lxterminal, alacritty</td>
+    </tr>
+    <tr>
+        <td>File managers</td>
+        <td>mc, pcmanfm, caja</td>
+    </tr>
+    <tr>
+        <td>Sound volume</td>
+        <td>volumeicon</td>
+    </tr>
+    <tr>
+        <td>Keyboard layout switcher</td>
+        <td>gxkb</td>
+    </tr>
+    <tr>
+        <td>Clipboard manager</td>
+        <td>clipit</td>
+    </tr>
+    <tr>
+        <td>Screensaver</td>
+        <td>xscreensaver</td>
+    </tr>
+    <tr>
+        <td>X settings daemon</td>
+        <td>xsettingsd</td>
+    </tr>
+    <tr>
+        <td>Calendar</td>
+        <td>gsimplecal</td>
+    </tr>
+    <tr>
+        <td>Screenshots</td>
+        <td>scrot</td>
+    </tr>
+    <tr>
+        <td>Miscellania</td>
+        <td>Caffeine-ng, Redshift</td>
+    </tr>
+    <tr>
+        <th colspan="2">Theming</th>
+    </tr>
+    <tr>
+        <td>GTK and Openbox theme</td>
+        <td>Greylooks</td>
+    </tr>
+    <tr>
+        <td>Icons</td>
+        <td>Papirus-Light</td>
+    </tr>
+    <tr>
+        <td>Mouse cursor</td>
+        <td>DMZ-White</td>
+    </tr>
+    <tr>
+        <td>System font</td>
+        <td>Roboto Regular 11</td>
+    </tr>
+    <tr>
+        <td>Monospace font</td>
+        <td>JetBrains Mono Medium</td>
+    </tr>
+    <tr>
+        <td>Other fonts used</td>
+        <td>Ubuntu, DejaVu</td>
+    </tr>
+</table>
 
 ## Cheatsheet
 
@@ -297,13 +379,13 @@ These dotfiles are tested in Gentoo, Debian/Devuan and Void. Theoretically, this
 In Debian-based distros, this config will automatically install needed packages using `aptitude`. The list of the packages to install is stored in the [`.chezmoidata/packages-deb.yaml`](home/.chezmoidata/packages-deb.yaml) file.
 
 ### Local bin directory
-`~/.local/bin` is added in `$PATH` _after_ everything else. This directory contains severals scripts which have executable bit on.
+`~/.local/bin` is added in `$PATH` _after_ everything else. This directory contains several scripts which have executable bit on.
 
 ### Most config files are readonly
 Most of the configuration files managed by chezmoi here are `private_` and `readonly_`. The reason for that is not only security, but also convenience. This prevents user from accidently editing a config file which is managed by chezmoi. Instead, the `chedit` alias is defined in `bash` for the `chezmoi edit --apply` command. This command is also available via the `mc` user menu: just navigate your cursor over the desired file, press `F2` and `e`.
 
 ### Local scripts directory
-Utility scripts without executable flag are stored in the [`~/.Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to add them in `$PATH`.
+Utility scripts without executable flag are stored in the [`~/.Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to either add them in `$PATH` or enable executable bit at all.
 
 ### The chezmoi.toml file
 This config excessively abuses templating features of `chezmoi`. Many settings are stored in the `~/.config/chezmoi/chezmoi.toml` file which is defined by [`.chezmoi.toml.tmpl`](home/.chezmoi.toml.tmpl).
