@@ -9,6 +9,7 @@ packages:
       # {{{ System utilities
       - bash-completion
       - hodie
+      - htop
       - lm-sensors
       - lsb-release
       - pwgen
