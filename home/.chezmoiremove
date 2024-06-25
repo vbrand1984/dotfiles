@@ -1,9 +1,13 @@
 .conkyrc
 .dircolors
-.git-credentials
-.gitconfig
 .gvimrc
 .tmux.conf
 .viminfo
 .vimrc
 .xsettingsd
+{{ if .theSystem.isBrandsPrivate }}
+.git-credentials
+.gitconfig
+.Scripti
+.local/bin
+{{ end }}

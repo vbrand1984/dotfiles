@@ -5,6 +5,7 @@
 ##*- $privatePCs := list $desktopRigName $oldLaptopName -*##
 ##*- $personalUsername := "victor" -*##
 ##*- $defaultBaseDataDir := "/home" -*##
+##*- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -*##
 
 ##*- $baseHomeDir := promptString "baseHomeDir" $defaultBaseDataDir -*##
 
@@ -24,17 +25,6 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     scriptContents = false
 
 # }}}
-# {{{ Personal data
-
-[data.personal]
-
-    desktopRigName = ##* $desktopRigName | quote *##
-    oldLaptopName = ##* $oldLaptopName | quote *##
-    privatePCs = ##* $privatePCs | toToml *##
-    username = ##* $personalUsername | quote *##
-    gitFullName = "Victor Brand"
-
-# }}}
 # {{{ theSystem
 
 [data.theSystem]
@@ -51,7 +41,23 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
     isOldLaptop = ##* $isOldLaptop *##
 
     # True if this is my private PC
-    isPrivate = ##* and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) *## 
+    isBrandsPrivate = ##* $isBrandsPrivate *## 
+
+# }}}
+# {{{ Personal data
+
+[data.personal]
+
+    desktopRigName = ##* $desktopRigName | quote *##
+    oldLaptopName = ##* $oldLaptopName | quote *##
+    privatePCs = ##* $privatePCs | toToml *##
+    username = ##* $personalUsername | quote *##
+##*- if $isBrandsPrivate *##
+    gitFullName = "Victor Brand"
+##*- else -*##
+    ##*- $gitFullName := promptString "Your full name to be displayed in git" *##
+    gitFullName = ##* $gitFullName | quote *##
+##*- end *##
 
 # }}}
 # {{{ sysDirs
@@ -121,6 +127,9 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 
 [data.varia]
 
+    # Font for gvim
+    gvimFont = "JetBrains Mono Medium ##* if $isOldLaptop -*## 12 ##*- else -*## 13 ##*- end *##"
+
     # Icon sizes for various applications
     obmenuIconSize = 24
     dunstIconSize = 48
@@ -188,13 +197,11 @@ cacheDir = ##* joinPath .chezmoi.homeDir ".cache/chezmoi" | quote *##
 [data.mySecrets]
 
     # Git variables
-    gitEmail = ""
-    gitCredentials = ""
-##*- if and $isDesktopRig (eq .chezmoi.username $personalUsername) *##
-    # appid from openweathermap.org
-    weatherAppId = ""
-    # City ID to be used with openweathermap.org in advanced conky weather widget
-    weatherCityId = ""
+##*- if $isBrandsPrivate *##
+    gitEmail = "58734964+vbrand1984@users.noreply.github.com"
+##*- else -*##
+    ##*- $gitEmail := promptString "Your git Email" *##
+    gitEmail = ##* $gitEmail | quote *##
 ##*- end *##
 
 # }}}

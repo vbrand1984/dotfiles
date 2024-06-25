@@ -1,9 +1,10 @@
 [sysDirs]
     # These paths MUST be relative, because they are also used in .chezmoiexternal.toml as well
-    localBin = ".local/bin"
-    scripts = ".Scripti"
-    obPipemenus = ".Scripti/openbox-pipemenus"
-    localCacheDir = ".cache"
+    localBin = ".local/Bin"
+    scripts = ".local/Scripti"
+    obPipemenus = ".local/Scripti/openbox-pipemenus"
+    localCache = ".cache"
+    backgrounds = ".local/share/backgrounds"
 
 [varia]
     # This is an editor for config files to be invoked via Openbox menu entries

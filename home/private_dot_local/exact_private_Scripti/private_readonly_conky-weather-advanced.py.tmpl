@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.hostname .personal.desktopRigName -}}
+{{ if and .theSystem.isBrandsPrivate .theSystem.isDesktopRig -}}
 #!/usr/bin/python3
 # vim: ft=python
 # chezmoi:template:missing-key=zero
@@ -16,20 +16,36 @@ import json
 error_message = ''
 default_weather_symbol = '\uF021'
 
+# Load and parse JSON data from a file
+def load_json_from_file(the_file):
+    global error_message
+    # Trying to open the file
+    try:
+        f = open(the_file, "rt")
+        raw_data = f.read()
+        f.close()
+    except (FileNotFoundError, PermissionError):
+        raw_data = "{}"
+        if not error_message:
+            error_message = 'Error loading ID file'
+    # Trying to decode the data
+    try:
+        json_data = json.loads(raw_data)
+    except (json.decoder.JSONDecodeError):
+        json_data = {}
+        if not error_message:
+            error_message = 'Error parsing ID file'
+    return json_data
+
+
 # Download weather data from the site 
-def get_weather_json():
-
-    # The ID of the city where to look for the weather
-    city_id = '{{ .mySecrets.weatherCityId }}'
-
-    # Initialize appid with the template variable mySecrets.weatherAppId.
-    # See above on how to obtain this appid
-    appid = '{{ .mySecrets.weatherAppId }}'
-
+def get_weather_json(city_id, appid):
+    global error_message
     try:
         weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric').read()
     except (urllib.error.URLError, urllib.error.HTTPError):
-        error_message = 'Error loading data'
+        if not error_message:
+            error_message = 'Error downloading data'
         weather_json = 'tough luck'
     return weather_json
 
@@ -101,8 +117,13 @@ def find_weather_symbol(icon_name):
         the_symbol = default_weather_symbol
     return the_symbol
 
+# Load our config file with credentials
+the_data = load_json_from_file({{ joinPath .chezmoi.homeDir .sysDirs.scripts "openweathermap-id.json" | quote }})
+city_id = the_data.get("city_id", "default_city_id")
+appid = the_data.get("appid", "default_appid")
+
 # Loading the data from the site
-contents = get_weather_json() 
+contents = get_weather_json(city_id, appid) 
 
 try:
     # Trying to parse the data
@@ -139,7 +160,7 @@ except (KeyError, ValueError):
     city_name = "\\ (NOT\\ WORKING)"
 
     # error_message variable could be modified inside the get_weather_json() function
-    if error_message == '':
+    if not error_message:
         error_message = 'Error parsing JSON'
     # Error message to be printed in the bottom
     conditions = error_message
@@ -153,4 +174,4 @@ output = '${template0 WEATHER' + city_name + '}\n${color3}${font weathericons:bo
 
 print(output, end="")
 
-{{ end -}}
+{{- end }}

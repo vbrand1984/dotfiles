@@ -150,6 +150,10 @@
         <td>Pavucontrol</td>
     </tr>
     <tr>
+        <td>Super-Ctrl-Q</td>
+        <td>Qalculate!</td>
+    </tr>
+    <tr>
         <td>Super-Ctrl-R</td>
         <td>Tor Browser launcher</td>
     </tr>
@@ -238,11 +242,11 @@
         <td>Lock screen</td>
     </tr>
     <tr>
-        <td>Super-Ctrl-Q</td>
+        <td>Super-Ctrl-Esc</td>
         <td>Shutdown dialogue</td>
     </tr>
     <tr>
-        <td>Super-Shift-Q</td>
+        <td>Super-Shift-Esc</td>
         <td>Exit Openbox</td>
     </tr>
     <tr>
@@ -390,12 +394,14 @@ The dotfiles are managed by [chezmoi](https://www.chezmoi.io/). In Void Linux, t
 In Debian-based distros, this config will automatically install needed packages using `aptitude`. The list of the packages to install is stored in the [`$CHEZMOI_SOURCE_DIR/.chezmoidata/packages-deb.yaml`](home/.chezmoidata/packages-deb.yaml) file. Installation is performed by [this](home/.chezmoiscripts/run_onchange_after_install-deb-based.sh.tmpl) script.
 
 ### Local bin directory
-`~/.local/bin` is added in `$PATH` _after_ everything else. This directory contains several scripts which have executable bit on.
+`~/.local/Bin` is added in `$PATH` _after_ everything else. This directory contains several scripts which have executable bit on.
 
-`~/.local/bin` **has the `exact_` chezmoi's prefix in the config** (see the [docs](https://www.chezmoi.io/reference/source-state-attributes/)) which means that **anything not managed by chezmoi in this directory will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply`. If this behaviour is undesirable, rename the directory in the chezmoi source directory and wipe off the `exact_` prefix before applying the configuration.
+`~/.local/Bin` has the `exact_` chezmoi's prefix in the config** (see the [docs](https://www.chezmoi.io/reference/source-state-attributes/)) which means that anything not managed by chezmoi in this directory will be deleted upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply`. If this behaviour is undesirable, rename the directory in the chezmoi source directory and wipe off the `exact_` prefix before applying the configuration.
+
+The name `~/.local/Bin` was chosen deliberately because this path does not belong to any known to me standard, so that this config doesn't touch the `~/bin` and `~/.local/bin` directories.
 
 ### Local scripts directories
-Utility scripts without executable flag are stored in the [`~/.Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to either add them in `$PATH` or enable executable bit at all.
+Utility scripts without executable flag are stored in the [`~/.local/Scripti`](home/exact_private_dot_Scripti) directory. Openbox pipemenu scripts are stored in [`~/.local/Scripti/openbox-pipemenus`](home/exact_private_dot_Scripti/exact_private_openbox-menus). All these scripts are invoked from other scripts directly, so that there is no need to either add them in `$PATH` or enable executable bit at all.
 
 These directories both have the `exact_` prefix in the config as well.
 
@@ -413,8 +419,8 @@ The default [Greylooks](https://github.com/vbrand1984/greylooks) GTK and Openbox
 ## Caveats
 
 * This config **may delete several config files in `$HOME`**, see the [`$CHEZMOI_SOURCE_DIR/.chezmoiremove`](home/.chezmoiremove) file for more details. The reason for that is, configuration files for these programs are stored inside the `~/.config` directory instead (and Vim config is stored in `~/.vim`).
-* `~/.local/bin` and `~/.config/autostart` directories both **have the `exact_` chezmoi's prefix in the config** which means that **anything not managed by chezmoi in these directories will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
-* `~/.Scripti` directory has the same `exact_` prefix in the config, by the way. Though this is just my personal directory, and it is not included in any standards.
+* The `~/.config/autostart` directory **has the `exact_` chezmoi's prefix in the config** which means that **anything not managed by chezmoi in it will be deleted** upon executing `chezmoi init --apply`, `chezmoi update` or `chezmoi apply` (this is done partly for security, partly for convenience reasons). You have been warned.
+* `~/.local/Bin` and `~/.local/Scripti` directories both have the same `exact_` prefix in the config, as well. Though these are just my personal directories, and they are not included in any standards.
 * Among all icon themes, only Papirus set is fully supported by this config, due to the templating limitations (absolute paths to certain icons are specified in some dotfiles for Openbox and Dunst; see the [`dunstIcons`](home/.chezmoitemplates/dunstIcons) and [`obmenuIcons`](home/.chezmoitemplates/obmenuIcons) templates). Using other icon themes may render some icons in Openbox menu and Dunst invisible.
 * Debian no longer supports `clipit` for whatever reason. As of now, I solve this issue by manually installing this package from Debian 10 ([link](http://ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_amd64.deb)) and holding it (`aptitude hold` command). There is no automatic installation and support for this package in my dotfiles so far.
 

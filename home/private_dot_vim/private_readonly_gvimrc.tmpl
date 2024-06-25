@@ -1,0 +1,8 @@
+" vim: ft=vim
+" A cool font
+set guifont={{ .varia.gvimFont | replace " " "\\ " }}
+
+" Disable unnecessary graphic stuff
+set guioptions -=m  " Menu
+set guioptions -=T  " Toolbar
+set guioptions -=r  " Right scrollbar

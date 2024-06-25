@@ -24,11 +24,11 @@
 
 # In Debian-based distros, we need to install obmenu-generator externally
 {{ if .theSystem.isDebBased }}
-["{{ .sysDirs.localBin }}/obmenu-generator"]
+["{{ .sysDirs.scripts }}/obmenu-generator"]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
-    executable = true
+    executable = false
 {{ end }}
 
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan

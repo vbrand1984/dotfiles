@@ -1,13 +1,4 @@
-syntax on
-
-" These lines copy default config of Debian and Gentoo,
-" but let's keep these just for the case
-set nocompatible
-set nomodeline
-set history=50
-set ruler
-
-set viminfo='50,f1,<500,n~/.vim/.viminfo
+" {{{ Plugins
 
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -22,8 +13,21 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'vbrand1984/ob3-vim-syntax'
-    Plug 'lifepillar/vim-solarized8'
 call plug#end()
+
+" }}}
+" {{{ Various settings
+
+syntax on
+
+" These lines copy default config of Debian and Gentoo,
+" but let's keep these just for the case
+set nocompatible
+set nomodeline
+set history=50
+set ruler
+
+set viminfo='50,f1,<500,n~/.vim/.viminfo
 
 " Search options
 set nohlsearch
@@ -48,13 +52,9 @@ set autoindent
 
 " Varia
 set foldmethod=marker
-set background=dark
 
-" This is needed in order to make background color work properly in kitty
-"let &t_ut=''
-
-" Don't print warning about mixed whitespaces in airline
-let g:airline#extensions#whitespace#enabled = 0
+" }}}
+" {{{ Autocmd rules
 
 augroup custom_indentation
     autocmd!
@@ -104,30 +104,43 @@ augroup vimStartup
         \ | endif
 augroup END
 
-"############################################################
-" Theme setup
-"############################################################
+" }}}
+" {{{ Theme
 
-if ($TERM != 'linux' || has("guirunning"))
-  if (has("termguicolors"))
-    set termguicolors
-    let g:gruvbox_termcolors = 256
-  else
-    let g:gruvbox_termcolors = 16
-  endif
-  if (expand('$EUID') != '0')
-    let g:gruvbox_italic = 1
-    let g:gruvbox_contrast_dark = 'medium'
-    let g:gruvbox_contrast_light = 'hard'
-    let g:gruvbox_invert_selection = 0
-    let g:airline_theme = 'gruvbox'
-    autocmd vimenter * ++nested colorscheme gruvbox
-  else
-    let g:everforest_background = 'hard'
-    colorscheme everforest
-    let g:airline_theme = 'everforest'
-  endif
+" This is needed in order to make background color work properly in kitty
+"let &t_ut=''
+
+" Don't print warning about mixed whitespaces in airline
+let g:airline#extensions#whitespace#enabled = 0
+
+" Gruvbox default setup
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_light = 'hard'
+let g:gruvbox_invert_selection = 0
+
+" Everforest default setup
+let g:everforest_background = 'hard'
+
+set background=dark
+
+if ($TERM != 'linux' || has("gui_running"))
+    if (has("termguicolors"))
+        set termguicolors
+        let g:gruvbox_termcolors = 256
+    else
+        let g:gruvbox_termcolors = 16
+    endif
+    if (expand('$EUID') != '0')
+        let g:airline_theme = 'gruvbox'
+        autocmd vimenter * ++nested colorscheme gruvbox
+    else
+        colorscheme everforest
+        let g:airline_theme = 'everforest'
+    endif
 else
-  colorscheme desert
-  let g:airline_theme = 'term'
+    colorscheme desert
+    let g:airline_theme = 'term'
 endif
+
+" }}}
