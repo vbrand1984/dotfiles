@@ -1,14 +1,14 @@
 -- vim: ft=lua:fm=marker
--- chezmoi:template:left-delimiter=--%%* right-delimiter=*%%
+-- chezmoi:template:left-delimiter=--||* right-delimiter=*||
 
 --== CONKY.CONFIG ==--
 
 -- Palette initialization {{{
 
 -- Loading palettes
-dofile(--%%* joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote *%%)
+dofile(--||* joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote *||)
 
-local current_palette = --%%* .conky.currentPalette | squote *%%
+local current_palette = --||* .conky.currentPalette | squote *||
 
 -- }}}
 -- conky.config {{{ 
@@ -25,9 +25,9 @@ conky.config = {
     out_to_console          = false,
     out_to_stderr           = false,
     out_to_x                = true,
---%%* if not .theSystem.isGentoo -*%%
+--||* if not .theSystem.isGentoo -*||
     out_to_wayland          = false,
---%%*- end *%%
+--||*- end *||
 
     --== Base window properties ==--
     own_window              = true,
@@ -109,15 +109,15 @@ conky.config = {
     -- Parameter 2: Command to execute and receive a number of degree
     template7 = [[${color2}\1${alignr}${color4}${\2}]] .. celsius_sign,
 
---%%* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*%%
+--||* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*||
     --== Temperature info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: command to execute for the left column
     -- Parameter 3: Right column caption
     -- Parameter 4: command to execute for the right column
-    template8 = [[${color2}\1${goto --%%* if .theSystem.isDesktopRig -*%% 150 --%%*- else -*%% 115 --%%*- end *%%}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+    template8 = [[${color2}\1${goto --||* if .theSystem.isDesktopRig -*|| 150 --||*- else -*|| 115 --||*- end *||}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 
---%%* if .theSystem.isDesktopRig -*%%
+--||* if .theSystem.isDesktopRig -*||
     --== Fan info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: hwmon subdirectory number for the left column
@@ -126,31 +126,31 @@ conky.config = {
     -- Parameter 5: hwmon subdirectory number for the right column
     -- Parameter 6: hwmon fan number for the right column
     template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
---%%*- else -*%%
+--||*- else -*||
     --== Weather widget (old) ==--
-    template9 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e --%%* joinPath .chezmoi.homeDir .sysDirs.scripts "conky-weather-simple.sh" *%%\ \2}]],
---%%*- end *%%
---%%*- end *%%
+    template9 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e --||* joinPath .chezmoi.homeDir .sysDirs.scripts "conky-weather-simple.sh" *||\ \2}]],
+--||*- end *||
+--||*- end *||
 
 };
 
 -- }}}
 -- {{{ Transparency settings
 
---%%* if eq .conky.currentTransparency "Full" -*%%
+--||* if eq .conky.currentTransparency "Full" -*||
 -- Full transparency
 conky.config['own_window_transparent']  = true
 conky.config['own_window_argb_visual']  = false
 conky.config['border_width']            = 0
---%%*- else if eq .conky.currentTransparency "Semi" -*%%
+--||*- else if eq .conky.currentTransparency "Semi" -*||
 -- Semi-transparent conky
 conky.config['own_window_transparent']  = false
 conky.config['own_window_argb_visual']  = true
-conky.config['own_window_argb_value']   = --%%* int .conky.argbValue *%%
+conky.config['own_window_argb_value']   = --||* int .conky.argbValue *||
 conky.config['border_width']            = 1
 conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
 conky.config['default_color']           = conky_palettes[current_palette]['border']
---%%*- else -*%%
+--||*- else -*||
 -- Non-transparent conky
 conky.config['own_window_transparent']  = false
 conky.config['own_window_argb_visual']  = false
@@ -158,7 +158,7 @@ conky.config['own_window_argb_visual']  = false
 conky.config['border_width']            = 1
 conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
 conky.config['default_color']           = conky_palettes[current_palette]['border']
---%%*- end *%%
+--||*- end *||
 
 -- }}}
 
@@ -235,15 +235,15 @@ end
 local function display_storage()
     local output_string = "${template0 STORAGE}\n${template6 System\\ Volume /}\n"
     -- Check if .sysDirs.baseDataDir is mounted separately
-    local res = get_cmd_output("findmnt --noheadings --%%* .sysDirs.baseDataDir | squote *%% | wc -l")
+    local res = get_cmd_output("findmnt --noheadings --||* .sysDirs.baseDataDir | squote *|| | wc -l")
     if tonumber(res) > 0 then
-        output_string = output_string .. "${template6 Data\\ Volume --%%* .sysDirs.baseDataDir *%%}\n"
+        output_string = output_string .. "${template6 Data\\ Volume --||* .sysDirs.baseDataDir *||}\n"
     end
     return output_string
 end
 
 -- }}}
---%%* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*%%
+--||* if or .theSystem.isDesktopRig .theSystem.isOldLaptop -*||
 -- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
@@ -295,7 +295,7 @@ end -- function populate_hwmon_table()
 local hwmon_table = populate_hwmon_table()
 
 -- }}}
---%%* if .theSystem.isDesktopRig -*%%
+--||* if .theSystem.isDesktopRig -*||
 -- {{{ Initialization of internal variables: Desktop Rig
 
 local t_mobo            = hwmon_table['nct6798'][1]
@@ -318,7 +318,7 @@ local nr_junction       = t_gpu['lbl']['junction']
 local nr_mem            = t_gpu['lbl']['mem']
 
 -- }}}
---%%*- else if .theSystem.isOldLaptop -*%%
+--||*- else if .theSystem.isOldLaptop -*||
 -- {{{ Initialization of internal variables: Old Laptop
 
 local t_mobo    = hwmon_table['dell_smm'][1]
@@ -338,12 +338,12 @@ local nr_Memory = t_mobo['lbl']['SODIMM']
 local nr_GPU    = t_mobo['lbl']['GPU']
 
 -- }}}
---%%*- end *%%
---%%*- end *%%
+--||*- end *||
+--||*- end *||
 
 --== CONKY.TEXT ==--
 
---%%* if .theSystem.isDesktopRig -*%%
+--||* if .theSystem.isDesktopRig -*||
 -- {{{ conky.text for Desktop Rig
 
 conky.text = display_system_info() .. [[
@@ -368,10 +368,10 @@ ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 ]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 -- --%%* joinPath .chezmoi.homeDir .sysDirs.scripts *%%/conky-weather-advanced.py}--%%* if not .theSystem.isVoid *%%${voffset -10}--%%* end *%%]];
+${execpi 900 /usr/bin/python3 -- --||* joinPath .chezmoi.homeDir .sysDirs.scripts *||/conky-weather-advanced.py}--||* if not .theSystem.isVoid *||${voffset -10}--||* end *||]];
 
 -- }}}
---%%*- else if .theSystem.isOldLaptop -*%%
+--||*- else if .theSystem.isOldLaptop -*||
 -- {{{ conky.text for Old Laptop
 
 conky.text = display_system_info() .. [[
@@ -395,7 +395,7 @@ ${template9 Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
 ${template9 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
 
 -- }}}
---%%*- else -*%%
+--||*- else -*||
 -- {{{ Generic conky.text for other machines
 
 conky.text = display_system_info() .. [[
@@ -409,4 +409,4 @@ conky.text = display_system_info() .. [[
 ]] .. display_storage();
 
 -- }}}
---%%*- end *%%
+--||*- end *||
