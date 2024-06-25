@@ -5,6 +5,9 @@
     obPipemenus = ".local/Scripti/openbox-pipemenus"
     localCache = ".cache"
     backgrounds = ".local/share/backgrounds"
+    [sysDirs.ansible]
+        config = ".config/ansible-chezmoi"
+        home = ".local/share/ansible-chezmoi-home"
 
 [varia]
     # This is an editor for config files to be invoked via Openbox menu entries
