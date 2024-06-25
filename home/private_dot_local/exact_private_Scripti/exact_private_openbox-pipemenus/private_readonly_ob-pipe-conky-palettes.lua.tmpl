@@ -1,6 +1,7 @@
 #!/usr/bin/lua
+-- chezmoi:template:left-delimiter=--||* right-delimiter=*||
 
-dofile({{ joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote }})
+dofile(--||* joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote *||)
 
 -- Sort keys of the conky_palettes table
 local tkeys = {}
@@ -12,12 +13,11 @@ print('<openbox_pipe_menu>')
 for k in pairs(tkeys) do
     local palette_name = tkeys[k]
     local icon_name, the_command
-    if palette_name == {{ .conky.currentPalette | squote }} then
-        the_command="notify-send 'Current conky palette: {{ .conky.currentPalette }}'"
-        icon_name=" icon='{{ template "symbolicIcons" . }}/emblems/emblem-ok-symbolic.svg'"
+    if palette_name == --||* .conky.currentPalette | quote *|| then
+        the_command="notify-send 'Current conky palette: --||* .conky.currentPalette *||'"
+        icon_name=" icon='--||* template "symbolicIcons" . *||/emblems/emblem-ok-symbolic.svg'"
     else
-        --the_command="notify-send 'NOT current conky palette: " .. palette_name .. "'"
-        the_command="/bin/bash -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts "ch-config.sh" }} currentPalette {{ .conky.currentPalette }} " .. palette_name .. " doapply"
+        the_command="/bin/bash -e --||* joinPath .chezmoi.homeDir .sysDirs.scripts "ch-config.sh" *|| currentPalette --||* .conky.currentPalette *|| " .. palette_name .. " doapply"
         icon_name=""
     end
     print([[<item label=']] .. palette_name .. [[']] .. icon_name .. [[>

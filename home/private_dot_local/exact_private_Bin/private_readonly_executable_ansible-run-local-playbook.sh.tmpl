@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd {{ joinPath .chezmoi.homeDir .sysDirs.ansible.config | quote }}
+
+ansible-playbook -K local-chezmoi-playbook.yml -i inventory.ini

@@ -1,0 +1,62 @@
+# chezmoi:template: left-delimiter=##* right-delimiter=*##
+#- name: My first play
+#  hosts: mylocalhost
+#  tasks:
+#    - name: Print message
+#      ansible.builtin.debug:
+#        msg: Hello world!
+#
+#    - name: Not-running services
+#      ansible.builtin.service:
+#        name: smartmontools
+#        enabled: false
+#        state: stopped
+
+
+##* if .theSystem.isBrandsPrivate -*##
+
+- name: Managing symlinks
+  hosts: mylocalhost
+##*- $personalSymlinksNeeded := ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir *##
+##*- if  $personalSymlinksNeeded *##
+  vars_files: 
+    - vars/personal-symlinks.yml
+##*- end *##
+  tasks:
+##*- if  $personalSymlinksNeeded *##
+    - name: "Ensure all symlinks to ##* .sysDirs.baseDataDir | squote *## are on"
+      file:
+        src: ##* joinPath .sysDirs.baseDataDir .chezmoi.username "{{ item }}" | quote *##
+        dest: ##* joinPath .chezmoi.homeDir "{{ item }}" | quote *##
+        state: link
+      loop: "{{ personal_symlinks }}"
+##*- end *##
+    - name: "Ensure 'My Games' symlink is on"
+      file:
+        path: ##* joinPath .chezmoi.homeDir "My Games" | quote *##
+        src: "Documents/My Games"
+        state: link
+
+##*- end *##
+
+
+- name: Installing packages
+  hosts: mylocalhost
+  vars_files:
+    - vars/packages-deb.yml
+  become: true
+  tasks:
+    - name: Install from stable repository
+      ansible.builtin.apt:
+        name: "{{ packages.debian.stable }}"
+        state: present
+    - name: Install from stable repository
+      ansible.builtin.apt:
+        name: "{{ packages.debian.backports }}"
+        default_release: stable-backports
+        state: present
+    - name: Install CPAN modules
+      community.general.cpanm:
+        name: "{{ item }}"
+      loop: "{{ packages.debian.cpan }}"
+
