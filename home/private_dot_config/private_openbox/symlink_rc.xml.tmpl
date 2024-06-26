@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.config/openbox/rc.xml
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/openbox/rc.xml" -}}

@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.config/qt6ct/qt6ct.conf
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/qt6ct/qt6ct.conf" -}}

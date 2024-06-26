@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.config/mc/panels.ini
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/mc/panels.ini" -}}

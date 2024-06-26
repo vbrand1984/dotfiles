@@ -2,10 +2,11 @@ m   Edit ~/.config/mc/menu
     cd ~/.config/mc
     chezmoi edit --apply menu
 =
-c   Edit chezmoi.toml
-    cd ~/.config/chezmoi
-    /usr/bin/vim chezmoi.toml
-C   Edit conky.conf
+c   Edit chezmoi config
+    chezmoi edit-config
+C   Edit chezmoi config template
+    chezmoi edit-config-template
+o   Edit conky.conf
     cd ~/.config/conky
     chezmoi edit --apply conky.conf
 r   Edit vimrc

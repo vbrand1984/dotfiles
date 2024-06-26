@@ -1,7 +1,11 @@
 # chezmoi:template: left-delimiter=#* right-delimiter=*#
-#* if .theSystem.isDebBased -*#
+#* if .theSystem.isDebianBased -*#
 packages:
   debian:
+    uninstall:
+      - pulseaudio
+      - pulseaudio-utils
+      - vlc
     stable:
       # {{{ Current config dependencies
       - libgtk3-perl
@@ -115,12 +119,13 @@ packages:
       - djview4
       - engrampa
       - eom
-      - flatpak
       - foliate
       - galculator
       - geeqie
       - gimp
       - gparted
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-plugins-ugly
       #- jabref
       - kolourpaint
       - mpv
@@ -132,6 +137,7 @@ packages:
       - qt5-gtk2-platformtheme
       - qt5ct
       - qt6ct
+      - vlc
       - xdg-desktop-portal-gtk
       # }}}
     backports:

@@ -29,7 +29,7 @@ cat << "EOF"
 <separator />
 <item label='Edit xsettingsd.conf' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
     <action name='Execute'>
-        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/xsettingsd/xsettingsd.conf]]></command></execute>
+        <execute><command><![CDATA[{{ .apps.chezmoiEditorFromMenu }} {{ joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | quote }}]]></command></execute>
     </action>
 </item>
 </openbox_pipe_menu>

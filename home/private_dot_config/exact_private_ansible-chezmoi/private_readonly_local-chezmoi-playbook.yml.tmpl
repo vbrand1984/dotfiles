@@ -15,7 +15,7 @@
 
 ##* if .theSystem.isBrandsPrivate -*##
 
-- name: Managing symlinks
+- name: Managing local symlinks
   hosts: mylocalhost
 ##*- $personalSymlinksNeeded := ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir *##
 ##*- if  $personalSymlinksNeeded *##
@@ -39,24 +39,29 @@
 
 ##*- end *##
 
-
+##* if .theSystem.isDebianBased -*##
 - name: Installing packages
   hosts: mylocalhost
   vars_files:
     - vars/packages-deb.yml
   become: true
   tasks:
-    - name: Install from stable repository
+    - name: Remove unnecessary packages
+      ansible.builtin.apt:
+        name: "{{ packages.debian.uninstall }}"
+        state: absent
+        purge: true
+    - name: Install packages from stable repository
       ansible.builtin.apt:
         name: "{{ packages.debian.stable }}"
         state: present
-    - name: Install from stable repository
+    - name: Install packages from the backports repository
       ansible.builtin.apt:
         name: "{{ packages.debian.backports }}"
         default_release: stable-backports
         state: present
-    - name: Install CPAN modules
+    - name: Install CPAN packages
       community.general.cpanm:
         name: "{{ item }}"
       loop: "{{ packages.debian.cpan }}"
-
+##*- end *##

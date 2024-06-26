@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.emacs
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".emacs" -}}

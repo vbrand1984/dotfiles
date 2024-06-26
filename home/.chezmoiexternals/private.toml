@@ -1,0 +1,12 @@
+{{ if .theSystem.isBrandsPrivate }}
+
+{{ if .theSystem.isDesktopRig }}
+# Font with weather icons which is used in my python-powered conky weather widget
+# Only used on my desktop rig
+[".local/share/fonts/weathericons-regular-webfont.ttf"]
+    type = "file"
+    url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
+    refreshPeriod = "168h"
+{{ end }}
+
+{{ end }}

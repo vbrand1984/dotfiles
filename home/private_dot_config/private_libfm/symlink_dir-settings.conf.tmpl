@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.config/libfm/dir-settings.conf
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/libfm/dir-settings.conf" -}}

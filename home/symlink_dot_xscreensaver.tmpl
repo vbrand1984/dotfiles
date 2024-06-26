@@ -1,1 +1,1 @@
-{{ .chezmoi.sourceDir }}/symlinked/.xscreensaver
+{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".xscreensaver" -}}

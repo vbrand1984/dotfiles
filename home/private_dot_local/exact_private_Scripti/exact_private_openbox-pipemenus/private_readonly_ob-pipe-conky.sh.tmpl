@@ -33,12 +33,12 @@ cat << "EOF"
 <separator />
 <item label='Edit conky.conf' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
     <action name='Execute'>
-        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/conky/conky.conf]]></command></execute>
+        <execute><command><![CDATA[{{ .apps.chezmoiEditorFromMenu }} {{ joinPath .chezmoi.homeDir ".config/conky/conky.conf" | quote }}]]></command></execute>
     </action>
 </item>
 <item label='Edit conky-palettes.lua' icon='{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg'>
     <action name='Execute'>
-        <execute><command><![CDATA[env EDITOR={{ .varia.chezmoiEditorFromMenu | squote }} chezmoi edit --apply {{ joinPath .chezmoi.homeDir }}/.config/conky/conky-palettes.lua]]></command></execute>
+        <execute><command><![CDATA[{{ .apps.chezmoiEditorFromMenu }} {{ joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote }}]]></command></execute>
     </action>
 </item>
 </openbox_pipe_menu>

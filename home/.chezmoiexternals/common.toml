@@ -13,30 +13,23 @@
     include = ["greylooks-master/Greylooks/**"]
     refreshPeriod = "168h"
 
-# Font with weather icons which is used in my python-powered conky weather widget
-# Only used on my desktop rig
-{{ if and (eq .chezmoi.hostname .personal.desktopRigName) (eq .chezmoi.username .personal.username) }}
-[".local/share/fonts/weathericons-regular-webfont.ttf"]
-    type = "file"
-    url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
-    refreshPeriod = "168h"
-{{ end }}
+{{ if .theSystem.isDebianBased }}
 
 # In Debian-based distros, we need to install obmenu-generator externally
-{{ if .theSystem.isDebBased }}
 ["{{ .sysDirs.scripts }}/obmenu-generator"]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
     executable = false
-{{ end }}
 
+{{ if not .theSystem.hasSystemd }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
-{{ if and .theSystem.isDebBased (not .theSystem.hasSystemd) }}
 ["{{ .sysDirs.scripts }}/gentoo-pipewire-launcher"]
     type= "file"
     url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
     filter.command = "sed"
     filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
     refreshPeriod = "168h"
+{{ end }}
+
 {{ end }}

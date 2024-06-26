@@ -26,7 +26,7 @@ require "$ENV{HOME}/.config/obmenu-generator/config.pl";
 
 ## Text editor
 my $editor = $CONFIG->{editor};
-my $chezmoi_editor = 'env EDITOR={{ .varia.chezmoiEditorFromMenu | quote }} chezmoi edit --apply';
+my $chezmoi_editor = {{ .apps.chezmoiEditorFromMenu | quote }};
 
 our $SCHEMA = [
 
