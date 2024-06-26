@@ -1,0 +1,29 @@
+# vim: ft=xdefaults
+#XXkb.controls.two_state: yes
+XXkb.group.base: 1
+XXkb.group.alt: 2
+
+XXkb.mainwindow.enable: yes
+XXkb.mainwindow.in_tray: yes
+XXkb.mainwindow.appicon: yes
+#XXkb.mainwindow.type: tray
+XXkb.mainwindow.geometry: 22x22+0+0
+
+XXkb.mainwindow.label.enable: yes
+#XXkb.mainwindow.button.enable: no
+
+XXkb.mainwindow.label.font: -misc-*-r-*-18-*
+XXkb.mainwindow.label.background: #cbc5bb
+XXkb.mainwindow.label.foreground: #100c08
+
+XXkb.mainwindow.label.text.1: En
+XXkb.mainwindow.label.text.2: Ru
+
+XXkb.controls.add_when_start: yes
+Xxkb.controls.add_when_create: yes
+XXkb.controls.add_when_change: yes
+XXkb.controls.focusout: no
+XXkb.controls.mainwindow_delete: no
+XXkb.button.enable: no
+XXkb.button.label.enable: no
+XXkb.bell.enable: no

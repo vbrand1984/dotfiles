@@ -1,0 +1,9 @@
+{{ if eq .chezmoi.osRelease.id "arch" "artix" -}}
+--start-maximized
+--enable-accelerated-video-decode
+--enable-features=VaapiVideoDecoder
+--disk-cache-dir=/run/user/{{ .chezmoi.uid }}/chromium-cache
+--enable-gpu-rasterization
+--enable-zero-copy
+--js-flags=--jitless
+{{- end }}
