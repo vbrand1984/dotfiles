@@ -1,4 +1,4 @@
-# chezmoi:template:left-delimiter=[[ right-delimiter=]]
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
 # See https://gitlab.com/o9000/tint2/wikis/Configure for 
 # full documentation of the configuration options.
 
@@ -214,7 +214,7 @@ task_centered = 0
 urgent_nb_of_blink = 100000
 task_maximum_size = 250 26
 task_padding = 4 0 4
-task_font = [[ .gtk.fontName ]]
+task_font = @'{# .gtk.fontName #}'@
 task_tooltip = 1
 task_thumbnail = 0
 task_thumbnail_size = 350
@@ -271,7 +271,7 @@ tooltip_hide_timeout = 0.1
 tooltip_padding = 6 4
 tooltip_background_id = 5
 tooltip_font_color = #080808 100
-tooltip_font = [[ .gtk.fontName ]]
+tooltip_font = @'{# .gtk.fontName #}'@
 
 # }}}
 # {{{ Separators

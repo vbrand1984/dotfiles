@@ -1,11 +1,10 @@
-# chezmoi:template: left-delimiter=#* right-delimiter=*#
-#* if .theSystem.isDebianBased -*#
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+@'{# if .theSystem.isDebianBased -#}'@
 packages:
   debian:
     uninstall:
       - pulseaudio
       - pulseaudio-utils
-      - vlc
     stable:
       # {{{ Current config dependencies
       - libgtk3-perl
@@ -21,6 +20,8 @@ packages:
       - lsb-release
       - rsync
       - vim
+      - vim-gtk3
+      - vim-syntax-gtk
       # }}}
       # {{{ Archivers
       - arj
@@ -86,7 +87,7 @@ packages:
       - gxkb
       - libfm-modules
       - libnotify-bin
-      - lua5.4
+      - lua5.3
       - lxappearance
       - lxpolkit
       - lxrandr
@@ -109,8 +110,10 @@ packages:
       # }}}
       # {{{ Browsers
       - firefox-esr
+@'{#- if .theSystem.isBrandsPrivate #}'@
       - firefox-esr-l10n-de
       - firefox-esr-l10n-ru
+@'{#- end #}'@
       # }}}
       # {{{ Desktop applications
       - atril
@@ -159,10 +162,12 @@ packages:
       # {{{ Libreoffice
       - libreoffice
       - libreoffice-gtk3
+@'{#- if .theSystem.isBrandsPrivate #}'@
       - libreoffice-l10n-ru
+@'{#- end #}'@
       # }}}
     markauto:
       - libfm-modules
     cpan:
       - Linux::DesktopFiles
-#*- end *#
+@'{#- end #}'@

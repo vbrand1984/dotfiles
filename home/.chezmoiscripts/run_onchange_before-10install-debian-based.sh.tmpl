@@ -1,0 +1,50 @@
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+@'{# if .theSystem.isDebianBased -#}'@
+#!/bin/sh
+# vim: ft=sh
+
+@'{# template "ensureSudoIsWorking.sh" . #}'@
+
+if ! command -v aptitude ; then
+    echo "Installing aptitude..."
+    ensure_sudo_is_working && apt-get --no-install-recommends --assume-yes install aptitude
+fi
+
+yes_sir="--assume-yes"
+no_install_recommends="-R"
+
+echo "Installing packages from stable repository..."
+ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude "${yes_sir}" "${no_install_recommends}" install @'{# .packages.debian.stable | join " " #}'@
+
+echo "Performing markauto..."
+ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude markauto $(strip_square_brackets @'{# .packages.debian.markauto | toString | squote #}'@)
+
+# Usage:
+# install_deb_pkg_from_internet <address>
+install_deb_pkg_from_internet() {
+    old_wd=$(pwd)
+    pkg_addr="${1}"
+    cd /tmp
+    wget "${pkg_addr}"
+    pkg_filename=$(basename "${pkg_addr}")
+    ensure_sudo_is_working && @'{# .apps.suApp #}'@ dpkg -i "${pkg_filename}"
+    rm "${pkg_filename}"
+    cd "${old_wd}"
+}
+
+if ! command -v clipit ; then
+    echo "Installing clipit..."
+    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_@'{# .chezmoi.arch #}'@.deb"
+    ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude hold clipit 
+fi
+
+# A handy tool to manage papirus icon theme
+# See: https://github.com/PapirusDevelopmentTeam/papirus-folders
+if ! command -v papirus-folders ; then
+    echo "Installing papirus-folders..."
+    install_deb_pkg_from_internet "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb"
+fi
+
+#https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb
+
+@'{#- end #}'@

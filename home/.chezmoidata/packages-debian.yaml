@@ -1,0 +1,8 @@
+packages:
+  debian:
+    stable:
+      - ansible
+      - wget
+    backports:
+    markauto:
+      - libfm-modules

@@ -2,11 +2,11 @@
 #!/usr/bin/python3
 # vim: ft=python
 # chezmoi:template:missing-key=zero
-
+#
 # In order to utilize the API of OpenWeatherMap, you MUST register there and get an AppID
 # See: https://openweathermap.org/api
 # See also the get_weather_json() function below
-
+#
 # Also, this script utilizes the weather-icons font, which can be downloaded here:
 # https://github.com/erikflowers/weather-icons/blob/master/font/weathericons-regular-webfont.ttf
 
@@ -118,7 +118,7 @@ def find_weather_symbol(icon_name):
     return the_symbol
 
 # Load our config file with credentials
-the_data = load_json_from_file({{ joinPath .chezmoi.homeDir .sysDirs.scripts "openweathermap-id.json" | quote }})
+the_data = load_json_from_file({{ joinPath .sysDirs.scripts "openweathermap-id.json" | quote }})
 city_id = the_data.get("city_id", "default_city_id")
 appid = the_data.get("appid", "default_appid")
 

@@ -40,7 +40,7 @@ if [ "x$1" != 'xselection' ] && [ -n "$2" ] && [ "x$2" = 'xdelay' ] ; then
     notify-send -t 3000 "Taking a $1 screenshot in $delay_interval seconds..."
 fi
 
-scrot_execute="notify-send -A 'open_dir,Open Directory' -i '{{ template "dunstIcons" . }}/emblems/emblem-photos.{{ .gtk.iconExt }}' -t 3000 'Screenshot Saved' '\$n'"
+scrot_execute="notify-send -A 'open_dir,Open Directory' -i 'emblem-photos' -t 3000 'Screenshot Saved' '\$n'"
 got_action=$(scrot -e "$scrot_execute" "$scrotopts" -F "$picdir/$picname_pattern" || die "Couldn't save a screenshot in $picdir!")
 
 if [ "x$got_action" = 'xopen_dir' ] ; then

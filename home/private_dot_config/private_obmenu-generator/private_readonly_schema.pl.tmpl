@@ -31,24 +31,24 @@ my $chezmoi_editor = {{ .apps.chezmoiEditorFromMenu | quote }};
 our $SCHEMA = [
 
     #           COMMAND                 LABEL               ICON
-    {pipe =>    ['/bin/bash -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-bookmarks.sh',   'Bookmarks',    '{{ template "symbolicIcons" . }}/apps/system-file-manager-symbolic.svg']},
-    {item =>    ['x-terminal-emulator', 'Terminal',         '{{ template "symbolicIcons" . }}/apps/utilities-terminal-symbolic.svg']},
-    {item =>    ['xdg-open http://',    'Web Browser',      '{{ template "symbolicIcons" . }}/apps/web-browser-symbolic.svg']},
+    {pipe =>    ['/usr/bin/lua {{ .sysDirs.obPipemenus }}/ob-pm-bookmarks.lua {{ .varia.obmenuIconSize }}',   'Bookmarks',    'system-file-manager-symbolic']},
+    {item =>    ['x-terminal-emulator', 'Terminal',         'utilities-terminal-symbolic']},
+    {item =>    ['xdg-open http://',    'Web Browser',      'web-browser-symbolic']},
 
     {sep =>     'Main Menu'},
 
     #           NAME                    LABEL               ICON
-    {cat =>     ['utility',             'Accessories',      '{{ template "symbolicIcons" . }}/categories/applications-utilities-symbolic.svg']},
-    {cat =>     ['development',         'Development',      '{{ template "symbolicIcons" . }}/categories/applications-engineering-symbolic.svg']},
-    {cat =>     ['education',           'Education',        '{{ template "symbolicIcons" . }}/categories/applications-science-symbolic.svg']},
-    {cat =>     ['game',                'Games',            '{{ template "symbolicIcons" . }}/categories/applications-games-symbolic.svg']},
-    {cat =>     ['graphics',            'Graphics',         '{{ template "symbolicIcons" . }}/categories/applications-graphics-symbolic.svg']},
-    {cat =>     ['audiovideo',          'Multimedia',       '{{ template "symbolicIcons" . }}/categories/applications-multimedia-symbolic.svg']},
-    {cat =>     ['network',             'Network',          '{{ template "symbolicIcons" . }}/places/network-workgroup-symbolic.svg']},
-    {cat =>     ['office',              'Office',           '{{ template "symbolicIcons" . }}/apps/libreoffice-base-symbolic.svg']},
-    {cat =>     ['other',               'Other',            '{{ template "symbolicIcons" . }}/apps/tools-symbolic.svg']},
-    {cat =>     ['settings',            'Settings',         '{{ template "symbolicIcons" . }}/apps/utilities-tweak-tool-symbolic.svg']},
-    {cat =>     ['system',              'System',           '{{ template "symbolicIcons" . }}/categories/applications-system-symbolic.svg']},
+    {cat =>     ['utility',             'Accessories',      'applications-utilities-symbolic']},
+    {cat =>     ['development',         'Development',      'applications-engineering-symbolic']},
+    {cat =>     ['education',           'Education',        'applications-science-symbolic']},
+    {cat =>     ['game',                'Games',            'applications-games-symbolic']},
+    {cat =>     ['graphics',            'Graphics',         'applications-graphics-symbolic']},
+    {cat =>     ['audiovideo',          'Multimedia',       'applications-multimedia-symbolic']},
+    {cat =>     ['network',             'Network',          'network-workgroup-symbolic']},
+    {cat =>     ['office',              'Office',           'libreoffice-base-symbolic']},
+    {cat =>     ['other',               'Other',            'tools-symbolic']},
+    {cat =>     ['settings',            'Settings',         'utilities-tweak-tool-symbolic']},
+    {cat =>     ['system',              'System',           'applications-system-symbolic']},
 
     #             LABEL          ICON
     #{beg => ['My category',  'cat-icon']},
@@ -66,67 +66,67 @@ our $SCHEMA = [
     ## Custom advanced settings
     {sep => undef},
     #{beg => ['Advanced Settings', 'applications-engineering']},
-    {beg => ['Advanced Settings', '{{ template "symbolicIcons" . }}/categories/preferences-other-symbolic.svg']},
+    {beg => ['Advanced Settings', 'preferences-other-symbolic']},
 
         # Nitrogen
-        {item => ['nitrogen', 'Desktop wallpaper', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-wallpaper-symbolic.svg']},
+        {item => ['nitrogen', 'Desktop wallpaper', 'preferences-desktop-wallpaper-symbolic']},
         # Reconfiguration of the whole appearance
-        {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.localBin }}/reconfigure-appearance.sh', 'Reconfigure appearance', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-remote-desktop-symbolic.svg']},
+        {item => ['/bin/sh -e {{ joinPath .sysDirs.localBin "reconfigure-appearance.sh" | quote }}', 'Reconfigure appearance', 'preferences-desktop-remote-desktop-symbolic']},
 
         {sep => undef},
 
         # Conky category (pipemenu)
-        {pipe => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-conky.sh', 'Conky', '{{ template "symbolicIcons" . }}/apps/utilities-system-monitor-symbolic.svg']},
+        {pipe => ['/usr/bin/lua -- {{ joinPath .sysDirs.obPipemenus "ob-pm-conky.lua" }}', 'Conky', 'utilities-system-monitor-symbolic']},
 
         # obmenu-generator category
-        {beg => ['Obmenu-Generator', '{{ template "symbolicIcons" . }}/actions/edit-tag-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/schema.pl", 'Edit schema.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/config.pl", 'Edit config.pl', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+        {beg => ['Obmenu-Generator', 'edit-tag-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/schema.pl", 'Edit schema.pl', 'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/obmenu-generator/config.pl", 'Edit config.pl', 'edit-symbolic']},
 
             {sep  => undef},
 
-            {item => ['/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -d', 'Refresh cache', '{{ template "symbolicIcons" . }}/actions/view-refresh-symbolic.svg']},
+            {item => ['/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
         {end => undef},
 
         # Openbox configuration category
-        {beg => ['Openbox', '{{ template "symbolicIcons" . }}/places/workspaces-symbolic.svg']},
+        {beg => ['Openbox', 'workspaces-symbolic']},
             {item => ['obconf', 'Obconf', 'obconf']},
-            {item => ['openbox --reconfigure', 'Reconfigure Openbox', '{{ template "symbolicIcons" . }}/actions/system-run-symbolic.svg']},
-            {item => ['openbox --restart', 'Restart Openbox', '{{ template "symbolicIcons" . }}/actions/view-refresh-symbolic.svg']},
+            {item => ['openbox --reconfigure', 'Reconfigure Openbox', 'system-run-symbolic']},
+            {item => ['openbox --restart', 'Restart Openbox', 'view-refresh-symbolic']},
 
             {sep => undef},
 
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart", 'Edit autostart script', '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",  'Edit menu.xml',         '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",            'Edit rc.xml',           '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart", 'Edit autostart script', 'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",  'Edit menu.xml',         'edit-symbolic']},
+            {item => ["$editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",            'Edit rc.xml',           'edit-symbolic']},
         {end => undef},
 
         # Varia category
         # settings-configure
-        {beg => ['Varia', '{{ template "symbolicIcons" . }}/apps/preferences-system-details-symbolic.svg']},
-            {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart tint2', 'Restart tint2', '{{ template "symbolicIcons" . }}/apps/preferences-ubuntu-panel-symbolic.svg']},
-            {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.scripts }}/manage-service.sh restart dunst', 'Restart dunst', '{{ template "symbolicIcons" . }}/apps/notifications-applet-symbolic.svg']},
+        {beg => ['Varia', 'preferences-system-details-symbolic']},
+            {item => ['/bin/sh -e {{ joinPath .sysDirs.scripts "manage-service.sh" | quote }} restart tint2', 'Restart tint2', 'preferences-ubuntu-panel-symbolic']},
+            {item => ['/bin/sh -e {{ joinPath .sysDirs.scripts "manage-service.sh" | quote }} restart dunst', 'Restart dunst', 'notifications-applet-symbolic']},
 
             {sep => undef},
 
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/tint2/tint2rc",     'Edit tint2rc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/dunst/dunstrc",     'Edit dunstrc',     '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/picom/picom.conf",  'Edit picom.conf',  '{{ template "symbolicIcons" . }}/actions/edit-symbolic.svg']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/tint2/tint2rc",     'Edit tint2rc',     'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/dunst/dunstrc",     'Edit dunstrc',     'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/picom/picom.conf",  'Edit picom.conf',  'edit-symbolic']},
         {end => undef},
 
         # XSettingsD category (pipemenu)
-        {pipe => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .sysDirs.obPipemenus }}/ob-pipe-xsettingsd.sh', 'XSettingsD', '{{ template "symbolicIcons" . }}/apps/preferences-desktop-apps-symbolic.svg']},
+        {pipe => ['/usr/bin/lua -- {{ .sysDirs.obPipemenus }}/ob-pm-xsettingsd.lua', 'XSettingsD', 'preferences-desktop-apps-symbolic']},
 
     {end => undef},
 
     {sep => 'Exit'},
 
     ## The xscreensaver lock command
-    {item => ['xscreensaver-command -lock', 'Lock screen', '/usr/share/icons/{{ .gtk.iconTheme }}/symbolic/actions/system-lock-screen-symbolic.{{ .gtk.iconExt }}']},
+    {item => ['xscreensaver-command -lock', 'Lock screen', 'system-lock-screen-symbolic']},
 
     ## This option uses the default Openbox's "Exit" action
-    {exit => ['Log out', '/usr/share/icons/{{ .gtk.iconTheme }}/symbolic/actions/system-log-out-symbolic.{{ .gtk.iconExt }}']},
+    {exit => ['Log out', 'system-log-out-symbolic']},
 
     ## This uses the 'oblogout' menu
-    {item => ['lxsession-logout --prompt="<big><big><b>Vero exire a sessione vis?</b></big></big>"', 'Shutdown', '/usr/share/icons/{{ .gtk.iconTheme }}/symbolic/actions/system-shutdown-symbolic.{{ .gtk.iconExt }}']},
+    {item => ['lxsession-logout --prompt="<big><big><b>Vero exire a sessione vis?</b></big></big>"', 'Shutdown', 'system-shutdown-symbolic']},
 ]

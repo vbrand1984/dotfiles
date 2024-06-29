@@ -5,6 +5,6 @@ if [[ -r "${HOME}/.bashrc" ]] ; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [[ -d {{ joinPath .chezmoi.homeDir .sysDirs.localBin | squote }} ]] ; then
-    PATH="$PATH:{{ joinPath .chezmoi.homeDir .sysDirs.localBin }}"
+if [[ -d {{ .sysDirs.localBin | squote }} ]] ; then
+    PATH="$PATH:{{ .sysDirs.localBin }}"
 fi

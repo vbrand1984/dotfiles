@@ -1,32 +1,32 @@
-# chezmoi:template:left-delimiter=##* right-delimiter=*##
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
 
-##*- if false -*##
+@'{#- if false -#}'@
 # {{{ Variable initialization
-##*- end -*##
+@'{#- end -#}'@
 
-##*- $desktopRigName := "saturn" -*##
-##*- $oldLaptopName := "antares" -*##
-##*- $privatePCs := list $desktopRigName $oldLaptopName -*##
-##*- $personalUsername := "victor" -*##
-##*- $defaultBaseDataDir := "/home" -*##
-##*- $localCache := ".cache" -*##
-##*- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -*##
+@'{#- $desktopRigName := "saturn" -#}'@
+@'{#- $oldLaptopName := "antares" -#}'@
+@'{#- $privatePCs := list $desktopRigName $oldLaptopName -#}'@
+@'{#- $personalUsername := "victor" -#}'@
+@'{#- $defaultBaseDataDir := "/home" -#}'@
+@'{#- $localCache := ".cache" -#}'@
+@'{#- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -#}'@
 
-##*- if false -*##
+@'{#- if false -#}'@
 # }}}
-##*- end -*##
+@'{#- end -#}'@
 
 # {{{ General chezmoi config
 
 # Redefine the temporary directory for scripts in case of /tmp is mounted with the noexec option
 # See: https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-chezmoi-forkexec-tmpxxxxxxxxxxxx-permission-denied-when-executing-a-script
-scriptTempDir = ##* joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scripts" | quote *##
+scriptTempDir = @'{# joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scripts" | quote #}'@
 
 # Set chezmoi cache to be on disk in case of system cache is in memory
-cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
+cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
 
 [scriptEnv]
-    TMPDIR = ##* joinPath "/run/user" (toString .chezmoi.uid) | quote *##
+    TMPDIR = @'{# joinPath "/run/user" (toString .chezmoi.uid) | quote #}'@
 
 [diff]
     scriptContents = false
@@ -36,50 +36,65 @@ cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
 
 [data.theSystem]
 
-    ##* $isDebianBased := (or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian"))) -*##
-    ##* $isDesktopRig := eq .chezmoi.hostname $desktopRigName -*##
-    ##* $isOldLaptop := eq .chezmoi.hostname $oldLaptopName -*##
-    isDebianBased = ##* $isDebianBased *## 
-    isVoid = ##* eq .chezmoi.osRelease.id "void" *##
-    isGentoo = ##* eq .chezmoi.osRelease.id "gentoo" *##
-    hasSystemd = ##* lookPath "systemctl" | not | not *##
+    #
+    # These settings are automatically configured. No need to change them in chezmoi.toml, edit .chezmoi.toml.tmpl instead.
+    #
 
-    isDesktopRig = ##* $isDesktopRig *##
-    isOldLaptop = ##* $isOldLaptop *##
+    @'{# $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -#}'@
+    @'{# $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -#}'@
+    @'{# $isDebBased := or $isDebianBased $isUbuntuBased -#}'@
+    @'{# $isDesktopRig := eq .chezmoi.hostname $desktopRigName -#}'@
+    @'{# $isOldLaptop := eq .chezmoi.hostname $oldLaptopName -#}'@
+    isDebianBased = @'{# $isDebianBased #}'@ 
+    isUbuntuBased = @'{# $isUbuntuBased #}'@ 
+    isDebBased = @'{# $isDebBased #}'@ 
+    isVoid = @'{# eq .chezmoi.osRelease.id "void" #}'@
+    isGentoo = @'{# eq .chezmoi.osRelease.id "gentoo" #}'@
+    hasSystemd = @'{# lookPath "systemctl" | not | not #}'@
 
-    # True if this is my private PC
-    isBrandsPrivate = ##* $isBrandsPrivate *## 
+    isDesktopRig = @'{# $isDesktopRig #}'@
+    isOldLaptop = @'{# $isOldLaptop #}'@
+
+    # True if this is Victor Brand's private PC
+    isBrandsPrivate = @'{# $isBrandsPrivate #}'@ 
 
 # }}}
 # {{{ Personal data
 
 [data.personal]
 
-    desktopRigName = ##* $desktopRigName | quote *##
-    oldLaptopName = ##* $oldLaptopName | quote *##
-    privatePCs = ##* $privatePCs | toToml *##
-    username = ##* $personalUsername | quote *##
-
-##*- if $isBrandsPrivate *##
-    gitFullName = ##* if and (hasKey . "personal") (hasKey .personal "gitFullName" ) -*## ##* .personal.gitFullName | quote *## ##*- else -*## "Victor Brand" ##*- end *##
-    gitEmail = ##* if and (hasKey . "personal") (hasKey .personal "gitEmail" ) -*## ##* .personal.gitEmail | quote *## ##*- else -*## "58734964+vbrand1984@users.noreply.github.com" ##*- end *##
-##*- else -*##
-    ##*- $gitFullName := promptStringOnce . "personal.gitFullName" "Your full name to be displayed in git" *##
-    gitFullName = ##* $gitFullName | quote *##
-    ##*- $gitEmail := promptStringOnce . "personal.gitEmail" "Your git Email" *##
-    gitEmail = ##* $gitEmail | quote *##
-##*- end *##
+    # These settings are automatically configured in .chezmoi.toml.tmpl
+    desktopRigName = @'{# $desktopRigName | quote #}'@
+    oldLaptopName = @'{# $oldLaptopName | quote #}'@
+    privatePCs = @'{# $privatePCs | toToml #}'@
+    username = @'{# $personalUsername | quote #}'@
+@'{# if $isBrandsPrivate #}'@
+    gitFullName = @'{# if and (hasKey . "personal") (hasKey .personal "gitFullName" ) -#}'@ @'{# .personal.gitFullName | quote #}'@ @'{#- else -#}'@ "Victor Brand" @'{#- end #}'@
+    gitEmail = @'{# if and (hasKey . "personal") (hasKey .personal "gitEmail" ) -#}'@ @'{# .personal.gitEmail | quote #}'@ @'{#- else -#}'@ "58734964+vbrand1984@users.noreply.github.com" @'{#- end #}'@
+@'{#- else -#}'@
+    @'{#- $gitFullName := promptStringOnce . "personal.gitFullName" "Your full name to be displayed in git" #}'@
+    gitFullName = @'{# $gitFullName | quote #}'@
+    @'{#- $gitEmail := promptStringOnce . "personal.gitEmail" "Your git Email" #}'@
+    gitEmail = @'{# $gitEmail | quote #}'@
+@'{#- end #}'@
 
 # }}}
 # {{{ sysDirs
 
 [data.sysDirs]
     # Default for baseDataDir is /home
-    ##*- $baseHomeDir := promptStringOnce . "sysDirs.baseDataDir" "baseHomeDir" $defaultBaseDataDir *##
-    baseDataDir = ##* $baseHomeDir | quote *##
-    defaultBaseDataDir = ##* $defaultBaseDataDir | quote *##
+    @'{#- $baseHomeDir := promptStringOnce . "sysDirs.baseDataDir" "Where your personal data partition is mounted, is it /home or another directory" $defaultBaseDataDir #}'@
+    baseDataDir = @'{# $baseHomeDir | quote #}'@
+    defaultBaseDataDir = @'{# $defaultBaseDataDir | quote #}'@
 
-    localCache = ##* $localCache | quote *##
+    localCache = @'{# joinPath .chezmoi.homeDir $localCache | quote #}'@
+    localBin = @'{# joinPath .chezmoi.homeDir ".local/Bin" | quote #}'@
+    scripts = @'{# joinPath .chezmoi.homeDir ".local/Scripti" | quote #}'@
+    obPipemenus = @'{# joinPath .chezmoi.homeDir ".local/Scripti/openbox-pipemenus" | quote #}'@
+    localBackgrounds = @'{# joinPath .chezmoi.homeDir ".local/share/backgrounds" | quote #}'@
+
+    # This directory is inside the source dir of chezmoi
+    symlinked = @'{# joinPath .chezmoi.sourceDir ".symlinked" | quote #}'@
 
 # }}}
 # {{{ apps
@@ -87,12 +102,12 @@ cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
 [data.apps]
 
     # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-    suApp = ##* if and (not $isDebianBased) (lookPath "doas" | not | not) -*## "doas" ##*- else -*## "sudo" ##*- end *##
+    suApp = @'{# if and (not $isDebianBased) (lookPath "doas" | not | not) -#}'@ "doas" @'{#- else -#}'@ "sudo" @'{#- end #}'@
 
-    terminalEmulator = ##* if and (hasKey . "apps") (hasKey .apps "terminalEmulator" ) -*## ##* .apps.terminalEmulator | quote *## ##*- else -*## "lxterminal" ##*- end *##
+    terminalEmulator = @'{# if and (hasKey . "apps") (hasKey .apps "terminalEmulator" ) -#}'@ @'{# .apps.terminalEmulator | quote #}'@ @'{#- else -#}'@ "lxterminal" @'{#- end #}'@
 
     # Whether to autostart emacs daemon or not
-    emacsDaemon = ##* if and (hasKey . "apps") (hasKey .apps "emacsDaemon" ) -*## ##* .apps.emacsDaemon | not | not *## ##*- else -*## true ##*- end *##
+    emacsDaemon = @'{# if and (hasKey . "apps") (hasKey .apps "emacsDaemon" ) -#}'@ @'{# .apps.emacsDaemon | not | not #}'@ @'{#- else -#}'@ true @'{#- end #}'@
 
 # }}}
 # {{{ gtk (Graphical settings: theme, font, icons, etc.)
@@ -100,41 +115,38 @@ cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
 [data.gtk]
 
     # General theming
-    fontName = ##* if and (hasKey . "gtk") (hasKey .gtk "fontName" ) -*## ##* .gtk.fontName | quote *## ##*- else -*## "Roboto Regular 11" ##*- end *##
-    themeName = ##* if and (hasKey . "gtk") (hasKey .gtk "themeName" ) -*## ##* .gtk.themeName | quote *## ##*- else -*## "Greylooks" ##*- end *##
-    iconTheme = ##* if and (hasKey . "gtk") (hasKey .gtk "iconTheme" ) -*## ##* .gtk.iconTheme | quote *## ##*- else -*## "Papirus-Light" ##*- end *##
-
-    # This setting is required for icons in Openbox menu and dunst
-    iconExt = ##* if and (hasKey . "gtk") (hasKey .gtk "iconExt" ) -*## ##* .gtk.iconExt | quote *## ##*- else -*## "svg" ##*- end *##
+    fontName = @'{# if and (hasKey . "gtk") (hasKey .gtk "fontName" ) -#}'@ @'{# .gtk.fontName | quote #}'@ @'{#- else -#}'@ "Roboto Regular 11" @'{#- end #}'@
+    themeName = @'{# if and (hasKey . "gtk") (hasKey .gtk "themeName" ) -#}'@ @'{# .gtk.themeName | quote #}'@ @'{#- else -#}'@ "Greylooks" @'{#- end #}'@
+    iconTheme = @'{# if and (hasKey . "gtk") (hasKey .gtk "iconTheme" ) -#}'@ @'{# .gtk.iconTheme | quote #}'@ @'{#- else -#}'@ "Papirus-Light" @'{#- end #}'@
 
     # Mouse cursor
-    cursorTheme = ##* if and (hasKey . "gtk") (hasKey .gtk "cursorTheme" ) -*## ##* .gtk.cursorTheme | quote *## ##*- else -*## ##* if eq .chezmoi.osRelease.id "void" "arch" "artix" -*## "Vanilla-DMZ" ##*- else -*## "DMZ-White" ##*- end *## ##*- end *##
-    cursorSize = ##* if and (hasKey . "gtk") (hasKey .gtk "cursorSize" ) -*## ##* int .gtk.cursorSize *## ##*- else -*## 24 ##*- end *##
+    cursorTheme = @'{# if and (hasKey . "gtk") (hasKey .gtk "cursorTheme" ) -#}'@ @'{# .gtk.cursorTheme | quote #}'@ @'{#- else -#}'@ @'{# if eq .chezmoi.osRelease.id "void" "arch" "artix" -#}'@ "Vanilla-DMZ" @'{#- else -#}'@ "DMZ-White" @'{#- end #}'@ @'{#- end #}'@
+    cursorSize = @'{# if and (hasKey . "gtk") (hasKey .gtk "cursorSize" ) -#}'@ @'{# int .gtk.cursorSize #}'@ @'{#- else -#}'@ 24 @'{#- end #}'@
 
     # Various GTK settings 
-    decorationLayout = ##* if and (hasKey . "gtk") (hasKey .gtk "decorationLayout" ) -*## ##* .gtk.decorationLayout | quote *## ##*- else -*## "menu:minimize,maximize,close" ##*- end *##
-    buttonImages = ##* if and (hasKey . "gtk") (hasKey .gtk "buttonImages" ) -*## ##* .gtk.buttonImages | not | not *## ##*- else -*## true ##*- end *##
-    menuImages = ##* if and (hasKey . "gtk") (hasKey .gtk "menuImages" ) -*## ##* .gtk.menuImages | not | not *## ##*- else -*## true ##*- end *##
-    enableEventSounds = ##* if and (hasKey . "gtk") (hasKey .gtk "enableEventSounds" ) -*## ##* .gtk.enableEventSounds | not | not *## ##*- else -*## false ##*- end *##
-    enableInputFeedbackSounds = ##* if and (hasKey . "gtk") (hasKey .gtk "enableInputFeedbackSounds" ) -*## ##* .gtk.enableInputFeedbackSounds | not | not *## ##*- else -*## false ##*- end *##
+    decorationLayout = @'{# if and (hasKey . "gtk") (hasKey .gtk "decorationLayout" ) -#}'@ @'{# .gtk.decorationLayout | quote #}'@ @'{#- else -#}'@ "menu:minimize,maximize,close" @'{#- end #}'@
+    buttonImages = @'{# if and (hasKey . "gtk") (hasKey .gtk "buttonImages" ) -#}'@ @'{# .gtk.buttonImages | not | not #}'@ @'{#- else -#}'@ true @'{#- end #}'@
+    menuImages = @'{# if and (hasKey . "gtk") (hasKey .gtk "menuImages" ) -#}'@ @'{# .gtk.menuImages | not | not #}'@ @'{#- else -#}'@ true @'{#- end #}'@
+    enableEventSounds = @'{# if and (hasKey . "gtk") (hasKey .gtk "enableEventSounds" ) -#}'@ @'{# .gtk.enableEventSounds | not | not #}'@ @'{#- else -#}'@ false @'{#- end #}'@
+    enableInputFeedbackSounds = @'{# if and (hasKey . "gtk") (hasKey .gtk "enableInputFeedbackSounds" ) -#}'@ @'{# .gtk.enableInputFeedbackSounds | not | not #}'@ @'{#- else -#}'@ false @'{#- end #}'@
 
     # See: https://docs.gtk.org/gtk3/enum.IconSize.html
-    toolbarIconSize = ##* if and (hasKey . "gtk") (hasKey .gtk "toolbarIconSize" ) -*## ##* .gtk.toolbarIconSize | quote *## ##*- else -*## "GTK_ICON_SIZE_SMALL_TOOLBAR" ##*- end *##
+    toolbarIconSize = @'{# if and (hasKey . "gtk") (hasKey .gtk "toolbarIconSize" ) -#}'@ @'{# .gtk.toolbarIconSize | quote #}'@ @'{#- else -#}'@ "GTK_ICON_SIZE_SMALL_TOOLBAR" @'{#- end #}'@
 
     # See: https://docs.gtk.org/gtk3/enum.ToolbarStyle.html
-    toolbarStyle = ##* if and (hasKey . "gtk") (hasKey .gtk "toolbarStyle" ) -*## ##* .gtk.toolbarStyle | quote *## ##*- else -*## "GTK_TOOLBAR_BOTH_HORIZ" ##*- end *##
+    toolbarStyle = @'{# if and (hasKey . "gtk") (hasKey .gtk "toolbarStyle" ) -#}'@ @'{# .gtk.toolbarStyle | quote #}'@ @'{#- else -#}'@ "GTK_TOOLBAR_BOTH_HORIZ" @'{#- end #}'@
 
 # }}}
 # {{{ fontConfig (fontconfig options: hinting, antialias, lcdfilter, etc.)
 
 [data.fontConfig]
-    dpi = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "dpi" ) -*## ##* int .fontConfig.dpi *## ##*- else -*## 96 ##*- end *##
-    autohint = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "autohint" ) -*## ##* .fontConfig.autohint | not | not *## ##*- else -*## false ##*- end *##
-    antialias = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "antialias" ) -*## ##* .fontConfig.antialias | not | not *## ##*- else -*## true ##*- end *##
-    hinting = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "hinting" ) -*## ##* .fontConfig.hinting | not | not *## ##*- else -*## true ##*- end *##
-    hintStyle = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "hintstyle" ) -*## ##* .fontConfig.hintstyle | quote *## ##*- else -*## "hintslight" ##*- end *##
-    rgba = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "rgba" ) -*## ##* .fontConfig.rgba | quote *## ##*- else -*## "rgb" ##*- end *##
-    lcdfilter = ##* if and (hasKey . "fontConfig") (hasKey .fontConfig "lcdfilter" ) -*## ##* .fontConfig.lcdfilter | quote *## ##*- else -*## "lcdlight" ##*- end *##
+    dpi = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "dpi" ) -#}'@ @'{# int .fontConfig.dpi #}'@ @'{#- else -#}'@ 96 @'{#- end #}'@
+    autohint = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "autohint" ) -#}'@ @'{# .fontConfig.autohint | not | not #}'@ @'{#- else -#}'@ false @'{#- end #}'@
+    antialias = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "antialias" ) -#}'@ @'{# .fontConfig.antialias | not | not #}'@ @'{#- else -#}'@ true @'{#- end #}'@
+    hinting = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "hinting" ) -#}'@ @'{# .fontConfig.hinting | not | not #}'@ @'{#- else -#}'@ true @'{#- end #}'@
+    hintStyle = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "hintstyle" ) -#}'@ @'{# .fontConfig.hintstyle | quote #}'@ @'{#- else -#}'@ "hintslight" @'{#- end #}'@
+    rgba = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "rgba" ) -#}'@ @'{# .fontConfig.rgba | quote #}'@ @'{#- else -#}'@ "rgb" @'{#- end #}'@
+    lcdfilter = @'{# if and (hasKey . "fontConfig") (hasKey .fontConfig "lcdfilter" ) -#}'@ @'{# .fontConfig.lcdfilter | quote #}'@ @'{#- else -#}'@ "lcdlight" @'{#- end #}'@
 
 # }}}
 # {{{ varia (Various settings)
@@ -142,15 +154,17 @@ cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
 [data.varia]
 
     # Font for gvim
-    gvimFont = ##* if and (hasKey . "varia") (hasKey .varia "gvimFont" ) -*## ##* .varia.gvimFont | quote *## ##*- else -*## "JetBrains Mono Medium ##* if $isOldLaptop -*## 12 ##*- else -*## 13 ##*- end *##" ##*- end *##
+    gvimFont = @'{# if and (hasKey . "varia") (hasKey .varia "gvimFont" ) -#}'@ @'{# .varia.gvimFont | quote #}'@ @'{#- else -#}'@ "JetBrains Mono Medium @'{# if $isOldLaptop -#}'@ 12 @'{#- else -#}'@ 13 @'{#- end #}'@" @'{#- end #}'@
 
     # Icon sizes for various applications
-    obmenuIconSize = ##* if and (hasKey . "varia") (hasKey .varia "obmenuIconSize" ) -*## ##* int .varia.obmenuIconSize *## ##*- else -*## 24 ##*- end *##
-    dunstIconSize = ##* if and (hasKey . "varia") (hasKey .varia "dunstIconSize" ) -*## ##* int .varia.dunstIconSize *## ##*- else -*## 48 ##*- end *##
+    # These values MUST be strings, although they are technically integers
+    # The thing is, they are passed as string arguments to template functions
+    obmenuIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "obmenuIconSize" ) -#}'@ @'{# .varia.obmenuIconSize | quote #}'@ @'{#- else -#}'@ "24" @'{#- end #}'@
+    dunstIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "dunstIconSize" ) -#}'@ @'{# .varia.dunstIconSize | quote #}'@ @'{#- else -#}'@ "48" @'{#- end #}'@
 
     # Keyboard settings
-    kbdDelay = ##* if and (hasKey . "varia") (hasKey .varia "kbdDelay" ) -*## ##* int .varia.kbdDelay *## ##*- else -*## 200 ##*- end *##
-    kbdRepeat = ##* if and (hasKey . "varia") (hasKey .varia "kbdRepeat" ) -*## ##* int .varia.kbdRepeat *## ##*- else -*## 35 ##*- end *##
+    kbdDelay = @'{# if and (hasKey . "varia") (hasKey .varia "kbdDelay" ) -#}'@ @'{# int .varia.kbdDelay #}'@ @'{#- else -#}'@ 200 @'{#- end #}'@
+    kbdRepeat = @'{# if and (hasKey . "varia") (hasKey .varia "kbdRepeat" ) -#}'@ @'{# int .varia.kbdRepeat #}'@ @'{#- else -#}'@ 35 @'{#- end #}'@
 
 # }}}
 # {{{ redshift
@@ -158,50 +172,50 @@ cacheDir = ##* joinPath .chezmoi.homeDir $localCache "chezmoi" | quote *##
 [data.redshift]
 
     # See redshift(1), look at ~/.config/redshift.conf
-    fade = ##* if and (hasKey . "redshift") (hasKey .redshift "fade" ) -*## ##* .redshift.fade *## ##*- else -*## false ##*- end *##
+    fade = @'{# if and (hasKey . "redshift") (hasKey .redshift "fade" ) -#}'@ @'{# .redshift.fade #}'@ @'{#- else -#}'@ false @'{#- end #}'@
 
     # See: redshift -m list
-    adjustmentMethod = ##* if and (hasKey . "redshift") (hasKey .redshift "adjustmentMethod" ) -*## ##* .redshift.adjustmentMethod | quote *## ##*- else -*## "randr" ##*- end *##
+    adjustmentMethod = @'{# if and (hasKey . "redshift") (hasKey .redshift "adjustmentMethod" ) -#}'@ @'{# .redshift.adjustmentMethod | quote #}'@ @'{#- else -#}'@ "randr" @'{#- end #}'@
 
     # See: redshift -l list
-    provider = ##* if and (hasKey . "redshift") (hasKey .redshift "provider" ) -*## ##* .redshift.provider | quote *## ##*- else -*## "manual" ##*- end *##
+    provider = @'{# if and (hasKey . "redshift") (hasKey .redshift "provider" ) -#}'@ @'{# .redshift.provider | quote #}'@ @'{#- else -#}'@ "manual" @'{#- end #}'@
 
     # Latitude and longitude of your location for redshift
-    lat = ##* if and (hasKey . "redshift") (hasKey .redshift "lat" ) -*## ##* float64 .redshift.lat *## ##*- else -*## 60 ##*- end *##
-    lon = ##* if and (hasKey . "redshift") (hasKey .redshift "lon" ) -*## ##* float64 .redshift.lon *## ##*- else -*## 30 ##*- end *##
+    lat = @'{# if and (hasKey . "redshift") (hasKey .redshift "lat" ) -#}'@ @'{# float64 .redshift.lat #}'@ @'{#- else -#}'@ 60 @'{#- end #}'@
+    lon = @'{# if and (hasKey . "redshift") (hasKey .redshift "lon" ) -#}'@ @'{# float64 .redshift.lon #}'@ @'{#- else -#}'@ 30 @'{#- end #}'@
 
     # Day temperature in K, default 6500
-    tempDay = ##* if and (hasKey . "redshift") (hasKey .redshift "tempDay" ) -*## ##* int .redshift.tempDay *## ##*- else -*## 6500 ##*- end *##
+    tempDay = @'{# if and (hasKey . "redshift") (hasKey .redshift "tempDay" ) -#}'@ @'{# int .redshift.tempDay #}'@ @'{#- else -#}'@ 6500 @'{#- end #}'@
     # Night temperature in K, default 4500
-    tempNight = ##* if and (hasKey . "redshift") (hasKey .redshift "tempNight" ) -*## ##* int .redshift.tempNight *## ##*- else -*## 4500 ##*- end *##
+    tempNight = @'{# if and (hasKey . "redshift") (hasKey .redshift "tempNight" ) -#}'@ @'{# int .redshift.tempNight #}'@ @'{#- else -#}'@ 4500 @'{#- end #}'@
 
 # }}}
 # {{{ rofi
 
 [data.rofi]
 
-    font = ##* if and (hasKey . "rofi") (hasKey .rofi "font" ) -*## ##* .rofi.font | quote *## ##*- else -*## "JetBrains Mono Medium ##* if $isOldLaptop -*## 13 ##*- else -*## 14 ##*- end *##" ##*- end *##
-    theme = ##* if and (hasKey . "rofi") (hasKey .rofi "theme" ) -*## ##* .rofi.theme | quote *## ##*- else -*## "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" ##*- end *##
+    font = @'{# if and (hasKey . "rofi") (hasKey .rofi "font" ) -#}'@ @'{# .rofi.font | quote #}'@ @'{#- else -#}'@ "JetBrains Mono Medium @'{# if $isOldLaptop -#}'@ 13 @'{#- else -#}'@ 14 @'{#- end #}'@" @'{#- end #}'@
+    theme = @'{# if and (hasKey . "rofi") (hasKey .rofi "theme" ) -#}'@ @'{# .rofi.theme | quote #}'@ @'{#- else -#}'@ "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" @'{#- end #}'@
 
 # }}}
 # {{{ conky
 
 [data.conky]
 
-    # Startup delay in autostart script, seconds. It's the value of conky's '--pause=' argument
+    # Startup delay in autostart script, seconds. It's the value of conky's "--pause=" argument
     # Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
-    startupDelay = ##* if and (hasKey . "conky") (hasKey .conky "startupDelay" ) -*## ##* int .conky.startupDelay *## ##*- else -*## ##* if and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $baseHomeDir $defaultBaseDataDir) -*## 7 ##*- else -*## 3 ##*- end *## ##*- end *##
+    startupDelay = @'{# if and (hasKey . "conky") (hasKey .conky "startupDelay" ) -#}'@ @'{# int .conky.startupDelay #}'@ @'{#- else -#}'@ @'{# if and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $baseHomeDir $defaultBaseDataDir) -#}'@ 7 @'{#- else -#}'@ 3 @'{#- end #}'@ @'{#- end #}'@
 
     # Will conky be fully transparent, semi-transparent or non-transparent
     # Possible values: "Full", "Semi", "None"
-    currentTransparency = ##* if and (hasKey . "conky") (hasKey .conky "currentTransparency" ) -*## ##* .conky.currentTransparency | quote *## ##*- else -*## "Full" ##*- end *##
+    currentTransparency = @'{# if and (hasKey . "conky") (hasKey .conky "currentTransparency" ) -#}'@ @'{# .conky.currentTransparency | quote #}'@ @'{#- else -#}'@ "Full" @'{#- end #}'@
 
     # ARGB value is only used when conky is semi-transparent.
     # It has range 0 to 255. The more this value is, the less transparent is conky
-    argbValue = ##* if and (hasKey . "conky") (hasKey .conky "argbValue" ) -*## ##* int .conky.argbValue *## ##*- else -*## 160 ##*- end *##
+    argbValue = @'{# if and (hasKey . "conky") (hasKey .conky "argbValue" ) -#}'@ @'{# int .conky.argbValue #}'@ @'{#- else -#}'@ 160 @'{#- end #}'@
 
     # Palette to use with conky
     # Available default palettes: Catpuccin, Everforest, Gruvbox-Bright, Mixed
-    currentPalette = ##* if and (hasKey . "conky") (hasKey .conky "currentPalette" ) -*## ##* .conky.currentPalette | quote *## ##*- else -*## "Mixed" ##*- end *##
+    currentPalette = @'{# if and (hasKey . "conky") (hasKey .conky "currentPalette" ) -#}'@ @'{# .conky.currentPalette | quote #}'@ @'{#- else -#}'@ "Mixed" @'{#- end #}'@
 
 # }}}

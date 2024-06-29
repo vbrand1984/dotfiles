@@ -1,10 +1,10 @@
-# chezmoi:template: left-delimiter=##* right-delimiter=*##
-##*- if and .theSystem.isBrandsPrivate (ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir) -*##
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+@'{#- if and .theSystem.isBrandsPrivate (ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir) -#}'@
 personal_symlinks:
-  - '.local/share/Paradox Interactive'
   - .config/VirtualBox
   - .config/openmw
   - .config/unity3d
+  - .local/share/Paradox Interactive
   - .local/share/PillarsOfEternity
   - .local/share/PillarsOfEternityII
   - .local/share/openmw
@@ -16,4 +16,4 @@ personal_symlinks:
   - Public
   - Templates
   - VirtualMachines
-##*- end *##
+@'{#- end #}'@

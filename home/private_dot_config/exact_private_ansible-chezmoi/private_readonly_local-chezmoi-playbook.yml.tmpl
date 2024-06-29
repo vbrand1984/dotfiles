@@ -1,67 +1,51 @@
-# chezmoi:template: left-delimiter=##* right-delimiter=*##
-#- name: My first play
-#  hosts: mylocalhost
-#  tasks:
-#    - name: Print message
-#      ansible.builtin.debug:
-#        msg: Hello world!
-#
-#    - name: Not-running services
-#      ansible.builtin.service:
-#        name: smartmontools
-#        enabled: false
-#        state: stopped
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
 
-
-##* if .theSystem.isBrandsPrivate -*##
+@'{# if .theSystem.isBrandsPrivate -#}'@
 
 - name: Managing local symlinks
   hosts: mylocalhost
-##*- $personalSymlinksNeeded := ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir *##
-##*- if  $personalSymlinksNeeded *##
+@'{#- $personalSymlinksNeeded := ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir #}'@
+@'{#- if  $personalSymlinksNeeded #}'@
   vars_files: 
     - vars/personal-symlinks.yml
-##*- end *##
+@'{#- end #}'@
   tasks:
-##*- if  $personalSymlinksNeeded *##
-    - name: "Ensure all symlinks to ##* .sysDirs.baseDataDir | squote *## are on"
+@'{#- if  $personalSymlinksNeeded #}'@
+    - name: Ensure all symlinks to @'{# .sysDirs.baseDataDir | quote #}'@ are on
       file:
-        src: ##* joinPath .sysDirs.baseDataDir .chezmoi.username "{{ item }}" | quote *##
-        dest: ##* joinPath .chezmoi.homeDir "{{ item }}" | quote *##
+        src: @'{# joinPath .sysDirs.baseDataDir .chezmoi.username "{{ item }}" | quote #}'@
+        dest: @'{# joinPath .chezmoi.homeDir "{{ item }}" | quote #}'@
         state: link
       loop: "{{ personal_symlinks }}"
-##*- end *##
-    - name: "Ensure 'My Games' symlink is on"
+@'{#- end #}'@
+    - name: Ensure "My Games" symlink is on
       file:
-        path: ##* joinPath .chezmoi.homeDir "My Games" | quote *##
-        src: "Documents/My Games"
+        path: @'{# joinPath .chezmoi.homeDir "My Games" | quote #}'@
+        src: Documents/My Games
         state: link
 
-##*- end *##
+@'{#- end #}'@
 
-##* if .theSystem.isDebianBased -*##
+@'{# if .theSystem.isDebianBased -#}'@
 - name: Installing packages
   hosts: mylocalhost
   vars_files:
     - vars/packages-deb.yml
   become: true
   tasks:
-    - name: Remove unnecessary packages
-      ansible.builtin.apt:
-        name: "{{ packages.debian.uninstall }}"
-        state: absent
-        purge: true
     - name: Install packages from stable repository
       ansible.builtin.apt:
         name: "{{ packages.debian.stable }}"
-        state: present
+        state: latest
+        install_recommends: false
     - name: Install packages from the backports repository
       ansible.builtin.apt:
         name: "{{ packages.debian.backports }}"
         default_release: stable-backports
-        state: present
+        state: latest
+        install_recommends: false
     - name: Install CPAN packages
       community.general.cpanm:
         name: "{{ item }}"
       loop: "{{ packages.debian.cpan }}"
-##*- end *##
+@'{#- end #}'@

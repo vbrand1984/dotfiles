@@ -1,5 +1,5 @@
 {{ if eq .chezmoi.username .personal.username -}}
-{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/gtk-3.0/bookmarks-personal" -}}
+{{ .sysDirs.symlinked }}/.config/gtk-3.0/bookmarks-personal
 {{- else -}}
-{{- joinPath .chezmoi.sourceDir .sysDirs.symlinked ".config/gtk-3.0/bookmarks-default" -}}
+{{ .sysDirs.symlinked }}/.config/gtk-3.0/bookmarks-default
 {{- end -}}

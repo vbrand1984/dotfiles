@@ -1,6 +1,6 @@
-# chezmoi:template:left-delimiter=##* right-delimiter=*##
-##* if or .theSystem.isDebianBased .theSystem.isVoid -*##
-# vim ft=bash
+# chezmoi:template: left-delimiter=##[[ right-delimiter=]]##
+# vim: ft=bash
+##[[ if or .theSystem.isDebianBased .theSystem.isVoid -]]##
 # This is an include file for chezmoi scripts
 
 function strip_square_brackets() {
@@ -11,12 +11,12 @@ function strip_square_brackets() {
 }
 
 function ensure_sudo_is_working() {
-    echo "Let's ensure that ##* .apps.suApp *## is working..."
+    echo "Let's ensure that ##[[ .apps.suApp ]]## is working..."
     local sudo_working=1
     while [ $sudo_working -ne 0 ] ; do
-        ##* .apps.suApp *## true
+        ##[[ .apps.suApp ]]## true
         sudo_working=$?
     done
 }
 
-##* end *##
+##[[ end ]]##

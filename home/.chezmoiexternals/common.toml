@@ -16,7 +16,7 @@
 {{ if .theSystem.isDebianBased }}
 
 # In Debian-based distros, we need to install obmenu-generator externally
-["{{ .sysDirs.scripts }}/obmenu-generator"]
+[{{ joinPath (.sysDirs.scripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
@@ -24,12 +24,13 @@
 
 {{ if not .theSystem.hasSystemd }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
-["{{ .sysDirs.scripts }}/gentoo-pipewire-launcher"]
+[{{ joinPath (.sysDirs.scripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
     type= "file"
     url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
     filter.command = "sed"
     filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
     refreshPeriod = "168h"
+    executable = false
 {{ end }}
 
 {{ end }}

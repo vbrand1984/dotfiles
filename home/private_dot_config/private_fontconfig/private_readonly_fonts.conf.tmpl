@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-<!-- chezmoi:template:left-delimiter=[[ right-delimiter=]] -->
+<!-- chezmoi:template: left-delimiter={{@ right-delimiter=@}} -->
 <!-- vim: set ft=xml ts=2 sw=2 fdm=marker et: -->
 <fontconfig>
 
@@ -8,37 +8,37 @@
 
   <match target="font">
     <edit name="autohint" mode="assign">
-      <bool>[[ .fontConfig.autohint ]]</bool>
+      <bool>{{@ .fontConfig.autohint @}}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hinting" mode="assign">
-      <bool>[[ .fontConfig.hinting ]]</bool>
+      <bool>{{@ .fontConfig.hinting @}}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hintstyle" mode="assign">
-      <const>[[ .fontConfig.hintStyle ]]</const>
+      <const>{{@ .fontConfig.hintStyle @}}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="antialias" mode="assign">
-      <bool>[[ .fontConfig.antialias ]]</bool>
+      <bool>{{@ .fontConfig.antialias @}}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="rgba" mode="assign">
-      <const>[[ .fontConfig.rgba ]]</const>
+      <const>{{@ .fontConfig.rgba @}}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="lcdfilter" mode="assign">
-      <const>[[ .fontConfig.lcdfilter ]]</const>
+      <const>{{@ .fontConfig.lcdfilter @}}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="dpi" mode="assign">
-      <double>[[ .fontConfig.dpi ]]</double>
+      <double>{{@ .fontConfig.dpi @}}</double>
     </edit>
   </match>
 

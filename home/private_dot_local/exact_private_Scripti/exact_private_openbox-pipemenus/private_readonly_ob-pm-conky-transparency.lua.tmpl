@@ -1,0 +1,41 @@
+#!/usr/bin/lua
+-- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+
+@'{#/* Template which adds the lookup_icon function and initializes Gtk */ -#}'@
+@'{#- template "gtkLookupIcon.lua" . #}'@
+
+print('<openbox_pipe_menu>')
+
+for _, variant in ipairs({'Full', 'Semi', 'None'}) do
+    local icon_name, the_command, second_command
+
+    if variant == @'{# .conky.currentTransparency | squote #}'@ then
+        the_command = "notify-send 'Current conky transparency: @'{# .conky.currentTransparency #}'@'"
+        second_command = ''
+        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{# .varia.obmenuIconSize #}'@) .. "'"
+    else
+        the_command = "/usr/bin/python3 @'{# .sysDirs.scripts #}'@/tinker-chezmoi-config.py 'data.conky.currentTransparency' '" .. variant .. "' 'doapply'"
+        second_command = "notify-send \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
+        icon_name = ''
+    end
+
+    print([[<item label=']] .. variant .. [[']] .. icon_name .. [[>
+    <action name='Execute'>
+        <execute><command><![CDATA[]] .. the_command .. ']]' .. [[></command></execute>
+    </action>]]);
+
+    if second_command ~= '' then
+        print([[    <action name='Execute'>
+        <execute><command><![CDATA[]] .. second_command .. ']]' .. [[></command></execute>
+    </action>]]);
+    end
+
+    print('</item>');
+end
+
+@'{# if eq .conky.currentTransparency "Semi" -#}'@
+print("<separator /><menu id='vbd_conky_argb_values_sub_menu' label='ARGB values' execute='/usr/bin/lua -- @'{# .sysDirs.obPipemenus #}'@/ob-pm-conky-argb-values.lua' icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', @'{# .varia.obmenuIconSize #}'@) .. "' />")
+
+@'{# end -#}'@
+
+print('</openbox_pipe_menu>')

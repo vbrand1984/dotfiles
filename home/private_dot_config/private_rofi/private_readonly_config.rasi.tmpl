@@ -1,5 +1,5 @@
 configuration {
     font: {{ .rofi.font | quote }};
-    cache-dir: {{ joinPath .chezmoi.homeDir .sysDirs.localCache "rofi" | quote }};
+    cache-dir: {{ joinPath .sysDirs.localCache "rofi" | quote }};
 }
 @theme {{ .rofi.theme | quote }}

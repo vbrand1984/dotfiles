@@ -1,0 +1,36 @@
+#!/usr/bin/lua
+-- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+
+@'{#/* Template which adds the lookup_icon function and initializes Gtk */ -#}'@
+@'{#- template "gtkLookupIcon.lua" . #}'@
+
+print('<openbox_pipe_menu>')
+
+for argb_value = 120, 240, 10 do
+    local icon_name, the_command, second_command
+
+    if argb_value == @'{# .conky.argbValue #}'@ then
+        the_command = "notify-send 'Current conky ARGB value: @'{# .conky.argbValue #}'@'"
+        second_command = ''
+        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{# .varia.obmenuIconSize #}'@) .. "'"
+    else
+        the_command="/usr/bin/python3 @'{# .sysDirs.scripts #}'@/tinker-chezmoi-config.py 'data.conky.argbValue' '" .. tostring(argb_value) .. "' 'doapply'"
+        second_command = "notify-send \"Changing conky's ARGB value to " .. tostring(argb_value) .. "\" 'Please wait a little bit...' "
+        icon_name=''
+    end    
+
+    print([[<item label=']] .. tostring(argb_value) .. [[']] .. icon_name .. [[>
+    <action name='Execute'>
+        <execute><command><![CDATA[]] .. the_command .. ']]' .. [[></command></execute>
+    </action>]]);
+
+    if second_command ~= '' then
+        print([[    <action name='Execute'>
+        <execute><command><![CDATA[]] .. second_command .. ']]' .. [[></command></execute>
+    </action>]]);
+    end
+
+    print('</item>');
+end
+
+print('</openbox_pipe_menu>')
