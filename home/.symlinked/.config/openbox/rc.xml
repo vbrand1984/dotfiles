@@ -261,6 +261,12 @@
         <command>x-terminal-emulator</command>
       </action>
     </keybind>
+    <!-- Super-Ctrl-V: virt-manager -->
+    <keybind key="W-C-V">
+      <action name="Execute">
+        <command>virt-manager</command>
+      </action>
+    </keybind>
     <!-- Super-Ctrl-W: LibreOffice Writer -->
     <keybind key="W-C-W">
       <action name="Execute">

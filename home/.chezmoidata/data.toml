@@ -1,9 +1,4 @@
 [sysDirs]
-    # These paths MUST be relative, because they are also used in .chezmoiexternal.toml as well
-
-    # These are relative to .chezmoi.homeDir
-    #obPipemenus = ".local/Scripti/openbox-pipemenus"
-
 
     [sysDirs.ansible]
         config = ".config/ansible-chezmoi"
@@ -11,10 +6,15 @@
 
 [apps]
     # This is an editor for config files to be invoked via Openbox menu entries
-    chezmoiEditorFromMenu = "env EDITOR='gvim --nofork' chezmoi edit --apply --"
+    chezmoiEditorFromMenu = "/bin/env EDITOR='/usr/bin/gvim --nofork' chezmoi edit --apply --"
 
     # Under which name obmenu-generator script will be saved in Debian-based distros
     debiansObmenuGeneratorName = "obmenu-generator"
 
     # Under which name gentoo-pipewire-launcher script will be saved in Devuan (and other non-systemd Debian-based distros)
     devuansPipewireLauncher = "pipewire-launcher"
+
+    luaVersion = "5.3"
+
+[varia]
+    defaultWallpaper = "nature-sepia-1920x1200.jpg"

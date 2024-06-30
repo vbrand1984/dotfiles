@@ -4,7 +4,6 @@
 @'{#- end -#}'@
 
 ensure_sudo_is_working() {
-    echo "Let's ensure that @'{# .apps.suApp #}'@ is working..."
     local sudo_working=1
     while [ $sudo_working -ne 0 ] ; do
         @'{# .apps.suApp #}'@ true

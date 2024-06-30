@@ -1,4 +1,5 @@
 #!/bin/sh
+# vim: ft=sh
 
 # This is a utility script to manage some desktop 'services' like conky, dunst, etc.
 #

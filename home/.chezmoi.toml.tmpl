@@ -36,9 +36,8 @@ cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
 
 [data.theSystem]
 
-    #
-    # These settings are automatically configured. No need to change them in chezmoi.toml, edit .chezmoi.toml.tmpl instead.
-    #
+    # These settings are automatically configured during chezmoi init.
+    # No need to change them in @'{# .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote #}'@, edit @'{# joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote #}'@ instead.
 
     @'{# $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -#}'@
     @'{# $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -#}'@
@@ -157,14 +156,15 @@ cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
     gvimFont = @'{# if and (hasKey . "varia") (hasKey .varia "gvimFont" ) -#}'@ @'{# .varia.gvimFont | quote #}'@ @'{#- else -#}'@ "JetBrains Mono Medium @'{# if $isOldLaptop -#}'@ 12 @'{#- else -#}'@ 13 @'{#- end #}'@" @'{#- end #}'@
 
     # Icon sizes for various applications
-    # These values MUST be strings, although they are technically integers
-    # The thing is, they are passed as string arguments to template functions
-    obmenuIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "obmenuIconSize" ) -#}'@ @'{# .varia.obmenuIconSize | quote #}'@ @'{#- else -#}'@ "24" @'{#- end #}'@
-    dunstIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "dunstIconSize" ) -#}'@ @'{# .varia.dunstIconSize | quote #}'@ @'{#- else -#}'@ "48" @'{#- end #}'@
+    obmenuIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "obmenuIconSize" ) -#}'@ @'{# int .varia.obmenuIconSize #}'@ @'{#- else -#}'@ 24 @'{#- end #}'@
+    dunstIconSize = @'{# if and (hasKey . "varia") (hasKey .varia "dunstIconSize" ) -#}'@ @'{# int .varia.dunstIconSize #}'@ @'{#- else -#}'@ 48 @'{#- end #}'@
 
     # Keyboard settings
     kbdDelay = @'{# if and (hasKey . "varia") (hasKey .varia "kbdDelay" ) -#}'@ @'{# int .varia.kbdDelay #}'@ @'{#- else -#}'@ 200 @'{#- end #}'@
     kbdRepeat = @'{# if and (hasKey . "varia") (hasKey .varia "kbdRepeat" ) -#}'@ @'{# int .varia.kbdRepeat #}'@ @'{#- else -#}'@ 35 @'{#- end #}'@
+
+    # Which variants of the Greylooks theme to install and use
+    greylooksThemes = @'{# if and (hasKey . "varia") (hasKey .varia "greylooksThemes" ) -#}'@ @'{# .varia.greylooksThemes | toToml #}'@ @'{#- else -#}'@ ["Greylooks", "GreylooksGreen", "GreylooksHuman", "GreylooksOk"] @'{#- end #}'@
 
 # }}}
 # {{{ redshift

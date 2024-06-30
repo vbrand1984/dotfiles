@@ -1,13 +1,13 @@
 # chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if .theSystem.isDebianBased -#}'@
+@'{# if .theSystem.isDebBased -#}'@
 #!/bin/sh
 # vim: ft=sh
 
 @'{# template "ensureSudoIsWorking.sh" . #}'@
 
-if ! command -v aptitude ; then
+if ! command -v aptitude 1>/dev/null 2>&1 ; then
     echo "Installing aptitude..."
-    ensure_sudo_is_working && apt-get --no-install-recommends --assume-yes install aptitude
+    ensure_sudo_is_working && @'{# .apps.suApp #}'@ apt-get --no-install-recommends --assume-yes install aptitude
 fi
 
 yes_sir="--assume-yes"
@@ -16,8 +16,8 @@ no_install_recommends="-R"
 echo "Installing packages from stable repository..."
 ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude "${yes_sir}" "${no_install_recommends}" install @'{# .packages.debian.stable | join " " #}'@
 
-echo "Performing markauto..."
-ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude markauto $(strip_square_brackets @'{# .packages.debian.markauto | toString | squote #}'@)
+#echo "Performing markauto..."
+#ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude markauto @'{# .packages.debian.markauto | join " " #}'@
 
 # Usage:
 # install_deb_pkg_from_internet <address>
@@ -27,12 +27,18 @@ install_deb_pkg_from_internet() {
     cd /tmp
     wget "${pkg_addr}"
     pkg_filename=$(basename "${pkg_addr}")
-    ensure_sudo_is_working && @'{# .apps.suApp #}'@ dpkg -i "${pkg_filename}"
+    ensure_sudo_is_working && @'{# .apps.suApp #}'@ dpkg --install "${pkg_filename}"
+    if [ $? -ne 0 ] ; then
+        ensure_sudo_is_working && @'{# .apps.suApp #}'@ apt-get --fix-broken --assume-yes install
+    fi
     rm "${pkg_filename}"
     cd "${old_wd}"
 }
 
-if ! command -v clipit ; then
+# For whatever reason, clipit is not longer maintained in Debian
+# Here is the solution: install clipit package from Debian 10 repo and hold it
+# Not ideal, but working approach
+if ! command -v clipit 1>/dev/null 2>&1 ; then
     echo "Installing clipit..."
     install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_@'{# .chezmoi.arch #}'@.deb"
     ensure_sudo_is_working && @'{# .apps.suApp #}'@ aptitude hold clipit 
@@ -40,7 +46,7 @@ fi
 
 # A handy tool to manage papirus icon theme
 # See: https://github.com/PapirusDevelopmentTeam/papirus-folders
-if ! command -v papirus-folders ; then
+if ! command -v papirus-folders 1>/dev/null 2>&1 ; then
     echo "Installing papirus-folders..."
     install_deb_pkg_from_internet "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb"
 fi
