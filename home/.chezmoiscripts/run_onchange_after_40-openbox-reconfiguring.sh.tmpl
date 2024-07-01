@@ -4,8 +4,10 @@
 # Automatically reconfigure Openbox if its configuration has changed
 
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
+{{ if and (stat ( joinPath .chezmoi.homeDir ".config/openbox/menu.xml" )) (include ( joinPath .sysDirs.symlinked ".config/openbox/rc.xml" )) }}
 # menu.xml hash: {{ include ( joinPath .chezmoi.homeDir ".config/openbox/menu.xml" ) | sha256sum }}
 # rc.xml hash: {{ include ( joinPath .sysDirs.symlinked ".config/openbox/rc.xml" ) | sha256sum }}
+{{ end }}
 
 # Reconfiugre openbox if it is running
 if pgrep --count openbox 1>/dev/null 2>&1 ; then
