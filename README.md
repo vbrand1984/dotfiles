@@ -6,27 +6,25 @@ These are my personal dotfiles which I desided to publish.
 
 Install [chezmoi](https://www.chezmoi.io/install/).
 
-Run:
+Clone the contents of this repository in `~/.Dots/chezmoi` (NB: specifying this directory is a must):
 
 ```
 chezmoi init vbrand1984 --source ~/.Dots/chezmoi
 ```
 
-After this command is executed, a directory named `~/.Dots/chezmoi` will be created, and the contents of this repository will be downloaded there.
-
-Run:
+See what files are going to be changed upon applying this configuration:
 
 ```
 chezmoi status
 ```
 
-to see what files are going to be changed upon applying this configuration. The command
+See detailed differences in the files managed by this configuration (there will be a lot):
 
 ```
 chezmoi diff
 ```
 
-will show you detailed differences in the files managed by chezmoi. Finally, run this to apply the configuration:
+Apply the configuration:
 
 ```
 chezmoi apply
