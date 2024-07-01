@@ -1,8 +1,42 @@
 # The Dotfiles
 
+These are my personal dotfiles which I desided to publish.
+
+## Installation
+
+Install [chezmoi](https://www.chezmoi.io/install/).
+
+Run:
+
+```
+chezmoi init vbrand1984 --source ~/.Dots/chezmoi
+```
+
+After this command is executed, a directory named `~/.Dots/chezmoi` will be created, and the contents of this repository will be downloaded there.
+
+Run:
+
+```
+chezmoi status
+```
+
+to see what files are going to be changed upon applying this configuration. The command
+
+```
+chezmoi diff
+```
+
+will show you detailed differences in the files managed by chezmoi. Finally, run this to apply the configuration:
+
+```
+chezmoi apply
+```
+
+## Screenshot(s)
+
 ![A screenshot](../assets/screenshots/screenshot01-gentoo.png?raw=true)
 
-## What's Inside
+## List of Used Programs and Theming Packages
 
 <details>
   <summary>Expand</summary>
@@ -11,20 +45,21 @@
     <tr><th colspan="2">Applications and utilities</th></tr>
     <tr><td>Dotfiles manager</td><td><a href="https://www.chezmoi.io/">chezmoi</a></td></tr>
     <tr><td>Window manager</td><td><a href="https://github.com/danakj/openbox">Openbox</a></td></tr>
-    <tr><td>Panel</td><td><a href="https://github.com/o9000/tint2">tint2</a></td></tr>
+    <tr><td>Panel</td><td><a href="https://github.com/o9000/tint2">Tint2</a></td></tr>
+    <tr><td>X Compositor</td><td><a href="https://github.com/yshui/picom">picom</a></td></tr>
     <tr><td>Wallpaper manager</td><td><a href="https://github.com/l3ib/nitrogen">nitrogen</a></td></tr>
-    <tr><td>System monitor</td><td><a href="https://github.com/brndnmtthws/conky">conky</a></td></tr>
+    <tr><td>System monitor</td><td><a href="https://github.com/brndnmtthws/conky">Conky</a></td></tr>
     <tr><td>Openbox menus</td><td><a href="https://github.com/trizen/obmenu-generator">obmenu-generator</a></td></tr>
     <tr><td>Application launcher</td><td><a href="https://github.com/davatorium/rofi">rofi</a></td></tr>
-    <tr><td>Text processors</td><td><a href="https://github.com/vim/vim">vim</a>, <a href="https://www.gnu.org/software/emacs/">emacs</a></td></tr>
-    <tr><td>Terminal emulator</td><td><a href="https://github.com/lxde/lxterminal">lxterminal</a>, <a href="https://github.com/alacritty/alacritty">alacritty</a></td></tr>
-    <tr><td>File managers</td><td><a href="https://midnight-commander.org/">mc</a>, <a href="https://github.com/lxde/pcmanfm">pcmanfm</a> or <a href="https://github.com/mate-desktop/caja">caja</a></td></tr>
+    <tr><td>Text processors</td><td><a href="https://github.com/vim/vim">Vim</a>, <a href="https://www.gnu.org/software/emacs/">Emacs</a></td></tr>
+    <tr><td>Terminal emulator</td><td><a href="https://github.com/lxde/lxterminal">LXTerminal</a>, <a href="https://github.com/alacritty/alacritty">Alacritty</a></td></tr>
+    <tr><td>File managers</td><td><a href="https://midnight-commander.org/">mc</a>, <a href="https://github.com/lxde/pcmanfm">PCManFM</a> or <a href="https://github.com/mate-desktop/caja">caja</a></td></tr>
     <tr><td>Sound volume</td><td><a href="https://github.com/Maato/volumeicon">volumeicon</a></td></tr>
-    <tr><td>Clipboard manager</td><td><a href="https://github.com/CristianHenzel/ClipIt">clipit</a></td></tr>
-    <tr><td>Screensaver</td><td><a href="https://www.jwz.org/xscreensaver/">xscreensaver</a></td></tr>
-    <tr><td>X settings daemon</td><td><a href="https://codeberg.org/derat/xsettingsd">xsettingsd</a></td></tr>
-    <tr><td>Calendar</td><td><a href="https://github.com/dmedvinsky/gsimplecal">gsimplecal</a></td></tr>
-    <tr><td>Screenshots</td><td><a href="https://github.com/dreamer/scrot">scrot</a></td></tr>
+    <tr><td>Clipboard manager</td><td><a href="https://github.com/CristianHenzel/ClipIt">ClipIt</a></td></tr>
+    <tr><td>Screensaver</td><td><a href="https://www.jwz.org/xscreensaver/">XScreensaver</a></td></tr>
+    <tr><td>X settings daemon</td><td><a href="https://codeberg.org/derat/xsettingsd">XSettingsD</a></td></tr>
+    <tr><td>Calendar</td><td><a href="https://github.com/dmedvinsky/gsimplecal">Gsimplecal</a></td></tr>
+    <tr><td>Screenshots</td><td><a href="https://github.com/dreamer/scrot">Scrot</a></td></tr>
     <tr><td>Miscellania</td><td><a href="https://codeberg.org/WhyNotHugo/caffeine-ng">Caffeine-ng</a>, <a href="https://github.com/jonls/redshift">Redshift</a></td></tr>
     <tr><th colspan="2">Theming</th></tr>
     <tr><td>GTK and Openbox theme</td><td><a href="https://github.com/vbrand1984/greylooks">Greylooks</a></td></tr>
