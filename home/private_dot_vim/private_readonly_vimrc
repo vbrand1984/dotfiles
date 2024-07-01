@@ -12,6 +12,7 @@ endif
 call plug#begin('~/.vim/plugged')
 "    Plug 'alker0/chezmoi.vim'
     Plug 'sainnhe/everforest'
+    Plug 'sainnhe/gruvbox-material'
     Plug 'morhetz/gruvbox'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
@@ -114,7 +115,7 @@ augroup vimStartup
 augroup END
 
 " }}}
-" {{{ Theme
+" {{{ ### Theme ###
 
 " This is needed in order to make background color work properly in kitty
 "let &t_ut=''
@@ -125,7 +126,7 @@ let g:airline#extensions#whitespace#enabled = 0
 " Gruvbox default setup
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_contrast_light = 'hard'
+let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_invert_selection = 0
 
 " Everforest default setup
@@ -141,8 +142,12 @@ if ($TERM != 'linux' || has("gui_running"))
         let g:gruvbox_termcolors = 16
     endif
     if (expand('$EUID') != '0')
-        let g:airline_theme = 'gruvbox'
-        autocmd vimenter * ++nested colorscheme gruvbox
+        "let g:airline_theme = 'gruvbox'
+        "autocmd vimenter * ++nested colorscheme gruvbox
+        let g:gruvbox_material_background = 'medium'
+        let g:gruvbox_material_better_performance = 1
+        colorscheme gruvbox-material
+        let g:airline_theme = 'gruvbox_material'
     else
         colorscheme everforest
         let g:airline_theme = 'everforest'

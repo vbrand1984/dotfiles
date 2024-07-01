@@ -4,13 +4,28 @@
 # {{{ Variable initialization
 @'{#- end -#}'@
 
+@'{#- /* Local directories */ -#}'@
+@'{#- $defaultDotsDir := ".Dots" -#}'@
+@'{#- $defaultSourceDir := ".Dots/chezmoi" -#}'@
+@'{#- $localCache := joinPath $defaultDotsDir "cache" -#}'@
+@'{#- $defaultBaseDataDir := "/home" -#}'@
+
+@'{#- /* Check if it is the right chezmoi source dir that was specified */ -#}'@
+@'{#- if ne (.chezmoi.sourceDir | dir) (joinPath .chezmoi.homeDir $defaultSourceDir) -#}'@
+@'{#- /*writeToStdout "Your source dir is: " .chezmoi.sourceDir "\n"*/ -#}'@
+@'{#- writeToStdout "Please run chezmoi init for these dotfiles as following:\n" -#}'@
+@'{#- writeToStdout "chezmoi init vbrand1984 --source ~/.Dots/chezmoi\n" -#}'@
+@'{#- exit 1 -#}'@
+@'{#- end -#}'@
+
+@'{#- /* Personal data initialization */ -#}'@
 @'{#- $desktopRigName := "saturn" -#}'@
 @'{#- $oldLaptopName := "antares" -#}'@
 @'{#- $privatePCs := list $desktopRigName $oldLaptopName -#}'@
 @'{#- $personalUsername := "victor" -#}'@
-@'{#- $defaultBaseDataDir := "/home" -#}'@
-@'{#- $localCache := ".cache" -#}'@
 @'{#- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -#}'@
+
+@'{#- writeToStdout "Initializing chezmoi...\n" -#}'@
 
 @'{#- if false -#}'@
 # }}}
@@ -25,11 +40,13 @@ scriptTempDir = @'{# joinPath "/run/user" (toString .chezmoi.uid) "chezmoi-scrip
 # Set chezmoi cache to be on disk in case of system cache is in memory
 cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
 
+sourceDir = @'{# joinPath .chezmoi.homeDir $defaultSourceDir | quote #}'@
+
 [scriptEnv]
     TMPDIR = @'{# joinPath "/run/user" (toString .chezmoi.uid) | quote #}'@
 
 [diff]
-    scriptContents = false
+    scriptContents = true
 
 # }}}
 # {{{ theSystem
@@ -87,9 +104,9 @@ cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
     defaultBaseDataDir = @'{# $defaultBaseDataDir | quote #}'@
 
     localCache = @'{# joinPath .chezmoi.homeDir $localCache | quote #}'@
-    localBin = @'{# joinPath .chezmoi.homeDir ".local/Bin" | quote #}'@
-    scripts = @'{# joinPath .chezmoi.homeDir ".local/Scripti" | quote #}'@
-    obPipemenus = @'{# joinPath .chezmoi.homeDir ".local/Scripti/openbox-pipemenus" | quote #}'@
+    localBin = @'{# joinPath .chezmoi.homeDir $defaultDotsDir "bin" | quote #}'@
+    scripts = @'{# joinPath .chezmoi.homeDir $defaultDotsDir "scripts" | quote #}'@
+    obPipemenus = @'{# joinPath .chezmoi.homeDir $defaultDotsDir "scripts/openbox-pipemenus" | quote #}'@
     localBackgrounds = @'{# joinPath .chezmoi.homeDir ".local/share/backgrounds" | quote #}'@
 
     # This directory is inside the source dir of chezmoi
@@ -219,3 +236,15 @@ cacheDir = @'{# joinPath .chezmoi.homeDir $localCache "chezmoi" | quote #}'@
     currentPalette = @'{# if and (hasKey . "conky") (hasKey .conky "currentPalette" ) -#}'@ @'{# .conky.currentPalette | quote #}'@ @'{#- else -#}'@ "Mixed" @'{#- end #}'@
 
 # }}}
+
+@'{#- if false -#}'@
+# {{{ Finalizing
+@'{#- end -#}'@
+
+@'{#- writeToStdout "Everything is OK.\n" -#}'@
+@'{#- writeToStdout "Chezmoi source directory: " .chezmoi.sourceDir "\n" -#}'@
+@'{#- writeToStdout "Chezmoi config file: " .chezmoi.configFile "\n" -#}'@
+
+@'{#- if false -#}'@
+# }}}
+@'{#- end -#}'@

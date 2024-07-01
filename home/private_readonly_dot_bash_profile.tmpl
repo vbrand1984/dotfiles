@@ -1,3 +1,4 @@
+{{ if false }}
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
 if [[ -r "${HOME}/.bashrc" ]] ; then
@@ -8,3 +9,4 @@ fi
 if [[ -d {{ .sysDirs.localBin | squote }} ]] ; then
     PATH="$PATH:{{ .sysDirs.localBin }}"
 fi
+{{ end }}

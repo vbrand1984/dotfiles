@@ -21,3 +21,13 @@ if [ -d {{ .sysDirs.localBin | squote }} ] ; then
     PATH="${PATH}:{{ .sysDirs.localBin }}"
 fi
 
+# Configuring our XDG cache in RAM
+cachedir="/tmp/${USER}/.cache"
+if [ ! -d "${cachedir}" ] ; then
+    mkdir --parents "${cachedir}"
+    chmod 0700 "${cachedir}"
+    echo "Created user cache" >> ~/mylog.log
+fi
+XDG_CACHE_HOME="${cachedir}"
+export XDG_CACHE_HOME
+unset cachedir

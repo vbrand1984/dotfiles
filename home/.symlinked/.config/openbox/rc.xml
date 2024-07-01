@@ -284,25 +284,25 @@
     <!-- Super-Enter: rofi run -->
     <keybind key="W-Return">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/start-rofi.sh run</command>
+        <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh run</command>
       </action>
     </keybind>
     <!-- Super-Shift-Enter: rofi drun -->
     <keybind key="W-S-Return">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/start-rofi.sh drun</command>
+        <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh drun</command>
       </action>
     </keybind>
     <!-- Super-F1: rofi calc module -->
     <keybind key="W-F1">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/start-rofi.sh calc</command>
+        <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh calc</command>
       </action>
     </keybind>
     <!-- Super-Tab: rofi window switching module -->
     <keybind key="W-Tab">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/start-rofi.sh window</command>
+        <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh window</command>
       </action>
     </keybind>
     <!--}}}-->
@@ -310,31 +310,31 @@
     <!-- PrtScr: Take a screenshot (fullscreen) -->
     <keybind key="Print">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/take-screenshot-x.sh fullscreen</command>
+        <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh fullscreen</command>
       </action>
     </keybind>
     <!-- Alt-PrtScr: Screenshot of the current window -->
     <keybind key="A-Print">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/take-screenshot-x.sh window</command>
+        <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh window</command>
       </action>
     </keybind>
     <!-- Ctrl-PrtScr: Screenshot of selection -->
     <keybind key="C-Print">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/take-screenshot-x.sh selection</command>
+        <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh selection</command>
       </action>
     </keybind>
     <!-- Super-PrtScr: Take a screenshot (fullscreen) with a 5 sec delay -->
     <keybind key="W-Print">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/take-screenshot-x.sh fullscreen delay</command>
+        <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh fullscreen delay</command>
       </action>
     </keybind>
     <!-- Super-Alt-PrtScr: Screenshot of the current window with a 5 sec delay -->
     <keybind key="W-A-Print">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/take-screenshot-x.sh window delay</command>
+        <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh window delay</command>
       </action>
     </keybind>
     <!--}}}-->
@@ -342,7 +342,7 @@
     <!-- Super-Shift-A: Reconfigure whole appearance -->
     <keybind key="W-S-A">
       <action name="Execute">
-        <command>/bin/sh -e ~/.local/Bin/reconfigure-appearance.sh</command>
+        <command>/bin/sh -e ~/.Dots/bin/reconfigure-appearance.sh</command>
       </action>
     </keybind>
     <!-- Super-Shift-C: Reconfigure Openbox -->

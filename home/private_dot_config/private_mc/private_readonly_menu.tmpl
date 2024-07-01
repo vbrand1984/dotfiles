@@ -1,6 +1,8 @@
 m   Edit ~/.config/mc/menu
     cd ~/.config/mc
     chezmoi edit --apply menu
+h   Edit mc directory hotlist
+    $EDITOR {{ .sysDirs.symlinked }}/.config/mc/hotlist
 =
 c   Edit chezmoi config
     chezmoi edit-config

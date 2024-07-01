@@ -1,8 +1,8 @@
 [sysDirs]
 
     [sysDirs.ansible]
-        config = ".config/ansible-chezmoi"
-        home = ".local/share/ansible-chezmoi-home"
+        config = ".Dots/ansible-conf"
+        home = ".Dots/ansible"
 
 [apps]
     # This is an editor for config files to be invoked via Openbox menu entries
@@ -18,3 +18,5 @@
 
 [varia]
     defaultWallpaper = "nature-sepia-1920x1200.jpg"
+
+    managedMessage = "This file is managed by chezmoi"
