@@ -75,6 +75,9 @@ our $SCHEMA = [
 
         {sep => undef},
 
+        # Greylooks themes category (pipemenu)
+        {pipe => ['/usr/bin/lua -- {{ joinPath .dirObPipemenus "ob-pm-choose-greylooks-themes.lua" }}', 'Choose Greylooks theme', 'appearance-symbolic']},
+
         # Conky category (pipemenu)
         {pipe => ['/usr/bin/lua -- {{ joinPath .dirObPipemenus "ob-pm-conky.lua" }}', 'Conky', 'utilities-system-monitor-symbolic']},
 

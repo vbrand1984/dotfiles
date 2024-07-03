@@ -31,10 +31,19 @@ end_color = #c1baae 100
 
 # Gradient 5: Active workspace name on taskbar
 gradient = vertical
-#start_color = #b3ada3 100
-#end_color = #c1bdb5 100
+@'{#- if eq .gtkThemeName "GreylooksGreen" #}'@
+start_color = #42443e 100
+end_color = #85897e 100
+@'{#- else if eq .gtkThemeName "GreylooksHuman" #}'@
+start_color = #433f37 100
+end_color = #8b8372 100
+@'{#- else if eq .gtkThemeName "GreylooksOk" #}'@
+start_color = #363f43 100
+end_color = #7c8d95 100
+@'{#- else #}'@
 start_color = #404143 100
 end_color = #828388 100
+@'{#- end #}'@
 
 # }}}
 # {{{ Backgrounds

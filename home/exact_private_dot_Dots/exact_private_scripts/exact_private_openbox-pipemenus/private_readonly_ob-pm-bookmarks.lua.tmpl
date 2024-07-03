@@ -24,12 +24,12 @@ local bookmarks_file = home_dir .. '/.config/gtk-3.0/bookmarks'
 local home_folder_icon = lookup_icon(Gtk, gtk_icon_theme, 'folder-home', icon_size)
 local default_folder_icon = lookup_icon(Gtk, gtk_icon_theme, 'folder', icon_size)
 
-print("<openbox_pipe_menu>\n<item label='Home Directory' icon='" .. home_folder_icon .. "'><action name='Execute'><execute><command><![CDATA[" .. file_manager .. " " .. home_dir .. "]]></command></execute></action></item>")
+io.write("<openbox_pipe_menu>\n<item label='Home Directory' icon='", home_folder_icon, "'><action name='Execute'><execute><command><![CDATA[", file_manager, " ", home_dir, "]]></command></execute></action></item>\n")
 
 local f = io.open(bookmarks_file, 'r')
 
 if f ~= nil then
-    print('<separator />')
+    io.write("<separator />\n")
 
     for the_line in f:lines() do
         local item_name = string.gsub(the_line, '^[^%s]*%s', '')
@@ -42,10 +42,10 @@ if f ~= nil then
         elseif the_str == xdg_pictures_dir then icon_path = lookup_icon(Gtk, gtk_icon_theme, 'folder-pictures', icon_size)
         else icon_path = default_folder_icon end
 
-        print("<item label='" .. item_name .. "' icon='" .. icon_path .. "'><action name='Execute'><execute><command><![CDATA[" .. file_manager .. " " .. item_path .. "]]></command></execute></action></item>")
+        io.write("<item label='", item_name, "' icon='", icon_path, "'><action name='Execute'><execute><command><![CDATA[", file_manager, " ", item_path, "]]></command></execute></action></item>\n")
     end
 
     io.close(f)
 end
 
-print('</openbox_pipe_menu>')
+io.write("</openbox_pipe_menu>\n")

@@ -2,7 +2,7 @@
 #!/bin/sh
 # vim: ft=sh
 
-# Automatically reconfigure Openbox if its configuration has changed
+# Automatically reconfigure Openbox if its configuration has been changed
 
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
 @'{#- if stat (joinPath .chezmoi.homeDir ".config/openbox/menu.xml") | not | not #}'@

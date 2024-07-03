@@ -2,30 +2,33 @@
 # vim: ft=python
 
 import shutil
-import tempfile
-import subprocess
-import sys
-import tomlkit
+from tempfile import NamedTemporaryFile
+from subprocess import run
+from sys import argv
+from tomlkit import parse
+from tomlkit import dumps
+from tomlkit.exceptions import UnexpectedCharError
+from tomlkit.exceptions import NonExistentKey
 
 # The chezmoi config file must be in toml format obviously
 config_file = {{ .chezmoi.configFile | quote }} 
 
 # Parsing command line arguments
-nargs = len(sys.argv)
+nargs = len(argv)
 
 if nargs < 3 or nargs > 4:
     print("Wrong number of parameters!")
     exit(1)
 
-the_key = sys.argv[1]
-new_value = sys.argv[2]
-do_apply = (nargs == 4) and (sys.argv[3] == 'doapply')
+the_key = argv[1]
+new_value = argv[2]
+do_apply = (nargs == 4) and (argv[3] == 'doapply')
 
 
 try:
     with open(config_file, "rt") as f:
         file_data = f.read()
-        data = tomlkit.parse(file_data)
+        data = parse(file_data)
 
 except (FileNotFoundError):
     print("File '" + config_file + "' not found!")
@@ -33,7 +36,7 @@ except (FileNotFoundError):
 except (PermissionError):
     print("Have no permission to open the file '" + config_file + "'!")
     exit(1)
-except (tomlkit.exceptions.UnexpectedCharError):
+except (UnexpectedCharError):
     print("Your toml file '" + config_file + "' seems to be damaged!")
     exit(1)
 
@@ -53,13 +56,13 @@ try:
     # Changing of the value appears to be here!
     current_data[current_key] = new_value
 
-except (tomlkit.exceptions.NonExistentKey):
+except (NonExistentKey):
     print("The key '" + the_key + "' doesn't exist in the file '" + config_file + "'!")
     exit(1)
     
 # Now save the modified data into a temporary file and replace the config file with it
-with tempfile.NamedTemporaryFile() as tmp:
-    s = tomlkit.dumps(data)
+with NamedTemporaryFile() as tmp:
+    s = dumps(data)
     tmp.write(s.encode())
 
     # Make a backup copy of the config file
@@ -70,5 +73,5 @@ with tempfile.NamedTemporaryFile() as tmp:
     shutil.copyfile(tmp.name, config_file)
 
 if do_apply:
-    subprocess.run(['chezmoi', 'apply', '--force', '--exclude', 'encrypted,externals,scripts'])
+    run(['chezmoi', 'apply', '--force', '--exclude', 'encrypted,externals,scripts'])
 

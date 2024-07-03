@@ -12,7 +12,7 @@ local tkeys = {}
 for k in pairs(conky_palettes) do table.insert(tkeys, k) end
 table.sort(tkeys)
 
-print('<openbox_pipe_menu>')
+io.write("<openbox_pipe_menu>\n")
 
 for k in pairs(tkeys) do
     local palette_name = tkeys[k]
@@ -28,20 +28,22 @@ for k in pairs(tkeys) do
         icon_name = ""
     end
 
-    print([[<item label=']] .. palette_name .. [[']] .. icon_name .. [[>
+    io.write("<item label='", palette_name, "'", icon_name, [[>
     <action name='Execute'>
-        <execute><command><![CDATA[]] .. the_command .. ']]' .. [[></command></execute>
-    </action>]]);
+        <execute><command><![CDATA[]], the_command, ']]', [[></command></execute>
+    </action>
+]]);
 
     if second_command ~= '' then
-        print([[    <action name='Execute'>
-        <execute><command><![CDATA[]] .. second_command .. ']]' .. [[></command></execute>
-    </action>]]);
+        io.write([[    <action name='Execute'>
+        <execute><command><![CDATA[]], second_command, ']]', [[></command></execute>
+    </action>
+]]);
     end
 
-    print('</item>');
+    io.write("</item>\n")
 end
 
-print('</openbox_pipe_menu>')
+io.write("</openbox_pipe_menu>\n")
 
 conky_palettes = nil

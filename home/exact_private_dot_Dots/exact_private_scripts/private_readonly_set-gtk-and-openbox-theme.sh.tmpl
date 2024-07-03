@@ -1,0 +1,26 @@
+#!/bin/sh
+# vim: ft=sh
+
+the_theme="${1}"
+
+case "${the_theme}" in
+    Greylooks*)
+        ;;
+    *)
+        if [ -z "${the_theme}" ] ; then
+            echo "You must specify the theme name as the first parameter to the script."
+        else
+            echo "This script works with the Greylooks theme pack only."
+        fi
+        exit 1
+        ;;
+esac
+
+# Setting openbox theme
+/usr/bin/python3 {{ joinPath .dirLocalScripts "set-openbox-theme.py" | quote }} "${the_theme}"
+
+# Setting GTK theme and applying the changes made to the chezmoi config
+/usr/bin/python3 {{ joinPath .dirLocalScripts "tinker-chezmoi-config.py" | quote }} 'data.gtkThemeName' "${the_theme}" 'doapply'
+
+# reconfiguring whole appearance
+/bin/sh -e {{ joinPath .dirLocalBin "reconfigure-appearance.sh" | quote }}

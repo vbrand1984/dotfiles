@@ -8,31 +8,34 @@
 @'{#/* Template which adds the process_is_running function */ -#}'@
 @'{#- template "processIsRunning.lua" . #}'@
 
-print('<openbox_pipe_menu>')
+io.write("<openbox_pipe_menu>\n")
 
 if process_is_running('xsettingsd') then
-    print([[<item label='Restart XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
+    io.write("<item label='Restart XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', @'{# .miscObmenuIconSize #}'@), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ restart xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ restart xsettingsd]], ']]', [[></command></execute>
     </action>
 </item>
-<item label='Stop XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
+<item label='Stop XSettingsD' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', @'{# .miscObmenuIconSize #}'@), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ stop xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ stop xsettingsd]], ']]', [[></command></execute>
     </action>
-</item>]]);
+</item>
+]]);
 else
-    print([[<item label='Start XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
+    io.write("<item label='Start XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', @'{# .miscObmenuIconSize #}'@), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ start xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ start xsettingsd]], ']]', [[></command></execute>
     </action>
-</item>]]);
+</item>
+]]);
 end
 
-print([[<separator />
-<item label='Edit xsettingsd.conf' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
+io.write([[<separator />
+<item label='Edit xsettingsd.conf' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', @'{# .miscObmenuIconSize #}'@), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[@'{# .apps.chezmoiEditorFromMenu #}'@ @'{# joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | squote #}'@]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[@'{# .apps.chezmoiEditorFromMenu #}'@ @'{# joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | squote #}'@]], ']]', [[></command></execute>
     </action>
 </item>
-</openbox_pipe_menu>]]);
+</openbox_pipe_menu>
+]]);

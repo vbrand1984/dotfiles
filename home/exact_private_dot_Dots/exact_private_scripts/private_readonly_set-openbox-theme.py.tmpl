@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+
+import shutil
+from tempfile import NamedTemporaryFile
+from sys import argv
+from xml.dom import minidom
+
+# Parsing command line arguments
+nargs = len(argv)
+
+if nargs < 2:
+    print("Wrong number of parameters!")
+    exit(1)
+
+the_theme = argv[1]
+
+rc_xml = {{ joinPath .chezmoi.homeDir ".config/openbox/rc.xml" | quote }}
+
+doc = minidom.parse(rc_xml)
+openbox_config_tag = doc.getElementsByTagName("openbox_config")[0]
+theme_tag = openbox_config_tag.getElementsByTagName("theme")[0]
+name_tag = theme_tag.getElementsByTagName("name")[0]
+name_tag.firstChild.data = the_theme
+
+# Now save the modified data into a temporary file and replace the config file with it
+with NamedTemporaryFile() as tmp:
+    s = doc.toxml()
+    tmp.write(s.encode())
+
+    # Make a backup copy of the config file
+    shutil.move(rc_xml, rc_xml + ".orig")
+
+    # We need to copy the tempfile, not to move it,
+    # otherwise it wouldn't be properly closed afterwards.
+    shutil.copyfile(tmp.name, rc_xml)
+
