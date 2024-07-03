@@ -1,4 +1,4 @@
-" {{{ ### Plugins
+" {{{ Plugins
 
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -10,17 +10,17 @@ endif
 "let g:chezmoi#use_tmp_buffer=1
 
 call plug#begin('~/.vim/plugged')
-"    Plug 'alker0/chezmoi.vim'
     Plug 'sainnhe/everforest'
     Plug 'sainnhe/gruvbox-material'
-    Plug 'morhetz/gruvbox'
     Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
     Plug 'vbrand1984/ob3-vim-syntax'
+"    Plug 'vim-airline/vim-airline-themes'
+"    Plug 'morhetz/gruvbox'
+"    Plug 'alker0/chezmoi.vim'
 call plug#end()
 
 " }}}
-" {{{ ### Various settings
+" {{{ Various settings
 
 syntax on
 
@@ -58,7 +58,7 @@ set autoindent
 set foldmethod=marker
 
 " }}}
-" {{{ ### Autocmd rules
+" {{{ Autocmd rules
 
 augroup custom_indentation
     autocmd!
@@ -118,7 +118,7 @@ augroup vimStartup
 augroup END
 
 " }}}
-" {{{ ### Theme
+" {{{ Theme
 
 " This is needed in order to make background color work properly in kitty
 "let &t_ut=''
@@ -127,13 +127,17 @@ augroup END
 let g:airline#extensions#whitespace#enabled = 0
 
 " Gruvbox default setup
-let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_contrast_light = 'soft'
-let g:gruvbox_invert_selection = 0
+"let g:gruvbox_italic = 1
+"let g:gruvbox_contrast_dark = 'medium'
+"let g:gruvbox_contrast_light = 'soft'
+"let g:gruvbox_invert_selection = 0
 
 " Everforest default setup
 let g:everforest_background = 'hard'
+
+" Gruvbox-material default setup
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_better_performance = 1
 
 set background=dark
 
@@ -147,14 +151,12 @@ if ($TERM != 'linux' || has("gui_running"))
     if (expand('$EUID') != '0')
         "let g:airline_theme = 'gruvbox'
         "autocmd vimenter * ++nested colorscheme gruvbox
-        let g:gruvbox_material_background = 'hard'
-        let g:gruvbox_material_better_performance = 1
         colorscheme gruvbox-material
         "let g:airline_theme = 'gruvbox_material'
         let g:airline_theme = 'everforest'
     else
         colorscheme everforest
-        let g:airline_theme = 'everforest'
+        let g:airline_theme = 'gruvbox_material'
     endif
 else
     colorscheme desert

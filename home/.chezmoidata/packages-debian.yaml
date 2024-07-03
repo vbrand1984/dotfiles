@@ -2,6 +2,7 @@ packages:
   debian:
     stable:
       - ansible
+      - lua5.3
       - perl
       - python3
       - wget

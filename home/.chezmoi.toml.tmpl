@@ -68,12 +68,17 @@ encryption = "age"
     @'{# $isDebBased := or $isDebianBased $isUbuntuBased -#}'@
     @'{# $isDesktopRig := eq .chezmoi.hostname $desktopRigName -#}'@
     @'{# $isOldLaptop := eq .chezmoi.hostname $oldLaptopName -#}'@
+    @'{# $isVM := eq (output "/bin/sh" (joinPath $helperScriptsDir "is-virtual-machine.sh")) "yes" -#}'@
     sysIsDebianBased = @'{# $isDebianBased #}'@ 
     sysIsUbuntuBased = @'{# $isUbuntuBased #}'@ 
     sysIsDebBased = @'{# $isDebBased #}'@ 
     sysIsVoid = @'{# eq .chezmoi.osRelease.id "void" #}'@
     sysIsGentoo = @'{# eq .chezmoi.osRelease.id "gentoo" #}'@
     sysHasSystemd = @'{# lookPath "systemctl" | not | not #}'@
+
+    sysIsVM = @'{# $isVM #}'@
+
+    sysHasSmallScreen = @'{# or $isVM $isOldLaptop #}'@
 
     sysIsDesktopRig = @'{# $isDesktopRig #}'@
     sysIsOldLaptop = @'{# $isOldLaptop #}'@

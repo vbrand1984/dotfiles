@@ -1,1 +1,1 @@
-{{ joinPath .dirStored "rc.xml.common" -}}
+{{ if .sysHasSmallScreen }}{{ joinPath .dirStored "rc.xml.small-screen" }}{{ else }}{{ joinPath .dirStored "rc.xml.common" }}{{ end -}}

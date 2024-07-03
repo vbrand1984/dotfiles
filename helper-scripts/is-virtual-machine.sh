@@ -2,19 +2,21 @@
 # This script tests whether a computer is a virtual machine or not
 # The method is borrowed from neofetch
 
-the_fname='/sys/devices/virtual/dmi/id/product_name'
+model='unknown'
 
-if [ -r "${the_fname}" ] ; then
-    model=$(cat "${the_fname}")
-else
-    model='unknown'
-fi
+for the_fname in \
+    '/sys/devices/virtual/dmi/id/product_name' \
+    '/sys/firmware/devicetree/base/model' \
+    '/tmp/sysinfo/model'
+    do
+        if [ -r "${the_fname}" ] ; then
+            model=$(cat "${the_fname}")
+            break
+        fi
+    done
 
 case "${model}" in
-    'Standard PC'*)
-        echo -n 'yes'
-        ;;
-    OpenBSD*)
+    'Standard PC'*|VirtualBox*|OpenBSD*)
         echo -n 'yes'
         ;;
     *)
