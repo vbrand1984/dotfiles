@@ -1,4 +1,4 @@
-{{ if and .theSystem.isBrandsPrivate .theSystem.isDesktopRig -}}
+{{ if and .sysIsBrandsPrivate .sysIsDesktopRig -}}
 #!/usr/bin/python3
 # vim: ft=python
 # chezmoi:template: missing-key=zero
@@ -118,7 +118,7 @@ def find_weather_symbol(icon_name):
     return the_symbol
 
 # Load our config file with credentials
-the_data = load_json_from_file({{ joinPath .sysDirs.scripts "openweathermap-id.json" | quote }})
+the_data = load_json_from_file({{ joinPath .dirLocalScripts "openweathermap-id.json" | quote }})
 city_id = the_data.get("city_id", "default_city_id")
 appid = the_data.get("appid", "default_appid")
 

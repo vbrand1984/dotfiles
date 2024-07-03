@@ -6,7 +6,7 @@
 
 # Our default GTK and Openbox themes:
 # Greylooks, GreylooksGreen, GreylooksHuman and GreylooksOk
-{{ range .varia.greylooksThemes }}
+{{ range .miscGreylooksThemes }}
 [".local/share/themes/{{ . }}"]
     type = "archive"
     url = "https://github.com/vbrand1984/greylooks/archive/master.zip"
@@ -17,24 +17,22 @@
 {{ end }}
 
 
-{{ if .theSystem.isDebianBased }}
-
+{{ if .sysIsDebBased }}
 # In Debian-based distros, we need to install obmenu-generator externally
-[{{ joinPath (.sysDirs.scripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
+[{{ joinPath (.dirLocalScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
     executable = false
+{{ end }}
 
-{{ if not .theSystem.hasSystemd }}
+{{ if and .sysIsDebianBased (not .sysHasSystemd) }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
-[{{ joinPath (.sysDirs.scripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
+[{{ joinPath (.dirLocalScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
     type= "file"
     url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
     filter.command = "sed"
     filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
     refreshPeriod = "168h"
     executable = false
-{{ end }}
-
 {{ end }}

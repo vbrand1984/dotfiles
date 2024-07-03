@@ -1,13 +1,13 @@
 [redshift]
-fade={{ int .redshift.fade }}
-adjustment-method={{ .redshift.adjustmentMethod }}
-location-provider={{ .redshift.provider }}
+fade={{ int .rsFade }}
+adjustment-method={{ .rsAdjustmentMethod }}
+location-provider={{ .rsProvider }}
 
-temp-day={{ int .redshift.tempDay }}
-temp-night={{ int .redshift.tempNight }}
+temp-day={{ int .rsTempDay }}
+temp-night={{ int .rsTempNight }}
 
-{{ if eq .redshift.provider "manual" -}}
+{{ if eq .rsProvider "manual" -}}
 [manual]
-lat={{ int .redshift.lat }}
-lon={{ int .redshift.lon }}
+lat={{ int .rsLat }}
+lon={{ int .rsLon }}
 {{ end -}}

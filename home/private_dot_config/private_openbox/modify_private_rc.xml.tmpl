@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+# vim: ft=perl ts=4 sw=4 et
+
+# modify_ script for Openbox configuration file rc.xml
+# This script cuts out the <keyboard> section from this file and replaces it 
+# with the <include> tag, thus including our keybindings.xml file into the 
+# Openbox configuration
+
+use strict;
+use warnings;
+
+my $regime = 1;
+my $was_input = 0;
+
+while (<>) {
+    if ($regime == 1) {
+        if (/<keyboard>/) {
+            print "  <xi:include href=\"keybindings.xml\"/>\n";
+            $regime = 2;
+        } else {
+            print $_;
+        }
+    } elsif ($regime == 2) {
+        if (/<\/keyboard>/) {
+            $regime = 3;
+        }
+    } else { # $regime == 3
+        print $_;
+    }
+    $was_input = 1;
+}
+
+if (not $was_input) {
+    # stdin was empty, now we write our stored default rc.xml into stdout
+    my $orig_file = {{ includeTemplate "obRcXmlStoredPath" . | quote }};
+    open FID, $orig_file
+        or die("Couldn't open the file '$orig_file'!\n");
+    while (<FID>) {
+        print $_;
+    }
+    close FID;
+}

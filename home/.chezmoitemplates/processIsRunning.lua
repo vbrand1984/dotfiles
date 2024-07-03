@@ -17,6 +17,4 @@ end
 
 --== TEMPLATE END: processIsRunning.lua ==--
 
-@'{#- if false -#}'@
--- This deletes an empty string after the template
-@'{#- end -#}'@
+@'{#- /* This deletes an empty string after the template */ -#}'@

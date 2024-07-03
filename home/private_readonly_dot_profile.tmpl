@@ -17,8 +17,8 @@ if [ -n "${BASH_VERSION}" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d {{ .sysDirs.localBin | squote }} ] ; then
-    PATH="${PATH}:{{ .sysDirs.localBin }}"
+if [ -d {{ .dirLocalBin | squote }} ] ; then
+    PATH="${PATH}:{{ .dirLocalBin }}"
 fi
 
 # Configuring our XDG cache in RAM

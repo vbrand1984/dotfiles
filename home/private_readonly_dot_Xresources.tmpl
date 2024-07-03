@@ -1,8 +1,9 @@
-Xft.dpi: {{ .fontConfig.dpi }}
-Xft.autohint: {{ int .fontConfig.autohint }}
-Xft.antialias: {{ int .fontConfig.antialias }}
-Xft.hinting: {{ int .fontConfig.hinting }}
-Xft.hintstyle: {{ .fontConfig.hintStyle }}
-Xft.rgba: {{ .fontConfig.rgba }}
-Xft.lcdfilter: {{ .fontConfig.lcdfilter }}
-Xcursor.theme: {{ .gtk.cursorTheme }}
+{{ .varia.managedMessage | comment "# " }}
+Xft.dpi: {{ .fcDpi }}
+Xft.autohint: {{ int .fcAutohint }}
+Xft.antialias: {{ int .fcAntialias }}
+Xft.hinting: {{ int .fcHinting }}
+Xft.hintstyle: {{ .fcHintStyle }}
+Xft.rgba: {{ .fcRgba }}
+Xft.lcdfilter: {{ .fcLcdfilter }}
+Xcursor.theme: {{ .gtkCursorTheme }}

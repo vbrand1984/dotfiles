@@ -31,7 +31,7 @@ my $chezmoi_editor = {{ .apps.chezmoiEditorFromMenu | quote }};
 our $SCHEMA = [
 
     #           COMMAND                 LABEL               ICON
-    {pipe =>    ['/usr/bin/lua {{ .sysDirs.obPipemenus }}/ob-pm-bookmarks.lua {{ .varia.obmenuIconSize }}',   'Bookmarks',    'system-file-manager-symbolic']},
+    {pipe =>    ['/usr/bin/lua {{ .dirObPipemenus }}/ob-pm-bookmarks.lua {{ .miscObmenuIconSize }}',   'Bookmarks',    'system-file-manager-symbolic']},
     {item =>    ['x-terminal-emulator', 'Terminal',         'utilities-terminal-symbolic']},
     {item =>    ['xdg-open http://',    'Web Browser',      'web-browser-symbolic']},
 
@@ -71,12 +71,12 @@ our $SCHEMA = [
         # Nitrogen
         {item => ['nitrogen', 'Desktop wallpaper', 'preferences-desktop-wallpaper-symbolic']},
         # Reconfiguration of the whole appearance
-        {item => ['/bin/sh -e {{ joinPath .sysDirs.localBin "reconfigure-appearance.sh" | quote }}', 'Reconfigure appearance', 'preferences-desktop-remote-desktop-symbolic']},
+        {item => ['/bin/sh -e {{ joinPath .dirLocalBin "reconfigure-appearance.sh" | quote }}', 'Reconfigure appearance', 'preferences-desktop-remote-desktop-symbolic']},
 
         {sep => undef},
 
         # Conky category (pipemenu)
-        {pipe => ['/usr/bin/lua -- {{ joinPath .sysDirs.obPipemenus "ob-pm-conky.lua" }}', 'Conky', 'utilities-system-monitor-symbolic']},
+        {pipe => ['/usr/bin/lua -- {{ joinPath .dirObPipemenus "ob-pm-conky.lua" }}', 'Conky', 'utilities-system-monitor-symbolic']},
 
         # obmenu-generator category
         {beg => ['Obmenu-Generator', 'edit-tag-symbolic']},
@@ -90,22 +90,27 @@ our $SCHEMA = [
 
         # Openbox configuration category
         {beg => ['Openbox', 'workspaces-symbolic']},
-            {item => ['obconf', 'Obconf', 'obconf']},
-            {item => ['openbox --reconfigure', 'Reconfigure Openbox', 'system-run-symbolic']},
-            {item => ['openbox --restart', 'Restart Openbox', 'view-refresh-symbolic']},
+            {item => ['obconf',                 'Obconf',               'obconf']},
+            {item => ['openbox --reconfigure',  'Reconfigure Openbox',  'system-run-symbolic']},
+            {item => ['openbox --restart',      'Restart Openbox',      'view-refresh-symbolic']},
 
             {sep => undef},
 
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart", 'Edit autostart script', 'edit-symbolic']},
-            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",  'Edit menu.xml',         'edit-symbolic']},
-            {item => ["$editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",            'Edit rc.xml',           'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/autostart",       'Edit autostart script',            'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/menu.xml",        'Edit menu.xml',                    'edit-symbolic']},
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/keybindings.xml", 'Edit keybindings.xml',             'edit-symbolic']},
+
+            {sep => undef},
+
+            {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",          'Edit modify script for rc.xml',    'edit-symbolic']},
+            {item => ["$editor {{ template "obRcXmlStoredPath" . }}",                           'Edit default rc.xml',              'edit-symbolic']},
         {end => undef},
 
         # Varia category
         # settings-configure
         {beg => ['Varia', 'preferences-system-details-symbolic']},
-            {item => ['/bin/sh -e {{ joinPath .sysDirs.scripts "manage-service.sh" | quote }} restart tint2', 'Restart tint2', 'preferences-ubuntu-panel-symbolic']},
-            {item => ['/bin/sh -e {{ joinPath .sysDirs.scripts "manage-service.sh" | quote }} restart dunst', 'Restart dunst', 'notifications-applet-symbolic']},
+            {item => ['/bin/sh -e {{ joinPath .dirLocalScripts "manage-service.sh" | quote }} restart tint2', 'Restart tint2', 'preferences-ubuntu-panel-symbolic']},
+            {item => ['/bin/sh -e {{ joinPath .dirLocalScripts "manage-service.sh" | quote }} restart dunst', 'Restart dunst', 'notifications-applet-symbolic']},
 
             {sep => undef},
 
@@ -115,7 +120,7 @@ our $SCHEMA = [
         {end => undef},
 
         # XSettingsD category (pipemenu)
-        {pipe => ['/usr/bin/lua -- {{ .sysDirs.obPipemenus }}/ob-pm-xsettingsd.lua', 'XSettingsD', 'preferences-desktop-apps-symbolic']},
+        {pipe => ['/usr/bin/lua -- {{ .dirObPipemenus }}/ob-pm-xsettingsd.lua', 'XSettingsD', 'preferences-desktop-apps-symbolic']},
 
     {end => undef},
 

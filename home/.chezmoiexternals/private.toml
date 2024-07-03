@@ -1,6 +1,6 @@
-{{ if .theSystem.isBrandsPrivate }}
+{{ if .sysIsBrandsPrivate }}
 
-{{ if .theSystem.isDesktopRig }}
+{{ if .sysIsDesktopRig }}
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
 [".local/share/fonts/weathericons-regular-webfont.ttf"]

@@ -11,26 +11,26 @@
 print('<openbox_pipe_menu>')
 
 if process_is_running('xsettingsd') then
-    print([[<item label='Restart XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', @'{# .varia.obmenuIconSize #}'@) .. [['>
+    print([[<item label='Restart XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .sysDirs.scripts "manage-service.sh" | quote #}'@ restart xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ restart xsettingsd]] .. ']]' .. [[></command></execute>
     </action>
 </item>
-<item label='Stop XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', @'{# .varia.obmenuIconSize #}'@) .. [['>
+<item label='Stop XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .sysDirs.scripts "manage-service.sh" | quote #}'@ stop xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ stop xsettingsd]] .. ']]' .. [[></command></execute>
     </action>
 </item>]]);
 else
-    print([[<item label='Start XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', @'{# .varia.obmenuIconSize #}'@) .. [['>
+    print([[<item label='Start XSettingsD' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .sysDirs.scripts "manage-service.sh" | quote #}'@ start xsettingsd]] .. ']]' .. [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ start xsettingsd]] .. ']]' .. [[></command></execute>
     </action>
 </item>]]);
 end
 
 print([[<separator />
-<item label='Edit xsettingsd.conf' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', @'{# .varia.obmenuIconSize #}'@) .. [['>
+<item label='Edit xsettingsd.conf' icon=']] .. lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', @'{# .miscObmenuIconSize #}'@) .. [['>
     <action name='Execute'>
         <execute><command><![CDATA[@'{# .apps.chezmoiEditorFromMenu #}'@ @'{# joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | squote #}'@]] .. ']]' .. [[></command></execute>
     </action>

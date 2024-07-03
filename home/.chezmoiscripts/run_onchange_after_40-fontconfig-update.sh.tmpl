@@ -1,18 +1,20 @@
 # chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if .theSystem.isDesktopRig -#}'@
+@'{# if and .sysIsDesktopRig .sysIsBrandsPrivate -#}'@
 #!/bin/sh
 # vim: ft=sh
 # Updates fonts cache when WeatherIcons font updates
 # Used on my main desktop rig, where this font is utilized in conky setup
 
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
-# weathericons-regular-webfont.ttf hash: @'{# include ( joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf" ) | sha256sum #}'@
+@'{#- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | not | not #}'@
+# weathericons-regular-webfont.ttf hash: @'{# include (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | sha256sum #}'@
+@'{#- end #}'@
 
 fc-cache --force --verbose @'{# joinPath .chezmoi.homeDir ".local/share/fonts" | quote #}'@
 
 # Restart conky if it is running
 if pgrep --count conky 1>/dev/null 2>&1 ; then
-    /bin/sh -e @'{# joinPath .sysDirs.scripts "manage-service.sh" | quote #}'@ restart conky
+    /bin/sh -e @'{# joinPath .dirLocalScripts "manage-service.sh" | quote #}'@ restart conky
 fi
 
 @'{#- end #}'@

@@ -1,0 +1,17 @@
+ENTRY "chezmoi source directory" URL "~/.Dots/chezmoi/home"
+ENTRY "/mnt/data" URL "/mnt/data"
+ENTRY "~/Downloads/themes/gtk" URL "~/Downloads/themes/gtk"
+GROUP "dotfiles"
+  ENTRY "~/.config/alacritty" URL "~/.config/alacritty"
+  ENTRY "~/.config/conky" URL "~/.config/conky"
+  ENTRY "~/.config/dunst" URL "~/.config/dunst"
+  ENTRY "~/.config/fontconfig" URL "~/.config/fontconfig"
+  ENTRY "~/.config/obmenu-generator" URL "~/.config/obmenu-generator"
+  ENTRY "~/.config/openbox" URL "~/.config/openbox"
+  ENTRY "~/.config/rofi" URL "~/.config/rofi"
+  ENTRY "~/.config/tint2" URL "~/.config/tint2"
+  ENTRY "~/.config/tmux" URL "~/.config/tmux"
+ENDGROUP
+GROUP "Bookmarks"
+ENDGROUP
+ENTRY "~/Documents/coding/git-repos" URL "~/Documents/coding/git-repos"

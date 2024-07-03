@@ -1,13 +1,16 @@
-{{ if and (not .theSystem.hasSystemd) (not .theSystem.isGentoo) -}}
+{{ if and (not .sysHasSystemd) (not .sysIsGentoo) -}}
+{{ .varia.managedMessage | comment "# " }}
+#
 # In non-systemd distros (which are not Gentoo), we need a way to launch pipewire
 # We grab this thing from Gentoo
+
 [Desktop Entry]
 Version=1.0
 Name[de]=PipeWire Mediensystem
 Name=PipeWire Media System
 Comment[de]=Das PipeWire Mediensystem starten
 Comment=Start the PipeWire Media System
-Exec={{ if .theSystem.isDebianBased }}/bin/sh -e {{ joinPath .sysDirs.scripts .apps.devuansPipewireLauncher }}{{ else }}pipewire{{ end }}
+Exec={{ if .sysIsDebianBased }}/bin/sh -e {{ joinPath .dirLocalScripts .apps.devuansPipewireLauncher | quote }}{{ else }}pipewire{{ end }}
 Terminal=false
 Type=Application
 X-GNOME-HiddenUnderSystemd=true

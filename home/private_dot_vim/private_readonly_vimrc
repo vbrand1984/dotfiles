@@ -1,4 +1,4 @@
-" {{{ Plugins
+" {{{ ### Plugins
 
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
@@ -20,7 +20,7 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " }}}
-" {{{ Various settings
+" {{{ ### Various settings
 
 syntax on
 
@@ -58,7 +58,7 @@ set autoindent
 set foldmethod=marker
 
 " }}}
-" {{{ Autocmd rules
+" {{{ ### Autocmd rules
 
 augroup custom_indentation
     autocmd!
@@ -74,9 +74,10 @@ autocmd BufRead,BufNewFile *conky.conf setlocal filetype=lua
 autocmd BufRead,BufNewFile *conky.conf.tmpl setlocal filetype=lua.chezmoitmpl
 "autocmd BufRead,BufNewFile */openbox-3/themerc set filetype=ob3
 
-autocmd BufRead,BufNewFile ~/.local/share/chezmoi/home/* set modeline
+autocmd BufRead,BufNewFile ~/.Dots/chezmoi/home/* set modeline
 
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
+
 " Filetypes
 autocmd BufRead,BufNewFile *.py.tmpl set filetype=python
 autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
@@ -86,6 +87,7 @@ autocmd BufRead,BufNewFile *.desktop.tmpl set filetype=desktop
 autocmd BufRead,BufNewFile *.toml.tmpl set filetype=toml
 autocmd BufRead,BufNewFile *.lua.tmpl set filetype=lua
 autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl set filetype=yaml
+
 " Certain config files
 autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
 autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
@@ -96,6 +98,7 @@ autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
 autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
 autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
 autocmd BufRead,BufNewFile *gvimrc* set filetype=vim
+autocmd BufRead,BufNewFile *_tmux.conf set filetype=tmux
 
 
 " Imported from defaults.vim
@@ -115,7 +118,7 @@ augroup vimStartup
 augroup END
 
 " }}}
-" {{{ ### Theme ###
+" {{{ ### Theme
 
 " This is needed in order to make background color work properly in kitty
 "let &t_ut=''
@@ -144,10 +147,11 @@ if ($TERM != 'linux' || has("gui_running"))
     if (expand('$EUID') != '0')
         "let g:airline_theme = 'gruvbox'
         "autocmd vimenter * ++nested colorscheme gruvbox
-        let g:gruvbox_material_background = 'medium'
+        let g:gruvbox_material_background = 'hard'
         let g:gruvbox_material_better_performance = 1
         colorscheme gruvbox-material
-        let g:airline_theme = 'gruvbox_material'
+        "let g:airline_theme = 'gruvbox_material'
+        let g:airline_theme = 'everforest'
     else
         colorscheme everforest
         let g:airline_theme = 'everforest'

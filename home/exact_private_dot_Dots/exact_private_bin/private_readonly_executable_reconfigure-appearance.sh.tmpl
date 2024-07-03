@@ -8,7 +8,7 @@
 
 # restart dunst, xsettingsd, tint2
 for the_service in 'dunst' 'xsettingsd' 'tint2' ; do
-    /bin/sh -e {{ joinPath .sysDirs.scripts "manage-service.sh" | quote }} restart "${the_service}"
+    /bin/sh -e {{ joinPath .dirLocalScripts "manage-service.sh" | quote }} restart "${the_service}"
 done
 
 # reconfigure openbox

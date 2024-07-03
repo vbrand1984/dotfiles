@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if .theSystem.isDebianBased -#}'@
+@'{# if .sysIsDebianBased -#}'@
 packages:
   debian:
     uninstall:
@@ -110,7 +110,7 @@ packages:
       # }}}
       # {{{ Browsers
       - firefox-esr
-@'{#- if .theSystem.isBrandsPrivate #}'@
+@'{#- if .sysIsBrandsPrivate #}'@
       - firefox-esr-l10n-de
       - firefox-esr-l10n-ru
 @'{#- end #}'@
@@ -147,6 +147,7 @@ packages:
       - emacs
       - mc
       - papirus-icon-theme
+      - tmux
       # {{{ Pipewire and pavucontrol
       - pavucontrol
       - pipewire
@@ -162,7 +163,7 @@ packages:
       # {{{ Libreoffice
       - libreoffice
       - libreoffice-gtk3
-@'{#- if .theSystem.isBrandsPrivate #}'@
+@'{#- if .sysIsBrandsPrivate #}'@
       - libreoffice-l10n-ru
 @'{#- end #}'@
       # }}}

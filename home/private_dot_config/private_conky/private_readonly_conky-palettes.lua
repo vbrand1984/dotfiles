@@ -1,4 +1,5 @@
 #!/usr/bin/lua
+-- This file is managed by chezmoi
 
 conky_palettes = {
     ['Catpuccin'] = {

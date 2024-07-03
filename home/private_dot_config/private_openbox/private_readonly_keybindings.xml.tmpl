@@ -1,0 +1,487 @@
+<!-- chezmoi:template: left-delimiter=@{{# right-delimiter=#}}@ -->
+<keyboard>
+  <!--{{{ Applications (Super-Ctrl + letters) -->
+  <!-- Super-Ctrl-B: Web Browser -->
+  <keybind key="W-C-B">
+    <action name="Execute">
+      <command>xdg-open http://</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-C: LibreOffice Calc -->
+  <keybind key="W-C-C">
+    <action name="Execute">
+      <command>libreoffice --calc</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-E: Emacs client -->
+  <keybind key="W-C-E">
+    <action name="Execute">
+      <command>emacsclient --reuse-frame --no-wait --alternate-editor=""</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-F: File manager -->
+  <keybind key="W-C-F">
+    <action name="Execute">
+      <command><![CDATA[xdg-open ~/.]]></command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-I: LibreOffice Impress -->
+  <keybind key="W-C-I">
+    <action name="Execute">
+      <command>libreoffice --impress</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-O: Obconf -->
+  <keybind key="W-C-O">
+    <action name="Execute">
+      <command>obconf</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-P: Pavucontrol -->
+  <keybind key="W-C-P">
+    <action name="Execute">
+      <command>pavucontrol --tab=3</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-Q: Qalculate! -->
+  <keybind key="W-C-Q">
+    <action name="Execute">
+      <command>qalculate-gtk</command>
+    </action>
+  </keybind>
+@{{#- if lookPath "torbrowser-launcher" #}}@
+  <!-- Super-Ctrl-R: Tor Browser -->
+  <keybind key="W-C-R">
+    <action name="Execute">
+      <command>torbrowser-launcher</command>
+    </action>
+  </keybind>
+@{{#- end #}}@
+@{{#- if lookPath "obs" #}}@
+  <!-- Super-Ctrl-S: OBS-Studio -->
+  <keybind key="W-C-S">
+    <action name="Execute">
+      <command>obs</command>
+    </action>
+  </keybind>
+@{{#- end #}}@
+  <!-- Super-Ctrl-T: Terminal emulator -->
+  <keybind key="W-C-T">
+    <action name="Execute">
+      <command>x-terminal-emulator</command>
+    </action>
+  </keybind>
+@{{#- if lookPath "virt-manager" #}}@
+  <!-- Super-Ctrl-V: virt-manager -->
+  <keybind key="W-C-V">
+    <action name="Execute">
+      <command>virt-manager</command>
+    </action>
+  </keybind>
+@{{#- end #}}@
+  <!-- Super-Ctrl-W: LibreOffice Writer -->
+  <keybind key="W-C-W">
+    <action name="Execute">
+      <command>libreoffice --writer</command>
+    </action>
+  </keybind>
+  <!-- Ctrl-Alt-Del: System monitor -->
+  <keybind key="C-A-Delete">
+    <action name="Execute">
+      <command><![CDATA[/bin/sh -c -- 'if command -v mate-system-monitor 1>/dev/null 2>&1 ; then exec mate-system-monitor ; else exec x-terminal-emulator -e htop ; fi']]></command>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ rofi (Super-Enter + optional stuff) -->
+  <!-- Super-Enter: rofi run -->
+  <keybind key="W-Return">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh run</command>
+    </action>
+  </keybind>
+  <!-- Super-Shift-Enter: rofi drun -->
+  <keybind key="W-S-Return">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh drun</command>
+    </action>
+  </keybind>
+  <!-- Super-F1: rofi calc module -->
+  <keybind key="W-F1">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh calc</command>
+    </action>
+  </keybind>
+  <!-- Super-Tab: rofi window switching module -->
+  <keybind key="W-Tab">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh window</command>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Screenshots (PrtScr + optional stuff) -->
+  <!-- PrtScr: Take a screenshot (fullscreen) -->
+  <keybind key="Print">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh fullscreen</command>
+    </action>
+  </keybind>
+  <!-- Alt-PrtScr: Screenshot of the current window -->
+  <keybind key="A-Print">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh window</command>
+    </action>
+  </keybind>
+  <!-- Ctrl-PrtScr: Screenshot of selection -->
+  <keybind key="C-Print">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh selection</command>
+    </action>
+  </keybind>
+  <!-- Super-PrtScr: Take a screenshot (fullscreen) with a 5 sec delay -->
+  <keybind key="W-Print">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh fullscreen delay</command>
+    </action>
+  </keybind>
+  <!-- Super-Alt-PrtScr: Screenshot of the current window with a 5 sec delay -->
+  <keybind key="W-A-Print">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/take-screenshot-x.sh window delay</command>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Inherent Openbox stuff (reconfig, menu, etc.) -->
+  <!-- Super-Shift-A: Reconfigure whole appearance -->
+  <keybind key="W-S-A">
+    <action name="Execute">
+      <command>/bin/sh -e ~/.Dots/bin/reconfigure-appearance.sh</command>
+    </action>
+  </keybind>
+  <!-- Super-Shift-C: Reconfigure Openbox -->
+  <keybind key="W-S-C">
+    <action name="Reconfigure"/>
+    <action name="Execute">
+      <command>notify-send --urgency=low 'Openbox reconfigured'</command>
+    </action>
+  </keybind>
+  <!-- Super-Esc: Openbox main menu -->
+  <keybind key="W-Escape">
+    <action name="ShowMenu">
+      <menu>root-menu</menu>
+    </action>
+  </keybind>
+  <!-- Super-D: Show/hide desktop -->
+  <keybind key="W-d">
+    <action name="ToggleShowDesktop"/>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Session management (logout etc.) -->
+  <!-- Super-Ctrl-L: Lock screen -->
+  <keybind key="W-C-L">
+    <action name="Execute">
+      <command>xdg-screensaver lock</command>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-Q: Run logout dialogue -->
+  <keybind key="W-C-Escape">
+    <action name="Execute">
+      <command><![CDATA[lxsession-logout --prompt='<big><big><b>Vero exire a sessione vis?</b></big></big>']]></command>
+    </action>
+  </keybind>
+  <!-- Super-Shift-Q: Quit from Openbox -->
+  <keybind key="W-S-Escape">
+    <action name="Exit">
+      <prompt>yes</prompt>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Navigating between desktops (Super + digits and Super-Shift + arrows) -->
+  <!-- Navigating between desktops by their numbers. I use 4 desktops btw -->
+  <!-- Super-1: Go to desktop #1 -->
+  <keybind key="W-1">
+    <action name="GoToDesktop">
+      <to>1</to>
+    </action>
+  </keybind>
+  <!-- Super-2: Go to desktop #2 -->
+  <keybind key="W-2">
+    <action name="GoToDesktop">
+      <to>2</to>
+    </action>
+  </keybind>
+  <!-- Super-3: Go to desktop #3 -->
+  <keybind key="W-3">
+    <action name="GoToDesktop">
+      <to>3</to>
+    </action>
+  </keybind>
+  <!-- Super-4: Go to desktop #4 -->
+  <keybind key="W-4">
+    <action name="GoToDesktop">
+      <to>4</to>
+    </action>
+  </keybind>
+  <!-- Navigating between desktops relatively -->
+  <!-- Super-Ctrl-Left: Move to the desktop to the left -->
+  <keybind key="W-C-Left">
+    <action name="GoToDesktop">
+      <to>left</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-Right: Move to the desktop to the right -->
+  <keybind key="W-C-Right">
+    <action name="GoToDesktop">
+      <to>right</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-Up: Move to the desktop above -->
+  <keybind key="W-C-Up">
+    <action name="GoToDesktop">
+      <to>up</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Ctrl-Down: Move to the desktop below -->
+  <keybind key="W-C-Down">
+    <action name="GoToDesktop">
+      <to>down</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Moving windows between desktops (Super-Shift + arrows and digits) -->
+  <!-- Move the window to a desktop by its number (Win-Shift + digit) -->
+  <!-- Super-Shift-1: Move the window to desktop #1 (and switch to it) -->
+  <keybind key="W-S-1">
+    <action name="SendToDesktop">
+      <to>1</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-2: Move the window to desktop #2 (and switch to it) -->
+  <keybind key="W-S-2">
+    <action name="SendToDesktop">
+      <to>2</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-3: Move the window to desktop #3 (and switch to it) -->
+  <keybind key="W-S-3">
+    <action name="SendToDesktop">
+      <to>3</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-4: Move the window to desktop #4 (and switch to it) -->
+  <keybind key="W-S-4">
+    <action name="SendToDesktop">
+      <to>4</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Move the window to an adjacent desktop (Win-Shift + arrows) -->
+  <!-- Super-Shift-Left: Move the window to the desktop to the left (and switch to it) -->
+  <keybind key="W-S-Left">
+    <action name="SendToDesktop">
+      <to>left</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-Right: Move the window to the desktop to the right (and switch to it) -->
+  <keybind key="W-S-Right">
+    <action name="SendToDesktop">
+      <to>right</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-Up: Move the window to the desktop above (and switch to it) -->
+  <keybind key="W-S-Up">
+    <action name="SendToDesktop">
+      <to>up</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!-- Super-Shift-Down: Move the window to the desktop below (and switch to it) -->
+  <keybind key="W-S-Down">
+    <action name="SendToDesktop">
+      <to>down</to>
+      <wrap>no</wrap>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Window handling (close, maximize, etc.) -->
+  <!-- Alt-F4: Close window -->
+  <keybind key="A-F4">
+    <action name="Close"/>
+  </keybind>
+  <!-- Super-Q: Close window -->
+  <keybind key="W-Q">
+    <action name="Close"/>
+  </keybind>
+  <!-- Alt-Esc: Drown the window into the bottom of the stack -->
+  <keybind key="A-Escape">
+    <action name="Lower"/>
+    <action name="FocusToBottom"/>
+    <action name="Unfocus"/>
+  </keybind>
+  <!-- Alt-Space: Show window's context menu -->
+  <keybind key="A-space">
+    <action name="ShowMenu">
+      <menu>client-menu</menu>
+    </action>
+  </keybind>
+  <!-- Super-F: Toggle fullscreen -->
+  <keybind key="W-F">
+    <action name="ToggleFullscreen"/>
+  </keybind>
+  <!-- Super-I: Iconify current window -->
+  <keybind key="W-I">
+    <action name="Iconify"/>
+  </keybind>
+  <!-- Super-M: Toggle maximize -->
+  <keybind key="W-M">
+    <action name="ToggleMaximize"/>
+  </keybind>
+  <!-- Super-O: Toggle omnipresent -->
+  <keybind key="W-O">
+    <action name="ToggleOmnipresent"/>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ Switching between windows (Alt-Tab etc.) -->
+  <!-- Alt-Tab: Switch to the next window -->
+  <keybind key="A-Tab">
+    <action name="NextWindow">
+      <finalactions>
+        <action name="Focus"/>
+        <action name="Raise"/>
+        <action name="Unshade"/>
+      </finalactions>
+    </action>
+  </keybind>
+  <!-- Ctrl-Alt-Tab: Switch to the previous window -->
+  <!-- I don't use Alt-Shift-Tab for this action because I use Alt-Shift for keyboard layout switching -->
+  <keybind key="C-A-Tab">
+    <action name="PreviousWindow">
+      <panels>yes</panels>
+      <desktop>yes</desktop>
+      <finalactions>
+        <action name="Focus"/>
+        <action name="Raise"/>
+        <action name="Unshade"/>
+      </finalactions>
+    </action>
+  </keybind>
+  <!-- Switching between windows with the arrow keys. BTW I don't get how this stuff works, I just copied this from the default Openbox config, but changed the keybindings -->
+  <!-- Super-Alt-Right -->
+  <keybind key="W-A-Right">
+    <action name="DirectionalCycleWindows">
+      <direction>right</direction>
+    </action>
+  </keybind>
+  <!-- Super-Alt-Left -->
+  <keybind key="W-A-Left">
+    <action name="DirectionalCycleWindows">
+      <direction>left</direction>
+    </action>
+  </keybind>
+  <!-- Super-Alt-Up -->
+  <keybind key="W-A-Up">
+    <action name="DirectionalCycleWindows">
+      <direction>up</direction>
+    </action>
+  </keybind>
+  <!-- Super-Alt-Down -->
+  <keybind key="W-A-Down">
+    <action name="DirectionalCycleWindows">
+      <direction>down</direction>
+    </action>
+  </keybind>
+  <!--}}}-->
+  <!--{{{ (Semi-)Tiling (Super + arrows and Super + PgUp/PgDn/Home/End) -->
+  <!-- See: https://thomashunter.name/posts/2019-01-27-treating-openbox-like-a-tiling-windowmanager -->
+  <!-- Half-screen resizing of windows -->
+  <!-- Super-Left: Move the window to the left half of the screen -->
+  <keybind key="W-Left">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>0</x>
+      <y>0</y>
+      <width>50%</width>
+      <height>100%</height>
+    </action>
+  </keybind>
+  <!-- Super-Right: Move the window to the right half of the screen -->
+  <keybind key="W-Right">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>-0</x>
+      <y>0</y>
+      <width>50%</width>
+      <height>100%</height>
+    </action>
+  </keybind>
+  <!-- Super-Up: Move the window to the top half of the screen -->
+  <keybind key="W-Up">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>0</x>
+      <y>0</y>
+      <width>100%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!-- Super-Down: Move the window to the bottom half of the screen -->
+  <keybind key="W-Down">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>0</x>
+      <y>-0</y>
+      <width>100%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!-- Quarter-screen resizing of windows (actually, I rarely use it, if ever) -->
+  <!-- Super-Home: Move the window to the upper-left corner of the screen -->
+  <keybind key="W-Home">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>0</x>
+      <y>0</y>
+      <width>50%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!-- Super-PageUp: Move the window to the upper-right corner of the screen -->
+  <keybind key="W-Prior">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>-0</x>
+      <y>0</y>
+      <width>50%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!-- Super-PageDown: Move the window to the bottom-right corner of the screen -->
+  <keybind key="W-Next">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>-0</x>
+      <y>-0</y>
+      <width>50%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!-- Super-End: Move the window to the bottom-left corner of the screen -->
+  <keybind key="W-End">
+    <action name="Unmaximize"/>
+    <action name="MoveResizeTo">
+      <x>0</x>
+      <y>-0</y>
+      <width>50%</width>
+      <height>50%</height>
+    </action>
+  </keybind>
+  <!--}}}-->
+</keyboard>

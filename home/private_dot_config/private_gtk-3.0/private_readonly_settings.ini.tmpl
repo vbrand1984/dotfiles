@@ -1,19 +1,20 @@
+{{ .varia.managedMessage | comment "# " }}
 [Settings]
-gtk-button-images={{ int .gtk.buttonImages }}
-gtk-menu-images={{ int .gtk.menuImages }}
-gtk-cursor-theme-name={{ .gtk.cursorTheme }}
-gtk-cursor-theme-size={{ .gtk.cursorSize }}
-gtk-enable-event-sounds={{ int .gtk.enableEventSounds }}
-gtk-enable-input-feedback-sounds={{ int .gtk.enableInputFeedbackSounds }}
-gtk-font-name={{ .gtk.fontName }}
-gtk-icon-theme-name={{ .gtk.iconTheme }}
-gtk-theme-name={{ .gtk.themeName }}
-gtk-toolbar-icon-size={{ .gtk.toolbarIconSize }}
-gtk-toolbar-style={{ .gtk.toolbarStyle }}
-gtk-xft-antialias={{ int .fontConfig.antialias }}
-gtk-xft-hinting={{ int .fontConfig.hinting }}
-gtk-xft-hintstyle={{ .fontConfig.hintStyle }}
-gtk-xft-rgba={{ .fontConfig.rgba }}
-gtk-decoration-layout={{ .gtk.decorationLayout }}
+gtk-button-images={{ int .gtkButtonImages }}
+gtk-menu-images={{ int .gtkMenuImages }}
+gtk-cursor-theme-name={{ .gtkCursorTheme }}
+gtk-cursor-theme-size={{ .gtkCursorSize }}
+gtk-enable-event-sounds={{ int .gtkEnableEventSounds }}
+gtk-enable-input-feedback-sounds={{ int .gtkEnableInputFeedbackSounds }}
+gtk-font-name={{ .gtkFontName }}
+gtk-icon-theme-name={{ .gtkIconTheme }}
+gtk-theme-name={{ .gtkThemeName }}
+gtk-toolbar-icon-size={{ .gtkToolbarIconSize }}
+gtk-toolbar-style={{ .gtkToolbarStyle }}
+gtk-xft-antialias={{ int .fcAntialias }}
+gtk-xft-hinting={{ int .fcHinting }}
+gtk-xft-hintstyle={{ .fcHintStyle }}
+gtk-xft-rgba={{ .fcRgba }}
+gtk-decoration-layout={{ .gtkDecorationLayout }}
 gtk-print-preview-command=atril %f
-#gtk-overlay-scrolling=0
+gtk-overlay-scrolling=0

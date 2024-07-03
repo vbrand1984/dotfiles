@@ -1,19 +1,19 @@
 # chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
 
-@'{# if .theSystem.isBrandsPrivate -#}'@
+@'{# if .sysIsBrandsPrivate -#}'@
 
 - name: Managing local symlinks
   hosts: mylocalhost
-@'{#- $personalSymlinksNeeded := ne .sysDirs.baseDataDir .sysDirs.defaultBaseDataDir #}'@
+@'{#- $personalSymlinksNeeded := ne .dirUserData .dirUserDataDefault #}'@
 @'{#- if  $personalSymlinksNeeded #}'@
   vars_files: 
     - vars/personal-symlinks.yml
 @'{#- end #}'@
   tasks:
 @'{#- if  $personalSymlinksNeeded #}'@
-    - name: Ensure all symlinks to @'{# .sysDirs.baseDataDir | quote #}'@ are on
+    - name: Ensure all symlinks to @'{# .dirUserData | quote #}'@ are on
       file:
-        src: @'{# joinPath .sysDirs.baseDataDir .chezmoi.username "{{ item }}" | quote #}'@
+        src: @'{# joinPath .dirUserData .chezmoi.username "{{ item }}" | quote #}'@
         dest: @'{# joinPath .chezmoi.homeDir "{{ item }}" | quote #}'@
         state: link
       loop: "{{ personal_symlinks }}"
@@ -26,13 +26,18 @@
 
 @'{#- end #}'@
 
-@'{# if .theSystem.isDebianBased -#}'@
+@'{# if .sysIsDebianBased -#}'@
 - name: Installing packages
   hosts: mylocalhost
   vars_files:
     - vars/packages-deb.yml
   become: true
   tasks:
+    - name: Upgrade apt
+      ansible.builtin.apt:
+        upgrade: true
+        update-cache: true
+        install_recommends: false
     - name: Install packages from stable repository
       ansible.builtin.apt:
         name: "{{ packages.debian.stable }}"

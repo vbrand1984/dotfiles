@@ -1,50 +1,51 @@
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-<!-- chezmoi:template: left-delimiter={{@ right-delimiter=@}} -->
+<!-- chezmoi:template: left-delimiter=@{{# right-delimiter=#}}@ -->
 <!-- vim: set ft=xml ts=2 sw=2 fdm=marker et: -->
+<!-- @{{# .varia.managedMessage #}}@ -->
 <fontconfig>
 
-<!--{{{ ### General fontconfig settings ### -->
+<!--{{{ General fontconfig settings -->
 
   <match target="font">
     <edit name="autohint" mode="assign">
-      <bool>{{@ .fontConfig.autohint @}}</bool>
+      <bool>@{{# .fcAutohint #}}@</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hinting" mode="assign">
-      <bool>{{@ .fontConfig.hinting @}}</bool>
+      <bool>@{{# .fcHinting #}}@</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hintstyle" mode="assign">
-      <const>{{@ .fontConfig.hintStyle @}}</const>
+      <const>@{{# .fcHintStyle #}}@</const>
     </edit>
   </match>
   <match target="font">
     <edit name="antialias" mode="assign">
-      <bool>{{@ .fontConfig.antialias @}}</bool>
+      <bool>@{{# .fcAntialias #}}@</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="rgba" mode="assign">
-      <const>{{@ .fontConfig.rgba @}}</const>
+      <const>@{{# .fcRgba #}}@</const>
     </edit>
   </match>
   <match target="font">
     <edit name="lcdfilter" mode="assign">
-      <const>{{@ .fontConfig.lcdfilter @}}</const>
+      <const>@{{# .fcLcdfilter #}}@</const>
     </edit>
   </match>
   <match target="font">
     <edit name="dpi" mode="assign">
-      <double>{{@ .fontConfig.dpi @}}</double>
+      <double>@{{# .fcDpi #}}@</double>
     </edit>
   </match>
 
 <!--}}}-->
 
-<!--{{{ ### Defining fonts: sans-serif ### -->
+<!--{{{ Defining fonts: sans-serif -->
 
   <alias binding="strong">
     <family>Golos Text</family>
@@ -82,7 +83,7 @@
   </alias>
 
 <!--}}}-->
-<!--{{{ ### Defining fonts: monospace ### -->
+<!--{{{ Defining fonts: monospace -->
 
   <alias binding="strong">
     <family>Fira Code</family>
@@ -106,7 +107,7 @@
   </alias>
 
 <!--}}}-->
-<!--{{{ ### Defining fonts: serif ### -->
+<!--{{{ Defining fonts: serif -->
 
   <alias binding="strong">
     <family>PT Serif</family>
@@ -125,7 +126,7 @@
   </alias>
 
 <!--}}}-->
-<!--{{{ ### Defining fonts: ui-system ### -->
+<!--{{{ Defining fonts: ui-system -->
 
   <alias binding="strong">
     <family>PT Root UI</family>
@@ -145,7 +146,7 @@
 
 <!--}}}-->
 
-<!--{{{ ### Various tweaks (Fira Code, JetBrains Mono...) ### -->
+<!--{{{ Various tweaks (Fira Code, JetBrains Mono...) -->
   <!-- Some tweaks for font features of Fira Code -->
   <match target="font">
     <test name="family" compare="eq" ignore-blanks="true">

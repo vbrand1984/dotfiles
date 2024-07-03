@@ -1,4 +1,7 @@
-[ -r ~/.Xresources ] && xrdb -merge -I$HOME ~/.Xresources
+# This file is managed by chezmoi
+
+# See: https://wiki.archlinux.org/title/x_resources#xinitrc
+[ -r ~/.Xresources ] && xrdb -merge -I${HOME} ~/.Xresources
 
 # Launching DE/WM of choice
 exec dbus-launch --exit-with-session openbox-session

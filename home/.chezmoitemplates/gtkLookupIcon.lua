@@ -31,6 +31,4 @@ end
 
 --== TEMPLATE END: gtkLookupIcon.lua ==--
 
-@'{#- if false -#}'@
--- This deletes an empty string after the template
-@'{#- end -#}'@
+@'{#- /* This deletes an empty string after the template */ -#}'@

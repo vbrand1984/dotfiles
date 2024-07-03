@@ -5,7 +5,7 @@
 .viminfo
 .vimrc
 .xsettingsd
-{{ if .theSystem.isBrandsPrivate }}
+{{ if .sysIsBrandsPrivate }}
 .git-credentials
 .gitconfig
 .Scripti

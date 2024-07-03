@@ -2,15 +2,18 @@ m   Edit ~/.config/mc/menu
     cd ~/.config/mc
     chezmoi edit --apply menu
 h   Edit mc directory hotlist
-    $EDITOR {{ .sysDirs.symlinked }}/.config/mc/hotlist
+    $EDITOR {{ .dirSymlinked }}/.config/mc/hotlist
 =
 c   Edit chezmoi config
     chezmoi edit-config
 C   Edit chezmoi config template
     chezmoi edit-config-template
+a   Edit alacritty.yml
+    cd ~/.config/alacritty
+    chezmoi edit --watch alacritty.yml
 o   Edit conky.conf
     cd ~/.config/conky
-    chezmoi edit --apply conky.conf
+    chezmoi edit --watch conky.conf
 r   Edit vimrc
     cd ~/.vim
     chezmoi edit --apply vimrc
