@@ -89,7 +89,7 @@ shadows=true
 shell_directory_timeout=900
 
 [Layout]
-message_visible=true
+message_visible=false
 keybar_visible=true
 xterm_title=true
 output_lines=0
@@ -98,7 +98,7 @@ menubar_visible=false
 free_space=true
 horizontal_split=false
 vertical_equal=true
-left_panel_size=49
+left_panel_size=47
 horizontal_equal=true
 top_panel_size=1
 
@@ -161,6 +161,6 @@ ignore_dirs=
 
 [Panelize]
 Modified git files=git ls-files --modified
-Find SUID and SGID programs=find . \\( \\( -perm -04000 -a -perm /011 \\) -o \\( -perm -02000 -a -perm /01 \\) \\) -print
-Find *.orig after patching=find . -name \\*.orig -print
 Find rejects after patching=find . -name \\*.rej -print
+Find *.orig after patching=find . -name \\*.orig -print
+Find SUID and SGID programs=find . \\( \\( -perm -04000 -a -perm /011 \\) -o \\( -perm -02000 -a -perm /01 \\) \\) -print

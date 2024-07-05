@@ -171,8 +171,10 @@ encryption = "age"
     fcAntialias = @'{# default true .fcAntialias | not | not #}'@
     fcHinting = @'{# default true .fcHinting | not | not #}'@
     fcHintStyle = @'{# default "hintslight" .fcHintStyle | quote #}'@
+    # Possible values: rgb, bgr, v-rgb, v-bgr
     fcRgba = @'{# default "rgb" .fcRgba | quote #}'@
-    fcLcdfilter = @'{# default "lcdlight" .fcLcdfilter | quote #}'@
+    # Possible values: lcddefault, lcdlight, lcdlegacy, lcdnone
+    fcLcdfilter = @'{# default "lcddefault" .fcLcdfilter | quote #}'@
 
 # }}}
 # {{{ misc: (Various settings)

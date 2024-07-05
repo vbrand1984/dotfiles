@@ -1,9 +1,10 @@
 # chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+---
 
 @'{# if .sysIsBrandsPrivate -#}'@
 
 - name: Managing local symlinks
-  hosts: mylocalhost
+  hosts: localhost
 @'{#- $personalSymlinksNeeded := ne .dirUserData .dirUserDataDefault #}'@
 @'{#- if  $personalSymlinksNeeded #}'@
   vars_files: 
@@ -28,7 +29,7 @@
 
 @'{# if .sysIsDebianBased -#}'@
 - name: Installing packages
-  hosts: mylocalhost
+  hosts: localhost
   vars_files:
     - vars/packages-deb.yml
   become: true

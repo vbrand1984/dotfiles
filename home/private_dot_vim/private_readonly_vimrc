@@ -12,10 +12,10 @@ endif
 call plug#begin('~/.vim/plugged')
     Plug 'sainnhe/everforest'
     Plug 'sainnhe/gruvbox-material'
-    Plug 'vim-airline/vim-airline'
     Plug 'vbrand1984/ob3-vim-syntax'
-"    Plug 'vim-airline/vim-airline-themes'
-"    Plug 'morhetz/gruvbox'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'morhetz/gruvbox'
 "    Plug 'alker0/chezmoi.vim'
 call plug#end()
 
@@ -127,19 +127,18 @@ augroup END
 let g:airline#extensions#whitespace#enabled = 0
 
 " Gruvbox default setup
-"let g:gruvbox_italic = 1
-"let g:gruvbox_contrast_dark = 'medium'
-"let g:gruvbox_contrast_light = 'soft'
-"let g:gruvbox_invert_selection = 0
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_invert_selection = 0
 
 " Everforest default setup
 let g:everforest_background = 'hard'
 
 " Gruvbox-material default setup
 let g:gruvbox_material_background = 'hard'
-if 1
-    let g:gruvbox_material_better_performance = 1
-endif
+let g:gruvbox_material_foreground = 'material'
+let g:gruvbox_material_better_performance = 1
 
 set background=dark
 
@@ -154,6 +153,7 @@ if ($TERM != 'linux' || has("gui_running"))
         "let g:airline_theme = 'gruvbox'
         "autocmd vimenter * ++nested colorscheme gruvbox
         colorscheme gruvbox-material
+        "colorscheme everforest
         "let g:airline_theme = 'gruvbox_material'
         let g:airline_theme = 'everforest'
     else
