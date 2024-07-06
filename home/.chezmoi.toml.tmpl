@@ -31,6 +31,13 @@
 @'{#- $personalUsername := "victor" -#}'@
 @'{#- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -#}'@
 
+@'{#- /* Automatic system detection */ -#}'@
+@'{# $sysIsVM := eq (output "/bin/sh" (joinPath $helperScriptsDir "is-virtual-machine.sh")) "yes" -#}'@
+@'{# $sysIsDesktopRig := eq .chezmoi.hostname $desktopRigName -#}'@
+@'{# $sysIsOldLaptop := eq .chezmoi.hostname $oldLaptopName -#}'@
+@'{# $sysHasSmallScreen := or $sysIsOldLaptop $sysIsVM -#}'@
+
+
 @'{#- writeToStdout "Initializing chezmoi...\n" -#}'@
 
 @'{#- /* }}} */ -#}'@
@@ -66,9 +73,6 @@ encryption = "age"
     @'{# $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -#}'@
     @'{# $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -#}'@
     @'{# $isDebBased := or $isDebianBased $isUbuntuBased -#}'@
-    @'{# $isDesktopRig := eq .chezmoi.hostname $desktopRigName -#}'@
-    @'{# $isOldLaptop := eq .chezmoi.hostname $oldLaptopName -#}'@
-    @'{# $isVM := eq (output "/bin/sh" (joinPath $helperScriptsDir "is-virtual-machine.sh")) "yes" -#}'@
     sysIsDebianBased = @'{# $isDebianBased #}'@ 
     sysIsUbuntuBased = @'{# $isUbuntuBased #}'@ 
     sysIsDebBased = @'{# $isDebBased #}'@ 
@@ -76,12 +80,12 @@ encryption = "age"
     sysIsGentoo = @'{# eq .chezmoi.osRelease.id "gentoo" #}'@
     sysHasSystemd = @'{# lookPath "systemctl" | not | not #}'@
 
-    sysIsVM = @'{# $isVM #}'@
+    sysIsVM = @'{# $sysIsVM #}'@
 
-    sysHasSmallScreen = @'{# or $isVM $isOldLaptop #}'@
+    sysHasSmallScreen = @'{# $sysHasSmallScreen #}'@
 
-    sysIsDesktopRig = @'{# $isDesktopRig #}'@
-    sysIsOldLaptop = @'{# $isOldLaptop #}'@
+    sysIsDesktopRig = @'{# $sysIsDesktopRig #}'@
+    sysIsOldLaptop = @'{# $sysIsOldLaptop #}'@
 
     # True if this is Victor Brand's private PC
     sysIsBrandsPrivate = @'{# $isBrandsPrivate #}'@ 
@@ -136,7 +140,7 @@ encryption = "age"
     cmdTerminalEmulator = @'{# default "lxterminal" .cmdTerminalEmulator | quote #}'@
 
     # Whether to autostart emacs daemon or not
-    cmdEmacsDaemon = @'{# default true .cmdEmacsDaemon | not | not #}'@
+    cmdEmacsDaemon = @'{# default false (.cmdEmacsDaemon | not | not) #}'@
 
 # }}}
 # {{{ gtk: Graphical settings: theme, font, icons, etc.
@@ -170,9 +174,13 @@ encryption = "age"
     fcAutohint = @'{# default false .fcAutohint | not | not #}'@
     fcAntialias = @'{# default true .fcAntialias | not | not #}'@
     fcHinting = @'{# default true .fcHinting | not | not #}'@
+
+    # Possible values: hintnone, hintslight, hintmedium, hintfull
     fcHintStyle = @'{# default "hintslight" .fcHintStyle | quote #}'@
-    # Possible values: rgb, bgr, v-rgb, v-bgr
+
+    # Possible values: rgb, bgr, vrgb, vbgr, none
     fcRgba = @'{# default "rgb" .fcRgba | quote #}'@
+
     # Possible values: lcddefault, lcdlight, lcdlegacy, lcdnone
     fcLcdfilter = @'{# default "lcddefault" .fcLcdfilter | quote #}'@
 
@@ -180,7 +188,7 @@ encryption = "age"
 # {{{ misc: (Various settings)
 
     # Font for gvim
-    miscGvimFont = @'{# default ($isOldLaptop | ternary "JetBrains Mono Medium 12" "JetBrains Mono Medium 13") .miscGvimFont | quote #}'@
+    miscGvimFont = @'{# default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 12.5" "JetBrains Mono Medium 13.5") .miscGvimFont | quote #}'@
 
     # Icon sizes for various applications
     miscObmenuIconSize = @'{# default 24 .miscObmenuIconSize | int #}'@
@@ -217,7 +225,7 @@ encryption = "age"
 # }}}
 # {{{ rofi
 
-    rofiFont = @'{# default ($isOldLaptop | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofiFont | quote #}'@
+    rofiFont = @'{# default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofiFont | quote #}'@
     rofiTheme = @'{# default "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" .rofiTheme | quote #}'@
 
 # }}}

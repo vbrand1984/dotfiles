@@ -17,6 +17,15 @@
 {{ end }}
 
 
+### Fonts ###
+
+[".local/share/fonts/JetBrainsMonoNLNerdFontMono"]
+    type = "archive"
+    url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+    exact = true
+    include = ["JetBrainsMonoNLNerdFontMono-*.ttf"]
+    refreshPeriod = "168h"
+
 {{ if .sysIsDebBased }}
 # In Debian-based distros, we need to install obmenu-generator externally
 [{{ joinPath (.dirLocalScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]

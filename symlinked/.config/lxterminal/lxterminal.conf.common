@@ -1,10 +1,10 @@
 [general]
-fontname=JetBrains Mono Medium 13
+fontname=JetBrains Mono Medium 13.5
 selchars=-A-Za-z0-9,./?%&#:_
 scrollback=5000
-bgcolor=rgb(29,32,33)
+bgcolor=rgb(40,40,40)
 fgcolor=rgb(221,199,161)
-palette_color_0=rgb(29,32,33)
+palette_color_0=rgb(40,40,40)
 palette_color_1=rgb(175,37,40)
 palette_color_2=rgb(108,120,46)
 palette_color_3=rgb(180,113,9)

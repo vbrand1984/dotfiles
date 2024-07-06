@@ -6,6 +6,8 @@
 # 
 # The script is bound to Super-Shift-A hotkey and also accessible from the Openbox menu
 
+[ -r ~/.Xresources ] && xrdb -merge -I${HOME} ~/.Xresources
+
 # restart dunst, xsettingsd, tint2
 for the_service in 'dunst' 'xsettingsd' 'tint2' ; do
     /bin/sh -e {{ joinPath .dirLocalScripts "manage-service.sh" | quote }} restart "${the_service}"

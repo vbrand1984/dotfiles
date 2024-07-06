@@ -16,7 +16,7 @@ o   Edit conky.conf
     chezmoi edit --apply conky.conf
 r   Edit vimrc
     cd ~/.vim
-    chezmoi edit --apply vimrc
+    chezmoi edit --exclude 'externals,scripts' --apply vimrc
 =+ t rl
 e   Run chezmoi edit with current file
     chezmoi edit --apply %f

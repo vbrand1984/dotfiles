@@ -11,6 +11,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
     Plug 'sainnhe/everforest'
+    Plug 'catppuccin/vim', { 'as': 'catppuccin' }
     Plug 'sainnhe/gruvbox-material'
     Plug 'vbrand1984/ob3-vim-syntax'
     Plug 'vim-airline/vim-airline'
@@ -121,10 +122,21 @@ augroup END
 " {{{ Theme
 
 " This is needed in order to make background color work properly in kitty
+" BTW I don't use kitty anymore
 "let &t_ut=''
+
+" Airline customization
 
 " Don't print warning about mixed whitespaces in airline
 let g:airline#extensions#whitespace#enabled = 0
+
+" Correction of the 'column number' symbol for st
+" See: ~/.vim/plugged/vim/airline/doc/airline.txt
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.colnr = ' ㏇:'
+
 
 " Gruvbox default setup
 let g:gruvbox_italic = 1
@@ -136,7 +148,7 @@ let g:gruvbox_invert_selection = 0
 let g:everforest_background = 'hard'
 
 " Gruvbox-material default setup
-let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_foreground = 'material'
 let g:gruvbox_material_better_performance = 1
 
@@ -154,11 +166,11 @@ if ($TERM != 'linux' || has("gui_running"))
         "autocmd vimenter * ++nested colorscheme gruvbox
         colorscheme gruvbox-material
         "colorscheme everforest
-        "let g:airline_theme = 'gruvbox_material'
-        let g:airline_theme = 'everforest'
+        let g:airline_theme = 'gruvbox_material'
+        "let g:airline_theme = 'everforest'
     else
         colorscheme everforest
-        let g:airline_theme = 'gruvbox_material'
+        let g:airline_theme = 'everforest'
     endif
 else
     colorscheme desert
