@@ -1,25 +1,72 @@
+shell_patterns=0
+
+# See: https://softpanorama.org/OFM/MC/user_menu.shtml
+
 m   Edit ~/.config/mc/menu
     cd ~/.config/mc
-    chezmoi edit --apply menu
+    {{ .chezmoi.executable }} edit --refresh-externals=never --exclude=externals,scripts,encrypted --apply {{ joinPath .chezmoi.homeDir ".config/mc/menu" | quote }}
+
 h   Edit mc directory hotlist
     $EDITOR {{ .dirSymlinked }}/.config/mc/hotlist
-=
+
++
+= ! t rl
 c   Edit chezmoi config
-    chezmoi edit-config
+    {{ .chezmoi.executable }} edit-config
+
 C   Edit chezmoi config template
-    chezmoi edit-config-template
+    {{ .chezmoi.executable }} edit-config-template
+
 a   Edit alacritty.yml
     cd ~/.config/alacritty
-    chezmoi edit --apply alacritty.yml
+    {{ .chezmoi.executable }} edit --apply alacritty.yml
+
 o   Edit conky.conf
     cd ~/.config/conky
-    chezmoi edit --apply conky.conf
+    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply conky.conf
+
 r   Edit vimrc
-    cd ~/.vim
-    chezmoi edit --exclude 'externals,scripts' --apply vimrc
-=+ t rl
+    #cd ~/.vim
+    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply ~/.vim/vimrc
+
+t   Edit tmux.conf
+    cd ~/.config/tmux
+    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply tmux.conf
+
++ t rl
+= t rl
 e   Run chezmoi edit with current file
-    chezmoi edit --apply %f
+    {{ .chezmoi.executable }} edit --exclude=externals --apply %f
+
 + t r & T r
 v   vimdiff files in both panels
-    vimdiff %d/%f %D/%F
+    vimdiff "%d/%f" "%D/%F"
+
+1   Compress the current subdirectory (tar.xz)
+    Pwd=`basename %d /`
+    echo -n "Name of the compressed file (without extension) [$Pwd]: "
+    read archive_name
+    [ "${archive_name}x" = "x" ] && archive_name="${Pwd}"
+    cd .. && \
+    tar cvf - "$Pwd" | xz -f > "${archive_name}.tar.xz" && \
+    echo "../$archive_name.tar.xz created."
+
+2   Compress the current subdirectory (tar.gz)
+    Pwd=`basename %d /`
+    echo -n "Name of the compressed file (without extension) [$Pwd]: "
+    read tar
+    [ "$tar"x = x ] && tar="$Pwd"
+    cd .. && \
+    tar cvf - "$Pwd" | gzip -f9 > "$tar.tar.gz" && \
+    echo "../$tar.tar.gz created."
+
+3   Compress the current subdirectory (tar.zst)
+    Pwd=`basename %d /`
+    echo -n "Name of the compressed file (without extension) [${Pwd}]: "
+    read archive_name
+    [ "${archive_name}x" = 'x' ] && archive_name="$Pwd"
+    cd .. && \
+    env ZSTD_CLEVEL=19 tar cvf "${archive_name}.tar.zst" --zstd "${Pwd}" && \
+    echo "../${archive_name}.tar.zst created."
+
+#    tar cJf "$archive_name.tar.xz" "${Pwd}" && \

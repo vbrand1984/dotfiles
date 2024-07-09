@@ -6,7 +6,7 @@
 
 [apps]
     # This is an editor for config files to be invoked via Openbox menu entries
-    chezmoiEditorFromMenu = "/bin/env EDITOR='/usr/bin/gvim --nofork' chezmoi edit --apply --"
+    chezmoiEditorFromMenu = "/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
 
     # Under which name obmenu-generator script will be saved in Debian-based distros
     debiansObmenuGeneratorName = "obmenu-generator"

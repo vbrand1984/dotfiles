@@ -1,3 +1,4 @@
+# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 # Import additional configuration files
@@ -119,10 +120,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: JetBrains Mono
+    family: @'{# .miscTerminalFont #}'@
 
     # The `style` can be specified to pick a specific face.
-    style: Medium
+    style: @'{# .miscTerminalFontWeight #}'@
 
   # Bold font face
   bold:
@@ -130,7 +131,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: JetBrains Mono
+    #family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
     style: ExtraBold
@@ -141,7 +142,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: JetBrains Mono
+    #family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
     style: Medium Italic
@@ -152,13 +153,13 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: JetBrainsMono
+    #family: JetBrainsMono
 
     # The `style` can be specified to pick a specific face.
     style: ExtraBold Italic
 
   # Point size
-  size: 13.5
+  size: @'{# .miscTerminalFontSize #}'@
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -188,8 +189,8 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '#282828'
-    foreground: '#e2cca9' #'#ddc7a1' #'#e2cca9'
+    background: @'{# .terminal.colors.background | squote #}'@
+    foreground: @'{# .terminal.colors.foreground | squote #}'@
 
     # Bright and dim foreground colors
     #
@@ -282,25 +283,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   '#282828'
-    red:     '#af2528' #'#c14a4a'
-    green:   '#6c782e' #'#98971a'
-    yellow:  '#b47109' #'#d79921'
-    blue:    '#076678' #'#266b79' #'#076678'
-    magenta: '#945e80'
-    cyan:    '#689d6a' #'#689d6a' #'#4c7a5d' #'#35a77c' #'#477a5b' #'#689d6a'
-    white:   '#a89984'
+    black:   @'{# .terminal.colors.normal.black | squote #}'@
+    red:     @'{# .terminal.colors.normal.red | squote #}'@
+    green:   @'{# .terminal.colors.normal.green | squote #}'@
+    yellow:  @'{# .terminal.colors.normal.yellow | squote #}'@
+    blue:    @'{# .terminal.colors.normal.blue | squote #}'@
+    magenta: @'{# .terminal.colors.normal.magenta | squote #}'@
+    cyan:    @'{# .terminal.colors.normal.cyan | squote #}'@
+    white:   @'{# .terminal.colors.normal.white | squote #}'@
 
   # Bright colors
   bright:
-    black:   '#7c6f64'
-    red:     '#f2594b' #'#ea6962'
-    green:   '#a9b665' #'#b8bb26'
-    yellow:  '#d8a657'
-    blue:    '#66999d'
-    magenta: '#d3869b' #'#d3869b'
-    cyan:    '#8bba7f' #'#8ec07c'
-    white:   '#e2cca9' #'#ddc7a1' #'#e2cca9'
+    black:   @'{# .terminal.colors.bright.black | squote #}'@
+    red:     @'{# .terminal.colors.bright.red | squote #}'@
+    green:   @'{# .terminal.colors.bright.green | squote #}'@
+    yellow:  @'{# .terminal.colors.bright.yellow | squote #}'@
+    blue:    @'{# .terminal.colors.bright.blue | squote #}'@
+    magenta: @'{# .terminal.colors.bright.magenta | squote #}'@
+    cyan:    @'{# .terminal.colors.bright.cyan | squote #}'@
+    white:   @'{# .terminal.colors.bright.white | squote #}'@
 
 #  # Normal colors
 #  normal:

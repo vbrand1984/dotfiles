@@ -100,6 +100,7 @@ autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
 autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
 autocmd BufRead,BufNewFile *gvimrc* set filetype=vim
 autocmd BufRead,BufNewFile *_tmux.conf set filetype=tmux
+autocmd BufRead,BufNewFile *mc/*menu,*mc/*menu.tmpl set filetype=conf
 
 
 " Imported from defaults.vim
@@ -131,16 +132,16 @@ augroup END
 let g:airline#extensions#whitespace#enabled = 0
 
 " Correction of the 'column number' symbol for st
-" See: ~/.vim/plugged/vim/airline/doc/airline.txt
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.colnr = ' ㏇:'
+" See: ~/.vim/plugged/vim-airline/doc/airline.txt
+"if !exists('g:airline_symbols')
+"    let g:airline_symbols = {}
+"endif
+"let g:airline_symbols.colnr = ' ㏇:'
 
 
 " Gruvbox default setup
 let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_dark = 'soft'
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_invert_selection = 0
 

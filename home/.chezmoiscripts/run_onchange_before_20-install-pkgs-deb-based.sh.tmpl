@@ -5,6 +5,10 @@
 
 @'{# template "ensureSudoIsWorking.sh" . #}'@
 
+# Update apt just for the case
+ensure_sudo_is_working && @'{# .cmdSu #}'@ apt update
+
+# Install aptitude if it is not installed yet
 if ! command -v aptitude 1>/dev/null 2>&1 ; then
     echo "Installing aptitude..."
     ensure_sudo_is_working && @'{# .cmdSu #}'@ apt-get --no-install-recommends --assume-yes install aptitude

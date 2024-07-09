@@ -6,6 +6,10 @@ packages:
       - perl
       - python3
       - wget
+      # Suckless Terminal build dependencies
+      - x11proto-dev
+      - libx11-dev
+      - libxft-dev
     backports:
     markauto:
       - libfm-modules

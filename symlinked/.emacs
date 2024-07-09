@@ -28,7 +28,7 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 ;; See: https://emacs.stackexchange.com/a/58363
-(add-hook 'find-file-hook 'recentf-save-list)
+;;(add-hook 'find-file-hook 'recentf-save-list)
 ;;(add-hook 'server-visit-hook 'recentf-save-list)
 
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/everforest-theme")
