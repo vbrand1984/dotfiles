@@ -25,7 +25,7 @@ conky.config = {
     out_to_console          = false,
     out_to_stderr           = false,
     out_to_x                = true,
-@'{# if not .sysIsGentoo -#}'@
+@'{#- if not .sysIsGentoo #}'@
     out_to_wayland          = false,
 @'{#- end #}'@
 
@@ -108,16 +108,16 @@ conky.config = {
     -- Parameter 1: Caption
     -- Parameter 2: Command to execute and receive a number of degree
     template7 = [[${color2}\1${alignr}${color4}${\2}]] .. celsius_sign,
+@'{#- if or .sysIsDesktopRig .sysIsOldLaptop #}'@
 
-@'{# if or .sysIsDesktopRig .sysIsOldLaptop -#}'@
     --== Temperature info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: command to execute for the left column
     -- Parameter 3: Right column caption
     -- Parameter 4: command to execute for the right column
     template8 = [[${color2}\1${goto @'{# if .sysIsDesktopRig -#}'@ 150 @'{#- else -#}'@ 115 @'{#- end #}'@}${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+@'{#- if .sysIsDesktopRig #}'@
 
-@'{# if .sysIsDesktopRig -#}'@
     --== Fan info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: hwmon subdirectory number for the left column
@@ -246,7 +246,7 @@ local function display_storage()
 end
 
 -- }}}
-@'{# if or .sysIsDesktopRig .sysIsOldLaptop -#}'@
+@'{#- if or .sysIsDesktopRig .sysIsOldLaptop #}'@
 -- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
@@ -298,7 +298,7 @@ end -- function populate_hwmon_table()
 local hwmon_table = populate_hwmon_table()
 
 -- }}}
-@'{# if .sysIsDesktopRig -#}'@
+@'{#- if .sysIsDesktopRig #}'@
 -- {{{ Initialization of internal variables: Desktop Rig
 
 local t_mobo            = hwmon_table['nct6798'][1]
