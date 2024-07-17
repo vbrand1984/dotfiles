@@ -1,0 +1,63 @@
+# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{%- if not .sysIsDebianBased %}'@
+# Changing $TERM for alacritty due to a bug with incorrect colors
+# See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
+[env]
+    TERM = "xterm-256color"
+
+[colors]
+    draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+    background = @'{% .terminal.colors.background | squote %}'@
+    foreground = @'{% .terminal.colors.foreground | squote %}'@
+
+[colors.bright]
+    black =      @'{% .terminal.colors.bright.black | squote %}'@
+    red =        @'{% .terminal.colors.bright.red | squote %}'@
+    green =      @'{% .terminal.colors.bright.green | squote %}'@
+    yellow =     @'{% .terminal.colors.bright.yellow | squote %}'@
+    blue =       @'{% .terminal.colors.bright.blue | squote %}'@
+    magenta =    @'{% .terminal.colors.bright.magenta | squote %}'@
+    cyan =       @'{% .terminal.colors.bright.cyan | squote %}'@
+    white =      @'{% .terminal.colors.bright.white | squote %}'@
+
+[colors.normal]
+    black =      @'{% .terminal.colors.normal.black | squote %}'@
+    red =        @'{% .terminal.colors.normal.red | squote %}'@
+    green =      @'{% .terminal.colors.normal.green | squote %}'@
+    yellow =     @'{% .terminal.colors.normal.yellow | squote %}'@
+    blue =       @'{% .terminal.colors.normal.blue | squote %}'@
+    magenta =    @'{% .terminal.colors.normal.magenta | squote %}'@
+    cyan =       @'{% .terminal.colors.normal.cyan | squote %}'@
+    white =      @'{% .terminal.colors.normal.white | squote %}'@
+
+[colors.cursor]
+    cursor = "CellForeground"
+    text = "CellBackground"
+
+[colors.selection]
+    background = "CellForeground"
+    text = "CellBackground"
+
+[font]
+    builtin_box_drawing = true
+    size = @'{% .miscTerminalFontSize %}'@
+
+[font.normal]
+family = @'{% .miscTerminalFont | quote %}'@
+style =  @'{% .miscTerminalFontWeight | quote %}'@
+
+[font.bold]
+    style = "ExtraBold"
+
+[font.bold_italic]
+    style = "ExtraBold Italic"
+
+[font.italic]
+    style = "Medium Italic"
+
+[window]
+    startup_mode = "Maximized"
+
+@'{%- end %}'@

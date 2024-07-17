@@ -74,14 +74,31 @@ line_upper_corner='\342\224\214'
 
 # Special symbols
 end_character='\$'
-git_branch_symbol=''
+
+function print_prompt_command() {
+    local colo_green='\033[01;32m'
+    local colo_blue='\033[01;34m'
+    local colo_white='\033[01;37m'
+    local default_colo='\033[00m'
+    local bracket_colo=$colo_green
+    local line_colo=$colo_white
+    local branch_colo=$colo_blue
+    local line_straight='\342\224\200'
+    local line_upper_corner='\342\224\214'
+    local git_branch_symbol=''
+
+    printf "${line_colo}${line_upper_corner}${line_straight}${line_straight}${default_colo}"
+    git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 && printf "${bracket_colo}[${branch_colo}${git_branch_symbol}$(git branch --show-current)${bracket_colo}]${line_colo}${line_straight}${default_colo}"
+}
+
 
 # In Gentoo, PROMPT_COMMAND is already initialized as an array via the global bash config
 # We do the same here
 [[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND=()
 
 # This command prints the top-left corner of the box and also the name of the current git branch, if applicable
-PROMPT_COMMAND+=("/bin/sh -c 'printf \"${line_colo}${line_upper_corner}${line_straight}${line_straight}${default_colo}\" ; git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 && printf \"${bracket_colo}[${branch_colo}${git_branch_symbol}\$(git branch --show-current)${bracket_colo}]${line_colo}${line_straight}${default_colo}\"'")
+#PROMPT_COMMAND+=("/bin/sh -c 'printf \"${line_colo}${line_upper_corner}${line_straight}${line_straight}${default_colo}\" ; git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 && printf \"${bracket_colo}[${branch_colo}${git_branch_symbol}\$(git branch --show-current)${bracket_colo}]${line_colo}${line_straight}${default_colo}\"'")
+PROMPT_COMMAND+=("print_prompt_command")
 
 PS1="${bracket_colour}[${job_colour}\j${bracket_colour}]${line_colour}${line_straight}${bracket_colour}[${username_colour}\u@\h \]${path_colour}\w${bracket_colour}]${default_colour}\n${line_colour}${line_bottom_corner}${line_straight}${line_bottom}${bracket_colour}[${distro_colour}@'{% .chezmoi.osRelease.id %}'@${bracket_colour}]${line_colour}${line_straight}${bracket_colour}[${clock_colour}\t${bracket_colour}]${line_colour}${line_straight}${end_character_colour}${end_character}\[$(tput sgr0)\] "
 
@@ -91,7 +108,7 @@ PS1="${bracket_colour}[${job_colour}\j${bracket_colour}]${line_colour}${line_str
 @'{%- end -%}'@
 
 # Clear all unneeded variables
-unset esc_start esc_end colo_green colo_blue colo_white default_colo default_colour line_colo line_colour bracket_colo bracket_colour branch_colo clock_colour job_colour path_colour distro_colour username_colour end_character_colour line_bottom line_bottom_corner line_straight line_upper_corner end_character git_branch_symbol  
+unset esc_start esc_end colo_green colo_blue colo_white default_colo default_colour line_colo line_colour bracket_colo bracket_colour branch_colo clock_colour job_colour path_colour distro_colour username_colour end_character_colour line_bottom line_bottom_corner line_straight line_upper_corner end_character
 
 # If this is a graphical terminal, then set the window title to 'user@host: dir'
 # The list of conditions is borrowed from Gentoo's global bash config
@@ -166,6 +183,7 @@ alias upg='@'{% .cmdSu %}'@ aptitude upgrade'
 
 alias i='@'{% .cmdSu %}'@ xbps-install -S'
 alias s='xbps-query -Rs'
+alias S='xbps-query -RS'
 alias upg='@'{% .cmdSu %}'@ xbps-install -Su'
 
 @'{%- else if .sysIsGentoo -%}'@
