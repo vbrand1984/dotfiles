@@ -75,6 +75,7 @@ line_upper_corner='\342\224\214'
 # Special symbols
 end_character='\$'
 
+# It is not a cosy approach, but let it be here for the time being
 function print_prompt_command() {
     local colo_green='\033[01;32m'
     local colo_blue='\033[01;34m'
@@ -189,9 +190,11 @@ alias upg='@'{% .cmdSu %}'@ xbps-install -Su'
 @'{%- else if .sysIsGentoo -%}'@
 
 alias i='@'{% .cmdSu %}'@ emerge --ask --verbose'
-alias s='emerge -s'
+alias s='emerge --search'
+/bin/bash: Zeile 1: refresh: Kommando nicht gefunden.
 alias d='@'{% .cmdSu %}'@ emerge --depclean --ask --verbose'
 alias upd='@'{% .cmdSu %}'@ emaint --allrepos sync'
+alias upg='@'{% .cmdSu %}'@ emerge --update --verbose --deep --ask --newuse --keep-going @world'
 
 @'{%- else -%}'@
 
