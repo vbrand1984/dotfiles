@@ -1,9 +1,9 @@
 #!/usr/bin/lua
--- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+-- chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
 -- vim: ft=lua
 
-@'{#/* Template which adds the lookup_icon function and initializes Gtk */ -#}'@
-@'{# template "gtkLookupIcon.lua" . #}'@
+@'{%/* Template which adds the lookup_icon function and initializes Gtk */ -%}'@
+@'{% template "gtkLookupIcon.lua" . %}'@
 
 local greylooks_variants = {'Greylooks', 'GreylooksGreen', 'GreylooksHuman', 'GreylooksOk'}
 
@@ -13,11 +13,11 @@ for k in pairs(greylooks_variants) do
     local variant_name = greylooks_variants[k]
     local icon_name, the_command
 
-    if variant_name == @'{# .gtkThemeName | quote #}'@ then
-        the_command = "notify-send 'Current GTK theme: @'{# .gtkThemeName #}'@'"
-        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{# .miscObmenuIconSize #}'@)) .. "'"
+    if variant_name == @'{% .gtkThemeName | quote %}'@ then
+        the_command = "notify-send 'Current GTK theme: @'{% .gtkThemeName %}'@'"
+        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{% .miscObmenuIconSize %}'@)) .. "'"
     else
-        the_command = "/bin/sh @'{# .dirLocalScripts #}'@/set-gtk-and-openbox-theme.sh '" .. variant_name .. "'"
+        the_command = "/bin/sh @'{% .dirLocalScripts %}'@/set-gtk-and-openbox-theme.sh '" .. variant_name .. "'"
         icon_name = ""
     end
 

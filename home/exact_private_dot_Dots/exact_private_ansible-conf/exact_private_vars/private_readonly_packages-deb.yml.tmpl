@@ -1,5 +1,5 @@
-# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if .sysIsDebianBased -#}'@
+# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{% if .sysIsDebianBased -%}'@
 packages:
   debian:
     uninstall:
@@ -84,7 +84,7 @@ packages:
       - gxkb
       - libfm-modules
       - libnotify-bin
-      - lua @'{#- .apps.luaVersion #}'@
+      - lua @'{%- .apps.luaVersion %}'@
       - lua-lgi
       - lxappearance
       - lxpolkit
@@ -98,9 +98,9 @@ packages:
       - pcmanfm
       - picom
       - qalculate-gtk
-@'{#- if not .sysIsVM #}'@
+@'{%- if not .sysIsVM %}'@
       - redshift-gtk
-@'{#- end #}'@
+@'{%- end %}'@
       - rofi
       - tint2
       - udiskie
@@ -110,10 +110,10 @@ packages:
       # }}}
       # {{{ Browsers
       - firefox-esr
-@'{#- if .sysIsBrandsPrivate #}'@
+@'{%- if .sysIsBrandsPrivate %}'@
       - firefox-esr-l10n-de
       - firefox-esr-l10n-ru
-@'{#- end #}'@
+@'{%- end %}'@
       # }}}
       # {{{ Desktop applications
       - atril
@@ -163,12 +163,12 @@ packages:
       # {{{ Libreoffice
       - libreoffice
       - libreoffice-gtk3
-@'{#- if .sysIsBrandsPrivate #}'@
+@'{%- if .sysIsBrandsPrivate %}'@
       - libreoffice-l10n-ru
-@'{#- end #}'@
+@'{%- end %}'@
       # }}}
     markauto:
       - libfm-modules
     cpan:
       - Linux::DesktopFiles
-@'{#- end #}'@
+@'{%- end %}'@

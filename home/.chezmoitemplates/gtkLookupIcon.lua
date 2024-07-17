@@ -1,10 +1,10 @@
--- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if false -#}'@
+-- chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{% if false -%}'@
 -- vim: ft=lua
 -- This template adds the lookup_icon function which searches for the full path of a certain icon
 -- Also, it initializes the GTK module for lua
 -- Used in Openbox pipemenu scripts
-@'{#- end -#}'@
+@'{%- end -%}'@
 
 --== TEMPLATE START: gtkLookupIcon.lua ==--
 
@@ -31,4 +31,4 @@ end
 
 --== TEMPLATE END: gtkLookupIcon.lua ==--
 
-@'{#- /* This deletes an empty string after the template */ -#}'@
+@'{%- /* This deletes an empty string after the template */ -%}'@

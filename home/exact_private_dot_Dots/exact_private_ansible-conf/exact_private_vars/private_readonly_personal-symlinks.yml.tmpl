@@ -1,5 +1,5 @@
-# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{#- if and .sysIsBrandsPrivate (ne .dirUserData .dirUserDataDefault) -#}'@
+# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{%- if and .sysIsBrandsPrivate (ne .dirUserData .dirUserDataDefault) -%}'@
 ---
 
 personal_symlinks:
@@ -18,4 +18,4 @@ personal_symlinks:
   - Public
   - Templates
   - VirtualMachines
-@'{#- end #}'@
+@'{%- end %}'@

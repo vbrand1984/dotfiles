@@ -9,27 +9,27 @@ terminal:
   colors:
 
     normal:
-      black:    '#282828'
+      black:    '#282828' #'#2a3439' #'#2c313d' #'#303d2c' 
       red:      '#af2528' #'#c14a4a'
       green:    '#6c782e' #'#98971a'
       yellow:   '#b47109' #'#d79921'
-      blue:     '#076678' #'#266b79' #'#076678'
+      blue:     "#066976" #'#076678' #'#4c566a' #'#076678' #'#266b79' #'#076678'
       magenta:  '#945e80'
-      cyan:     '#689d6a' #'#689d6a' #'#4c7a5d' #'#35a77c' #'#477a5b' #'#689d6a'
+      cyan:     '#689d6a' #'#689d6a' #'#4c7a5d' #'#35a77c' #'#477a5b'
       white:    '#a89984'
 
     bright:
       black:    '#7c6f64'
       red:      '#f2594b' #'#ea6962'
-      green:    '#a9b665' #'#b8bb26'
+      green:    '#a9b665' #'#a9b665' #'#b8bb26'
       yellow:   '#d8a657'
       blue:     '#66999d'
       magenta:  '#d3869b' #'#d3869b'
-      cyan:     '#8bba7f' #'#8ec07c'
-      white:    '#e2cca9' #'#ddc7a1' #'#e2cca9'
+      cyan:     '#89b482' #'#8bba7f' #'#8ec07c'
+      white:    '#ddc7a1' #'#ddc7a1' #'#e2cca9'
 
-    background: '#282828'
-    foreground: '#e2cca9'
+    background: '#282828' #'#2a3439' #'#2c313d' #'#303d2c'
+    foreground: '#ddc7a1'
 
     cursor:     '#ddc7a1'
     cursorInv:  '#7c6f64'

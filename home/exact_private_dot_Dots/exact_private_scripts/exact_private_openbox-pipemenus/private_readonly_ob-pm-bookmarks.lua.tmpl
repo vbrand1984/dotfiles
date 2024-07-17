@@ -1,11 +1,11 @@
--- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+-- chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
 -- vim: ft=lua
 --
 -- GTK bookmarks pipemenu for Openbox
 --
 
-@'{#/* Template which adds the lookup_icon function and initializes Gtk */ -#}'@
-@'{# template "gtkLookupIcon.lua" . #}'@
+@'{%/* Template which adds the lookup_icon function and initializes Gtk */ -%}'@
+@'{% template "gtkLookupIcon.lua" . %}'@
 
 -- The script has optional command line parameter, size of icons for menu
 local icon_size

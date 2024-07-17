@@ -1,9 +1,9 @@
--- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{# if false -#}'@
+-- chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{% if false -%}'@
 -- vim: ft=lua
 -- This template adds the process_is_running function which checks if a certain process is currently running
 -- Used in Openbox pipemenu scripts
-@'{#- end -#}'@
+@'{%- end -%}'@
 
 --== TEMPLATE START: processIsRunning.lua ==--
 
@@ -17,4 +17,4 @@ end
 
 --== TEMPLATE END: processIsRunning.lua ==--
 
-@'{#- /* This deletes an empty string after the template */ -#}'@
+@'{%- /* This deletes an empty string after the template */ -%}'@

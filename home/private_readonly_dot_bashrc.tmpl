@@ -1,4 +1,4 @@
-# chezmoi:template: left-delimiter=#[[@ right-delimiter=@]]#
+# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -8,6 +8,8 @@ case $- in
     *i*) ;;
       *) return;;
 esac
+
+# {{{ HISTCONTROL and other various settings
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -31,64 +33,84 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-### --== Setting PS1 ==-- ###
+# I just sometimes love tabs btw
+tabs -4
 
-#[[@ if .sysIsDebianBased -@]]#
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
+# }}}
+# {{{ Command line prompt configuration: PS1 and PROMPT_COMMAND
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# See: https://www.learnlinux.tv/10-linux-terminal-tips-and-tricks-to-enhance-your-workflow/
+
+# These escape-sequences are only needed for PS1 and not for PROMPT_COMMAND
+esc_start='\['
+esc_end='\]'
+
+# Terminal color codes
+# See: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+colo_green='\033[01;32m'
+colo_blue='\033[01;34m'
+colo_white='\033[01;37m'
+default_colo='\033[0m'
+default_colour="${esc_start}${default_colo}${esc_end}"
+
+# Colors for certain elements of the prompt
+line_colo=$colo_white
+line_colour="${esc_start}${line_colo}${esc_end}"
+bracket_colo=$colo_green
+bracket_colour="${esc_start}${bracket_colo}${esc_end}"
+branch_colo=$colo_blue
+clock_colour="${esc_start}${colo_blue}${esc_end}"
+job_colour="${esc_start}${colo_blue}${esc_end}"
+path_colour="${esc_start}${colo_blue}${esc_end}"
+distro_colour="${esc_start}${colo_green}${esc_end}"
+username_colour="${esc_start}${colo_green}${esc_end}"
+end_character_colour="${default_colour}"
+
+# Box characters to be used in the prompt
+line_bottom='\342\224\200'
+line_bottom_corner='\342\224\224'
+line_straight='\342\224\200'
+line_upper_corner='\342\224\214'
+
+# Special symbols
+end_character='\$'
+git_branch_symbol=''
+
+# In Gentoo, PROMPT_COMMAND is already initialized as an array via the global bash config
+# We do the same here
+[[ -z "$PROMPT_COMMAND" ]] && PROMPT_COMMAND=()
+
+# This command prints the top-left corner of the box and also the name of the current git branch, if applicable
+PROMPT_COMMAND+=("/bin/sh -c 'printf \"${line_colo}${line_upper_corner}${line_straight}${line_straight}\" ; git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 && printf \"${bracket_colo}[${branch_colo}${git_branch_symbol}\$(git branch --show-current)${bracket_colo}]${line_colo}${line_straight}\"'")
+
+PS1="${bracket_colour}[${job_colour}\j${bracket_colour}]${line_colour}${line_straight}${bracket_colour}[${username_colour}\u@\h \]${path_colour}\w${bracket_colour}]${default_colour}\n${line_colour}${line_bottom_corner}${line_straight}${line_bottom}${bracket_colour}[${distro_colour}@'{% .chezmoi.osRelease.id %}'@${bracket_colour}]${line_colour}${line_straight}${bracket_colour}[${clock_colour}\t${bracket_colour}]${line_colour}${line_straight}${end_character_colour}${end_character}\[$(tput sgr0)\] "
+
+@'{% if false -%}'@
+# Old variant of PS1 used to be used in Void Linux
+#PS1='\[\e[01;32m\][\u@\h \[\e[01;34m\]\w\[\e[01;32m\]]\$\[\e[00m\] '
+@'{%- end -%}'@
+
+# Clear all unneeded variables
+unset esc_start esc_end colo_green colo_blue colo_white default_colo default_colour line_colo line_colour bracket_colo bracket_colour branch_colo clock_colour job_colour path_colour distro_colour username_colour end_character_colour line_bottom line_bottom_corner line_straight line_upper_corner end_character git_branch_symbol  
+
+# If this is a graphical terminal, then set the window title to 'user@host: dir'
+# The list of conditions is borrowed from Gentoo's global bash config
 case "$TERM" in
-    xterm-color|*-256color|*-kitty) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    # We have color support; assume it's compliant with Ecma-48
-    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-    # a case would tend to support setf rather than setaf.)
-    color_prompt=yes
-    else
-    color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*|st*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
-esac
-#[[@- else if .sysIsVoid -@]]#
-PS1='\[\e[01;32m\][\u@\h \[\e[01;37m\]\w\[\e[01;32m\]]\$\[\e[00m\] '
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*|st*)
+    alacritty     |\
+    foot*         |\
+    rxvt-unicode* |\
+    screen*       |\
+    st-256color   |\
+    tmux*         |\
+    xterm*        )
         PS1="\[\e]0;\u@\h: \w\a\]$PS1"
         ;;
     *)
         ;;
 esac
-#[[@- else if not .sysIsGentoo -@]]#
-PS1='[\u@\h \w]\\$'
-#[[@- end @]]#
+
+# }}}
+# {{{ Aliases
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -103,24 +125,66 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -Al'
+alias l='ls -CF'
+
+# Git messages to be always in English no matter what locale is
+alias git='LC_MESSAGES=C git'
+
+# Wrap the following commands for interactive use to avoid accidental file overwrites.
+rm() { command rm -i "${@}"; }
+cp() { command cp -i "${@}"; }
+mv() { command mv -i "${@}"; }
+
 ### Various handy aliases ###
 
-#[[@ if not .sysIsGentoo -@]]#
+@'{% if not .sysIsGentoo -%}'@
 # Coloured man pages for non-Gentoo distros
 alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
 
-#[[@- end @]]#
+@'{% end -%}'@
 
 # chezmoi edit file
-alias chedit="chezmoi edit --apply"
+alias ce='@'{% .chezmoi.executable %}'@ edit --apply'
 
-# git
-alias git='LC_MESSAGES=C git'
+# Quick clear screen
+alias c='clear'
 
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+# Aliases for package manager. Supported distros only.
+@'{% if .sysIsDebBased -%}'@
+
+alias i='@'{% .cmdSu %}'@ aptitude -R install'
+alias r='@'{% .cmdSu %}'@ aptitude purge'
+alias s='aptitude search'
+alias S='aptitude show'
+alias upd='@'{% .cmdSu %}'@ aptitude update'
+alias upg='@'{% .cmdSu %}'@ aptitude upgrade'
+
+@'{%- else if .sysIsVoid -%}'@
+
+alias i='@'{% .cmdSu %}'@ xbps-install -S'
+alias s='xbps-query -Rs'
+alias upg='@'{% .cmdSu %}'@ xbps-install -Su'
+
+@'{%- else if .sysIsGentoo -%}'@
+
+alias i='@'{% .cmdSu %}'@ emerge --ask --verbose'
+alias s='emerge -s'
+alias d='@'{% .cmdSu %}'@ emerge --depclean --ask --verbose'
+alias upd='@'{% .cmdSu %}'@ emaint --allrepos sync'
+
+@'{%- else -%}'@
+
+# The distro is not supported with this config.
+# ...Just use the right distro btw
+
+@'{%- end %}'@
+
+# }}}
+@'{%- if .sysIsDebBased %}'@
+# {{{ Bash-completion configuration from default Deb-based distros skel
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -133,21 +197,16 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# Wrap the following commands for interactive use to avoid accidental file overwrites.
-rm() { command rm -i "${@}"; }
-cp() { command cp -i "${@}"; }
-mv() { command mv -i "${@}"; }
-
-# I just sometimes love tabs btw
-tabs -4
-
-### Exporting some variables
+# }}}
+@'{%- end %}'@
+# {{{ Export variables
 
 GPG_TTY=$(tty)
 export GPG_TTY
 
-#[[@ if not .sysIsGentoo -@]]#
+@'{% if not .sysIsGentoo -%}'@
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-#[[@- end @]]#
+@'{%- end %}'@
 
+# }}}

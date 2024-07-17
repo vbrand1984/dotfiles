@@ -1,21 +1,21 @@
 #!/usr/bin/lua
--- chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
+-- chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
 -- vim: ft=lua
 
-@'{#/* Template which adds the lookup_icon function and initializes Gtk */ -#}'@
-@'{#- template "gtkLookupIcon.lua" . #}'@
+@'{%/* Template which adds the lookup_icon function and initializes Gtk */ -%}'@
+@'{%- template "gtkLookupIcon.lua" . %}'@
 
 io.write("<openbox_pipe_menu>\n")
 
 for argb_value = 120, 240, 10 do
     local icon_name, the_command, second_command
 
-    if argb_value == @'{# .conkyArgbValue #}'@ then
-        the_command = "notify-send 'Current conky ARGB value: @'{# .conkyArgbValue #}'@'"
+    if argb_value == @'{% .conkyArgbValue %}'@ then
+        the_command = "notify-send 'Current conky ARGB value: @'{% .conkyArgbValue %}'@'"
         second_command = ''
-        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{# .miscObmenuIconSize #}'@) .. "'"
+        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', @'{% .miscObmenuIconSize %}'@) .. "'"
     else
-        the_command="/usr/bin/python3 @'{# .dirLocalScripts #}'@/tinker-chezmoi-config.py 'data.conkyArgbValue' '" .. tostring(argb_value) .. "' 'doapply'"
+        the_command="/usr/bin/python3 @'{% .dirLocalScripts %}'@/tinker-chezmoi-config.py 'data.conkyArgbValue' '" .. tostring(argb_value) .. "' 'doapply'"
         second_command = "notify-send \"Changing conky's ARGB value to " .. tostring(argb_value) .. "\" 'Please wait a little bit...' "
         icon_name=''
     end    

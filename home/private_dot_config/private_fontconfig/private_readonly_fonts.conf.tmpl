@@ -72,8 +72,18 @@
     <default><family>sans-serif</family></default>
   </alias>
   <alias binding="strong">
+    <family>Ubuntu Nerd Font Propo</family>
+    <default><family>sans-serif</family></default>
+  </alias>
+  <alias binding="strong">
+    <family>UbuntuSans Nerd Font Propo</family>
+    <default><family>sans-serif</family></default>
+  </alias>
+  <alias binding="strong">
     <family>sans-serif</family>
     <prefer>
+      <family>UbuntuSans Nerd Font Propo</family>
+      <family>Ubuntu Nerd Font Propo</family>
       <family>Roboto</family>
       <family>Ubuntu</family>
       <family>PT Sans</family>
@@ -204,11 +214,19 @@
     <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
   </match>
 
-  <!-- Adjust hinting for Ubuntu -->
-  <!--  <match target="font">
-    <test name="family" compare="contains"><string>Ubuntu</string></test>
+  <!-- Adjust hinting for Ubuntu Nerd Font Propo -->
+  <!-- <match target="font">
+    <test name="family" compare="contains"><string>Ubuntu Nerd Font Propo</string></test>
     <edit name="autohint" mode="assign"><bool>false</bool></edit>
     <edit name="hinting" mode="assign"><bool>false</bool></edit>
+    <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
+  </match>-->
+
+  <!-- Enable autohinting for Roboto -->
+  <!--<match target="font">
+    <test name="family" compare="contains"><string>Roboto</string></test>
+    <edit name="autohint" mode="assign"><bool>true</bool></edit>
+    <edit name="hinting" mode="assign"><bool>true</bool></edit>
     <edit name="hintstyle" mode="assign"><const>hintslight</const></edit>
   </match>-->
 

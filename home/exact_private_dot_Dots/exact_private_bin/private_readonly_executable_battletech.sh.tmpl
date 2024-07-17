@@ -1,5 +1,5 @@
-# chezmoi:template: left-delimiter=@'{# right-delimiter=#}'@
-@'{#- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -#}'@
+# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{%- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -%}'@
 #!/bin/sh
 # vim: ft=sh
 
@@ -13,4 +13,4 @@ fi
 cd "${game_dir}"
 
 taskset -c 1,3,5,7,9,11,13,15 ./start.sh
-@'{#- end #}'@
+@'{%- end %}'@
