@@ -12,7 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Inconsolata LGC Nerd Font Mono" :foundry "PfEd" :slant normal :weight regular :height 151 :width normal))))
+ '(default ((t (:family "JetBrainsMonoNL Nerd Font Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal))))
  '(bold ((t (:weight bold))))
  '(bold-italic ((t (:slant italic :weight bold))))
  '(italic ((t (:slant oblique)))))
