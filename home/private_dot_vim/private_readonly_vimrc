@@ -93,7 +93,7 @@ autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl set filetype=yaml
 " Certain config files
 autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
 autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
-autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=bash
+autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=sh
 autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
 autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
 autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg

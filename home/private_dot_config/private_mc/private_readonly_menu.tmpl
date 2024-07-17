@@ -17,9 +17,10 @@ c   Edit chezmoi config
 C   Edit chezmoi config template
     {{ .chezmoi.executable }} edit-config-template
 
-a   Edit alacritty.yml
+{{ $alacrittyConfFileExt := .sysIsDebianBased | ternary "yml" "toml" -}}
+a   Edit alacritty.{{ $alacrittyConfFileExt }}
     cd ~/.config/alacritty
-    {{ .chezmoi.executable }} edit --apply alacritty.yml
+    {{ .chezmoi.executable }} edit --apply alacritty.{{ $alacrittyConfFileExt }}
 
 o   Edit conky.conf
     cd ~/.config/conky

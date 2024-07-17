@@ -1,4 +1,5 @@
 # chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+@'{%- if .sysIsDebBased %}'@
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 # Import additional configuration files
@@ -916,3 +917,4 @@ colors:
 
   # Highlight window damage information.
   #highlight_damage: false
+@'{%- end %}'@
