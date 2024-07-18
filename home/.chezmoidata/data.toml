@@ -1,9 +1,3 @@
-[sysDirs]
-
-    [sysDirs.ansible]
-        config = ".Dots/ansible-conf"
-        home = ".Dots/ansible"
-
 [apps]
     # This is an editor for config files to be invoked via Openbox menu entries
     chezmoiEditorFromMenu = "/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"

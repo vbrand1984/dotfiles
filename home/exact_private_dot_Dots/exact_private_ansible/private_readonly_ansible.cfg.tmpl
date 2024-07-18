@@ -1,0 +1,12 @@
+# chezmoi:template: left-delimiter={@ right-delimiter=@}
+{@ .varia.managedMessage | comment "# " @}
+[defaults]
+#home = {@ .dirAnsible @}
+inventory  = {@ joinPath .dirAnsible "inventory.yml" @}
+remote_tmp = {@ .dirAnsibleTmp @}
+local_tmp  = {@ .dirAnsibleTmp @}
+
+# Paths to search for roles, colon separated
+#roles_path = ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+
+

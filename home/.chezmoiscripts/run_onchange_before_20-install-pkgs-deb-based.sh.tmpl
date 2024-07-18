@@ -1,27 +1,27 @@
-# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
-@'{% if .sysIsDebBased -%}'@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if .sysIsDebBased -'@}
 #!/bin/sh
 # vim: ft=sh
 
-@'{% template "ensureSudoIsWorking.sh" . %}'@
+{@' template "ensureSudoIsWorking.sh" . '@}
 
 # Update apt just for the case
-ensure_sudo_is_working && @'{% .cmdSu %}'@ apt update
+ensure_sudo_is_working && {@' .cmdSu '@} apt update
 
 # Install aptitude if it is not installed yet
 if ! command -v aptitude 1>/dev/null 2>&1 ; then
     echo "Installing aptitude..."
-    ensure_sudo_is_working && @'{% .cmdSu %}'@ apt-get --no-install-recommends --assume-yes install aptitude
+    ensure_sudo_is_working && {@' .cmdSu '@} apt-get --no-install-recommends --assume-yes install aptitude
 fi
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"
 
 echo "Installing packages from stable repository..."
-ensure_sudo_is_working && @'{% .cmdSu %}'@ aptitude "${yes_sir}" "${no_install_recommends}" install @'{% .packages.debian.stable | join " " %}'@
+ensure_sudo_is_working && {@' .cmdSu '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
 
 #echo "Performing markauto..."
-#ensure_sudo_is_working && @'{% .cmdSu %}'@ aptitude markauto @'{% .packages.debian.markauto | join " " %}'@
+#ensure_sudo_is_working && {@' .cmdSu '@} aptitude markauto {@' .packages.debian.markauto | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>
@@ -31,9 +31,9 @@ install_deb_pkg_from_internet() {
     cd /tmp
     wget "${pkg_addr}"
     pkg_filename=$(basename "${pkg_addr}")
-    ensure_sudo_is_working && @'{% .cmdSu %}'@ dpkg --install "${pkg_filename}"
+    ensure_sudo_is_working && {@' .cmdSu '@} dpkg --install "${pkg_filename}"
     if [ $? -ne 0 ] ; then
-        ensure_sudo_is_working && @'{% .cmdSu %}'@ apt-get --fix-broken --assume-yes install
+        ensure_sudo_is_working && {@' .cmdSu '@} apt-get --fix-broken --assume-yes install
     fi
     rm "${pkg_filename}"
     cd "${old_wd}"
@@ -44,8 +44,8 @@ install_deb_pkg_from_internet() {
 # Not ideal, but working approach
 if ! command -v clipit 1>/dev/null 2>&1 ; then
     echo "Installing clipit..."
-    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_@'{% .chezmoi.arch %}'@.deb"
-    ensure_sudo_is_working && @'{% .cmdSu %}'@ aptitude hold clipit 
+    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
+    ensure_sudo_is_working && {@' .cmdSu '@} aptitude hold clipit 
 fi
 
 # A handy tool to manage papirus icon theme
@@ -57,4 +57,4 @@ fi
 
 #https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb
 
-@'{%- end %}'@
+{@'- end '@}

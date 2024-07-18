@@ -1,0 +1,57 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+---
+{@' if .sysIsBrandsPrivate -'@}
+
+- name: Establish local symlinks 
+  hosts: localhost
+  become: false
+  vars_files:
+    - vars/local-symlinks.yml
+  roles:
+    - file_manager
+  tags:
+    - local
+    - symlinks
+
+{@'- end '@}
+
+- name: Adjust system Fontconfig configuration
+  hosts: localhost
+  become: true
+  vars_files:
+    - vars/fontconfig-symlinks.yml
+  roles:
+    - file_manager
+  tags:
+    - local
+    - symlinks
+
+{@' if .sysIsDebianBased -'@}
+- name: Installing packages
+  hosts: localhost
+  vars_files:
+    - vars/packages-deb.yml
+  become: true
+  tasks:
+    - name: Upgrade apt
+      ansible.builtin.apt:
+        upgrade: true
+        update-cache: true
+        install_recommends: false
+    - name: Install packages from stable repository
+      ansible.builtin.apt:
+        name: "{{ packages.debian.stable }}"
+        state: latest
+        install_recommends: false
+    - name: Install packages from the backports repository
+      ansible.builtin.apt:
+        name: "{{ packages.debian.backports }}"
+        default_release: stable-backports
+        state: latest
+        install_recommends: false
+    - name: Install CPAN packages
+      community.general.cpanm:
+        name: "{{ item }}"
+      loop: "{{ packages.debian.cpan }}"
+{@'- end '@}
+...

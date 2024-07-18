@@ -1,0 +1,10 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+- name: Manage Files
+  ansible.builtin.file:
+    src: "{{ item.src if 'src' in item else '' }}"
+    dest: "{{ item.dest }}"
+    state: "{{ item.state }}"
+    mode: "{{ item.mode if 'mode' in item else '' }}"
+    owner: "{{ item.owner if 'owner' in item else ansible_user_id }}"
+    group: "{{ item.group if 'group' in item else ansible_user_id }}"
+  loop: "{{ file_list }}"

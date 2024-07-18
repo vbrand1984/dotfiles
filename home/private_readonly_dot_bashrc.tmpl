@@ -1,4 +1,6 @@
-# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ Generic intro
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -9,6 +11,7 @@ case $- in
       *) return;;
 esac
 
+# }}}
 # {{{ HISTCONTROL and other various settings
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -41,63 +44,76 @@ tabs -4
 
 # See: https://www.learnlinux.tv/10-linux-terminal-tips-and-tricks-to-enhance-your-workflow/
 
-@'{%- /* {{{ Template variables definition */%}'@
+{@'- /* {{{ Template variables definition */'@}
 
-@'{%- /* These escape-sequences are only needed for PS1 */%}'@
-@'{%- $escStart := `\[` %}'@
-@'{%- $escEnd := `\]` %}'@
+{@'- /* These escape-sequences are only needed for PS1 */'@}
+{@'- $escStart := `\[` '@}
+{@'- $escEnd := `\]` '@}
 
-@'{%- /* Terminal color codes */%}'@
-@'{%- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */%}'@
-@'{%- $coloGreen := `\033[01;32m` %}'@
-@'{%- $coloBlue := `\033[01;34m` %}'@
-@'{%- $coloWhite := `\033[01;37m` %}'@
-@'{%- $coloDefault := `\033[00m` %}'@
+{@'- /* Terminal color codes */'@}
+{@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
+{@'- $coloRed := `\033[01;31m` '@}
+{@'- $coloGreen := `\033[01;32m` '@}
+{@'- $coloBlue := `\033[01;34m` '@}
+{@'- $coloCyan := `\033[01;36m` '@}
+{@'- $coloWhite := `\033[01;37m` '@}
+{@'- $coloDefault := `\033[00m` '@}
 
-@'{%- /* Terminal color codes to be used in PS1 */%}'@
-@'{%- $colourGreen := print $escStart $coloGreen $escEnd %}'@
-@'{%- $colourBlue := print $escStart $coloBlue $escEnd %}'@
-@'{%- $colourWhite := print $escStart $coloWhite $escEnd %}'@
-@'{%- $colourDefault := print $escStart $coloDefault $escEnd %}'@
+{@'- /* Terminal color codes to be used in PS1 */'@}
+{@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
+{@'- $colourBlue := print $escStart $coloBlue $escEnd '@}
+{@'- $colourCyan := print $escStart $coloCyan $escEnd '@}
+{@'- $colourWhite := print $escStart $coloWhite $escEnd '@}
+{@'- $colourDefault := print $escStart $coloDefault $escEnd '@}
 
-@'{%- /* These color codes (without $escStart and $escEnd) are used in our function in printf */%}'@
-@'{%- $lineColo := $coloWhite %}'@
-@'{%- $bracketColo := $coloGreen %}'@
-@'{%- $branchColo := $coloBlue %}'@
+{@'- /* These color codes (without $escStart and $escEnd) are used in our function in printf */'@}
+{@'- $lineColo := $coloGreen '@}
+{@'- $bracketColo := $coloGreen '@}
+{@'- $branchCleanColo := $coloBlue '@}
+{@'- $branchDirtyColo := $coloRed '@}
 
-@'{%- /* These color codes (with $escStart and $escEnd) are used in PS1 directly */%}'@
-@'{%- $lineColour := print $escStart $lineColo $escEnd %}'@
-@'{%- $bracketColour := print $escStart $bracketColo $escEnd %}'@
-@'{%- $clockColour := $colourGreen %}'@
-@'{%- $jobColour := $colourBlue %}'@
-@'{%- $pathColour := $colourBlue %}'@
-@'{%- $distroColour := $colourGreen %}'@
-@'{%- $usernameColour := $colourGreen %}'@
-@'{%- $endCharacterColour := $colourDefault %}'@
+{@'- /* These color codes (with $escStart and $escEnd) are used in PS1 directly */'@}
+{@'- $lineColour := print $escStart $lineColo $escEnd '@}
+{@'- $bracketColour := print $escStart $bracketColo $escEnd '@}
+{@'- $clockColour := $colourBlue '@}
+{@'- $jobColour := $colourBlue '@}
+{@'- $pathColour := $colourBlue '@}
+{@'- $distroColour := $colourGreen '@}
+{@'- $usernameColour := $colourCyan '@}
+{@'- $endCharacterColour := $colourGreen '@}
 
-@'{%- /* Box characters to be used in the prompt */%}'@
-@'{%- $lineBottomCorner := `\342\224\224` %}'@
-@'{%- $lineUpperCorner := `\342\224\214` %}'@
-@'{%- $lineStraight := `\342\224\200` %}'@
+{@'- /* Box characters to be used in the prompt */'@}
+{@'- $lineBottomCorner := `\342\224\224` '@}
+{@'- $lineUpperCorner := `\342\224\214` '@}
+{@'- $lineStraight := `\342\224\200` '@}
 
-@'{%- /* Special symbols */%}'@
-@'{%- $endCharacter := `\$` %}'@
-@'{%- $gitBranchSymbol := `` %}'@
+{@'- /* Special symbols */'@}
+{@'- $endCharacter := `\$` '@}
+{@'- $gitBranchSymbol := `` '@}
 
-@'{%- /* }}} */%}'@
+{@'- /* }}} */'@}
 
 # If inside a git working tree, print current git branch in the bottom line of the command prompt
 function print_git_branch() {
-    git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 && \
-        printf "@'{% print $bracketColo "[" $branchColo $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight %}'@"
+    if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 ; then 
+        local branch_colo
+        # Check if there are changes in the local repo and choose color of the branch name accordingly
+        # See: https://stackoverflow.com/a/5148851
+        if git diff-files --quiet --ignore-submodules 1>/dev/null 2>&1 ; then
+            branch_colo={@' $branchCleanColo | squote '@}
+        else
+            branch_colo={@' $branchDirtyColo | squote '@}
+        fi
+        printf {@' print `"` $bracketColo "[" "${branch_colo}" $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight `"` '@}
+    fi
 }
 
-PS1=@'{% print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketColour "[" $distroColour .chezmoi.osRelease.id $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $jobColour `\j` $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n` $lineColour $lineBottomCorner $lineStraight $lineStraight "$(print_git_branch)" $bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight $endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " " | squote %}'@
+PS1={@' print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketColour "[" $distroColour .chezmoi.osRelease.id $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $jobColour `\j` $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n` $lineColour $lineBottomCorner $lineStraight $lineStraight "$(print_git_branch)" $bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight $endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " " | squote '@}
 
-@'{% if false -%}'@
+{@' if false -'@}
 # Old variant of PS1 used to be used in Void Linux
 #PS1='\[\e[01;32m\][\u@\h \[\e[01;34m\]\w\[\e[01;32m\]]\$\[\e[00m\] '
-@'{%- end -%}'@
+{@'- end -'@}
 
 # If this is a graphical terminal, then set the window title to 'user@host: dir'
 # The list of conditions is borrowed from Gentoo's global bash config
@@ -118,6 +134,8 @@ esac
 # }}}
 # {{{ Aliases
 
+# {{{ Generic aliases
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     # We do not have the ~/.dircolors file
@@ -136,62 +154,91 @@ alias ll='ls -l'
 alias la='ls -Al'
 alias l='ls -CF'
 
-# Git messages to be always in English no matter what locale is
-alias git='LC_MESSAGES=C git'
-
 # Wrap the following commands for interactive use to avoid accidental file overwrites.
 rm() { command rm -i "${@}"; }
 cp() { command cp -i "${@}"; }
 mv() { command mv -i "${@}"; }
 
-### Various handy aliases ###
-
-@'{% if not .sysIsGentoo -%}'@
-# Coloured man pages for non-Gentoo distros
-alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
-
-@'{% end -%}'@
-
-# chezmoi edit file
-alias ce='@'{% .chezmoi.executable %}'@ edit --apply'
+# }}}
+# {{{ Various handy aliases
 
 # Quick clear screen
 alias c='clear'
 
-# Aliases for package manager. Supported distros only.
-@'{% if .sysIsDebBased -%}'@
+# Weather conditions and forecast
+alias wtf='curl https://wttr.in/?M'
 
-alias i='@'{% .cmdSu %}'@ aptitude -R install'
-alias r='@'{% .cmdSu %}'@ aptitude purge'
+{@' if not .sysIsGentoo -'@}
+# Coloured man pages for non-Gentoo distros
+alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
+
+{@' end -'@}
+
+# }}}
+# {{{ chezmoi aliases
+
+{@'- /* If this is not a "Brands private PC", the "--exclude=encrypted" suffix will be added to the aliases */'@}
+{@'- $excludeSuffix := .sysIsBrandsPrivate | ternary "" "--exclude=encrypted" '@}
+
+# chezmoi apply
+alias Ca={@' cat .chezmoi.executable "apply" $excludeSuffix | trim | squote '@}
+
+# chezmoi diff
+alias Cd={@' cat .chezmoi.executable "diff" $excludeSuffix | trim | squote '@}
+
+# chezmoi edit --apply
+alias Ce={@' cat .chezmoi.executable "edit --apply" $excludeSuffix | trim | squote '@}
+
+# chezmoi status
+alias Cs={@' cat .chezmoi.executable "status" $excludeSuffix | trim | squote '@}
+
+# chezmoi update
+alias Cu={@' cat .chezmoi.executable "update" $excludeSuffix | trim | squote '@}
+
+# }}}
+# {{{ git aliases
+
+# Git messages to be always in English no matter what locale is
+alias git='LC_MESSAGES=C git'
+
+# }}}
+# {{{ Aliases for package manager. Supported distros only.
+
+{@' if .sysIsDebBased -'@}
+
+alias i='{@' .cmdSu '@} aptitude -R install'
+alias r='{@' .cmdSu '@} aptitude purge'
 alias s='aptitude search'
 alias S='aptitude show'
-alias upd='@'{% .cmdSu %}'@ aptitude update'
-alias upg='@'{% .cmdSu %}'@ aptitude upgrade'
+alias upd='{@' .cmdSu '@} aptitude update'
+alias upg='{@' .cmdSu '@} aptitude upgrade'
 
-@'{%- else if .sysIsVoid -%}'@
+{@'- else if .sysIsVoid -'@}
 
-alias i='@'{% .cmdSu %}'@ xbps-install -S'
+alias i='{@' .cmdSu '@} xbps-install -S'
 alias s='xbps-query -Rs'
 alias S='xbps-query -RS'
-alias upg='@'{% .cmdSu %}'@ xbps-install -Su'
+alias upg='{@' .cmdSu '@} xbps-install -Su'
 
-@'{%- else if .sysIsGentoo -%}'@
+{@'- else if .sysIsGentoo -'@}
 
-alias i='@'{% .cmdSu %}'@ emerge --ask --verbose'
+alias i='{@' .cmdSu '@} emerge --ask --verbose'
 alias s='emerge --search'
-alias d='@'{% .cmdSu %}'@ emerge --depclean --ask --verbose'
-alias upd='@'{% .cmdSu %}'@ emaint --allrepos sync'
-alias upg='@'{% .cmdSu %}'@ emerge --update --verbose --deep --ask --newuse --keep-going @world'
+alias d='{@' .cmdSu '@} emerge --depclean --ask --verbose'
+alias upd='{@' .cmdSu '@} emaint --allrepos sync'
+alias upg='{@' .cmdSu '@} emerge --update --verbose --deep --ask --newuse --keep-going @world'
 
-@'{%- else -%}'@
+{@'- else -'@}
 
 # The distro is not supported with this config.
 # ...Just use the right distro btw
 
-@'{%- end %}'@
+{@'- end '@}
 
 # }}}
-@'{%- if .sysIsDebBased %}'@
+
+# }}}
+{@'- if .sysIsDebBased '@}
 # {{{ Bash-completion configuration from default Deb-based distros skel
 
 # enable programmable completion features (you don't need to enable
@@ -206,15 +253,15 @@ if ! shopt -oq posix; then
 fi
 
 # }}}
-@'{%- end %}'@
+{@'- end '@}
 # {{{ Export variables
 
 GPG_TTY=$(tty)
 export GPG_TTY
 
-@'{% if not .sysIsGentoo -%}'@
+{@' if not .sysIsGentoo -'@}
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-@'{%- end %}'@
+{@'- end '@}
 
 # }}}

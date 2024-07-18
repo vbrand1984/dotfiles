@@ -42,10 +42,10 @@ def load_json_from_file(the_file):
 def get_weather_json(city_id, appid):
     global error_message
     try:
-        weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric').read()
+        weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric', None, 10).read()
     except (urllib.error.URLError, urllib.error.HTTPError):
         if not error_message:
-            error_message = 'Error downloading data'
+            error_message = 'Data download error'
         weather_json = 'tough luck'
     return weather_json
 

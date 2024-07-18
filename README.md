@@ -15,19 +15,19 @@ chezmoi init vbrand1984 --source ~/.Dots/chezmoi
 See what files are going to be changed upon applying this configuration:
 
 ```
-chezmoi status
+chezmoi status --exclude=encrypted
 ```
 
 See detailed differences in the files managed by this configuration (there will be a lot):
 
 ```
-chezmoi diff
+chezmoi diff --exclude=encrypted
 ```
 
 Apply the configuration:
 
 ```
-chezmoi apply
+chezmoi apply --exclude=encrypted
 ```
 
 ## Screenshot(s)

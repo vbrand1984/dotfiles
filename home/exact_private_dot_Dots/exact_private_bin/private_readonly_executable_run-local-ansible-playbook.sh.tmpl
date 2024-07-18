@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cd {{ joinPath .chezmoi.homeDir .sysDirs.ansible.config | quote }}
+cd {{ .dirAnsible | quote }}
 
-ansible-playbook -Kv local-chezmoi-playbook.yml -i inventory.ini
+env ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -Kv local-chezmoi-playbook.yml

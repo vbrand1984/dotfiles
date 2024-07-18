@@ -1,4 +1,4 @@
-# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #!/bin/sh
 # vim: ft=sh
 
@@ -9,28 +9,28 @@
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
 #
 
-@'{%- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts") | not | not %}'@
-# nerd-fonts directory hash: @'{% (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts")) | sha256sum %}'@
-@'{%- end %}'@
-@'{%- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts") | not | not %}'@
-# winfonts directory hash: @'{% (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts")) | sha256sum %}'@
-@'{%- end %}'@
+{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts") | not | not '@}
+# nerd-fonts directory hash: {@' (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts")) | sha256sum '@}
+{@'- end '@}
+{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts") | not | not '@}
+# winfonts directory hash: {@' (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts")) | sha256sum '@}
+{@'- end '@}
 
 
-@'{% if and .sysIsDesktopRig .sysIsBrandsPrivate -%}'@
+{@' if and .sysIsDesktopRig .sysIsBrandsPrivate -'@}
 #
 # Updates fonts cache when WeatherIcons font updates
 # Used on my main desktop rig, where this font is utilized in conky setup
 #
-@'{%- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | not | not %}'@
-# weathericons-regular-webfont.ttf hash: @'{% include (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | sha256sum %}'@
-@'{%- end %}'@
-@'{%- end %}'@
+{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | not | not '@}
+# weathericons-regular-webfont.ttf hash: {@' include (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | sha256sum '@}
+{@'- end '@}
+{@'- end '@}
 
-fc-cache --force --verbose @'{% joinPath .chezmoi.homeDir ".local/share/fonts" | quote %}'@
+fc-cache --force --verbose {@' joinPath .chezmoi.homeDir ".local/share/fonts" | quote '@}
 
 # Restart conky if it is running
 #if pgrep --count conky 1>/dev/null 2>&1 ; then
-#    /bin/sh -e @'{% joinPath .dirLocalScripts "manage-service.sh" | quote %}'@ restart conky
+#    /bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} restart conky
 #fi
 

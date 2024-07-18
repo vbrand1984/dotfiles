@@ -1,5 +1,5 @@
-# chezmoi:template: left-delimiter=@'{% right-delimiter=%}'@
-@'{%- if .sysIsDebBased %}'@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if .sysIsDebBased '@}
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 # Import additional configuration files
@@ -121,10 +121,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: @'{% .miscTerminalFont %}'@
+    family: {@' .miscTerminalFont '@}
 
     # The `style` can be specified to pick a specific face.
-    style: @'{% .miscTerminalFontWeight %}'@
+    style: {@' .miscTerminalFontWeight '@}
 
   # Bold font face
   bold:
@@ -160,7 +160,7 @@ font:
     style: ExtraBold Italic
 
   # Point size
-  size: @'{% .miscTerminalFontSize %}'@
+  size: {@' .miscTerminalFontSize '@}
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -190,8 +190,8 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: @'{% .terminal.colors.background | squote %}'@
-    foreground: @'{% .terminal.colors.foreground | squote %}'@
+    background: {@' .terminal.colors.background | squote '@}
+    foreground: {@' .terminal.colors.foreground | squote '@}
 
     # Bright and dim foreground colors
     #
@@ -284,25 +284,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   @'{% .terminal.colors.normal.black | squote %}'@
-    red:     @'{% .terminal.colors.normal.red | squote %}'@
-    green:   @'{% .terminal.colors.normal.green | squote %}'@
-    yellow:  @'{% .terminal.colors.normal.yellow | squote %}'@
-    blue:    @'{% .terminal.colors.normal.blue | squote %}'@
-    magenta: @'{% .terminal.colors.normal.magenta | squote %}'@
-    cyan:    @'{% .terminal.colors.normal.cyan | squote %}'@
-    white:   @'{% .terminal.colors.normal.white | squote %}'@
+    black:   {@' .terminal.colors.normal.black | squote '@}
+    red:     {@' .terminal.colors.normal.red | squote '@}
+    green:   {@' .terminal.colors.normal.green | squote '@}
+    yellow:  {@' .terminal.colors.normal.yellow | squote '@}
+    blue:    {@' .terminal.colors.normal.blue | squote '@}
+    magenta: {@' .terminal.colors.normal.magenta | squote '@}
+    cyan:    {@' .terminal.colors.normal.cyan | squote '@}
+    white:   {@' .terminal.colors.normal.white | squote '@}
 
   # Bright colors
   bright:
-    black:   @'{% .terminal.colors.bright.black | squote %}'@
-    red:     @'{% .terminal.colors.bright.red | squote %}'@
-    green:   @'{% .terminal.colors.bright.green | squote %}'@
-    yellow:  @'{% .terminal.colors.bright.yellow | squote %}'@
-    blue:    @'{% .terminal.colors.bright.blue | squote %}'@
-    magenta: @'{% .terminal.colors.bright.magenta | squote %}'@
-    cyan:    @'{% .terminal.colors.bright.cyan | squote %}'@
-    white:   @'{% .terminal.colors.bright.white | squote %}'@
+    black:   {@' .terminal.colors.bright.black | squote '@}
+    red:     {@' .terminal.colors.bright.red | squote '@}
+    green:   {@' .terminal.colors.bright.green | squote '@}
+    yellow:  {@' .terminal.colors.bright.yellow | squote '@}
+    blue:    {@' .terminal.colors.bright.blue | squote '@}
+    magenta: {@' .terminal.colors.bright.magenta | squote '@}
+    cyan:    {@' .terminal.colors.bright.cyan | squote '@}
+    white:   {@' .terminal.colors.bright.white | squote '@}
 
 #  # Normal colors
 #  normal:
@@ -917,4 +917,4 @@ colors:
 
   # Highlight window damage information.
   #highlight_damage: false
-@'{%- end %}'@
+{@'- end '@}
