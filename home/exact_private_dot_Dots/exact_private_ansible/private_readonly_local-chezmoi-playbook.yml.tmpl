@@ -18,7 +18,6 @@
 - name: Adjust system Fontconfig configuration
   hosts: localhost
   become: true
-  become_method: {@' .cmdSu '@}
   vars_files:
     - vars/fontconfig-symlinks.yml
   roles:
