@@ -1,4 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+
 # {{{ Generic intro
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -52,12 +54,12 @@ tabs -4
 
 {@'- /* Terminal color codes */'@}
 {@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
-{@'- $coloRed := `\033[01;31m` '@}
-{@'- $coloGreen := `\033[01;32m` '@}
-{@'- $coloBlue := `\033[01;34m` '@}
-{@'- $coloCyan := `\033[01;36m` '@}
-{@'- $coloWhite := `\033[01;37m` '@}
-{@'- $coloDefault := `\033[00m` '@}
+{@'- $coloRed := `\e[01;31m` '@}
+{@'- $coloGreen := `\e[01;32m` '@}
+{@'- $coloBlue := `\e[01;34m` '@}
+{@'- $coloCyan := `\e[01;36m` '@}
+{@'- $coloWhite := `\e[01;37m` '@}
+{@'- $coloDefault := `\e[00m` '@}
 
 {@'- /* Terminal color codes to be used in PS1 */'@}
 {@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
@@ -100,8 +102,10 @@ function print_git_branch() {
         # Check if there are changes in the local repo and choose color of the branch name accordingly
         # See: https://stackoverflow.com/a/5148851
         if git diff-files --quiet --ignore-submodules 1>/dev/null 2>&1 ; then
+            # No changes in the repository. The repo is "clean".
             branch_colo={@' $branchCleanColo | squote '@}
         else
+            # Untracked changes are present. The repo is "dirty".
             branch_colo={@' $branchDirtyColo | squote '@}
         fi
         printf {@' print `"` $bracketColo "[" "${branch_colo}" $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight `"` '@}

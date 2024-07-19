@@ -1,23 +1,25 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
+{@ includeTemplate "managedMessage.tmpl" . | comment "# " @}
+
 {@- $filesNotNeeded := fromYaml `
   - 05-reset-dirs-sample.conf
   - 09-autohint-if-no-hinting.conf
   - 10-autohint.conf
   - 10-unhinted.conf
   - 10-no-antialias.conf
-` -@}
+` @}
 
 {@- $filesNeeded := fromYaml `
   - 10-scale-bitmap-fonts.conf
   - 10-yes-antialias.conf
-` -@}
+` @}
 
 {@- $hintingOpts := fromYaml `
   - 10-hinting-full.conf
   - 10-hinting-medium.conf
   - 10-hinting-none.conf
   - 10-hinting-slight.conf
-` -@}
+` @}
 
 {@- $subPixelOpts := fromYaml `
   - 10-no-sub-pixel.conf
@@ -25,84 +27,84 @@
   - 10-sub-pixel-rgb.conf
   - 10-sub-pixel-vbgr.conf
   - 10-sub-pixel-vrgb.conf
-` -@}
+` @}
 
 {@- $lcdfilterOpts := fromYaml `
   - 11-lcdfilter-default.conf
   - 11-lcdfilter-legacy.conf
   - 11-lcdfilter-light.conf
-` -@}
+` @}
 
-{@- $fcHintStyle := .fcHintStyle -@}
-{@- $fcLcdfilter := .fcLcdfilter -@}
-{@- $fcRgba := .fcRgba -@}
-
-
-{@- range $hintingOpts -@}
-    {@- if contains (print "-" (trimPrefix "hint" $fcHintStyle) ".") . -@}
-        {@- $filesNeeded = append $filesNeeded . -@}
-    {@- else -@}
-        {@- $filesNotNeeded = append $filesNotNeeded . -@}
-    {@- end -@}
-{@- end -@}
+{@- $fcHintStyle := .fcHintStyle @}
+{@- $fcLcdfilter := .fcLcdfilter @}
+{@- $fcRgba := .fcRgba @}
 
 
-{@- range $lcdfilterOpts -@}
-    {@- if contains (print "-" (trimPrefix "lcd" $fcLcdfilter) ".") . -@}
-        {@- $filesNeeded = append $filesNeeded . -@}
-    {@- else -@}
-        {@- $filesNotNeeded = append $filesNotNeeded . -@}
-    {@- end -@}
-{@- end -@}
+{@- range $hintingOpts @}
+    {@- if contains (print "-" (trimPrefix "hint" $fcHintStyle) ".") . @}
+        {@- $filesNeeded = append $filesNeeded . @}
+    {@- else @}
+        {@- $filesNotNeeded = append $filesNotNeeded . @}
+    {@- end @}
+{@- end @}
 
 
-{@- $rgbaAdjusted := false -@}
-
-{@- range $subPixelOpts -@}
-    {@- if contains (print "-" $fcRgba ".conf") . -@}
-        {@- $filesNeeded = append $filesNeeded . -@}
-        {@- $rgbaAdjusted = true -@}
-    {@- else -@}
-        {@- $filesNotNeeded = append $filesNotNeeded . -@}
-    {@- end -@}
-{@- end -@}
-
-{@- if not $rgbaAdjusted -@}
-    {@- $filesNeeded = append $filesNeeded "10-no-sub-pixel.conf" -@}
-{@- else -@}
-    {@- $filesNotNeeded = append $filesNotNeeded "10-no-sub-pixel.conf" -@}
-{@- end -@}
+{@- range $lcdfilterOpts @}
+    {@- if contains (print "-" (trimPrefix "lcd" $fcLcdfilter) ".") . @}
+        {@- $filesNeeded = append $filesNeeded . @}
+    {@- else @}
+        {@- $filesNotNeeded = append $filesNotNeeded . @}
+    {@- end @}
+{@- end @}
 
 
-{@- $theData := list -@}
+{@- $rgbaAdjusted := false @}
 
-{@- $srcDir1 := "/usr/share/fontconfig/conf.avail" -@}
-{@- $srcDir2 := "/etc/fonts/conf.avail" -@}
-{@- $dstDir := "/etc/fonts/conf.d" -@}
+{@- range $subPixelOpts @}
+    {@- if contains (print "-" $fcRgba ".conf") . @}
+        {@- $filesNeeded = append $filesNeeded . @}
+        {@- $rgbaAdjusted = true @}
+    {@- else @}
+        {@- $filesNotNeeded = append $filesNotNeeded . @}
+    {@- end @}
+{@- end @}
 
-{@- range $filesNotNeeded -@}
-    {@- $theRecord := dict "dest" (joinPath $dstDir .) "state" "absent" -@}
-    {@- $theData = append $theData $theRecord -@}
-{@- end -@}
+{@- if not $rgbaAdjusted @}
+    {@- $filesNeeded = append $filesNeeded "10-no-sub-pixel.conf" @}
+{@- else @}
+    {@- $filesNotNeeded = append $filesNotNeeded "10-no-sub-pixel.conf" @}
+{@- end @}
 
-{@- range $filesNeeded -@}
-    {@- $theSrc := "" -@}
-    {@- $srcCandidate1 := joinPath $srcDir1 . -@}
-    {@- $srcCandidate2 := joinPath $srcDir2 . -@}
 
-    {@- if (stat $srcCandidate1) | not | not -@}
-        {@- $theSrc = $srcCandidate1 -@}
-    {@- else if (stat $srcCandidate2) | not | not -@}
-        {@- $theSrc = $srcCandidate2 -@}
-    {@- end -@}
+{@- $theData := list @}
 
-    {@- if $theSrc -@}
-        {@- $theRecord := dict "dest" (joinPath $dstDir .) "src" $theSrc "state" "link" "owner" "root" "group" "root" -@}
-        {@- $theData = append $theData $theRecord -@}
-    {@- end -@}
-{@- end -@}
+{@- $srcDir1 := "/usr/share/fontconfig/conf.avail" @}
+{@- $srcDir2 := "/etc/fonts/conf.avail" @}
+{@- $dstDir := "/etc/fonts/conf.d" @}
 
-{@- $result := dict "file_list" $theData -@}
+{@- range $filesNotNeeded @}
+    {@- $theRecord := dict "dest" (joinPath $dstDir .) "state" "absent" @}
+    {@- $theData = append $theData $theRecord @}
+{@- end @}
 
-{@- $result | toYaml -@}
+{@- range $filesNeeded @}
+    {@- $theSrc := "" @}
+    {@- $srcCandidate1 := joinPath $srcDir1 . @}
+    {@- $srcCandidate2 := joinPath $srcDir2 . @}
+
+    {@- if (stat $srcCandidate1) | not | not @}
+        {@- $theSrc = $srcCandidate1 @}
+    {@- else if (stat $srcCandidate2) | not | not @}
+        {@- $theSrc = $srcCandidate2 @}
+    {@- end @}
+
+    {@- if $theSrc @}
+        {@- $theRecord := dict "dest" (joinPath $dstDir .) "src" $theSrc "state" "link" "owner" "root" "group" "root" @}
+        {@- $theData = append $theData $theRecord @}
+    {@- end @}
+{@- end @}
+
+{@- $result := dict "file_list" $theData @}
+
+{@ $result | toYaml -@}
 

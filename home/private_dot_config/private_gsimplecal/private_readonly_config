@@ -1,4 +1,5 @@
 # This file is managed by chezmoi
+
 show_calendar = 1
 show_timezones = 0
 mark_today = 1

@@ -1,4 +1,6 @@
-/* {{ .varia.managedMessage }} */
+/*
+{{ includeTemplate "managedMessage.tmpl" . }}
+*/
 configuration {
     font: {{ .rofiFont | quote }};
     cache-dir: {{ joinPath .dirLocalCache "rofi" | quote }};

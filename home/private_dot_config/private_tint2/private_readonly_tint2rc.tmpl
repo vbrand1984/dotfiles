@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' .varia.managedMessage | comment "# " '@}
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
 #
 # See https://gitlab.com/o9000/tint2/wikis/Configure for 
 # full documentation of the configuration options.

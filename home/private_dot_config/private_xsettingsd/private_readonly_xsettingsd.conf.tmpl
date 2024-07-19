@@ -1,4 +1,4 @@
-{{ .varia.managedMessage | comment "# " }}
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
 #
 # See: https://codeberg.org/derat/xsettingsd
 # See: https://www.freedesktop.org/wiki/Specifications/XSettingsRegistry/

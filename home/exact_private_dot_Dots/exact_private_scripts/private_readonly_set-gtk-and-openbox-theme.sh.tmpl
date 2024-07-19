@@ -1,6 +1,8 @@
 #!/bin/sh
 # vim: ft=sh
 
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+
 the_theme="${1}"
 
 case "${the_theme}" in

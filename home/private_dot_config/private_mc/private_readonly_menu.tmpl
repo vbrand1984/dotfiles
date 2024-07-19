@@ -2,6 +2,8 @@ shell_patterns=0
 
 # See: https://softpanorama.org/OFM/MC/user_menu.shtml
 
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+
 m   Edit ~/.config/mc/menu
     cd ~/.config/mc
     {{ .chezmoi.executable }} edit --refresh-externals=never --exclude=externals,scripts,encrypted --apply {{ joinPath .chezmoi.homeDir ".config/mc/menu" | quote }}

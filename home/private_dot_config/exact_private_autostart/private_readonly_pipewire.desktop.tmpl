@@ -1,5 +1,5 @@
 {{ if and (not .sysHasSystemd) (not .sysIsGentoo) -}}
-{{ .varia.managedMessage | comment "# " }}
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
 #
 # In non-systemd distros (which are not Gentoo), we need a way to launch pipewire
 # We grab this thing from Gentoo

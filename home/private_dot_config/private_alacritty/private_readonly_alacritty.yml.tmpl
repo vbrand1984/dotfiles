@@ -1,5 +1,7 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if .sysIsDebBased '@}
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
 # Import additional configuration files

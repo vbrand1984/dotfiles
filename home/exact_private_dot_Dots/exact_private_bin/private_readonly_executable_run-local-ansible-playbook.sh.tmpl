@@ -1,5 +1,7 @@
 #!/bin/sh
 
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+
 cd {{ .dirAnsible | quote }}
 
-env ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -Kv local-chezmoi-playbook.yml
+env ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -Kv local-chezmoi-playbook.yml "${@}"

@@ -1,5 +1,7 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if not .sysIsDebianBased '@}
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+
 # Changing $TERM for alacritty due to a bug with incorrect colors
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
 [env]

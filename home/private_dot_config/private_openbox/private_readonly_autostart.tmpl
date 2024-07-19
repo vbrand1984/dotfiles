@@ -1,5 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' .varia.managedMessage | comment "# " '@}
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+
 # Openbox autostart script
 
 # --== Setting keyboard and mouse parameters ==--

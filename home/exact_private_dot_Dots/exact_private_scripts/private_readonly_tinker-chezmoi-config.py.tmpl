@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # vim: ft=python
 
+{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+
 import shutil
 from tempfile import NamedTemporaryFile
 from subprocess import run

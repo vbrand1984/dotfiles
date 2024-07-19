@@ -1,5 +1,6 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
-{@ .varia.managedMessage | comment "# " @}
+{@ includeTemplate "managedMessage.tmpl" . | comment "# " @}
+
 [defaults]
 #home = {@ .dirAnsible @}
 inventory  = {@ joinPath .dirAnsible "inventory.yml" @}

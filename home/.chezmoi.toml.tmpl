@@ -46,6 +46,9 @@
 
 # {{{ General chezmoi config
 
+# Output of the 'chezmoi data' in Yaml instead of JSON. It's more convenient and easy on the eyes.
+format = "yaml"
+
 # Redefine temporary directory for scripts in case of /tmp is mounted with the 'noexec' option
 # See: https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-chezmoi-forkexec-tmpxxxxxxxxxxxx-permission-denied-when-executing-a-script
 scriptTempDir = {@' joinPath "/run/user" (toString .chezmoi.uid) | quote '@}
@@ -62,8 +65,16 @@ encryption = "age"
     identity = {@' joinPath .chezmoi.homeDir ".config/age/age-chezmoi-key.txt" | quote '@}
     recipient = "age198nwpsvctf9f9xke4cy34sjpz4q55wpyup3pp2ahgamsvzv7kdzsxcdnvn"
 
+# This setting is necessary prior to chezmoi version 2.51.0 because of the bug with the 'modify_' scripts
+# See: https://github.com/twpayne/chezmoi/issues/3851
 [scriptEnv]
     TMPDIR = {@' joinPath "/run/user" (toString .chezmoi.uid) | quote '@}
+
+[update]
+    # Don't apply changes automatically after running 'chezmoi update'
+    # This is done because I change the '.chezmoi.toml.tmpl' file from time to time,
+    # and it is necessary to run 'chezmoi init' before 'chezmoi apply' in certain cases
+    apply = false
 
 # }}}
 [data]
