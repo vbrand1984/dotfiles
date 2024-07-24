@@ -1,110 +1,145 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
 {@ includeTemplate "managedMessage.tmpl" . | comment "# " @}
+---
+{@/* {{{ Global variables initialization */@}
 
-{@- $filesNotNeeded := fromYaml `
-  - 05-reset-dirs-sample.conf
-  - 09-autohint-if-no-hinting.conf
-  - 10-autohint.conf
-  - 10-unhinted.conf
-  - 10-no-antialias.conf
-` @}
+{@- /* Get list of available fontconfig configuration files from the two possible system directories */@}
+{@- $confAvail := concat (glob "/etc/fonts/conf.avail/*.conf") (glob "/usr/share/fontconfig/conf.avail/*.conf") @}
 
-{@- $filesNeeded := fromYaml `
-  - 10-scale-bitmap-fonts.conf
-  - 10-yes-antialias.conf
-` @}
+{@- /* List of the files unconditionally needed in our Fonconfig configuration */@}
+{@- /* We will append items to this list depending on our configuration in the code down below */@}
+{@- $confNeeded := includeTemplate "fontconfigSystemConfiguration.yaml" . | fromYaml @}
 
-{@- $hintingOpts := fromYaml `
-  - 10-hinting-full.conf
-  - 10-hinting-medium.conf
-  - 10-hinting-none.conf
-  - 10-hinting-slight.conf
-` @}
+{@- /* }}} */@}
+{@- /* {{{ Antialias options adjustment */@}
 
-{@- $subPixelOpts := fromYaml `
-  - 10-no-sub-pixel.conf
-  - 10-sub-pixel-bgr.conf
-  - 10-sub-pixel-rgb.conf
-  - 10-sub-pixel-vbgr.conf
-  - 10-sub-pixel-vrgb.conf
-` @}
-
-{@- $lcdfilterOpts := fromYaml `
-  - 11-lcdfilter-default.conf
-  - 11-lcdfilter-legacy.conf
-  - 11-lcdfilter-light.conf
-` @}
-
-{@- $fcHintStyle := .fcHintStyle @}
-{@- $fcLcdfilter := .fcLcdfilter @}
-{@- $fcRgba := .fcRgba @}
-
-
-{@- range $hintingOpts @}
-    {@- if contains (print "-" (trimPrefix "hint" $fcHintStyle) ".") . @}
-        {@- $filesNeeded = append $filesNeeded . @}
-    {@- else @}
-        {@- $filesNotNeeded = append $filesNotNeeded . @}
-    {@- end @}
+{@- if .fcAntialias @}
+    {@- $confNeeded = append $confNeeded "10-yes-antialias.conf" @}
+{@- else @}
+    {@- $confNeeded = append $confNeeded "10-no-antialias.conf" @}
 {@- end @}
 
+{@- /* }}} */@}
+{@- /* {{{ Autohint options adjustment */@}
+
+{@- if .fcAutohint @}
+    {@- $confNeeded = append $confNeeded "10-autohint.conf" @}
+{@- end @}
+
+{@- if .fcAutohintIfNoHinting @}
+    {@- $confNeeded = append $confNeeded "10-autohint-if-no-hinting.conf" @}
+{@- end @}
+
+{@- /* }}} */@}
+{@- /* {{{ Hintstyle options adjustment */@}
+
+{@- /* Check if hinting is enabled at all*/@}
+{@- if .fcHinting @}
+
+    {@- $fcHintStyle := .fcHintStyle @}
+
+    {@- $hintingOpts := fromYaml `
+- 10-hinting-full.conf
+- 10-hinting-medium.conf
+- 10-hinting-none.conf
+- 10-hinting-slight.conf
+` @}
+
+    {@- range $hintingOpts @}
+        {@- if contains (print "-" (trimPrefix "hint" $fcHintStyle) ".") . @}
+            {@- $confNeeded = append $confNeeded . @}
+        {@- end @}
+    {@- end @}
+
+{@- end @}
+
+{@- /* }}} */@}
+{@- /* {{{ Lcdfilter options adjustment */@}
+
+{@- $fcLcdfilter := .fcLcdfilter @}
+
+{@- $lcdfilterOpts := fromYaml `
+- 11-lcdfilter-default.conf
+- 11-lcdfilter-legacy.conf
+- 11-lcdfilter-light.conf
+` @}
 
 {@- range $lcdfilterOpts @}
     {@- if contains (print "-" (trimPrefix "lcd" $fcLcdfilter) ".") . @}
-        {@- $filesNeeded = append $filesNeeded . @}
-    {@- else @}
-        {@- $filesNotNeeded = append $filesNotNeeded . @}
+        {@- $confNeeded = append $confNeeded . @}
     {@- end @}
 {@- end @}
 
+{@- /* }}} */@}
+{@- /* {{{ Rgba options adjustment */@}
+
+{@- $fcRgba := .fcRgba @}
+
+{@- $rgbaOpts := fromYaml `
+- 10-sub-pixel-bgr.conf
+- 10-sub-pixel-rgb.conf
+- 10-sub-pixel-vbgr.conf
+- 10-sub-pixel-vrgb.conf
+` @}
 
 {@- $rgbaAdjusted := false @}
 
-{@- range $subPixelOpts @}
+{@- range $rgbaOpts @}
     {@- if contains (print "-" $fcRgba ".conf") . @}
-        {@- $filesNeeded = append $filesNeeded . @}
+        {@- $confNeeded = append $confNeeded . @}
         {@- $rgbaAdjusted = true @}
-    {@- else @}
-        {@- $filesNotNeeded = append $filesNotNeeded . @}
     {@- end @}
 {@- end @}
 
 {@- if not $rgbaAdjusted @}
-    {@- $filesNeeded = append $filesNeeded "10-no-sub-pixel.conf" @}
-{@- else @}
-    {@- $filesNotNeeded = append $filesNotNeeded "10-no-sub-pixel.conf" @}
+    {@- $confNeeded = append $confNeeded "10-no-sub-pixel.conf" @}
 {@- end @}
 
+{@- /* }}} */@}
+{@- /* {{{ Bitmaps options adjustment */@}
 
-{@- $theData := list @}
+{@- $fcBitmaps := .fcBitmaps @}
 
-{@- $srcDir1 := "/usr/share/fontconfig/conf.avail" @}
-{@- $srcDir2 := "/etc/fonts/conf.avail" @}
-{@- $dstDir := "/etc/fonts/conf.d" @}
+{@- $bitmapsOpts := fromYaml `
+- 70-force-bitmaps.conf
+- 70-no-bitmaps.conf
+- 70-yes-bitmaps.conf
+` @}
 
-{@- range $filesNotNeeded @}
-    {@- $theRecord := dict "dest" (joinPath $dstDir .) "state" "absent" @}
-    {@- $theData = append $theData $theRecord @}
-{@- end @}
-
-{@- range $filesNeeded @}
-    {@- $theSrc := "" @}
-    {@- $srcCandidate1 := joinPath $srcDir1 . @}
-    {@- $srcCandidate2 := joinPath $srcDir2 . @}
-
-    {@- if (stat $srcCandidate1) | not | not @}
-        {@- $theSrc = $srcCandidate1 @}
-    {@- else if (stat $srcCandidate2) | not | not @}
-        {@- $theSrc = $srcCandidate2 @}
-    {@- end @}
-
-    {@- if $theSrc @}
-        {@- $theRecord := dict "dest" (joinPath $dstDir .) "src" $theSrc "state" "link" "owner" "root" "group" "root" @}
-        {@- $theData = append $theData $theRecord @}
+{@- range $bitmapsOpts @}
+    {@- if contains (print "-" $fcBitmaps "-bitmaps.conf") . @}
+        {@- $confNeeded = append $confNeeded . @}
     {@- end @}
 {@- end @}
 
-{@- $result := dict "file_list" $theData @}
+{@- if and (ne $fcBitmaps "no") .fcScaleBitmapFonts @}
+    {@- $confNeeded = append $confNeeded "10-scale-bitmap-fonts.conf" @}
+{@- end @}
 
-{@ $result | toYaml -@}
+{@- /* }}} */@}
+{@- /* {{{ Put everything together */@}
 
+{@- $theFiles := list @}
+
+{@- range $confAvail @}
+
+    {@- $baseFileName := base . @}
+    {@- $srcFile := . @}
+    {@- $destFile := joinPath "/etc/fonts/conf.d" $baseFileName @}
+
+    {@- if has $baseFileName $confNeeded @}
+        {@- $theRecord := dict "dest" $destFile "src" $srcFile "state" "link" "owner" "root" "group" "root" @}
+        {@- $theFiles = append $theFiles $theRecord @}
+    {@- else @}
+        {@- $theRecord := dict "dest" $destFile "state" "absent" @}
+        {@- $theFiles = append $theFiles $theRecord @}
+    {@- end @}
+
+{@- end @}
+
+{@- $fileList := dict "file_list" $theFiles @}
+
+{@- $fileList | toYaml @}
+
+{@- /* }}} */ -@}
+...

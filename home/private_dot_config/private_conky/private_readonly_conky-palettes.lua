@@ -2,7 +2,7 @@
 -- This file is managed by chezmoi
 
 conky_palettes = {
-    ['Catpuccin'] = {
+    ['Catppuccin'] = {
         background      = '#1d2021',    -- Background colour of the window
         border          = '#504945',    -- The colour of the border
         headers         = '#eed49f',    -- Yellow colour for the captions and horizontal lines
@@ -33,7 +33,7 @@ conky_palettes = {
         background      = '#32302f',    -- Background colour of the window
         border          = '#504945',    -- The colour of the border
         headers         = '#be8c3d',    -- b78727 (University of California Gold) bc823c (Gold Trinket) d7942d (Golden Orange) ddad56 (Rob Roy) ce8f2d
-        captions        = '#87a96b',    -- 87a96b (Asparagus), 9ab973 (Olivine) 819c8b (Celadon)
+        captions        = '#9ab973',    -- 87a96b (Asparagus), 9ab973 (Olivine) 819c8b (Celadon)
         text            = '#d4be98',    -- Lightgray colour for the main text
         temperatures    = '#d7875f',    -- Orange colour for the temperatures
         progressbars    = '#a89984',    -- A little bit dimmer lightgray colour for the progressbars

@@ -1,3 +1,8 @@
+# This file contains list of fontconfig configuration files which are unconditionally used.
+# "Unconditionally" means that there should not be files starting with '10-' like '10-hinting-slight.conf', because
+# these are applied through a template depending on the current configuration written in the 'chezmoi.toml' file.
+# Also '70-{yes,no,force}-bitmaps.conf' files are managed automatically and should not be on this list.
+
 - 20-unhint-small-dejavu-lgc-sans.conf
 - 20-unhint-small-dejavu-lgc-sans-mono.conf
 - 20-unhint-small-dejavu-lgc-serif.conf

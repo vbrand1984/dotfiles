@@ -14,7 +14,7 @@ import urllib.request
 import json
 
 error_message = ''
-default_weather_symbol = '\uF021'
+default_weather_symbol = '\uF077'
 
 # Load and parse JSON data from a file
 def load_json_from_file(the_file):
@@ -170,7 +170,7 @@ col1 = 180
 celsius_sign = '\u2103'
 
 # Without further ado, let's dive straight into our business.
-output = '${template0 WEATHER' + city_name + '}\n${color3}${font weathericons:bold:size=18}' + weather_symbol + '${color4}${font DejaVu Sans:bold:size=20} ' + str(temperature) + celsius_sign + '${font}\n${voffset -30}${goto ' + str(col1) + '}${color2}Wind:${alignr}${color3}' + str(wind) + ' m/s' + wind_direction + '\n${goto ' + str(col1) + '}${color2}Pressure:${alignr}${color3}' + str(pressure) + ' mmph\n' + str(conditions) + '${goto ' + str(col1) + '}${color2}Humidity:${alignr}${color3}' + str(humidity) + '%'
+output = '${template0 WEATHER' + city_name + '}\n${color3}${font weathericons:bold:size=18}' + weather_symbol + '${color4}${font DejaVu Sans:bold:size=20} ' + str(temperature) + celsius_sign + '${font}\n${voffset -30}${goto ' + str(col1) + '}${color2}Wind:${alignr}${color3}' + str(wind) + ' m/s' + wind_direction + '\n${goto ' + str(col1) + '}${color2}Pressure:${alignr}${color3}' + str(pressure) + ' mmHg\n' + str(conditions) + '${goto ' + str(col1) + '}${color2}Humidity:${alignr}${color3}' + str(humidity) + '%'
 
 print(output, end="")
 

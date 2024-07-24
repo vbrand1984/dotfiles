@@ -189,6 +189,7 @@ encryption = "age"
 
     fcDpi = {@' default 96 .fcDpi | int '@}
     fcAutohint = {@' default false .fcAutohint | not | not '@}
+    fcAutohintIfNoHinting = {@' default false .fcAutohintIfNoHinting | not | not '@}
     fcAntialias = {@' default true .fcAntialias | not | not '@}
     fcHinting = {@' default true .fcHinting | not | not '@}
 
@@ -200,6 +201,12 @@ encryption = "age"
 
     # Possible values: lcddefault, lcdlight, lcdlegacy, lcdnone
     fcLcdfilter = {@' default "lcddefault" .fcLcdfilter | quote '@}
+
+    # Possible values: yes, no, force
+    fcBitmaps = {@' default "yes" .fcBitmaps | quote '@}
+
+    # If this is true, then '10-scale-bitmap-fonts.conf' will be enabled in system fontconfig configuration via ansible
+    fcScaleBitmapFonts = {@' default true .fcScaleBitmapFonts | not | not '@}
 
 # }}}
 # {{{ misc: (Various settings)

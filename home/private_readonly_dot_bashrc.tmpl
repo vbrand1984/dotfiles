@@ -42,7 +42,7 @@ shopt -s checkwinsize
 tabs -4
 
 # }}}
-# {{{ Command line prompt configuration: PS1
+# {{{ PS1: Command line prompt configuration
 
 # See: https://www.learnlinux.tv/10-linux-terminal-tips-and-tricks-to-enhance-your-workflow/
 
@@ -81,7 +81,7 @@ tabs -4
 {@'- $jobColour := $colourBlue '@}
 {@'- $pathColour := $colourBlue '@}
 {@'- $distroColour := $colourGreen '@}
-{@'- $usernameColour := $colourCyan '@}
+{@'- $usernameColour := $colourGreen '@}
 {@'- $endCharacterColour := $colourGreen '@}
 
 {@'- /* Box characters to be used in the prompt */'@}
@@ -260,11 +260,43 @@ fi
 {@'- end '@}
 # {{{ Export variables
 
+### GPG options ###
 GPG_TTY=$(tty)
 export GPG_TTY
 
+### Editor ###
+EDITOR='/usr/bin/vim'
+VISUAL="${EDITOR}"
+export EDITOR
+export VISUAL
+
+### Firefox options ###
+export MOZ_WEBRENDER=1
+export MOZ_X11_EGL=1
+
+### Graphical Gtk and Qt options ###
+export QT_QPA_PLATFORMTHEME=qt5ct
+# Turn off accessibility bus
+export NO_AT_BRIDGE=1
+# Do not hide scrollbars in Gtk applications
+# See: https://bbs.archlinux.org/viewtopic.php?id=196118
+# See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
+export GTK_OVERLAY_SCROLLING=0
+
+### Compressors options ###
+
+# Zstd. See: https://wiki.gentoo.org/wiki/Zstd#Configuration
+# See: https://lists.archlinux.org/pipermail/arch-dev-public/2019-March/029520.html
+ZSTD_CLEVEL=16
+ZSTD_NBTHREADS=0
+
+# Xz. See https://wiki.gentoo.org/wiki/Xz-utils#Configuration
+# -T0: compress and decompress with the number of cores available
+# -9: use maximum compression level (but not extreme)
+XZ_DEFAULTS="-9 -T0"
+
 {@' if not .sysIsGentoo -'@}
-# colored GCC warnings and errors
+# Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 {@'- end '@}
 

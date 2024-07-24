@@ -3,6 +3,8 @@
 #!/bin/sh
 # vim: ft=sh
 
+{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+
 game_dir="${HOME}/Games/SSD/BATTLETECH"
 
 if [ ! -x "${game_dir}/start.sh" ] ; then
@@ -12,5 +14,14 @@ fi
 
 cd "${game_dir}"
 
-taskset -c 1,3,5,7,9,11,13,15 ./start.sh
+i=1
+ncores=$(nproc)
+cores_line=''
+
+while [ $i -le $ncores ] ; do
+    [ -n "${cores_line}" ] && cores_line="${cores_line},${i}" || cores_line="${i}"
+    i=$(( i + 2 ))
+done
+
+taskset --cpu-list "${cores_line}" ./start.sh
 {@'- end '@}

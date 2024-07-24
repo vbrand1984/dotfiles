@@ -14,7 +14,8 @@ local current_palette = {@' .conkyPalette | squote '@}
 -- }}}
 -- conky.config {{{ 
 
-local celsius_sign = utf8.char(0x2103)
+--local celsius_sign = utf8.char(0x2103)
+local celsius_sign = utf8.char(0x00B0) .. 'C'
 
 conky.config = {
 
@@ -105,10 +106,8 @@ conky.config = {
     -- Parameter 2: Mountpoint of the volume
     template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar \2}]],
 
-    --== Disk temperature info ==--
-    -- Parameter 1: Caption
-    -- Parameter 2: Command to execute and receive a number of degree
-    template7 = [[${color2}\1${alignr}${color4}${\2}]] .. celsius_sign,
+    --== Weather widget (old) ==--
+    template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .dirLocalScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
 {@'- if or .sysIsDesktopRig .sysIsOldLaptop '@}
 
     --== Temperature info in two columns ==--
@@ -127,9 +126,6 @@ conky.config = {
     -- Parameter 5: hwmon subdirectory number for the right column
     -- Parameter 6: hwmon fan number for the right column
     template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
-{@'- else -'@}
-    --== Weather widget (old) ==--
-    template9 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .dirLocalScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
 {@'- end '@}
 {@'- end '@}
 
@@ -365,14 +361,20 @@ ${template9 Bottom\ Rear ]] .. mod_mobo .. [[ 5 Bottom\ Front ]] .. mod_mobo .. 
 ${template9 Front\ Top ]] .. mod_mobo .. [[ 6 Front\ Bottom ]] .. mod_mobo .. [[ 7}
 ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 
-]] .. display_top_processes(6) .. [[
+]] .. display_top_processes(5) .. [[
 
 ]] .. display_memory_usage() .. [[
 
 ]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+${template0 WEATHER}
+${template7 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
+${template7 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
+
+--${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+
+--${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
 
 -- }}}
 {@'- else if .sysIsOldLaptop -'@}
@@ -395,8 +397,8 @@ ${color2}Fan${goto 115}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM${goto 22
 ${template8 SSD\ Temp. hwmon\ ]] .. mod_ssd .. [[\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_hdd .. [[\ temp\ 1}
 
 ${template0 WEATHER}
-${template9 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
-${template9 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
+${template7 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
+${template7 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
 
 -- }}}
 {@'- else -'@}

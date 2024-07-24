@@ -15,17 +15,6 @@
 
 {@'- end '@}
 
-- name: Adjust system Fontconfig configuration
-  hosts: localhost
-  become: true
-  vars_files:
-    - vars/fontconfig-symlinks.yml
-  roles:
-    - file_manager
-  tags:
-    - local
-    - symlinks
-
 {@' if .sysIsDebianBased -'@}
 - name: Installing packages
   hosts: localhost
@@ -54,4 +43,16 @@
         name: "{{ item }}"
       loop: "{{ packages.debian.cpan }}"
 {@'- end '@}
+
+- name: Adjust system Fontconfig configuration
+  hosts: all
+  become: true
+  vars_files:
+    - vars/fontconfig-symlinks.yml
+  roles:
+    - file_manager
+  tags:
+    - local
+    - symlinks
+
 ...
