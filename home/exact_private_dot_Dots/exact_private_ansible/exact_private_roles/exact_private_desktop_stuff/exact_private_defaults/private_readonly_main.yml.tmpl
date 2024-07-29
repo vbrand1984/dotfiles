@@ -1,0 +1,225 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+---
+packages_list:
+  # {{{ Utils - Dependencies
+  current_config_dependencies:
+    caption: Utils - Dependencies
+    debian_based: # {{{
+      stable:
+        - cpanminus
+        - libgtk3-perl
+        - libmodule-build-perl
+        - python3-tomlkit
+    # }}}
+  # }}}
+  # {{{ Utils - System
+  system_utilities:
+    caption: Utils - System
+    debian_based: # {{{
+      stable:
+
+        # Common utilities
+        - ansible-lint
+        - bash-completion
+        - command-not-found
+        - hodie
+        - htop
+        - lsb-release
+        - neofetch
+        - pciutils
+        - rsync
+        - usbutils
+        - vim
+        - vim-gtk3
+        - vim-syntax-gtk
+
+        # Archivers
+        - arj
+        - cabextract
+        - p7zip
+        - rar
+        - rpm
+        - unace
+        - unrar
+        - unzip
+        - xz-utils
+        - zip
+        - zstd
+
+      backports:
+        - mc
+        - tmux
+    # }}}
+  # }}}
+  # {{{ Utils - Xorg
+  x_server_utilities:
+    caption: Utils - Xorg
+    debian_based: # {{{
+      stable:
+        - dbus-x11
+        - x11-utils
+        - x11-xserver-utils
+        - xinit
+    # }}}
+  # }}}
+  # {{{ Apps - Audio and Video
+  audio_and_video:
+    caption: Apps - Audio and Video
+    debian_based: # {{{
+      uninstall:
+        - pulseaudio
+        - pulseaudio-utils
+      stable:
+        - alsa-utils
+        - libasound2-plugins
+        - mesa-utils
+        - vainfo
+        - vdpauinfo
+      backports:
+        - pavucontrol
+        - pipewire
+        - pipewire-alsa
+        - pipewire-pulse
+        - wireplumber
+    # }}}
+  # }}}
+  # {{{ Misc - Dictionaries
+  misc_dictionaries:
+    caption: Misc - Dictionaries
+    debian_based: # {{{
+      stable:
+        - hunspell
+        - hunspell-de-de
+        - hunspell-en-gb
+        - hunspell-ru
+    # }}}
+  # }}}
+  # {{{ Misc - Theming
+  theming:
+    caption: Misc - Theming
+    debian_based: # {{{
+      stable:
+
+        # Fonts
+        - fonts-dejavu
+        - fonts-dejavu-extra
+        - fonts-freefont-ttf
+        - fonts-hack-ttf
+        - fonts-liberation
+        - fonts-liberation2
+        - fonts-noto
+        - fonts-noto-cjk
+        - fonts-noto-color-emoji
+        - fonts-paratype
+        - fonts-roboto
+        - fonts-ubuntu
+
+        # Themes and Icons
+        - breeze-icon-theme
+        - dmz-cursor-theme
+        - gnome-extra-icons
+        - gnome-icon-theme
+        - gtk2-engines
+        - mate-themes
+
+      backports:
+        - papirus-icon-theme
+
+    # }}}
+  # }}}
+  # {{{ Utils - Openbox
+  wm_desktop_x:
+    caption: Utils - Openbox
+    debian_based: # {{{
+      stable:
+        - alacritty
+        - caffeine
+        - conky
+        - curl
+        - gxkb
+        - libfm-modules
+        - libnotify-bin
+        - lua {@'- .apps.luaVersion '@}
+        - lua-lgi
+        - lxappearance
+        - lxpolkit
+        - lxrandr
+        - lxsession-logout
+        - lxterminal
+        - network-manager-gnome
+        - nitrogen
+        - obconf
+        - openbox
+        - pcmanfm
+        - picom
+        - qalculate-gtk
+{@'- if not .sysIsVM '@}
+        - redshift-gtk
+{@'- end '@}
+        - rofi
+        - tint2
+        - udiskie
+        - volumeicon-alsa
+        - xdg-user-dirs
+        - xsettingsd
+      backports:
+        - dunst
+        - scrot
+        - xscreensaver
+      cpan:
+        - Linux::DesktopFiles
+    # }}}
+  # }}}
+  # {{{ Apps - Browsers
+  browsers:
+    caption: Apps - Browsers
+    debian_based: # {{{
+      stable:
+        - firefox-esr
+{@'- if .sysIsBrandsPrivate '@}
+        - firefox-esr-l10n-de
+        - firefox-esr-l10n-ru
+{@'- end '@}
+    # }}}
+  # }}}
+  # {{{ Apps - Desktop
+  desktop_applications:
+    caption: Apps - Desktop
+    debian_based: # {{{
+      stable:
+        - atril
+        - audacious
+        - dconf-editor
+        - djview4
+        - engrampa
+        - eom
+        - foliate
+        - galculator
+        - geeqie
+        - gimp
+        - gparted
+        - gstreamer1.0-plugins-bad
+        - gstreamer1.0-plugins-ugly
+        - kolourpaint
+        - mpv
+        - okular
+        - okular-extra-backends
+        - okular-mobile
+        - qbittorrent
+        - qt5-gtk2-platformtheme
+        - qt5ct
+        - qt6ct
+        - vlc
+        - xdg-desktop-portal-gtk
+      backports:
+        - emacs
+        - libreoffice
+        - libreoffice-gtk3
+{@'- if .sysIsBrandsPrivate '@}
+        - libreoffice-l10n-ru
+{@'- end '@}
+    # }}}
+  # }}}
+...

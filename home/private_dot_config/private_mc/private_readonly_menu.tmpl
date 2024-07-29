@@ -2,7 +2,7 @@ shell_patterns=0
 
 # See: https://softpanorama.org/OFM/MC/user_menu.shtml
 
-{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 
 m   Edit ~/.config/mc/menu
     cd ~/.config/mc

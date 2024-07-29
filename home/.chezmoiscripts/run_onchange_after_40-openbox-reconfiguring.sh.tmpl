@@ -12,9 +12,15 @@
 # rc.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/rc.xml" ) | sha256sum '@}
 {@'- end '@}
 
+{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
+{@' includeTemplate .templates.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .templates.msgRunningScript . '@}
+
 # Reconfiugre openbox if it is running
 if pgrep --count openbox 1>/dev/null 2>&1 ; then
-    echo -n "Reconfiguring Openbox... "
+    print_message_no_linebreak "Reconfiguring Openbox... "
     openbox --reconfigure
-    echo "Done."
+    print_message "Done."
 fi

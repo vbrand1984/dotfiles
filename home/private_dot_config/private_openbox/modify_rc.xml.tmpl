@@ -23,9 +23,5 @@ for line in io.stdin:lines() do
 end
 
 if not was_input then
-    local f = assert(io.open({{ includeTemplate "obRcXmlStoredPath" . | quote }}, 'r'))
-    for line in f:lines() do
-        io.write(line, "\n")
-    end
-    f:close()
+    io.write([[{{ includeTemplate .templates.cfgDefaultOpenboxRcXml . }}]]);
 end

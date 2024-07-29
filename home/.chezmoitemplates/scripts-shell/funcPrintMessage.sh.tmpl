@@ -1,0 +1,19 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
+# vim ft=sh
+{@' end -'@}
+
+{@' $theColor := `\e[00;36m` -'@}
+{@' $defaultColor := `\e[00m` -'@}
+
+### TEMPLATE START: funcPrintMessage.sh ###
+print_message() {
+    printf "{@' $theColor '@}${1}{@' $defaultColor '@}\n"
+}
+
+print_message_no_linebreak() {
+    printf "{@' $theColor '@}${1}{@' $defaultColor '@}"
+}
+### TEMPLATE END: funcPrintMessage.sh ###
+
+{@'- /* This deletes an empty string after the template */ -'@}

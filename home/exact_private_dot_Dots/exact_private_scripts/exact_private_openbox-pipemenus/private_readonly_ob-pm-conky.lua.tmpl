@@ -3,10 +3,10 @@
 -- vim: ft=lua
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@'- template "gtkLookupIcon.lua" . '@}
+{@'- includeTemplate .templates.funcGtkLookupIcon . '@}
 
 {@'/* Template which adds the process_is_running function */ -'@}
-{@'- template "processIsRunning.lua" . '@}
+{@'- includeTemplate .templates.funcProcessIsRunning . '@}
 
 io.write("<openbox_pipe_menu>\n")
 

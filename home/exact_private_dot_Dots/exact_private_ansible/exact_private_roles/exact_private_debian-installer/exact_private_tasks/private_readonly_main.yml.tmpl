@@ -1,0 +1,26 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+---
+
+- name: Install packages from stable repository
+  become: true
+  ansible.builtin.apt:
+    name: "{{ stable_pkgs }}"
+    state: latest
+    install_recommends: false
+
+- name: Install packages from the backports repository
+  become: true
+  ansible.builtin.apt:
+    name: "{{ backports_pkgs }}"
+    default_release: stable-backports
+    state: latest
+    install_recommends: false
+
+- name: Install CPAN packages
+  become: true
+  community.general.cpanm:
+    name: "{{ item }}"
+  loop: "{{ cpan_pkgs }}"
+
+...

@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 
 default:
   hosts:

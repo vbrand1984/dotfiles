@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
-{@ includeTemplate "managedMessage.tmpl" . | comment "# " @}
+{@ includeTemplate .templates.msgManagedByChezmoi . | comment "# " @}
 ---
 {@/* {{{ Global variables initialization */@}
 
@@ -8,7 +8,7 @@
 
 {@- /* List of the files unconditionally needed in our Fonconfig configuration */@}
 {@- /* We will append items to this list depending on our configuration in the code down below */@}
-{@- $confNeeded := includeTemplate "fontconfigSystemConfiguration.yaml" . | fromYaml @}
+{@- $confNeeded := includeTemplate "ansible/fontconfigSystemConfiguration.yaml" . | fromYaml @}
 
 {@- /* }}} */@}
 {@- /* {{{ Antialias options adjustment */@}

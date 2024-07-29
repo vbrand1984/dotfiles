@@ -1,0 +1,21 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+---
+
+- name: "Install Packages - Stable Repository | {{ packages_list.theming.caption }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages_list.theming.debian_based.stable }}"
+    state: latest
+    install_recommends: false
+
+- name: "Install Packages - Backports Repository | {{ packages_list.theming.caption }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages_list.theming.debian_based.backports }}"
+    default_release: stable-backports
+    state: latest
+    install_recommends: false
+
+...

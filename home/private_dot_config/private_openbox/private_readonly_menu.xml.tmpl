@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-{{ template "managedMessage.tmpl" . }}
+{{ includeTemplate .templates.msgManagedByChezmoi . }}
 -->
 <openbox_menu xmlns="https://openbox.org/"
   xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://openbox.org/">
-  <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -i" />
+  <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/perl -- {{ includeTemplate .templates.pathObmenuGenerator . }} -i" />
 </openbox_menu>

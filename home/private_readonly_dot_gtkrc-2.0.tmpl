@@ -1,4 +1,4 @@
-{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 
 gtk-theme-name={{ .gtkThemeName | quote }}
 gtk-icon-theme-name={{ .gtkIconTheme | quote }}

@@ -3,21 +3,29 @@
 #!/bin/sh
 # vim: ft=sh
 
-{@' template "ensureSudoIsWorking.sh" . '@}
+{@'/* Print the name of the script */ -'@}
+{@' includeTemplate .templates.msgRunningScript . '@}
+
+{@'/* Include the "ensure_sudo_is_working" function */ -'@}
+{@' includeTemplate .templates.funcEnsureSudoIsWorking . '@}
+
+{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
+{@' includeTemplate .templates.funcPrintMessage . '@}
 
 # Update apt just for the case
+print_message "Running 'apt update'..."
 ensure_sudo_is_working && {@' .cmdSu '@} apt update
 
 # Install aptitude if it is not installed yet
 if ! command -v aptitude 1>/dev/null 2>&1 ; then
-    echo "Installing aptitude..."
+    print_message "Installing aptitude..."
     ensure_sudo_is_working && {@' .cmdSu '@} apt-get --no-install-recommends --assume-yes install aptitude
 fi
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"
 
-echo "Installing packages from stable repository..."
+print_message "\nInstalling packages from stable repository..."
 ensure_sudo_is_working && {@' .cmdSu '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
 
 #echo "Performing markauto..."
@@ -43,7 +51,7 @@ install_deb_pkg_from_internet() {
 # Here is the solution: install clipit package from Debian 10 repo and hold it
 # Not ideal, but working approach
 if ! command -v clipit 1>/dev/null 2>&1 ; then
-    echo "Installing clipit..."
+    print_message "Installing clipit..."
     install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
     ensure_sudo_is_working && {@' .cmdSu '@} aptitude hold clipit 
 fi
@@ -51,7 +59,7 @@ fi
 # A handy tool to manage papirus icon theme
 # See: https://github.com/PapirusDevelopmentTeam/papirus-folders
 if ! command -v papirus-folders 1>/dev/null 2>&1 ; then
-    echo "Installing papirus-folders..."
+    print_message "Installing papirus-folders..."
     install_deb_pkg_from_internet "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb"
 fi
 

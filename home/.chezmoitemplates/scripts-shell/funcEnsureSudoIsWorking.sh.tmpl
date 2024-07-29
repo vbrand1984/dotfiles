@@ -1,4 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+### TEMPLATE START: funcEnsureSudoIsWorking.sh ###
 ensure_sudo_is_working() {
     sudo_working=1
     while [ $sudo_working -ne 0 ] ; do
@@ -6,3 +7,6 @@ ensure_sudo_is_working() {
         sudo_working=$?
     done
 }
+### TEMPLATE END: funcEnsureSudoIsWorking.sh ###
+
+{@'- /* This deletes an empty string after the template */ -'@}

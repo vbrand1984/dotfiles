@@ -1,0 +1,13 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+---
+
+- name: "Install Packages - Stable Repository | {{ packages_list.browsers.caption }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages_list.browsers.debian_based.stable }}"
+    state: latest
+    install_recommends: false
+
+...

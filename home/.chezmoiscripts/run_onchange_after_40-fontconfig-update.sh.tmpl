@@ -27,6 +27,13 @@
 {@'- end '@}
 {@'- end '@}
 
+{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
+{@' includeTemplate .templates.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .templates.msgRunningScript . '@}
+
+print_message "Updating fonts cache..."
 fc-cache --force --verbose {@' joinPath .chezmoi.homeDir ".local/share/fonts" | quote '@}
 
 # Restart conky if it is running

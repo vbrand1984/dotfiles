@@ -1,4 +1,4 @@
-{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 
 Xft.dpi: {{ .fcDpi }}
 Xft.autohint: {{ int .fcAutohint }}

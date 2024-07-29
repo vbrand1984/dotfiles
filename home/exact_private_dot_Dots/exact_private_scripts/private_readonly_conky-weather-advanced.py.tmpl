@@ -42,7 +42,8 @@ def load_json_from_file(the_file):
 def get_weather_json(city_id, appid):
     global error_message
     try:
-        weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric', None, 10).read()
+        #weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?id=' + city_id + '&appid=' + appid + '&units=metric', None, 10).read()
+        weather_json = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q=Saint+Petersburg&appid=' + appid + '&units=metric', None, 10).read()
     except (urllib.error.URLError, urllib.error.HTTPError):
         if not error_message:
             error_message = 'Data download error'
@@ -108,8 +109,8 @@ def find_weather_symbol(icon_name):
         '11n': '\uF01E', # Thunderstorm Night
         '13d': '\uF064', # Snow Day
         '13n': '\uF064', # Snow Night
-        '50d': '\uF021', # Mist Day
-        '50n': '\uF021', # Mist Night
+        '50d': '\uF014', # Mist Day
+        '50n': '\uF014', # Mist Night
         }
     try:
         the_symbol = symbols_correspondence[icon_name]

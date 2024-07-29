@@ -1,12 +1,15 @@
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' if false -'@}
 -- vim: ft=lua
+
 -- This template adds the lookup_icon function which searches for the full path of a certain icon
 -- Also, it initializes the GTK module for lua
 -- Used in Openbox pipemenu scripts
+
+-- Relative path to this template is stored in the '.templates.funcGtkLookupIcon' chezmoi variable
 {@'- end -'@}
 
---== TEMPLATE START: gtkLookupIcon.lua ==--
+--== TEMPLATE START: funcGtkLookupIcon.lua ==--
 
 -- Initializing GTK module
 local lgi = require("lgi")
@@ -29,6 +32,6 @@ local function lookup_icon(the_gtk, gtk_theme, icon_name, icon_size)
     return icon_path
 end
 
---== TEMPLATE END: gtkLookupIcon.lua ==--
+--== TEMPLATE END: funcGtkLookupIcon.lua ==--
 
 {@'- /* This deletes an empty string after the template */ -'@}

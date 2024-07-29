@@ -1,0 +1,27 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+---
+
+- name: "Install Packages - Stable Repository | {{ packages_list.wm_desktop_x.caption }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages_list.wm_desktop_x.debian_based.stable }}"
+    state: latest
+    install_recommends: false
+
+- name: "Install Packages - Backports Repository | {{ packages_list.wm_desktop_x.caption }}"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ packages_list.wm_desktop_x.debian_based.backports }}"
+    default_release: stable-backports
+    state: latest
+    install_recommends: false
+
+- name: "Install Packages - CPAN | {{ packages_list.wm_desktop_x.caption }}"
+  become: true
+  community.general.cpanm:
+    name: "{{ item }}"
+  loop: "{{ packages_list.wm_desktop_x.debian_based.cpan }}"
+
+...

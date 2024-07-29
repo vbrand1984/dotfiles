@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate "managedMessage.tmpl" . | comment "# " '@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 
 # {{{ Generic intro
 
@@ -210,6 +210,7 @@ alias git='LC_MESSAGES=C git'
 
 {@' if .sysIsDebBased -'@}
 
+alias av='aptitude versions'
 alias i='{@' .cmdSu '@} aptitude -R install'
 alias r='{@' .cmdSu '@} aptitude purge'
 alias s='aptitude search'

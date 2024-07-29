@@ -1,0 +1,44 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+---
+
+- name: Install Software
+  block:
+
+    - name: Software | Current Dependencies
+      ansible.builtin.import_tasks:
+        file: software/current_config_dependencies.yml
+
+    - name: Software | System Utilities
+      ansible.builtin.import_tasks:
+        file: software/system_utilities.yml
+
+    - name: Software | Xorg Utilities
+      ansible.builtin.import_tasks:
+        file: software/x_server_utilities.yml
+
+    - name: Software | Apps - Audio and Video
+      ansible.builtin.import_tasks:
+        file: software/audio_and_video.yml
+
+    - name: Software | Misc - Dictionaries
+      ansible.builtin.import_tasks:
+        file: software/misc_dictionaries.yml
+
+    - name: Software | Misc - Theming
+      ansible.builtin.import_tasks:
+        file: software/theming.yml
+
+    - name: Software | WM - Openbox
+      ansible.builtin.import_tasks:
+        file: software/wm_desktop_x.yml
+
+    - name: Software | Apps - Browsers
+      ansible.builtin.import_tasks:
+        file: software/browsers.yml
+
+    - name: Software | Apps - Desktop
+      ansible.builtin.import_tasks:
+        file: software/desktop_applications.yml
+
+...

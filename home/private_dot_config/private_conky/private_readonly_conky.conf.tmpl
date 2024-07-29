@@ -1,6 +1,6 @@
 -- vim: ft=lua fdm=marker
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate "managedMessage.tmpl" . | comment "-- " '@}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "-- " '@}
 
 --== CONKY.CONFIG ==--
 
@@ -372,9 +372,9 @@ ${template0 WEATHER}
 ${template7 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
 ${template7 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
 
---${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
-
 --${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+
+--${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
 
 -- }}}
 {@'- else if .sysIsOldLaptop -'@}

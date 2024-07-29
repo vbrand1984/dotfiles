@@ -1,4 +1,4 @@
-{{ .varia.managedMessage | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 [Settings]
 gtk-button-images={{ int .gtkButtonImages }}
 gtk-menu-images={{ int .gtkMenuImages }}

@@ -1,11 +1,14 @@
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' if false -'@}
 -- vim: ft=lua
+
 -- This template adds the process_is_running function which checks if a certain process is currently running
 -- Used in Openbox pipemenu scripts
+
+-- Relative path to this template is stored in the '.templates.funcProcessIsRunning' chezmoi variable
 {@'- end -'@}
 
---== TEMPLATE START: processIsRunning.lua ==--
+--== TEMPLATE START: funcProcessIsRunning.lua ==--
 
 -- returns true if the process is running
 local function process_is_running(the_process)
@@ -15,6 +18,6 @@ local function process_is_running(the_process)
     return the_data > 0
 end
 
---== TEMPLATE END: processIsRunning.lua ==--
+--== TEMPLATE END: funcProcessIsRunning.lua ==--
 
 {@'- /* This deletes an empty string after the template */ -'@}

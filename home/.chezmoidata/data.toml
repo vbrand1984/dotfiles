@@ -5,7 +5,7 @@
     # Under which name obmenu-generator script will be saved in Debian-based distros
     debiansObmenuGeneratorName = "obmenu-generator"
 
-    # Under which name gentoo-pipewire-launcher script will be saved in Devuan (and other non-systemd Debian-based distros)
+    # Under which name 'gentoo-pipewire-launcher' script will be saved in Devuan (and other non-systemd Debian-based distros)
     devuansPipewireLauncher = "pipewire-launcher"
 
     luaVersion = "5.3"
@@ -13,4 +13,19 @@
 [varia]
     defaultWallpaper = "nature-sepia-1920x1200.jpg"
 
-    managedMessage = "This file is managed by chezmoi template"
+[templates]
+
+    msgManagedByChezmoi = "msgManagedByChezmoi.tmpl"
+
+    # Shell scripts
+    msgRunningScript = "scripts-shell/msgRunningScript.sh.tmpl"
+    funcEnsureSudoIsWorking = "scripts-shell/funcEnsureSudoIsWorking.sh.tmpl"
+    funcPrintMessage = "scripts-shell/funcPrintMessage.sh.tmpl"
+
+    # Lua scripts
+    funcGtkLookupIcon = "scripts-lua/funcGtkLookupIcon.lua.tmpl"
+    funcProcessIsRunning = "scripts-lua/funcProcessIsRunning.lua.tmpl"
+
+    # Openbox-related stuff
+    pathObmenuGenerator = "openbox/pathObmenuGenerator.tmpl"
+    cfgDefaultOpenboxRcXml = "openbox/cfgDefaultOpenboxRc.xml.tmpl"

@@ -5,7 +5,7 @@
 dofile({@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote '@})
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@' template "gtkLookupIcon.lua" . '@}
+{@' includeTemplate .templates.funcGtkLookupIcon . '@}
 
 -- Sort keys of the conky_palettes table
 local tkeys = {}

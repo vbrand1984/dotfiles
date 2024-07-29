@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 
 import shutil
 from tempfile import NamedTemporaryFile

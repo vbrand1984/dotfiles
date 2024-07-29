@@ -88,7 +88,7 @@ our $SCHEMA = [
 
             {sep  => undef},
 
-            {item => ['/usr/bin/perl -- {{ template "obmenuGeneratorPath" . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
+            {item => ['/usr/bin/perl {{ includeTemplate .templates.pathObmenuGenerator . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
         {end => undef},
 
         # Openbox configuration category
@@ -106,7 +106,6 @@ our $SCHEMA = [
             {sep => undef},
 
             {item => ["$chezmoi_editor {{ .chezmoi.homeDir }}/.config/openbox/rc.xml",          'Edit modify script for rc.xml',    'edit-symbolic']},
-            {item => ["$editor {{ template "obRcXmlStoredPath" . }}",                           'Edit default rc.xml',              'edit-symbolic']},
         {end => undef},
 
         # Varia category

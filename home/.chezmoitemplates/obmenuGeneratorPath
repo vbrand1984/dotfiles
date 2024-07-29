@@ -1,1 +1,0 @@
-{{ if .sysIsDebBased }}{{ joinPath .dirLocalScripts .apps.debiansObmenuGeneratorName }}{{ else }}{{ lookPath "obmenu-generator" }}{{ end -}}

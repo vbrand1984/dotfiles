@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # vim: ft=python
 
-{{ includeTemplate "managedMessage.tmpl" . | comment "# " }}
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
 
 import shutil
 from tempfile import NamedTemporaryFile
@@ -25,6 +25,13 @@ if nargs < 3 or nargs > 4:
 the_key = argv[1]
 new_value = argv[2]
 do_apply = (nargs == 4) and (argv[3] == 'doapply')
+
+# Safety net: list of the keys that are allowed to be changed via this script
+allowed_keys = ('data.gtkThemeName', 'data.conkyArgbValue', 'data.conkyPalette', 'data.conkyTransparency')
+
+if not the_key in allowed_keys:
+    print("The key '" + the_key + "' is not allowed to be changed via this script!")
+    exit(2)
 
 
 try:
