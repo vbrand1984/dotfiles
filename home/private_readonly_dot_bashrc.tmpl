@@ -54,12 +54,12 @@ tabs -4
 
 {@'- /* Terminal color codes */'@}
 {@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
-{@'- $coloRed := `\e[01;31m` '@}
-{@'- $coloGreen := `\e[01;32m` '@}
-{@'- $coloBlue := `\e[01;34m` '@}
-{@'- $coloCyan := `\e[01;36m` '@}
-{@'- $coloWhite := `\e[01;37m` '@}
-{@'- $coloDefault := `\e[00m` '@}
+{@'- $coloRed := `\033[01;31m` '@}
+{@'- $coloGreen := `\033[01;32m` '@}
+{@'- $coloBlue := `\033[01;34m` '@}
+{@'- $coloCyan := `\033[01;36m` '@}
+{@'- $coloWhite := `\033[01;37m` '@}
+{@'- $coloDefault := `\033[00m` '@}
 
 {@'- /* Terminal color codes to be used in PS1 */'@}
 {@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
