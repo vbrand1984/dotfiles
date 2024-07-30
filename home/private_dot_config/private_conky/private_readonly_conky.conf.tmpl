@@ -380,12 +380,12 @@ conky.text = display_system_info() .. [[
 
 ]] .. display_cpu_usage() .. [[
 
-]] .. display_top_processes(5) .. [[
-
 ${template0 TEMPERATURES}
 ${template8 Core\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core0 .. [[ Core\ 1 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core1 .. [[}
 ${color2}GPU${goto 115}${if_match "${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_GPU .. [[}" == "2"}${color3}Off${else}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_GPU .. [[}°C${endif}${goto 220}${color2}Other${alignr}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_Other .. [[}°C
 ${color2}Fan${goto 115}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM${goto 220}${color2}Memory${alignr}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_Memory .. [[}°C
+
+]] .. display_top_processes(5) .. [[
 
 ]] .. display_memory_usage() .. [[
 
