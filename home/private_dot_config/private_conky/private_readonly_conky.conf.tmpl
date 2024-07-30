@@ -368,11 +368,7 @@ ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 ]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${template0 WEATHER}
-${template7 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
-${template7 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
-
---${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
 
 --${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
 
