@@ -19,6 +19,8 @@
 {@' if .sysIsDebianBased -'@}
 - name: Manage Packages
   hosts: all
+  vars_files:
+    - vars/fontconfig-config.yml
 
   pre_tasks:
     - name: Upgrade apt
@@ -29,7 +31,8 @@
         install_recommends: false
 
   roles:
-    - desktop_stuff
+    #- desktop_stuff
+    - fontconfig_config
 
 #  vars_files:
 #    - vars/packages-deb.yml

@@ -10,5 +10,8 @@ local_tmp  = {@ .dirAnsibleTmp @}
 # Paths to search for roles, colon separated
 #roles_path = ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
 roles_path = {@ joinPath .dirAnsible "roles" @}
+#library         = ~/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+#library = ~/.Dots/ansible/library
+facts_modules = gpus_facts,smart
 
 

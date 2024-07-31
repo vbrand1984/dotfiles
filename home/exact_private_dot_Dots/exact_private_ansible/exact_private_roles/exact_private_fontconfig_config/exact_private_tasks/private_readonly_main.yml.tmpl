@@ -1,0 +1,22 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+---
+
+- name: Get list of available fontconfig .conf files
+  ansible.builtin.find:
+    paths:
+      - /usr/share/fontconfig/conf.avail
+      - /etc/fonts/conf.avail
+    patterns: '*.conf'
+  register: fontconfig_conf_avail
+
+- name: Adjust system fontconfig configuration
+  become: true
+  ansible.builtin.file:
+    src: "{% set f_present = true if (item.path|basename()) in fcc_fontconfig_conf_file_list else false %}{{ item.path if f_present else '' }}"
+    dest: "{{ '/etc/fonts/conf.d/' ~ item.path|basename() }}"
+    state: "{{ 'link' if (item.path|basename()) in fcc_fontconfig_conf_file_list else 'absent' }}"
+    owner: root
+    group: root
+  with_items: "{{ fontconfig_conf_avail.files }}"
+
+...
