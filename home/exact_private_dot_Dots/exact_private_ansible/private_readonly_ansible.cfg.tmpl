@@ -2,6 +2,7 @@
 {@ includeTemplate .templates.msgManagedByChezmoi . | comment "# " @}
 
 [defaults]
+interpreter_python = auto_silent
 home = {@ .dirAnsible @}
 inventory  = {@ joinPath .dirAnsible "inventory.yml" @}
 remote_tmp = {@ .dirAnsibleTmp @}

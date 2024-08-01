@@ -10,6 +10,7 @@
   vars_files:
     - vars/local-symlinks.yml
   become: false
+  gather_facts: false
   tags:
     - local
     - symlinks
