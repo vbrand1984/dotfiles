@@ -112,7 +112,7 @@ function print_git_branch() {
     fi
 }
 
-PS1={@' print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketColour "[" $distroColour .chezmoi.osRelease.id $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $jobColour `\j` $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n` $lineColour $lineBottomCorner $lineStraight $lineStraight "$(print_git_branch)" $bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight $endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " " | squote '@}
+PS1={@' print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketColour "[" $distroColour .chezmoi.osRelease.id $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n` $lineColour $lineBottomCorner $lineStraight $lineStraight "$(print_git_branch)" $bracketColour "[" $jobColour `\j` $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight $endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " " | squote '@}
 
 {@' if false -'@}
 # Old variant of PS1 used to be used in Void Linux
