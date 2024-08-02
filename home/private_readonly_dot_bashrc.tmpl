@@ -206,6 +206,17 @@ alias Cu={@' cat .chezmoi.executable "update" $excludeSuffix | trim | squote '@}
 alias git='LC_MESSAGES=C git'
 
 # }}}
+# {{{ Ansible aliases
+
+# Disable writing byte code for python, 
+# i.e. creating ``__pycache__`` subdirectories in module directories
+# when running ``ansible-lint``
+alias ansible-lint='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
+
+# ansible-lint alias
+alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
+
+# }}}
 # {{{ Aliases for package manager. Supported distros only.
 
 {@' if .sysIsDebBased -'@}

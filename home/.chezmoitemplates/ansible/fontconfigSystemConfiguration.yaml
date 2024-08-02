@@ -1,48 +1,67 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 # This file contains list of fontconfig configuration files which are unconditionally used.
 # "Unconditionally" means that there should not be files starting with '10-' like '10-hinting-slight.conf', because
 # these are applied through a template depending on the current configuration written in the 'chezmoi.toml' file.
 # Also '70-{yes,no,force}-bitmaps.conf' files are managed automatically and should not be on this list.
 
-- 20-unhint-small-dejavu-lgc-sans.conf
-- 20-unhint-small-dejavu-lgc-sans-mono.conf
-- 20-unhint-small-dejavu-lgc-serif.conf
-- 20-unhint-small-dejavu-sans.conf
-- 20-unhint-small-dejavu-sans-mono.conf
-- 20-unhint-small-dejavu-serif.conf
-- 30-metric-aliases.conf
-- 30-opensymbol.conf
-- 40-nonlatin.conf
-- 45-generic.conf
-- 45-Hack.conf
-- 45-latin.conf
-- 48-spacing.conf
-- 49-sansserif.conf
-- 50-user.conf
-- 51-local.conf
-- 57-dejavu-sans.conf
-- 57-dejavu-sans-mono.conf
-- 57-dejavu-serif.conf
-- 58-dejavu-lgc-sans.conf
-- 58-dejavu-lgc-sans-mono.conf
-- 58-dejavu-lgc-serif.conf
-- 60-generic.conf
-- 60-latin.conf
-- 61-urw-bookman.conf
-- 61-urw-c059.conf
-- 61-urw-d050000l.conf
-- 61-urw-fallback-backwards.conf
-- 61-urw-fallback-generics.conf
-- 61-urw-gothic.conf
-- 61-urw-nimbus-mono-ps.conf
-- 61-urw-nimbus-roman.conf
-- 61-urw-nimbus-sans.conf
-- 61-urw-p052.conf
-- 61-urw-standard-symbols-ps.conf
-- 61-urw-z003.conf
-- 65-fonts-lmodern.conf
-- 65-fonts-persian.conf
-- 65-nonlatin.conf
-- 69-unifont.conf
-- 70-fonts-noto-cjk.conf
-- 80-delicious.conf
-- 90-synthetic.conf
+# List of patterns (globs) for available fontconfig configuration files
+conf_avail:
+  - "/usr/share/fontconfig/conf.avail/*.conf"
+  - "/etc/fonts/*.conf"
+
+# Directory to store actual fontconfig configuration
+# Symlinks will be created here
+conf_d: "/etc/fonts/conf.d"
+
+conf_needed:
+  - 20-unhint-small-dejavu-lgc-sans.conf
+  - 20-unhint-small-dejavu-lgc-sans-mono.conf
+  - 20-unhint-small-dejavu-lgc-serif.conf
+  - 20-unhint-small-dejavu-sans.conf
+  - 20-unhint-small-dejavu-sans-mono.conf
+  - 20-unhint-small-dejavu-serif.conf
+  - 30-metric-aliases.conf
+  - 30-opensymbol.conf
+  - 40-nonlatin.conf
+  - 45-generic.conf
+  - 45-Hack.conf
+  - 45-latin.conf
+  - 48-spacing.conf
+  - 49-sansserif.conf
+  - 50-user.conf
+  - 51-local.conf
+  - 57-dejavu-sans.conf
+  - 57-dejavu-sans-mono.conf
+  - 57-dejavu-serif.conf
+  - 58-dejavu-lgc-sans.conf
+  - 58-dejavu-lgc-sans-mono.conf
+  - 58-dejavu-lgc-serif.conf
+  - 60-generic.conf
+  - 60-latin.conf
+  - 61-urw-bookman.conf
+  - 61-urw-c059.conf
+  - 61-urw-d050000l.conf
+  - 61-urw-fallback-backwards.conf
+  - 61-urw-fallback-generics.conf
+  - 61-urw-gothic.conf
+  - 61-urw-nimbus-mono-ps.conf
+  - 61-urw-nimbus-roman.conf
+  - 61-urw-nimbus-sans.conf
+  - 61-urw-p052.conf
+  - 61-urw-standard-symbols-ps.conf
+  - 61-urw-z003.conf
+  - 65-fonts-lmodern.conf
+  - 65-fonts-persian.conf
+  - 65-khmer.conf
+  - 65-nonlatin.conf
+  - 69-unifont.conf
+
+  # In Debian and its derivatives:
+  - 70-fonts-noto-cjk.conf
+  # In Void Linux:
+  - 70-noto-fonts-cjk.conf
+  # In Gentoo:
+  - 70-noto-cjk.conf
+
+  - 80-delicious.conf
+  - 90-synthetic.conf

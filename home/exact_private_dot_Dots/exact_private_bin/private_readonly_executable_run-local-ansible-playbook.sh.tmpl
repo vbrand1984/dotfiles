@@ -4,4 +4,4 @@
 
 cd {{ .dirAnsible | quote }}
 
-env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -Kv local-chezmoi-playbook.yml "${@}"
+env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -K local-chezmoi-playbook.yml "${@}"

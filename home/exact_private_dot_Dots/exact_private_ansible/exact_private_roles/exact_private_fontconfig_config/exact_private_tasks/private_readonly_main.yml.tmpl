@@ -1,22 +1,36 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 ---
+- name: Prepare system fontconfig configuration
+  get_fontconfig_config_symlinks_list:
+    conf_avail: "{{ fontconfig_config.conf_avail }}"
+    conf_d: "{{ fontconfig_config.conf_d }}"
+    conf_needed: "{{ fontconfig_config.conf_needed }}"
+    antialias: "{{ fontconfig_config.antialias }}"
+    autohint: "{{ fontconfig_config.autohint }}"
+    autohint_if_no_hinting: "{{ fontconfig_config.autohint_if_no_hinting }}"
+    hinting: "{{ fontconfig_config.hinting }}"
+    hintstyle: "{{ fontconfig_config.hintstyle }}"
+    lcdfilter: "{{ fontconfig_config.lcdfilter }}"
+    rgba: "{{ fontconfig_config.rgba }}"
+    bitmaps: "{{ fontconfig_config.bitmaps }}"
+    scale_bitmap_fonts: "{{ fontconfig_config.scale_bitmap_fonts }}"
+  register: fontconfig_config_symlinks_list
+  tags: [fontconfig, system, symlinks]
 
-- name: Get list of available fontconfig .conf files
-  ansible.builtin.find:
-    paths:
-      - /usr/share/fontconfig/conf.avail
-      - /etc/fonts/conf.avail
-    patterns: '*.conf'
-  register: fontconfig_conf_avail
+- name: Test Output
+  ansible.builtin.debug:
+    msg: "{{ fontconfig_config_symlinks_list }}"
+  tags: [fontconfig, system, symlinks]
 
 - name: Adjust system fontconfig configuration
   become: true
   ansible.builtin.file:
-    src: "{% set f_present = true if (item.path|basename()) in fcc_fontconfig_conf_file_list else false %}{{ item.path if f_present else '' }}"
-    dest: "{{ '/etc/fonts/conf.d/' ~ item.path|basename() }}"
-    state: "{{ 'link' if (item.path|basename()) in fcc_fontconfig_conf_file_list else 'absent' }}"
-    owner: root
-    group: root
-  with_items: "{{ fontconfig_conf_avail.files }}"
-
+    src: "{{ item.src if 'src' in item else '' }}"
+    dest: "{{ item.dest }}"
+    state: "{{ item.state }}"
+    owner: "{{ 'root' if item.state == 'link' else '' }}"
+    group: "{{ 'root' if item.state == 'link' else '' }}"
+    mode: "{{ '' }}"
+  loop: "{{ fontconfig_config_symlinks_list.file_list }}"
+  tags: [fontconfig, system, symlinks]
 ...

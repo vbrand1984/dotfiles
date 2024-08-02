@@ -30,46 +30,14 @@
         upgrade: true
         update-cache: true
         install_recommends: false
+        autoclean: true
+        autoremove: true
+      diff: true
 
   roles:
-    #- desktop_stuff
+    - desktop_stuff
     - fontconfig_config
 
-#  vars_files:
-#    - vars/packages-deb.yml
-#  become: true
-#  tasks:
-#    - name: Upgrade apt
-#      ansible.builtin.apt:
-#        upgrade: true
-#        update-cache: true
-#        install_recommends: false
-#    - name: Install packages from stable repository
-#      ansible.builtin.apt:
-#        name: "{{ packages.debian.stable }}"
-#        state: latest
-#        install_recommends: false
-#    - name: Install packages from the backports repository
-#      ansible.builtin.apt:
-#        name: "{{ packages.debian.backports }}"
-#        default_release: stable-backports
-#        state: latest
-#        install_recommends: false
-#    - name: Install CPAN packages
-#      community.general.cpanm:
-#        name: "{{ item }}"
-#      loop: "{{ packages.debian.cpan }}"
 {@'- end '@}
-
-# - name: Adjust system Fontconfig configuration
-#  hosts: all
-#  roles:
-#    - file_manager
-#  vars_files:
-#    - vars/fontconfig-symlinks.yml
-#  become: true
-#  tags:
-#    - system
-#    - symlinks
 
 ...
