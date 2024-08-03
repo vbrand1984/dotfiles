@@ -186,6 +186,9 @@ if ($TERM != 'linux' || has("gui_running"))
 
         "colorscheme gruvbox-material
         "let g:airline_theme = 'gruvbox_material'
+
+        "let g:airline_theme = 'gruvbox'
+        "autocmd vimenter * ++nested colorscheme gruvbox
     endif
 else
     colorscheme desert
