@@ -56,14 +56,18 @@ tabs -4
 {@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
 {@'- $coloRed := `\033[01;31m` '@}
 {@'- $coloGreen := `\033[01;32m` '@}
+{@'- $coloYellow := `\033[01;33m` '@}
 {@'- $coloBlue := `\033[01;34m` '@}
+{@'- $coloMagenta := `\033[01;35m` '@}
 {@'- $coloCyan := `\033[01;36m` '@}
 {@'- $coloWhite := `\033[01;37m` '@}
 {@'- $coloDefault := `\033[00m` '@}
 
 {@'- /* Terminal color codes to be used in PS1 */'@}
 {@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
+{@'- $colourYellow := print $escStart $coloYellow $escEnd '@}
 {@'- $colourBlue := print $escStart $coloBlue $escEnd '@}
+{@'- $colourMagenta := print $escStart $coloMagenta $escEnd '@}
 {@'- $colourCyan := print $escStart $coloCyan $escEnd '@}
 {@'- $colourWhite := print $escStart $coloWhite $escEnd '@}
 {@'- $colourDefault := print $escStart $coloDefault $escEnd '@}
@@ -80,8 +84,8 @@ tabs -4
 {@'- $clockColour := $colourBlue '@}
 {@'- $jobColour := $colourBlue '@}
 {@'- $pathColour := $colourBlue '@}
-{@'- $distroColour := $colourGreen '@}
-{@'- $usernameColour := $colourGreen '@}
+{@'- $distroColour := $colourCyan '@}
+{@'- $usernameColour := $colourCyan '@}
 {@'- $endCharacterColour := $colourGreen '@}
 
 {@'- /* Box characters to be used in the prompt */'@}

@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-# Copyright: (c) 2018, Terry Jones <terry.jones@example.org>
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
@@ -70,9 +68,11 @@ __metaclass__ = type
 #'''
 
 from ansible.module_utils.basic import AnsibleModule
+import subprocess
+import os
 
 
-def main():
+def run_module():
     # seed the result dict in the object
     # we primarily care about changed and state
     # changed is if this module effectively modified the target
@@ -84,26 +84,29 @@ def main():
     # this includes instantiation, a couple of common attr would be the
     # args/params passed to the execution, as well as if the module
     # supports check mode
-    #module = AnsibleModule(
-    #    argument_spec=dict(),
-    #    supports_check_mode=True
-    #)
-    module = AnsibleModule(argument_spec=dict())
+    module = AnsibleModule(
+        argument_spec=dict(),
+        supports_check_mode=True
+    )
+    #module = AnsibleModule(argument_spec=dict())
 
     # if the user is working with this module in only check mode we do not
     # want to make any changes to the environment, just return the current
     # state with no modifications
-    #if module.check_mode:
-    #    module.exit_json(**result)
+    if module.check_mode:
+        module.exit_json(**result)
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
-    result['ansible_facts'] = {'bugaga': 'test message'}
+    result['gpus_list'] = {'bugaga': 'test message'}
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(**result)
 
+
+def main():
+    run_module()
 
 if __name__ == '__main__':
     main()

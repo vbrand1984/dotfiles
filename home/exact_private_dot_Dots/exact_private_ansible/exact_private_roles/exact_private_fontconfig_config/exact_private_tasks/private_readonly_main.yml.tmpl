@@ -17,11 +17,6 @@
   register: fontconfig_config_symlinks_list
   tags: [fontconfig, system, symlinks]
 
-- name: Test Output
-  ansible.builtin.debug:
-    msg: "{{ fontconfig_config_symlinks_list }}"
-  tags: [fontconfig, system, symlinks]
-
 - name: Adjust system fontconfig configuration
   become: true
   ansible.builtin.file:
