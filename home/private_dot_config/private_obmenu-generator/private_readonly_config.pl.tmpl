@@ -31,6 +31,9 @@
     | generic_fallback    : Try to shorten icon name at '-' characters before looking at inherited themes. (default: 0)
     | force_icon_size     : Always get the icon scaled to the requested size. (default: 0)
 
+|| OTHER SETTINGS
+    | unique_items        : Don't include the same item into multiple categories / subcategories. (default: 0)
+
 || PATHS
     | desktop_files_paths   : Absolute paths which contain .desktop files.
                               Example: [
@@ -70,5 +73,6 @@ our $CONFIG = {
   "locale_support"      => 1,
   "missing_icon"        => "gtk-missing-image",
   "terminal"            => "x-terminal-emulator",
-  "VERSION"             => 0.93,
+  "unique_items"        => 0,
+  "VERSION"             => 0.94,
 }

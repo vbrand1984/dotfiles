@@ -5,4 +5,7 @@ default:
   hosts:
     localhost:
       ansible_connection: local
+
+      # Regarding usage of doas as ansible become method on local connections, see:
+      # https://github.com/ansible/ansible/issues/82337
       ansible_become_method: {@' .cmdSu '@}

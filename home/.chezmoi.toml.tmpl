@@ -149,6 +149,15 @@ encryption = "age"
     dirStored = {@' joinPath (.chezmoi.sourceDir | dir) "stored" | quote '@}
 
 # }}}
+# {{{ xdg: XDG user directories
+
+    xdgDesktopDir = {@' default "Desktop" .xdgDesktopDir | quote '@}
+    xdgDownloadDir = {@' default "Downloads" .xdgDownloadDir | quote '@}
+    xdgTemplatesDir = {@' default "Templates" .xdgTemplatesDir | quote '@}
+    xdgPublicshareDir = {@' default "Public" .xdgPublicshareDir | quote '@}
+    xdgDocumentsDir = {@' default "Documents" .xdgDocumentsDir | quote '@}
+
+# }}}
 # {{{ cmd: Settings for certain commands
 
     # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"

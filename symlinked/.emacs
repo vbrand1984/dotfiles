@@ -33,6 +33,9 @@
 
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/everforest-theme")
 
+;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Replacing-highlighted-text.html
+(delete-selection-mode 1)
+
 ;; sentences end with single space
 (setq sentence-end-double-space nil)
 
