@@ -50,6 +50,7 @@
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
     executable = false
+    readonly = true
 {{ end }}
 
 {{ if and .sysIsDebianBased (not .sysHasSystemd) }}
@@ -61,6 +62,7 @@
     filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
     refreshPeriod = "168h"
     executable = false
+    readonly = true
 {{ end }}
 
 

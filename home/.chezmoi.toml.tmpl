@@ -67,8 +67,8 @@ encryption = "age"
 
 # This setting is necessary prior to chezmoi version 2.51.0 because of the bug with the 'modify_' scripts
 # See: https://github.com/twpayne/chezmoi/issues/3851
-[scriptEnv]
-    TMPDIR = {@' joinPath "/run/user" (toString .chezmoi.uid) | quote '@}
+#[scriptEnv]
+#    TMPDIR = {@' joinPath "/run/user" (toString .chezmoi.uid) | quote '@}
 
 [update]
     # Don't apply changes automatically after running 'chezmoi update'
