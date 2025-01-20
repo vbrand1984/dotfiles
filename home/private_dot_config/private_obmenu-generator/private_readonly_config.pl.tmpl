@@ -74,5 +74,5 @@ our $CONFIG = {
   "missing_icon"        => "gtk-missing-image",
   "terminal"            => "x-terminal-emulator",
   "unique_items"        => 0,
-  "VERSION"             => 0.94,
+  "VERSION"             => {{ last (splitList " " (output (lookPath "perl") (includeTemplate .templates.pathObmenuGenerator .) "-v")) | trim }},
 }
