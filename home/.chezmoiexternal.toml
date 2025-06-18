@@ -1,3 +1,4 @@
+{{ if not (env "CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS") }}
 # Vim plugin manager
 [".vim/autoload/plug.vim"]
     type = "file"
@@ -45,7 +46,7 @@
 
 {{ if .sysIsDebBased }}
 # In Debian-based distros, we need to install obmenu-generator externally
-[{{ joinPath (.dirLocalScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
+[{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
@@ -56,7 +57,7 @@
 
 {{ if and .sysIsDebianBased (not .sysHasSystemd) }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
-[{{ joinPath (.dirLocalScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
+[{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
     type= "file"
     url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
     filter.command = "sed"
@@ -70,12 +71,13 @@
 
 ### Personal ###
 
-{{ if and .sysIsBrandsPrivate .sysIsDesktopRig }}
+{{/* if and .sysIsBrandsPrivate .sysIsDesktopRig */}}
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
 [".local/share/fonts/weathericons-regular-webfont.ttf"]
     type = "file"
     url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
     refreshPeriod = "168h"
-{{ end }}
+{{/* end */}}
 
+{{ end }}

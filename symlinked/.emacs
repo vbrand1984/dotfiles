@@ -39,6 +39,8 @@
 ;; sentences end with single space
 (setq sentence-end-double-space nil)
 
+(add-hook 'org-mode-hook 'display-line-numbers-mode)
+
 (setq-default tab-width 4)
 
 

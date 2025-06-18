@@ -9,5 +9,4 @@
 .git-credentials
 .gitconfig
 .Scripti
-.local/bin
 {{ end }}

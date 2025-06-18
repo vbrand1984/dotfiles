@@ -20,6 +20,7 @@
 {@'- $dirLocalCache := joinPath $defaultDotsDir "cache" -'@}
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
+{@'- $dirDownloadedScripts := joinPath $defaultDotsDir "downloaded-scripts" -'@}
 {@'- $dirHelperScripts := joinPath (.chezmoi.sourceDir | dir) "helper-scripts" -'@}
 {@'- $dirObPipemenus := joinPath $dirLocalScripts "openbox-pipemenus" -'@}
 {@'- $dirUserDataDefault := "/home" -'@}
@@ -136,6 +137,7 @@ encryption = "age"
     dirLocalCache = {@' joinPath .chezmoi.homeDir $dirLocalCache | quote '@}
     dirLocalBin = {@' joinPath .chezmoi.homeDir $dirLocalBin | quote '@}
     dirLocalScripts = {@' joinPath .chezmoi.homeDir $dirLocalScripts | quote '@}
+    dirDownloadedScripts = {@' joinPath .chezmoi.homeDir $dirDownloadedScripts | quote '@}
     dirObPipemenus = {@' joinPath .chezmoi.homeDir $dirObPipemenus | quote '@}
 
     dirLocalBackgrounds = {@' joinPath .chezmoi.homeDir ".local/share/backgrounds" | quote '@}
