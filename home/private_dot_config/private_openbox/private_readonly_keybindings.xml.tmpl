@@ -105,12 +105,14 @@
       <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh drun</command>
     </action>
   </keybind>
+{@- if or .sysIsGentoo .sysIsVoid @}
   <!-- Super-F1: rofi calc module -->
   <keybind key="W-F1">
     <action name="Execute">
       <command>/bin/sh -e ~/.Dots/bin/start-rofi.sh calc</command>
     </action>
   </keybind>
+{@- end @}
   <!-- Super-Tab: rofi window switching module -->
   <keybind key="W-Tab">
     <action name="Execute">

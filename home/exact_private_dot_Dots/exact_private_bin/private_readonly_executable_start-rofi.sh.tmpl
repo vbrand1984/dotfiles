@@ -1,6 +1,16 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #!/bin/sh
+# vim: ft=sh
 
-# NOTE: Package rofi-calc is absent in Debian/Devuan
+# A simple script to start rofi launcher
+# Usage: {@' base .chezmoi.targetFile '@} <mode>
+# Where <mode> is:
+#   run     - run a command
+#   drun    - run a desktop applications menu entry
+#   window  - show a window list
+{@'- if or .sysIsGentoo .sysIsVoid '@}
+#   calc    - calculator mode (currently only supported in non-Debian-based distros)
+{@'- end '@}
 
 case "$1" in
     run)
@@ -12,10 +22,15 @@ case "$1" in
     window)
         exec rofi -modi window -show window -show-icons
         ;;
+{@'- if or .sysIsGentoo .sysIsVoid '@}
     calc)
         exec rofi -show calc -modi calc -no-show-match -no-sort
         ;;
     *)
         echo 'Usage: either run, drun, window or calc'
+{@'- else '@}
+    *)
+        echo 'Usage: either run, drun or window'
+{@'- end '@}
         ;;
 esac

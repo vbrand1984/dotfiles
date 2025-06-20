@@ -1,0 +1,20 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -'@}
+#!/bin/sh
+# vim: ft=sh
+
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+wine_prefix="${HOME}/Games/SSD/Grim Dawn"
+game_dir="${wine_prefix}/drive_c/Grim Dawn"
+game_binary="Grim Dawn.exe"
+
+if [ ! -r "${game_dir}/${game_binary}" ] ; then
+	echo "There is no '${game_binary}' in ${game_dir}! Exiting."
+	exit 1
+fi
+
+cd "${game_dir}"
+
+taskset --cpu-list "1-$((`nproc`-1))" env WINEARCH=win64 WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
+{@'- end '@}
