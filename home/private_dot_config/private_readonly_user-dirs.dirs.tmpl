@@ -1,0 +1,17 @@
+{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+#
+# This file is written by xdg-user-dirs-update
+# If you want to change or add directories, just edit the line you're
+# interested in. All local changes will be retained on the next run.
+# Format is XDG_xxx_DIR="$HOME/yyy", where yyy is a shell-escaped
+# homedir-relative path, or XDG_xxx_DIR="/yyy", where /yyy is an
+# absolute path. No other format is supported.
+# 
+XDG_DESKTOP_DIR={{ joinPath .chezmoi.homeDir .xdgDesktopDir | quote }}
+XDG_DOWNLOAD_DIR={{ joinPath .chezmoi.homeDir .xdgDownloadDir | quote }}
+XDG_TEMPLATES_DIR={{ joinPath .chezmoi.homeDir .xdgTemplatesDir | quote }}
+XDG_PUBLICSHARE_DIR={{ joinPath .chezmoi.homeDir .xdgPublicshareDir | quote }}
+XDG_DOCUMENTS_DIR={{ joinPath .chezmoi.homeDir .xdgDocumentsDir | quote }}
+XDG_MUSIC_DIR={{ joinPath .chezmoi.homeDir .xdgMusicDir | quote }}
+XDG_PICTURES_DIR={{ joinPath .chezmoi.homeDir .xdgPicturesDir | quote }}
+XDG_VIDEOS_DIR={{ joinPath .chezmoi.homeDir .xdgVideosDir | quote }}
