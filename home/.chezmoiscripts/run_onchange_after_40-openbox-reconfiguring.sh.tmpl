@@ -11,6 +11,12 @@
 {@'- if stat (joinPath .chezmoi.homeDir ".config/openbox/rc.xml") | not | not '@}
 # rc.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/rc.xml" ) | sha256sum '@}
 {@'- end '@}
+{@'- if stat (joinPath .chezmoi.homeDir ".config/openbox/applications.xml") | not | not '@}
+# rc.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/applications.xml" ) | sha256sum '@}
+{@'- end '@}
+{@'- if stat (joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml") | not | not '@}
+# rc.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml" ) | sha256sum '@}
+{@'- end '@}
 
 {@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
 {@' includeTemplate .templates.funcPrintMessage . '@}

@@ -10,6 +10,8 @@
 
     luaVersion = "5.3"
 
+    defaultTmuxSessionName = "main"
+
 [varia]
     defaultWallpaper = "nature-sepia-1920x1200.jpg"
 

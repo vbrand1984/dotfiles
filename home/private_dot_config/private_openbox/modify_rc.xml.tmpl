@@ -1,22 +1,49 @@
 #!/usr/bin/lua
 -- vim: ft=lua ts=4 sw=4 et
 
+--[[
+5 modes (regimes) of work:
+1: neither <keyboard> nor <applications> tag is found
+2: <keyboard> tag found
+3: <applications> tag found
+4: both tags are edited; just write output
+--]]
+
 local regime = 1
+local keyboard_tag_edited = false
+local applications_tag_edited = false
 local was_input = false
 
 for line in io.stdin:lines() do
     if regime == 1 then
-        if string.find(line, '<keyboard>') then
+        if not keyboard_tag_edited and string.find(line, '<keyboard>') then
             io.write("  <xi:include href=\"keybindings.xml\"/>\n")
             regime = 2
+        elseif not applications_tag_edited and string.find(line, '<applications>') then
+            io.write("  <xi:include href=\"applications.xml\"/>\n")
+            regime = 3
         else
             io.write(line, "\n")
         end
     elseif regime == 2 then
         if string.find(line, '</keyboard>') then
-            regime = 3
+            if not applications_tag_edited then
+                regime = 1
+            else
+                regime = 4
+            end
+            keyboard_tag_edited = true
         end
-    else -- regime == 3
+    elseif regime == 3 then
+        if string.find(line, '</applications>') then
+            if not keyboard_tag_edited then
+                regime = 1
+            else
+                regime = 4
+            end
+            applications_tag_edited = true
+        end
+    else -- regime == 4
         io.write(line, "\n")
     end
     was_input = true

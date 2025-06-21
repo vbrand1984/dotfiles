@@ -1,0 +1,14 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if lookPath "tmux" -'@}
+#!/bin/sh
+# vim: ft=sh
+
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+
+if ! tmux has-session -t {@' .apps.defaultTmuxSessionName | quote '@} ; then
+    tmux new-session -s {@' .apps.defaultTmuxSessionName | quote '@} -d
+fi
+
+exec tmux attach -t {@' .apps.defaultTmuxSessionName | quote '@}
+
+{@'- end '@}
