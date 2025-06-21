@@ -100,7 +100,7 @@ autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
 autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
 autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
 autocmd BufRead,BufNewFile *gvimrc* set filetype=vim
-autocmd BufRead,BufNewFile *_tmux.conf set filetype=tmux
+autocmd BufRead,BufNewFile *_tmux.conf,*_tmux.conf.tmpl set filetype=tmux
 autocmd BufRead,BufNewFile *mc/*menu,*mc/*menu.tmpl set filetype=conf
 
 

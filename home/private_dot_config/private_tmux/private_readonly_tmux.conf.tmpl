@@ -1,3 +1,4 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 # See: http://uploads.mitechie.com/books/tmux_p1_1.pdf
 # See: https://www.learnlinux.tv/learn-tmux-part-5-how-to-customize-tmux-and-make-it-your-own/
 
@@ -21,6 +22,9 @@ set -g set-titles on
 #set-window-option -g automatic-rename on
 #set -g set-titles-string "#S / #W"
 set -g set-titles-string "#T"
+
+# Timeout for displaying messages in milliseconds
+set -g display-time 2000
 
 set -sg escape-time 1
 
@@ -84,11 +88,11 @@ bind b split-window -v
 
 
 # Easy reload of config
-bind r source-file ~/.config/tmux/tmux.conf \; display-message "tmux.conf reloaded."
+bind r source-file {@' .chezmoi.targetFile | quote '@} \; display-message "tmux.conf reloaded."
 
 
 # Edit configuration
-bind e new-window -n 'tmux.conf' "/bin/sh -c 'chezmoi edit --apply ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf && tmux display \"~/.config/tmux/tmux.conf sourced\"'"
+bind e new-window -n 'tmux.conf' "/bin/sh -c 'chezmoi edit --apply {@' .chezmoi.targetFile '@} && tmux source {@' .chezmoi.targetFile '@} && tmux display \"{@' .chezmoi.targetFile | replace .chezmoi.homeDir "~" '@} sourced\"'"
 
 
 # }}}
@@ -102,21 +106,21 @@ set -g status-bg "#303d2c"
 set -g status-fg white
 #set -g status-fg color15
 
-greenbg="#303d2c"
-greenfg="#a9b665"
-greenbg2="#3a5c6e" #"#3e4537"
-myblack="#1d2021"
-#yellowfg="#b57614" #"#d79921"
-#green2="#98971a"
-mywhite="#d3c6aa" #"#d3c6aa"
+{@'- $greenbg := "#303d2c" '@}
+{@'- $greenfg := "#a9b665" '@}
+{@'- $greenbg2 := "#3a5c6e" '@} {@'- /* "#3e4537"*/'@}
+{@'- $myblack := "#1d2021" '@}
+{@'- /* yellowfg="#b57614" #"#d79921"*/'@}
+{@'- /* green2="#98971a"*/'@}
+{@'- $mywhite := "#d3c6aa" '@} {@'- /* "#d3c6aa" */'@}
 
 # Theme
-set -g status-left "#[bg=$greenbg,fg=$greenfg][#S] "
-set -g status-right "#[bg=$greenbg,fg=$greenfg] #T"
+set -g status-left "#[bg={@' $greenbg | squote '@},fg={@' $greenfg | squote '@}][#S] "
+set -g status-right "#[bg={@' $greenbg | squote '@},fg={@' $greenfg | squote '@}] #T"
 
-set-window-option -g window-status-style bg=$greenbg,fg=$greenfg
-set-window-option -g window-status-current-style bright,bg=green,fg=$mywhite
-set -g window-status-activity-style bg=red,fg=brightwhite
+set-window-option -g window-status-style bg={@' $greenbg | quote '@},fg={@' $greenfg | quote '@}
+set-window-option -g window-status-current-style bright,bg=green,fg={@' $mywhite | quote '@}
+set -g window-status-activity-style fg={@' $mywhite | quote '@}
 set -g message-style bg=cyan,fg=black
 setw -g mode-style bg=cyan,fg=black
 set -g pane-border-style fg=white
@@ -126,7 +130,7 @@ set -g pane-active-border-style fg=green
 set -g clock-mode-colour green
 set -g clock-mode-style 24
 
-# Change background color of a tab when activity occurs
+# Highlight a tab when activity occurs
 set-window-option -g monitor-activity on
 
 
