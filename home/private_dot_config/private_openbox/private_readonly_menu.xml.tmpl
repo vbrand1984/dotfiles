@@ -5,5 +5,5 @@
 <openbox_menu xmlns="https://openbox.org/"
   xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://openbox.org/">
-  <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/perl -- {{ includeTemplate .templates.pathObmenuGenerator . }} -i" />
+  <menu id="root-menu" label="obmenu-generator" execute="{{ includeTemplate .templates.pathObmenuGenerator . }} -i" />
 </openbox_menu>

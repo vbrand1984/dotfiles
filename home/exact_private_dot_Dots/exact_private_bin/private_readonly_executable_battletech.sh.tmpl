@@ -1,7 +1,9 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -'@}
-#!/bin/sh
+{@'- if false -'@}
 # vim: ft=sh
+{@'- end -'@}
+#!/bin/sh
 
 {@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 

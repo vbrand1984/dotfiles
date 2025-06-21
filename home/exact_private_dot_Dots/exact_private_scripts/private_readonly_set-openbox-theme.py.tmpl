@@ -1,6 +1,13 @@
 #!/usr/bin/python3
-
+#
 {{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+#
+# This script sets a new theme in the Openbox'
+# ~/.config/openbox/rc.xml config file.
+#
+# Usage:
+# {{ .chezmoi.targetFile | base }} <theme name>
+#
 
 import shutil
 from tempfile import NamedTemporaryFile

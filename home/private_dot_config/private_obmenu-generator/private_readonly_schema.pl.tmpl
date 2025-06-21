@@ -88,7 +88,7 @@ our $SCHEMA = [
 
             {sep  => undef},
 
-            {item => ['/usr/bin/perl {{ includeTemplate .templates.pathObmenuGenerator . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
+            {item => ['{{ includeTemplate .templates.pathObmenuGenerator . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
         {end => undef},
 
         # Openbox configuration category

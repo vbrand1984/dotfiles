@@ -2,11 +2,35 @@
 -- vim: ft=lua ts=4 sw=4 et
 
 --[[
-5 modes (regimes) of work:
-1: neither <keyboard> nor <applications> tag is found
-2: <keyboard> tag found
-3: <applications> tag found
-4: both tags are edited; just write output
+
+See: https://bbs.archlinux.org/viewtopic.php?pid=1082499#p1082499
+
+This script takes contents of the ``~/.config/openbox/rc.xml`` file as input
+and replaces the <keyboard/> and <applications/> tags with the <xi:include/> tag
+with the references to the ``keybindings.xml`` and ``applications.xml`` files.
+This is done in order to have full control over the Openbox keybindings and
+application settings via chezmoi templating, on the one hand, and to allow user
+to configure Openbox via ``obconf``, on the other hand, because ``obconf`` changes
+the contents of the ``rc.xml`` file. Thus, we need to handle different parts of
+the file separately.
+
+The problem with the <xi:include/> tags in Openbox' ``rc.xml`` is that ``obconf``
+replaces these tags with the contents of the respective referenced files in the
+``rc.xml`` file when rewriting it, so that we need to control this file via
+chezmoi's ``modify_`` script and to replace the respective tags with the
+<xi:include/> tags over and over again.
+
+4 modes (regimes) of work:
+    1: neither <keyboard> nor <applications> tag is found
+    2: <keyboard> tag found
+    3: <applications> tag found
+    4: both tags are edited; just write output
+
+Yes, Openbox' standard ``rc.xml`` and our template for it always has
+the <keyboard> tag before the <applications> tag, so, assuming that,
+we could've had less checks, but I've done this script this way
+just for the case.
+
 --]]
 
 local regime = 1
@@ -25,7 +49,7 @@ for line in io.stdin:lines() do
         else
             io.write(line, "\n")
         end
-    elseif regime == 2 then
+    elseif regime == 2 then -- <keyboard> tag found; skipping output
         if string.find(line, '</keyboard>') then
             if not applications_tag_edited then
                 regime = 1
@@ -34,7 +58,7 @@ for line in io.stdin:lines() do
             end
             keyboard_tag_edited = true
         end
-    elseif regime == 3 then
+    elseif regime == 3 then -- <applications> tag found; skipping output
         if string.find(line, '</applications>') then
             if not keyboard_tag_edited then
                 regime = 1
@@ -43,7 +67,7 @@ for line in io.stdin:lines() do
             end
             applications_tag_edited = true
         end
-    else -- regime == 4
+    else -- regime == 4; both tags are edited, just writing output
         io.write(line, "\n")
     end
     was_input = true

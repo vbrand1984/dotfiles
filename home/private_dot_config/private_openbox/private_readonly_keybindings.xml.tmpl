@@ -34,13 +34,13 @@
   <!--{{{ Super-Ctrl-O: Obconf -->
   <keybind key="W-C-O">
     <action name="Execute">
-      <command><![CDATA[{@ lookPath "obconf" @}]]></command>
+      <command><![CDATA[obconf]]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Ctrl-P: Pavucontrol -->
   <keybind key="W-C-P">
     <action name="Execute">
-      <command><![CDATA[{@ lookPath "pavucontrol" @} --tab=3]]></command>
+      <command><![CDATA[pavucontrol --tab=3]]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Ctrl-Q: Qalculate! -->
@@ -57,32 +57,24 @@
     </action>
   </keybind> <!--}}}-->
   {@- end @}
-  {@- if lookPath "obs" @}
   <!--{{{ Super-Ctrl-S: OBS-Studio -->
   <keybind key="W-C-S">
     <action name="Execute">
-      <command><![CDATA[{@ lookPath "obs" @}]]></command>
+      <command><![CDATA[obs]]></command>
     </action>
   </keybind> <!--}}}-->
-  {@- end @}
-  <!--{{{ Super-Ctrl-T: Terminal emulator with optional tmux support (if it is installed) -->
+  <!--{{{ Super-Ctrl-T: Terminal emulator with tmux support -->
   <keybind key="W-C-T">
     <action name="Execute">
-{@- if lookPath "tmux" @}
       <command>x-terminal-emulator -e {@ joinPath .dirLocalBin "enter-default-tmux-session.sh" @}</command>
-{@- else @}
-      <command>x-terminal-emulator</command>
-{@- end @}
     </action>
   </keybind> <!--}}}-->
-  {@- if lookPath "tmux" @}
-  <!--{{{ Super-Shift-T: Bare terminal emulator (when tmux is installed) -->
+  <!--{{{ Super-Shift-T: Bare terminal emulator -->
   <keybind key="W-S-T">
     <action name="Execute">
       <command>x-terminal-emulator</command>
     </action>
   </keybind> <!--}}}-->
-  {@- end @}
   {@- if lookPath "virt-manager" @}
   <!--{{{ Super-Ctrl-V: virt-manager -->
   <keybind key="W-C-V">
@@ -100,7 +92,7 @@
   <!--{{{ Ctrl-Alt-Del: System monitor -->
   <keybind key="C-A-Delete">
     <action name="Execute">
-      <command><![CDATA[{@ if lookPath "mate-system-monitor" @}{@ lookPath "mate-system-monitor" @}{@ else @}x-terminal-emulator -e htop{@ end @}]]></command>
+      <command><![CDATA[{@ if .sysIsDebBased @}mate-system-monitor{@ else @}x-terminal-emulator -e htop{@ end @}]]></command>
     </action>
   </keybind> <!--}}}-->
   <!-- }}} -->

@@ -50,7 +50,7 @@
     type= "file"
     url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
     refreshPeriod = "168h"
-    executable = false
+    executable = true
     readonly = true
     private = true
 {{ end }}

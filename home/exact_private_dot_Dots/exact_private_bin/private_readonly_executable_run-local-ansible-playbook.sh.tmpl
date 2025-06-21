@@ -1,7 +1,11 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: ft=sh
+{@'- end -'@}
 #!/bin/sh
 
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 
-cd {{ .dirAnsible | quote }}
+cd {@' .dirAnsible | quote '@}
 
-env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={{ joinPath .dirAnsible "ansible.cfg" | squote }} ansible-playbook -K local-chezmoi-playbook.yml "${@}"
+env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={@' joinPath .dirAnsible "ansible.cfg" | squote '@} ansible-playbook -K local-chezmoi-playbook.yml "${@}"
