@@ -174,6 +174,7 @@ mv() { command mv -i "${@}"; }
 alias c='clear'
 
 # Weather conditions and forecast
+# "What's the forecast" alias
 alias wtf='curl https://wttr.in/?M'
 
 {@' if not .sysIsGentoo -'@}
@@ -224,7 +225,7 @@ alias ansible-lint='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 
 # }}}
-# {{{ Aliases for package manager. Supported distros only.
+# {{{ Aliases for package manager. {@'- /* Supported distros only. */'@}
 
 {@' if .sysIsDebBased -'@}
 
@@ -252,6 +253,7 @@ alias r='{@' .cmdSu '@} xbps-remove -R'
 alias s='xbps-query -Rs'
 alias S='xbps-query -RS'
 alias upg='{@' .cmdSu '@} xbps-install -Su'
+alias upgx='{@' .cmdSu '@} xbps-install -u xbps'
 
 {@'- else if .sysIsGentoo -'@}
 
@@ -316,13 +318,13 @@ export GTK_OVERLAY_SCROLLING=0
 
 # Zstd. See: https://wiki.gentoo.org/wiki/Zstd#Configuration
 # See: https://lists.archlinux.org/pipermail/arch-dev-public/2019-March/029520.html
-ZSTD_CLEVEL=16
-ZSTD_NBTHREADS=0
+export STD_CLEVEL=16
+export STD_NBTHREADS=0
 
 # Xz. See https://wiki.gentoo.org/wiki/Xz-utils#Configuration
 # -T0: compress and decompress with the number of cores available
 # -9: use maximum compression level (but not extreme)
-XZ_DEFAULTS="-9 -T0"
+export XZ_DEFAULTS="-9 -T0"
 
 {@' if not .sysIsGentoo -'@}
 # Colored GCC warnings and errors
