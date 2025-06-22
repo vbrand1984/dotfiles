@@ -79,9 +79,13 @@ encryption = "age"
     # These settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
 
+    {@' $isDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") '@}
+    {@' $isDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") '@}
     {@' $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
     {@' $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
     {@' $isDebBased := or $isDebianBased $isUbuntuBased -'@}
+    sysIsDebian = {@' $isDebian '@} 
+    sysIsDevuan = {@' $isDevuan '@} 
     sysIsDebianBased = {@' $isDebianBased '@} 
     sysIsUbuntuBased = {@' $isUbuntuBased '@} 
     sysIsDebBased = {@' $isDebBased '@} 

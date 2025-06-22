@@ -197,6 +197,9 @@ alias Cd={@' cat .chezmoi.executable "diff" $excludeSuffix | trim | squote '@}
 # chezmoi edit --apply
 alias Ce={@' cat .chezmoi.executable "edit --apply" $excludeSuffix | trim | squote '@}
 
+# chezmoi init
+alias Ci={@' cat .chezmoi.executable "init" $excludeSuffix | trim | squote '@}
+
 # chezmoi status
 alias Cs={@' cat .chezmoi.executable "status" $excludeSuffix | trim | squote '@}
 
@@ -226,16 +229,26 @@ alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 {@' if .sysIsDebBased -'@}
 
 alias av='aptitude versions'
-alias i='{@' .cmdSu '@} aptitude -R install'
+alias aw='aptitude why'
+alias f='apt-file search'
+alias fS='apt-file show'
+alias i='{@' .cmdSu '@} aptitude --without-recommends install'
+alias I='{@' .cmdSu '@} aptitude --with-recommends install'
+{@'- if or .sysIsDebian .sysIsDevuan '@}
+alias ib='{@' .cmdSu '@} aptitude --without-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
+alias Ib='{@' .cmdSu '@} aptitude --with-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
+{@'- end '@}
 alias r='{@' .cmdSu '@} aptitude purge'
 alias s='aptitude search'
 alias S='aptitude show'
 alias upd='{@' .cmdSu '@} aptitude update'
 alias upg='{@' .cmdSu '@} aptitude upgrade'
+alias upgf='{@' .cmdSu '@} apt-file update'
 
 {@'- else if .sysIsVoid -'@}
 
 alias i='{@' .cmdSu '@} xbps-install -S'
+alias r='{@' .cmdSu '@} xbps-remove -R'
 alias s='xbps-query -Rs'
 alias S='xbps-query -RS'
 alias upg='{@' .cmdSu '@} xbps-install -Su'
