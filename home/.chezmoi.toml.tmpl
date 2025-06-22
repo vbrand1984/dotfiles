@@ -66,11 +66,6 @@ encryption = "age"
     identity = {@' joinPath .chezmoi.homeDir ".config/age/age-chezmoi-key.txt" | quote '@}
     recipient = "age198nwpsvctf9f9xke4cy34sjpz4q55wpyup3pp2ahgamsvzv7kdzsxcdnvn"
 
-# This setting is necessary prior to chezmoi version 2.51.0 because of the bug with the 'modify_' scripts
-# See: https://github.com/twpayne/chezmoi/issues/3851
-#[scriptEnv]
-#    TMPDIR = {@' joinPath "/run/user" (toString .chezmoi.uid) | quote '@}
-
 [update]
     # Don't apply changes automatically after running 'chezmoi update'
     # This is done because I change the '.chezmoi.toml.tmpl' file from time to time,

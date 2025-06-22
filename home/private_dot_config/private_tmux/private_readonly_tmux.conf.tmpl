@@ -4,41 +4,41 @@
 
 # {{{ General config
 
-set -g default-terminal "xterm-256color"
-set -ag terminal-overrides ",xterm-256color:Tc"
+set-option -g default-terminal "xterm-256color"
+set-option -ag terminal-overrides ",xterm-256color:Tc"
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
-#set -ag terminal-overrides ",xterm-256color:RGB"
+#set-option -ag terminal-overrides ",xterm-256color:RGB"
 
 
-# set the base-index to 1 rather than 0
-set -g base-index 1
+# set-option the base-index to 1 rather than 0
+set-option -g base-index 1
 set-window-option -g pane-base-index 1
 
 # Renumber windows when a window is closed
-set -g renumber-windows on
+set-option -g renumber-windows on
 
 # Window title configuration
-set -g set-titles on
+set-option -g set-titles on
 #set-window-option -g automatic-rename on
-#set -g set-titles-string "#S / #W"
-set -g set-titles-string "#T"
+#set-option -g set-titles-string "#S / #W"
+set-option -g set-titles-string "#T"
 
 # Timeout for displaying messages in milliseconds
-set -g display-time 2000
+set-option -g display-time 2000
 
-set -sg escape-time 1
+set-option -sg escape-time 1
 
 # Enable mouse
-set -g mouse on
+set-option -g mouse on
 
 # }}}
 # {{{ Keybindings
 
-setw -g mode-keys vi
+set-window-option -g mode-keys vi
 
 # Ctrl-Space: A new PREFIX
 unbind C-b
-set -g prefix M-Space
+set-option -g prefix M-Space
 bind M-Space send-prefix
 
 
@@ -82,7 +82,7 @@ bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
 
-# set easier window split keys
+# set-option easier window split keys
 bind v split-window -h
 bind b split-window -v
 
@@ -98,43 +98,44 @@ bind e new-window -n 'tmux.conf' "/bin/sh -c 'chezmoi edit --apply {@' .chezmoi.
 # }}}
 # {{{ Theming
 
-
-# Status bar configuration
-set -g status-position top
-set -g status-justify centre
-set -g status-bg "#303d2c"
-set -g status-fg white
-#set -g status-fg color15
-
-{@'- $greenbg := "#303d2c" '@}
-{@'- $greenfg := "#a9b665" '@}
+{@'- $greenBg := "#303d2c" '@}
+{@'- $greenFg := "#a9b665" '@}
+{@'- $greenFgMedium := "#8aad6d" '@}
+{@'- $greenFgDark := "#515c38" '@}
 {@'- $greenbg2 := "#3a5c6e" '@} {@'- /* "#3e4537"*/'@}
 {@'- $myblack := "#1d2021" '@}
 {@'- /* yellowfg="#b57614" #"#d79921"*/'@}
 {@'- /* green2="#98971a"*/'@}
 {@'- $mywhite := "#d3c6aa" '@} {@'- /* "#d3c6aa" */'@}
 
-# Theme
-set -g status-left "#[bg={@' $greenbg | squote '@},fg={@' $greenfg | squote '@}][#S] "
-set -g status-right "#[bg={@' $greenbg | squote '@},fg={@' $greenfg | squote '@}] #T"
+# Status bar configuration
+set-option -g status-position bottom
+set-option -g status-justify centre
+set-option -g status-bg {@' $greenBg | quote '@}
+set-option -g status-fg {@' $greenFg | quote '@}
+#set-option -g status-fg color15
 
-set-window-option -g window-status-style bg={@' $greenbg | quote '@},fg={@' $greenfg | quote '@}
-set-window-option -g window-status-current-style bright,bg=green,fg={@' $mywhite | quote '@}
-set -g window-status-activity-style fg={@' $mywhite | quote '@}
-set -g message-style bg=cyan,fg=black
-setw -g mode-style bg=cyan,fg=black
-set -g pane-border-style fg=white
-set -g pane-active-border-style fg=green
+# Theme
+set-option -g status-left "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}][#S] "
+set-option -g status-right "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] #T"
+
+set-window-option -g window-status-style bg={@' $greenBg | quote '@},fg={@' $greenFg | quote '@}
+set-window-option -g window-status-current-style bright,bg="#515c38",fg={@' $mywhite | quote '@}
+set-option -g window-status-activity-style fg={@' $mywhite | quote '@},italics
+set-option -g message-style bg="#96a0ae",fg=black
+set-window-option -g mode-style bg=cyan,fg=black
+set-option -g pane-border-style fg={@' $mywhite | quote '@}
+set-option -g pane-active-border-style fg={@' $greenFg | quote '@}
 
 # Clock configuration
-set -g clock-mode-colour green
-set -g clock-mode-style 24
+set-option -g clock-mode-colour {@' $greenFgMedium | quote '@}
+set-option -g clock-mode-style 24
 
 # Highlight a tab when activity occurs
 set-window-option -g monitor-activity on
 
 
-# Do NOT reset the color of the tab after activity stops occuring
+# Do NOT reset-option the color of the tab after activity stops occuring
 set-window-option -g monitor-silence 0
 
 
@@ -143,7 +144,7 @@ set-window-option -g monitor-bell off
 
 
 # Disable visual text box when activity occurs
-set -g visual-activity off
+set-option -g visual-activity off
 
 
 # }}}
