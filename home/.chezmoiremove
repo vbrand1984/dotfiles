@@ -5,7 +5,11 @@
 .viminfo
 .vimrc
 .xsettingsd
+{{ if or .sysHasSystemd (not .sysIsDebianBased) }}
+{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher }}
+{{ end }}
 {{ if .sysIsBrandsPrivate }}
+.local/bin
 .git-credentials
 .gitconfig
 .Scripti

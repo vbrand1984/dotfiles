@@ -18,6 +18,14 @@
     refreshPeriod = "168h"
 {{ end }}
 
+# Obmenu-generator script
+[{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
+    type= "file"
+    url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
+    refreshPeriod = "168h"
+    executable = false
+    readonly = true
+    private = true
 
 ### Fonts ###
 
@@ -44,17 +52,6 @@
 
 ### Distro-specific ###
 
-{{ if .sysIsDebBased }}
-# In Debian-based distros, we need to install obmenu-generator externally
-[{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName | quote }}]
-    type= "file"
-    url = "https://raw.githubusercontent.com/trizen/obmenu-generator/master/obmenu-generator"
-    refreshPeriod = "168h"
-    executable = true
-    readonly = true
-    private = true
-{{ end }}
-
 {{ if and .sysIsDebianBased (not .sysHasSystemd) }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
 [{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher | quote }}]
@@ -71,13 +68,13 @@
 
 ### Personal ###
 
-{{/* if and .sysIsBrandsPrivate .sysIsDesktopRig */}}
+{{ if and .sysIsBrandsPrivate .sysIsDesktopRig }}
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
 [".local/share/fonts/weathericons-regular-webfont.ttf"]
     type = "file"
     url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
     refreshPeriod = "168h"
-{{/* end */}}
+{{ end }}
 
 {{ end }}

@@ -165,7 +165,7 @@ encryption = "age"
     # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
     cmdSu = {@' and (not $isDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
 
-    cmdTerminalEmulator = {@' default "lxterminal" .cmdTerminalEmulator | quote '@}
+    cmdTerminalEmulator = {@' default "alacritty" .cmdTerminalEmulator | quote '@}
 
     # Whether to autostart emacs daemon or not
     cmdEmacsDaemon = {@' default false (.cmdEmacsDaemon | not | not) '@}

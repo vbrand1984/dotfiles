@@ -1,3 +1,3 @@
-{{/* This template print absolute path to the obmenu-generator script (it is stored in different directories in different distros) */ -}}
+{{/* This template prints absolute path to the obmenu-generator script */ -}}
 {{/* Relative path to this template is stored in the '.templates.pathObmenuGenerator' chezmoi variable */ -}}
-{{ if .sysIsDebBased }}{{ joinPath .dirDownloadedScripts .apps.debiansObmenuGeneratorName }}{{ else }}obmenu-generator{{ end -}}
+{{ joinPath .dirDownloadedScripts .apps.debiansObmenuGeneratorName -}}
