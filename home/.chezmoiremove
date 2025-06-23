@@ -5,6 +5,9 @@
 .viminfo
 .vimrc
 .xsettingsd
+{{ if not .sysIsDebBased }}
+{{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.debiansObmenuGeneratorName }}
+{{ end }}
 {{ if or .sysHasSystemd (not .sysIsDebianBased) }}
 {{ joinPath (.dirDownloadedScripts | trimPrefix .chezmoi.homeDir | trimPrefix "/") .apps.devuansPipewireLauncher }}
 {{ end }}

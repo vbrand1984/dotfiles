@@ -72,6 +72,11 @@ encryption = "age"
     # and it is necessary to run 'chezmoi init' before 'chezmoi apply' in certain cases
     apply = false
 
+[diff]
+    pager = "less"
+    pagerArgs = ["--quit-if-one-screen", "--LONG-PROMPT", "--mouse"]
+    scriptContents = false
+
 # }}}
 [data]
 # {{{ sys: General system flags
@@ -175,7 +180,7 @@ encryption = "age"
     cmdEmacsDaemon = {@' default false (.cmdEmacsDaemon | not | not) '@}
 
     # A command to send notifications through scripts
-    # There must be either "notify-send" or "dunstify"
+    # This MUST be either "notify-send" OR "dunstify"
     cmdNotifier = {@' default "dunstify" .cmdNotifier | quote '@}
 
 # }}}
