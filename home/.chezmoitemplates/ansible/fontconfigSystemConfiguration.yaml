@@ -20,8 +20,12 @@ conf_needed:
   - 20-unhint-small-dejavu-sans.conf
   - 20-unhint-small-dejavu-sans-mono.conf
   - 20-unhint-small-dejavu-serif.conf
+  - 30-liberation-fonts-ttf-mono.conf
+  - 30-liberation-fonts-ttf-sans.conf
+  - 30-liberation-fonts-ttf-serif.conf
   - 30-metric-aliases.conf
   - 30-opensymbol.conf
+  - 35-lang-normalize.conf
   - 40-nonlatin.conf
   - 45-generic.conf
   - 45-Hack.conf
@@ -54,12 +58,14 @@ conf_needed:
   - 65-fonts-persian.conf
   - 65-khmer.conf
   - 65-nonlatin.conf
+  - 69-freefont.conf
   - 69-unifont.conf
 
   # In Debian and its derivatives:
   - 70-fonts-noto-cjk.conf
   # In Void Linux:
-  - 70-noto-fonts-cjk.conf
+  - 70-noto-fonts-cjk-sans.conf
+  - 70-noto-fonts-cjk-serif.conf
   # In Gentoo:
   - 70-noto-cjk.conf
 

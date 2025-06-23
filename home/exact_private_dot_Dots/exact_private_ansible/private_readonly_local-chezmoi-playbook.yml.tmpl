@@ -20,8 +20,6 @@
 {@' if .sysIsDebianBased -'@}
 - name: Manage Packages
   hosts: all
-  vars_files:
-    - vars/fontconfig-config.yml
 
   pre_tasks:
     - name: Upgrade apt
@@ -36,8 +34,14 @@
 
   roles:
     - desktop_stuff
-    - fontconfig_config
 
 {@'- end '@}
 
+- name: System Fontconfig Configuration
+  hosts: all
+  vars_files:
+    - vars/fontconfig-config.yml
+
+  roles:
+    - fontconfig_config
 ...
