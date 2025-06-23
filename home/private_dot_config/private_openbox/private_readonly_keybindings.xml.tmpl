@@ -13,16 +13,26 @@
       <command><![CDATA[libreoffice --calc]]></command>
     </action>
   </keybind> <!--}}}-->
-  <!--{{{ Super-Ctrl-E: Emacs client -->
+  <!--{{{ Super-Ctrl-E: Emacs -->
   <keybind key="W-C-E">
     <action name="Execute">
+      {@- if .cmdEmacsDaemon @}
       <command><![CDATA[emacsclient --reuse-frame --no-wait --alternate-editor=""]]></command>
+      {@- else @}
+      <command><![CDATA[emacs]]></command>
+      {@- end @}
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Ctrl-F: File manager -->
   <keybind key="W-C-F">
     <action name="Execute">
       <command><![CDATA[xdg-open ~/.]]></command>
+    </action>
+  </keybind> <!--}}}-->
+  <!--{{{ Super-Ctrl-G: GSimpleCal -->
+  <keybind key="W-C-G">
+    <action name="Execute">
+      <command><![CDATA[gsimplecal]]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Ctrl-I: LibreOffice Impress -->
@@ -169,7 +179,7 @@
   <keybind key="W-S-C">
     <action name="Reconfigure"/>
     <action name="Execute">
-      <command><![CDATA[notify-send --urgency=low 'Openbox reconfigured']]></command>
+      <command><![CDATA[{@ .cmdNotifier @} --urgency='low' 'Openbox reconfigured']]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Esc: Openbox main menu -->

@@ -11,12 +11,12 @@ for _, variant in ipairs({'Full', 'Semi', 'None'}) do
     local icon_name, the_command, second_command
 
     if variant == {@' .conkyTransparency | squote '@} then
-        the_command = "notify-send 'Current conky transparency: {@' .conkyTransparency '@}'"
+        the_command = "{@' .cmdNotifier '@} 'Current conky transparency: {@' .conkyTransparency '@}'"
         second_command = ''
         icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@}) .. "'"
     else
         the_command = "/usr/bin/python3 {@' .dirLocalScripts '@}/tinker-chezmoi-config.py 'data.conkyTransparency' '" .. variant .. "' 'doapply'"
-        second_command = "notify-send \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
+        second_command = "{@' .cmdNotifier '@} \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
         icon_name = ''
     end
 

@@ -19,12 +19,12 @@ for k in pairs(tkeys) do
     local icon_name, the_command, second_command
 
     if palette_name == {@' .conkyPalette | quote '@} then
-        the_command = "notify-send 'Current conky palette: {@' .conkyPalette '@}'"
+        the_command = "{@' .cmdNotifier '@} 'Current conky palette: {@' .conkyPalette '@}'"
         second_command = ''
         icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@})) .. "'"
     else
         the_command = "/usr/bin/python3 {@' .dirLocalScripts '@}/tinker-chezmoi-config.py 'data.conkyPalette' '" .. palette_name .. "' doapply"
-        second_command = "notify-send \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
+        second_command = "{@' .cmdNotifier '@} \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
         icon_name = ""
     end
 

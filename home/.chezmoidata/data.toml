@@ -12,6 +12,12 @@
 
     defaultTmuxSessionName = "A"
 
+    # This thing is used in commands like notify-send and dunstify,
+    # when ``--action`` parameter is used.
+    # This delimiter separates action tag from action text,
+    # and in dunstify, it's ``,``, whereas in notify-send, it's ``=``
+    notifierActionDelimiter = { "dunstify" = ",", "notify-send" = "=" }
+
 [varia]
     defaultWallpaper = "nature-sepia-1920x1200.jpg"
 
@@ -31,3 +37,5 @@
     # Openbox-related stuff
     pathObmenuGenerator = "openbox/pathObmenuGenerator.tmpl"
     cfgDefaultOpenboxRcXml = "openbox/cfgDefaultOpenboxRc.xml.tmpl"
+
+

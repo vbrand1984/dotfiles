@@ -1,12 +1,15 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
 #!/bin/sh
 # vim: ft=sh
+{@'- end -'@}
 
-# This file is managed by chezmoi
-
+{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+#
 # This is a utility script to manage some desktop 'services' like conky, dunst, etc.
 #
 # Usage:
-# manage-service.sh {start|stop|restart} <service>
+# /bin/sh -e manage-service.sh {start|stop|restart} <service>
 # Where <service> is either conky, dunst, tint2 or xsettingsd.
 #
 # Not all operations are applicable to either service, see the code below for details.
@@ -18,7 +21,7 @@ urg_std='low'
 urg_achtung='critical'
 
 die_with_dignity() {
-    echo "Usage: $(basename $0) {start|stop|restasrt} <service>, where <service> is either conky, dunst, tint2 or xsettingsd"
+    echo "Usage: $(basename ${0}) {start|stop|restasrt} <service>, where <service> is either conky, dunst, tint2 or xsettingsd"
     exit 1
 }
 
@@ -27,22 +30,22 @@ die_with_dignity() {
 
 start_conky () {
     if pgrep --count conky 1>/dev/null 2>&1 ; then
-        notify-send --urgency=$urg_std --icon='dialog-warning' 'Conky is already started!'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is already started!'
     else
-        conky --daemonize && notify-send --urgency=$urg_std 'Conky started' || notify-send --urgency=$urg_achtung 'Error starting conky!'
+        conky --daemonize && {@' .cmdNotifier '@} --urgency="${urg_std}" 'Conky started' || {@' .cmdNotifier '@} --urgency="${urg_achtung}" 'Error starting conky!'
     fi
 }
 
 stop_conky() {
     if pgrep --count conky 1>/dev/null 2>&1 ; then
-        killall conky && notify-send --urgency=$urg_std 'Conky stopped'
+        killall conky && {@' .cmdNotifier '@} --urgency="${urg_std}" 'Conky stopped'
     else
-        notify-send --urgency=$urg_std --icon='dialog-warning' 'Conky is not running. Nothing to stop.'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is not running. Nothing to stop.'
     fi
 }
 
 do_conky () {
-    case "$1" in
+    case "${1}" in
         start)
             start_conky
             ;;
@@ -64,9 +67,9 @@ do_conky () {
 # {{{ Dunst
 
 do_dunst() {
-    if [ "x$1" = 'xrestart' ] ; then
+    if [ "x${1}" = 'xrestart' ] ; then
         killall dunst
-        notify-send --urgency=$urg_std 'Dunst restarted'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" 'Dunst restarted'
     else
         die_with_dignity
     fi
@@ -76,9 +79,9 @@ do_dunst() {
 # {{{ tint2
 
 do_tint2() {
-    if [ "x$1" = 'xrestart' ] ; then
+    if [ "x${1}" = 'xrestart' ] ; then
         killall -SIGUSR1 tint2
-        notify-send --urgency=$urg_std 'Tint2 restarted'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" 'Tint2 restarted'
     else
         die_with_dignity
     fi
@@ -89,23 +92,23 @@ do_tint2() {
 
 start_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        notify-send --urgency=$urg_std -raw-icon='dialog-warning' 'XSettingsD is already started!'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is already started!'
     else
         xsettingsd &
-        [ $? ] && notify-send --urgency=$urg_std 'XSettingsD started' || notify-send --urgency=$urg_achtung 'Error starting XSettingsD!'
+        [ $? ] && {@' .cmdNotifier '@} --urgency="${urg_std}" 'XSettingsD started' || {@' .cmdNotifier '@} --urgency="${urg_achtung}" 'Error starting XSettingsD!'
     fi
 }
 
 stop_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        killall xsettingsd && notify-send --urgency=$urg_std 'XSettingsD stopped'
+        killall xsettingsd && {@' .cmdNotifier '@} --urgency="${urg_std}" 'XSettingsD stopped'
     else
-        notify-send --urgency=$urg_std --icon='dialog-warning' 'XSettingsD is not running. Nothing to stop.'
+        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is not running. Nothing to stop.'
     fi
 }
 
 do_xsettingsd () {
-    case "$1" in
+    case "${1}" in
         start)
             start_xsettingsd
             ;;

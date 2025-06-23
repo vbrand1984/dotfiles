@@ -1,8 +1,10 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -'@}
 #!/bin/sh
+{@'- if false -'@}
 # vim: ft=sh
-
+{@'- end '@}
+#
 {@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 
 wine_prefix="${HOME}/Games/SSD/Grim Dawn"

@@ -14,7 +14,7 @@ for k in pairs(greylooks_variants) do
     local icon_name, the_command
 
     if variant_name == {@' .gtkThemeName | quote '@} then
-        the_command = "notify-send 'Current GTK theme: {@' .gtkThemeName '@}'"
+        the_command = "{@' .cmdNotifier '@} 'Current GTK theme: {@' .gtkThemeName '@}'"
         icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@})) .. "'"
     else
         the_command = "/bin/sh {@' .dirLocalScripts '@}/set-gtk-and-openbox-theme.sh '" .. variant_name .. "'"

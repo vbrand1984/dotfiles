@@ -7,7 +7,7 @@
 {@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
 
 # Graphical reconfiguration. With this setup, don't use programs like lxappearance to adjust graphical settings.
-# Instead, edit the [gtk.data] section in ~/.config/chezmoi/chezmoi.toml,
+# Instead, edit the [data] section in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@},
 # then run chezmoi apply, and after that execute this script
 # 
 # The script is bound to Super-Shift-A hotkey and also accessible from the Openbox menu
@@ -20,4 +20,4 @@ for the_service in 'dunst' 'xsettingsd' 'tint2' ; do
 done
 
 # reconfigure openbox
-openbox --reconfigure && notify-send --urgency=low 'Openbox reconfigured'
+openbox --reconfigure && {@' .cmdNotifier '@} --urgency='low' 'Openbox reconfigured'

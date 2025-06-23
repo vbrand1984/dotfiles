@@ -7,7 +7,7 @@
 # List of patterns (globs) for available fontconfig configuration files
 conf_avail:
   - "/usr/share/fontconfig/conf.avail/*.conf"
-  - "/etc/fonts/*.conf"
+  - "/etc/fonts/conf.avail/*.conf"
 
 # Directory to store actual fontconfig configuration
 # Symlinks will be created here
