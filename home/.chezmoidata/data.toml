@@ -1,12 +1,6 @@
-[apps]
+[app]
     # This is an editor for config files to be invoked via Openbox menu entries
     chezmoiEditorFromMenu = "/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
-
-    # Under which name obmenu-generator script will be saved in Debian-based distros
-    debiansObmenuGeneratorName = "obmenu-generator"
-
-    # Under which name 'gentoo-pipewire-launcher' script will be saved in Devuan (and other non-systemd Debian-based distros)
-    devuansPipewireLauncher = "pipewire-launcher"
 
     luaVersion = "5.3"
 
@@ -23,24 +17,44 @@
     # and in dunstify, it's ``,``, whereas in notify-send, it's ``=``
     notifierActionDelimiter = { "dunstify" = ",", "notify-send" = "=" }
 
-[varia]
+[file]
+    # Under which name obmenu-generator script will be saved in Debian-based distros
+    debiansObmenuGeneratorName = "obmenu-generator"
+
+    # Under which name gentoo-pipewire-launcher script
+    # will be saved in Devuan (and other non-systemd Debian-based distros)
+    devuansPipewireLauncher = "pipewire-launcher"
+
     defaultWallpaper = "nature-sepia-1920x1200.jpg"
 
-[templates]
+    [file.ansible]
+        config = "ansible.cfg"
+        inventory = "inventory.yml"
+        localPlaybook = "local-chezmoi-playbook.yml"
 
-    msgManagedByChezmoi = "msgManagedByChezmoi.tmpl"
+[tmpl]
 
-    # Shell scripts
-    msgRunningScript = "scripts-shell/msgRunningScript.sh.tmpl"
+# Shell scripts
+[tmpl.sh]
     funcEnsureSudoIsWorking = "scripts-shell/funcEnsureSudoIsWorking.sh.tmpl"
     funcPrintMessage = "scripts-shell/funcPrintMessage.sh.tmpl"
 
-    # Lua scripts
+# Lua scripts
+[tmpl.lua]
     funcGtkLookupIcon = "scripts-lua/funcGtkLookupIcon.lua.tmpl"
     funcProcessIsRunning = "scripts-lua/funcProcessIsRunning.lua.tmpl"
 
-    # Openbox-related stuff
-    pathObmenuGenerator = "openbox/pathObmenuGenerator.tmpl"
-    cfgDefaultOpenboxRcXml = "openbox/cfgDefaultOpenboxRc.xml.tmpl"
+# Openbox-related stuff
+[tmpl.ob]
+    # Absolute path to the obmenu-generator script
+    # Used in obmenu-generator's schema.pl and in Openbox' menu.xml
+    obmenuGeneratorPath = "openbox/obmenuGeneratorPath.tmpl"
 
+    # Default rc.xml for Openbox to be used in the modify script for it
+    defaultOpenboxRc = "openbox/defaultOpenboxRc.xml.tmpl"
+
+# Messages to be printed in files or on the screen
+[tmpl.msg]
+    managedByChezmoi = "msgManagedByChezmoi.tmpl"
+    printRunningScriptName = "scripts-shell/printRunningScriptName.sh.tmpl"
 

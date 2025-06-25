@@ -1,6 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if not .sysIsDebianBased '@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@'- if not .sys.isDebianBased '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # Changing $TERM for alacritty due to a bug with incorrect colors
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
@@ -44,11 +44,11 @@
 
 [font]
     builtin_box_drawing = true
-    size = {@' .miscTerminalFontSize '@}
+    size = {@' .misc.terminalFontSize '@}
 
 [font.normal]
-family = {@' .miscTerminalFont | quote '@}
-style =  {@' .miscTerminalFontWeight | quote '@}
+family = {@' .misc.terminalFont | quote '@}
+style =  {@' .misc.terminalFontWeight | quote '@}
 
 [font.bold]
     style = "ExtraBold"

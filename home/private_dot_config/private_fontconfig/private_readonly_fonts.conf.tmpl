@@ -3,7 +3,7 @@
 <!-- chezmoi:template: left-delimiter={@ right-delimiter=@} -->
 <!-- vim: set ft=xml ts=2 sw=2 fdm=marker et: -->
 <!--
-{@ includeTemplate .templates.msgManagedByChezmoi . @}
+{@ includeTemplate .tmpl.msg.managedByChezmoi . @}
 -->
 <fontconfig>
 
@@ -11,37 +11,37 @@
 
   <match target="font">
     <edit name="autohint" mode="assign">
-      <bool>{@ .fcAutohint @}</bool>
+      <bool>{@ .xft.autohint @}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hinting" mode="assign">
-      <bool>{@ .fcHinting @}</bool>
+      <bool>{@ .xft.hinting @}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="hintstyle" mode="assign">
-      <const>{@ .fcHintStyle @}</const>
+      <const>{@ .xft.hintStyle @}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="antialias" mode="assign">
-      <bool>{@ .fcAntialias @}</bool>
+      <bool>{@ .xft.antialias @}</bool>
     </edit>
   </match>
   <match target="font">
     <edit name="rgba" mode="assign">
-      <const>{@ .fcRgba @}</const>
+      <const>{@ .xft.rgba @}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="lcdfilter" mode="assign">
-      <const>{@ .fcLcdfilter @}</const>
+      <const>{@ .xft.lcdfilter @}</const>
     </edit>
   </match>
   <match target="font">
     <edit name="dpi" mode="assign">
-      <double>{@ .fcDpi @}</double>
+      <double>{@ .xft.dpi @}</double>
     </edit>
   </match>
 

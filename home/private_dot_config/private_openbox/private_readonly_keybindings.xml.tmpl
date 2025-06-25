@@ -16,7 +16,7 @@
   <!--{{{ Super-Ctrl-E: Emacs -->
   <keybind key="W-C-E">
     <action name="Execute">
-      {@- if .cmdEmacsDaemon @}
+      {@- if .misc.startEmacsDaemon @}
       <command><![CDATA[emacsclient --reuse-frame --no-wait --alternate-editor=""]]></command>
       {@- else @}
       <command><![CDATA[emacs]]></command>
@@ -76,7 +76,7 @@
   <!--{{{ Super-Ctrl-T: Terminal emulator with tmux support -->
   <keybind key="W-C-T">
     <action name="Execute">
-      <command>x-terminal-emulator -e {@ joinPath .dirLocalBin "enter-default-tmux-session.sh" @}</command>
+      <command>x-terminal-emulator -e {@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @}</command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Shift-T: Bare terminal emulator -->
@@ -102,12 +102,12 @@
   <!--{{{ Ctrl-Alt-Del: System monitor -->
   <keybind key="C-A-Delete">
     <action name="Execute">
-      <command><![CDATA[{@ if .sysIsDebBased @}mate-system-monitor{@ else @}x-terminal-emulator -e htop{@ end @}]]></command>
+      <command><![CDATA[{@ if .sys.isDebBased @}mate-system-monitor{@ else @}x-terminal-emulator -e htop{@ end @}]]></command>
     </action>
   </keybind> <!--}}}-->
   <!-- }}} -->
   <!-- {{{ rofi (Super-Enter + optional stuff) -->
-  {@- $startRofiScript := joinPath .dirLocalBin "start-rofi.sh" @}
+  {@- $startRofiScript := joinPath .chezmoi.homeDir .dir.localBin "start-rofi.sh" @}
   <!--{{{ Super-Enter: rofi run -->
   <keybind key="W-Return">
     <action name="Execute">
@@ -120,7 +120,7 @@
       <command><![CDATA[/bin/sh -e {@ $startRofiScript | quote @} drun]]></command>
     </action>
   </keybind> <!--}}}-->
-  {@- if or .sysIsGentoo .sysIsVoid @}
+  {@- if or .sys.isGentoo .sys.isVoid @}
   <!--{{{ Super-F1: rofi calc module -->
   <keybind key="W-F1">
     <action name="Execute">
@@ -136,7 +136,7 @@
   </keybind> <!--}}}-->
   <!-- }}} -->
   <!-- {{{ Screenshots (PrtScr + optional stuff) -->
-  {@ $takeScreenshotScript := joinPath .dirLocalBin "take-screenshot-x.sh" @}
+  {@ $takeScreenshotScript := joinPath .chezmoi.homeDir .dir.localBin "take-screenshot-x.sh" @}
   <!--{{{ PrtScr: Take a screenshot (fullscreen) -->
   <keybind key="Print">
     <action name="Execute">
@@ -172,14 +172,14 @@
   <!--{{{ Super-Shift-A: Reconfigure whole appearance -->
   <keybind key="W-S-A">
     <action name="Execute">
-      <command><![CDATA[/bin/sh -e {@ joinPath .dirLocalBin "reconfigure-appearance.sh" @}]]></command>
+      <command><![CDATA[/bin/sh -e {@ joinPath .chezmoi.homeDir .dir.localBin "reconfigure-appearance.sh" @}]]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Shift-C: Reconfigure Openbox -->
   <keybind key="W-S-C">
     <action name="Reconfigure"/>
     <action name="Execute">
-      <command><![CDATA[{@ .cmdNotifier @} --urgency='low' 'Openbox reconfigured']]></command>
+      <command><![CDATA[{@ .cmd.notifier @} --urgency='low' 'Openbox reconfigured']]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Esc: Openbox main menu -->

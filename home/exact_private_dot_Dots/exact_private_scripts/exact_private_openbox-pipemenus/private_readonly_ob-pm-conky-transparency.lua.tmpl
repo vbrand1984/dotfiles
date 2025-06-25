@@ -3,20 +3,21 @@
 -- vim: ft=lua
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@'- includeTemplate .templates.funcGtkLookupIcon . '@}
+{@'- includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
 io.write("<openbox_pipe_menu>\n")
 
 for _, variant in ipairs({'Full', 'Semi', 'None'}) do
     local icon_name, the_command, second_command
 
-    if variant == {@' .conkyTransparency | squote '@} then
-        the_command = "{@' .cmdNotifier '@} 'Current conky transparency: {@' .conkyTransparency '@}'"
+    if variant == {@' .conky.transparency | squote '@} then
+        the_command = "{@' .cmd.notifier '@} 'Current conky transparency: {@' .conky.transparency '@}'"
         second_command = ''
-        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@}) .. "'"
+        icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@}) .. "'"
     else
-        the_command = "/usr/bin/python3 {@' .dirLocalScripts '@}/tinker-chezmoi-config.py 'data.conkyTransparency' '" .. variant .. "' 'doapply'"
-        second_command = "{@' .cmdNotifier '@} \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
+        the_command = [[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.transparency' ']] ..
+            variant .. "' 'doapply'"
+        second_command = "{@' .cmd.notifier '@} \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
         icon_name = ''
     end
 
@@ -36,8 +37,12 @@ for _, variant in ipairs({'Full', 'Semi', 'None'}) do
     io.write("</item>\n")
 end
 
-{@' if eq .conkyTransparency "Semi" -'@}
-io.write("<separator />\n<menu id='vbd_conky_argb_values_sub_menu' label='ARGB values' execute='/usr/bin/lua -- {@' .dirObPipemenus '@}/ob-pm-conky-argb-values.lua' icon='", lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', {@' .miscObmenuIconSize '@}), "' />\n")
+{@' if eq .conky.transparency "Semi" -'@}
+io.write(
+[[<separator />
+    <menu id='vbd_conky_argb_values_sub_menu' label='ARGB values' execute='/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-argb-values.lua" '@}' icon=']],
+    lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', {@' .misc.obmenuIconSize '@}), "' />\n"
+)
 
 {@' end -'@}
 

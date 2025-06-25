@@ -1,11 +1,8 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #!/bin/sh
-# vim: ft=sh
-
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #
 # This script updates fonts cache when downloaded fonts are changed
 # (or downloaded for the first time)
-#
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
 #
 
@@ -17,7 +14,7 @@
 {@'- end '@}
 
 
-{@' if and .sysIsDesktopRig .sysIsBrandsPrivate -'@}
+{@' if and .sys.isDesktopRig .sys.isBrandsPrivate -'@}
 #
 # Updates fonts cache when WeatherIcons font updates
 # Used on my main desktop rig, where this font is utilized in conky setup
@@ -26,18 +23,19 @@
 # weathericons-regular-webfont.ttf hash: {@' include (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | sha256sum '@}
 {@'- end '@}
 {@'- end '@}
+#
 
 {@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
-{@' includeTemplate .templates.funcPrintMessage . '@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
 {@'/* Print the name of this script */ -'@}
-{@' includeTemplate .templates.msgRunningScript . '@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 print_message "Updating fonts cache..."
 fc-cache --force --verbose {@' joinPath .chezmoi.homeDir ".local/share/fonts" | quote '@}
 
 # Restart conky if it is running
 #if pgrep --count conky 1>/dev/null 2>&1 ; then
-#    /bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} restart conky
+#    /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart conky
 #fi
 

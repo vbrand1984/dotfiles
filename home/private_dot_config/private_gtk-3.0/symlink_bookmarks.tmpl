@@ -1,5 +1,5 @@
-{{ if eq .chezmoi.username .persUsername -}}
-{{ .dirSymlinked }}/.config/gtk-3.0/bookmarks-personal
+{{ if .sys.isBrandsPrivate -}}
+{{ joinPath .dir.symlinked ".config/gtk-3.0/bookmarks-personal" }}
 {{- else -}}
-{{ .dirSymlinked }}/.config/gtk-3.0/bookmarks-default
+{{ joinPath .dir.symlinked ".config/gtk-3.0/bookmarks-default" }}
 {{- end -}}

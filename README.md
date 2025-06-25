@@ -170,9 +170,9 @@ chezmoi apply --exclude=encrypted
 <details>
   <summary>Expand</summary>
 
-* Left click: Open context menu for actions and URLs.
-* Right click: Close current notification.
-* Middle click: Close all notifications.
+* Left click: Close current notification.
+* Right click: Close all notifications.
+* Middle click: Open context menu.
 
 </details>
 

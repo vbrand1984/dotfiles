@@ -74,5 +74,5 @@ for line in io.stdin:lines() do
 end
 
 if not was_input then
-    io.write([[{{ includeTemplate .templates.cfgDefaultOpenboxRcXml . }}]]);
+    io.write([[{{ includeTemplate .tmpl.ob.defaultOpenboxRc . }}]]);
 end

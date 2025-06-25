@@ -1,5 +1,5 @@
-{{- if .sysHasSmallScreen -}}
-{{ .dirSymlinked }}/.config/lxterminal/lxterminal.conf.small-screen
+{{- if .sys.hasSmallScreen -}}
+{{ joinPath .dir.symlinked ".config/lxterminal/lxterminal.conf.small-screen" }}
 {{- else -}}
-{{ .dirSymlinked }}/.config/lxterminal/lxterminal.conf.common
+{{ joinPath .dir.symlinked ".config/lxterminal/lxterminal.conf.common" }}
 {{- end -}}

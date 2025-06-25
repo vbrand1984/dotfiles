@@ -1,19 +1,19 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
-{@ includeTemplate .templates.msgManagedByChezmoi . | comment "# " @}
+{@ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @}
 ---
 {@/* List of the files unconditionally needed in our Fonconfig configuration */@}
 {@- $fcOptions := includeTemplate "ansible/fontconfigSystemConfiguration.yaml" . | fromYaml @}
 
 {@- $theResult := dict 
-    "antialias" .fcAntialias
-    "autohint" .fcAutohint
-    "autohint_if_no_hinting" .fcAutohintIfNoHinting
-    "hinting" .fcHinting
-    "hintstyle" .fcHintStyle
-    "lcdfilter" .fcLcdfilter
-    "rgba" .fcRgba
-    "bitmaps" .fcBitmaps
-    "scale_bitmap_fonts" .fcScaleBitmapFonts
+    "antialias" .xft.antialias
+    "autohint" .xft.autohint
+    "autohint_if_no_hinting" .xft.autohintIfNoHinting
+    "hinting" .xft.hinting
+    "hintstyle" .xft.hintStyle
+    "lcdfilter" .xft.lcdfilter
+    "rgba" .xft.rgba
+    "bitmaps" .xft.bitmaps
+    "scale_bitmap_fonts" .xft.scaleBitmapFonts
     "conf_needed" $fcOptions.conf_needed
     "conf_avail" $fcOptions.conf_avail
     "conf_d" $fcOptions.conf_d

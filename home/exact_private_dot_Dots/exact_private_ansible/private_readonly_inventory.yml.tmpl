@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 default:
   hosts:
@@ -8,4 +8,4 @@ default:
 
       # Regarding usage of doas as ansible become method on local connections, see:
       # https://github.com/ansible/ansible/issues/82337
-      ansible_become_method: {@' .cmdSu '@}
+      ansible_become_method: {@' .cmd.sudo '@}

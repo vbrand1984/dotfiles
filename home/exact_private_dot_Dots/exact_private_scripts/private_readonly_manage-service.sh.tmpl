@@ -4,7 +4,7 @@
 # vim: ft=sh
 {@'- end -'@}
 
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # This is a utility script to manage some desktop 'services' like conky, dunst, etc.
 #
@@ -30,17 +30,17 @@ die_with_dignity() {
 
 start_conky () {
     if pgrep --count conky 1>/dev/null 2>&1 ; then
-        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is already started!'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is already started!'
     else
-        conky --daemonize && {@' .cmdNotifier '@} --urgency="${urg_std}" 'Conky started' || {@' .cmdNotifier '@} --urgency="${urg_achtung}" 'Error starting conky!'
+        conky --daemonize && {@' .cmd.notifier '@} --urgency="${urg_std}" 'Conky started' || {@' .cmd.notifier '@} --urgency="${urg_achtung}" 'Error starting conky!'
     fi
 }
 
 stop_conky() {
     if pgrep --count conky 1>/dev/null 2>&1 ; then
-        killall conky && {@' .cmdNotifier '@} --urgency="${urg_std}" 'Conky stopped'
+        killall conky && {@' .cmd.notifier '@} --urgency="${urg_std}" 'Conky stopped'
     else
-        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is not running. Nothing to stop.'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is not running. Nothing to stop.'
     fi
 }
 
@@ -69,7 +69,7 @@ do_conky () {
 do_dunst() {
     if [ "x${1}" = 'xrestart' ] ; then
         killall dunst
-        {@' .cmdNotifier '@} --urgency="${urg_std}" 'Dunst restarted'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" 'Dunst restarted'
     else
         die_with_dignity
     fi
@@ -81,7 +81,7 @@ do_dunst() {
 do_tint2() {
     if [ "x${1}" = 'xrestart' ] ; then
         killall -SIGUSR1 tint2
-        {@' .cmdNotifier '@} --urgency="${urg_std}" 'Tint2 restarted'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" 'Tint2 restarted'
     else
         die_with_dignity
     fi
@@ -92,18 +92,18 @@ do_tint2() {
 
 start_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is already started!'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is already started!'
     else
         xsettingsd &
-        [ $? ] && {@' .cmdNotifier '@} --urgency="${urg_std}" 'XSettingsD started' || {@' .cmdNotifier '@} --urgency="${urg_achtung}" 'Error starting XSettingsD!'
+        [ $? ] && {@' .cmd.notifier '@} --urgency="${urg_std}" 'XSettingsD started' || {@' .cmd.notifier '@} --urgency="${urg_achtung}" 'Error starting XSettingsD!'
     fi
 }
 
 stop_xsettingsd () {
     if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
-        killall xsettingsd && {@' .cmdNotifier '@} --urgency="${urg_std}" 'XSettingsD stopped'
+        killall xsettingsd && {@' .cmd.notifier '@} --urgency="${urg_std}" 'XSettingsD stopped'
     else
-        {@' .cmdNotifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is not running. Nothing to stop.'
+        {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'XSettingsD is not running. Nothing to stop.'
     fi
 }
 

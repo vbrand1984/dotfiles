@@ -1,7 +1,7 @@
 #!/bin/sh
 # vim: ft=sh
 
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 
 the_theme="${1}"
 
@@ -19,10 +19,10 @@ case "${the_theme}" in
 esac
 
 # Setting openbox theme
-/usr/bin/python3 {{ joinPath .dirLocalScripts "set-openbox-theme.py" | quote }} "${the_theme}"
+/usr/bin/python3 {{ joinPath .chezmoi.homeDir .dir.localScripts "set-openbox-theme.py" | quote }} "${the_theme}"
 
 # Setting GTK theme and applying the changes made to the chezmoi config
-/usr/bin/python3 {{ joinPath .dirLocalScripts "tinker-chezmoi-config.py" | quote }} 'data.gtkThemeName' "${the_theme}" 'doapply'
+/usr/bin/python3 {{ joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote }} 'data.gtk.themeName' "${the_theme}" 'doapply'
 
 # reconfiguring whole appearance
-/bin/sh -e {{ joinPath .dirLocalBin "reconfigure-appearance.sh" | quote }}
+/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localBin "reconfigure-appearance.sh" | quote }}

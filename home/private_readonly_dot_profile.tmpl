@@ -1,4 +1,4 @@
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
@@ -19,8 +19,8 @@ if [ -n "${BASH_VERSION}" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d {{ .dirLocalBin | squote }} ] ; then
-    PATH="${PATH}:{{ .dirLocalBin }}"
+if [ -d {{ joinPath .chezmoi.homeDir .dir.localBin | quote }} ] ; then
+    PATH="${PATH}:{{ joinPath .chezmoi.homeDir .dir.localBin }}"
 fi
 
 # Configuring our XDG cache in RAM

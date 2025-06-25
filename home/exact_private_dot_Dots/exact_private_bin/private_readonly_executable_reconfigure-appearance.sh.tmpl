@@ -4,7 +4,7 @@
 {@'- end -'@}
 #!/bin/sh
 
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # Graphical reconfiguration. With this setup, don't use programs like lxappearance to adjust graphical settings.
 # Instead, edit the [data] section in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@},
@@ -16,8 +16,8 @@
 
 # restart dunst, xsettingsd, tint2
 for the_service in 'dunst' 'xsettingsd' 'tint2' ; do
-    /bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} restart "${the_service}"
+    /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart "${the_service}"
 done
 
 # reconfigure openbox
-openbox --reconfigure && {@' .cmdNotifier '@} --urgency='low' 'Openbox reconfigured'
+openbox --reconfigure && {@' .cmd.notifier '@} --urgency='low' 'Openbox reconfigured'

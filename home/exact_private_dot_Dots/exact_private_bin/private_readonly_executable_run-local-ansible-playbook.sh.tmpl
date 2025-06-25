@@ -4,8 +4,13 @@
 {@'- end -'@}
 #!/bin/sh
 
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
-cd {@' .dirAnsible | quote '@}
+cd {@' joinPath .chezmoi.homeDir .dir.ansible.home | quote '@}
 
-env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={@' joinPath .dirAnsible "ansible.cfg" | squote '@} ansible-playbook -K local-chezmoi-playbook.yml "${@}"
+PYTHONDONTWRITEBYTECODE=1
+ANSIBLE_CONFIG={@' joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.config | quote '@}
+export PYTHONDONTWRITEBYTECODE
+export ANSIBLE_CONFIG
+
+ansible-playbook -K {@' .file.ansible.localPlaybook | quote '@} ${@}

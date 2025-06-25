@@ -1,8 +1,8 @@
 /*
-{{ includeTemplate .templates.msgManagedByChezmoi . }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . }}
 */
 configuration {
-    font: {{ .rofiFont | quote }};
-    cache-dir: {{ joinPath .dirLocalCache "rofi" | quote }};
+    font: {{ .rofi.font | quote }};
+    cache-dir: {{ joinPath .chezmoi.homeDir .dir.localCache "rofi" | quote }};
 }
-@theme {{ .rofiTheme | quote }}
+@theme {{ .rofi.theme | quote }}

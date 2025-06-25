@@ -4,10 +4,10 @@
 {@'- end -'@}
 #!/bin/sh
 
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
-if ! tmux has-session -t {@' .apps.defaultTmuxSessionName | quote '@} ; then
-    tmux new-session -s {@' .apps.defaultTmuxSessionName | quote '@} -d
+if ! tmux has-session -t {@' .app.defaultTmuxSessionName | quote '@} ; then
+    tmux new-session -s {@' .app.defaultTmuxSessionName | quote '@} -d
 fi
 
-exec tmux attach -t {@' .apps.defaultTmuxSessionName | quote '@}
+exec tmux attach -t {@' .app.defaultTmuxSessionName | quote '@}

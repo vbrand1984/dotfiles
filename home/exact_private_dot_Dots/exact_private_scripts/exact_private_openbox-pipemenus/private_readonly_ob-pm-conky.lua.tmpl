@@ -3,48 +3,48 @@
 -- vim: ft=lua
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@'- includeTemplate .templates.funcGtkLookupIcon . '@}
+{@'- includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
 {@'/* Template which adds the process_is_running function */ -'@}
-{@'- includeTemplate .templates.funcProcessIsRunning . '@}
+{@'- includeTemplate .tmpl.lua.funcProcessIsRunning . '@}
 
 io.write("<openbox_pipe_menu>\n")
 
 if process_is_running('conky') then
-    io.write("<item label='Restart conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .miscObmenuIconSize '@}), [['>
+    io.write("<item label='Restart conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} restart conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart conky]], ']]', [[></command></execute>
     </action>
 </item>
-<item label='Stop conky' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .miscObmenuIconSize '@}), [['>
+<item label='Stop conky' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} stop conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} stop conky]], ']]', [[></command></execute>
     </action>
 </item>
 <separator />
-<menu id='vbd_conky_palettes_sub_menu' label='Conky palette' execute='/usr/bin/lua -- {@' joinPath .dirObPipemenus "ob-pm-conky-palettes.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', {@' .miscObmenuIconSize '@}), [[' />
-<menu id='vbd_conky_transparency_sub_menu' label='Conky transparency' execute='/usr/bin/lua -- {@' joinPath .dirObPipemenus "ob-pm-conky-transparency.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'preferences-color-symbolic', {@' .miscObmenuIconSize '@}), [[' />
+<menu id='vbd_conky_palettes_sub_menu' label='Conky palette' execute='/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-palettes.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', {@' .misc.obmenuIconSize '@}), [[' />
+<menu id='vbd_conky_transparency_sub_menu' label='Conky transparency' execute='/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-transparency.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'preferences-color-symbolic', {@' .misc.obmenuIconSize '@}), [[' />
 ]]);
 else
-    io.write("<item label='Start conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .miscObmenuIconSize '@}), [['>
+    io.write("<item label='Start conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .dirLocalScripts "manage-service.sh" | quote '@} start conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} start conky]], ']]', [[></command></execute>
     </action>
 </item>
 ]]);
 end
 
-local edit_icon = lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', {@' .miscObmenuIconSize '@})
+local edit_icon = lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', {@' .misc.obmenuIconSize '@})
 
 io.write([[<separator />
 <item label='Edit conky.conf' icon=']], edit_icon, [['>
     <action name='Execute'>
-        <execute><command><![CDATA[{@' .apps.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" | quote '@}]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" | quote '@}]], ']]', [[></command></execute>
     </action>
 </item>
 <item label='Edit conky-palettes.lua' icon=']], edit_icon, [['>
     <action name='Execute'>
-        <execute><command><![CDATA[{@' .apps.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote '@}]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote '@}]], ']]', [[></command></execute>
     </action>
 </item>
 </openbox_pipe_menu>

@@ -1,6 +1,6 @@
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 
 [Icon Theme]
 Name=Default
 Comment=Default Cursor Theme
-Inherits={{ .gtkCursorTheme }}
+Inherits={{ .gtk.cursorTheme }}

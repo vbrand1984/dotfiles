@@ -1,9 +1,19 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
+# vim: ft=sh
+#
+# This template is used in scripts from the .chezmoiscripts directory.
+# It adds a function which makes user to enter sudo password until he succeeds
+#
+# chezmoi variable to store relative path to this template: .tmpl.sh.funcEnsureSudoIsWorking
+#
+{@'- end -'@}
+
 ### TEMPLATE START: funcEnsureSudoIsWorking.sh ###
 ensure_sudo_is_working() {
     sudo_working=1
     while [ $sudo_working -ne 0 ] ; do
-        {@' .cmdSu '@} true
+        {@' .cmd.sudo '@} true
         sudo_working=$?
     done
 }

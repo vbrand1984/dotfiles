@@ -1,0 +1,7 @@
+{{ if not .sys.isBrandsPrivate }}
+    .config/user-dirs.dirs
+    .config/user-dirs.locale
+    .java
+    {{ joinPath .dir.ansible.home "vars/local-symlinks.yml" }}
+    {{ joinPath .dir.localScripts "openweathermap-id.json" }}
+{{ end }}

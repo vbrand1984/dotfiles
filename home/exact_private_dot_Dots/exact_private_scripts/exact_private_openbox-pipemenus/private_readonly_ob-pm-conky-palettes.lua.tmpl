@@ -5,7 +5,7 @@
 dofile({@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote '@})
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@' includeTemplate .templates.funcGtkLookupIcon . '@}
+{@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
 -- Sort keys of the conky_palettes table
 local tkeys = {}
@@ -18,13 +18,14 @@ for k in pairs(tkeys) do
     local palette_name = tkeys[k]
     local icon_name, the_command, second_command
 
-    if palette_name == {@' .conkyPalette | quote '@} then
-        the_command = "{@' .cmdNotifier '@} 'Current conky palette: {@' .conkyPalette '@}'"
+    if palette_name == {@' .conky.palette | quote '@} then
+        the_command = "{@' .cmd.notifier '@} 'Current conky palette: {@' .conky.palette '@}'"
         second_command = ''
-        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@})) .. "'"
+        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@})) .. "'"
     else
-        the_command = "/usr/bin/python3 {@' .dirLocalScripts '@}/tinker-chezmoi-config.py 'data.conkyPalette' '" .. palette_name .. "' doapply"
-        second_command = "{@' .cmdNotifier '@} \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
+        the_command = [[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.palette' "]] ..
+            palette_name .. [[" 'doapply']]
+        second_command = "{@' .cmd.notifier '@} \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
         icon_name = ""
     end
 

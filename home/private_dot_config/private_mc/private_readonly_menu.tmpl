@@ -2,14 +2,14 @@ shell_patterns=0
 
 # See: https://softpanorama.org/OFM/MC/user_menu.shtml
 
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 
 m   Edit ~/.config/mc/menu
     cd ~/.config/mc
     {{ .chezmoi.executable }} edit --refresh-externals=never --exclude=externals,scripts,encrypted --apply {{ joinPath .chezmoi.homeDir ".config/mc/menu" | quote }}
 
 h   Edit mc directory hotlist
-    $EDITOR {{ .dirSymlinked }}/.config/mc/hotlist
+    $EDITOR {{ joinPath .dir.symlinked ".config/mc/hotlist" }}
 
 +
 = ! t rl
@@ -19,7 +19,7 @@ c   Edit chezmoi config
 C   Edit chezmoi config template
     {{ .chezmoi.executable }} edit-config-template
 
-{{ $alacrittyConfFileExt := .sysIsDebianBased | ternary "yml" "toml" -}}
+{{ $alacrittyConfFileExt := .sys.isDebianBased | ternary "yml" "toml" -}}
 a   Edit alacritty.{{ $alacrittyConfFileExt }}
     cd ~/.config/alacritty
     {{ .chezmoi.executable }} edit --apply alacritty.{{ $alacrittyConfFileExt }}

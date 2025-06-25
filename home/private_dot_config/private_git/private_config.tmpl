@@ -1,6 +1,6 @@
 [user]
-	name = {{ .gitFullName | quote }}
-	email = {{ .gitEmail | quote }}
+	name = {{ .git.fullName | quote }}
+	email = {{ .git.email | quote }}
 [credential]
 	helper = store
 [init]

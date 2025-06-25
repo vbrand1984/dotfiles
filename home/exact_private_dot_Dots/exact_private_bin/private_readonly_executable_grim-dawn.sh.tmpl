@@ -1,11 +1,11 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if and .sysIsDesktopRig (ne .dirUserData .dirUserDataDefault) -'@}
+{@'- if and .sys.isDesktopRig (ne .dir.userData .dir.userDataDefault) -'@}
 #!/bin/sh
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end '@}
 #
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 wine_prefix="${HOME}/Games/SSD/Grim Dawn"
 game_dir="${wine_prefix}/drive_c/Grim Dawn"

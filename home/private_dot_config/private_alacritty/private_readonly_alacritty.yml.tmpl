@@ -1,6 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if .sysIsDebBased '@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@'- if .sys.isDebBased '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
 
@@ -123,10 +123,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: {@' .miscTerminalFont '@}
+    family: {@' .misc.terminalFont '@}
 
     # The `style` can be specified to pick a specific face.
-    style: {@' .miscTerminalFontWeight '@}
+    style: {@' .misc.terminalFontWeight '@}
 
   # Bold font face
   bold:
@@ -162,7 +162,7 @@ font:
     style: ExtraBold Italic
 
   # Point size
-  size: {@' .miscTerminalFontSize '@}
+  size: {@' .misc.terminalFontSize '@}
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter

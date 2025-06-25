@@ -1,6 +1,11 @@
 <!-- chezmoi:template: left-delimiter={@ right-delimiter=@} -->
-{@/* Default Openbox' rc.xml config file which is used by the modify script when no rc.xml is present */ -@}
-{@/* Relative path to this template is stored in the '.templates.cfgDefaultOpenboxRcXml' chezmoi variable */ -@}
+{@ if false -@}
+<!--
+Default Openbox' rc.xml config file which is used by the modify script when no rc.xml is present.
+chezmoi variable to store relative path to this template: .tmpl.ob.defaultOpenboxRc
+-->
+{@- end -@}
+
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <!-- vim: set ft=xml fdm=marker ts=2 et: -->
@@ -85,7 +90,7 @@
     </font>
     <font place="MenuHeader">
       <name>Ubuntu</name>
-      <size>{@ if .sysHasSmallScreen @}12{@ else @}13{@ end @}</size>
+      <size>{@ if .sys.hasSmallScreen @}12{@ else @}13{@ end @}</size>
       <!-- font size in points -->
       <weight>Bold</weight>
       <!-- 'bold' or 'normal' -->
@@ -94,7 +99,7 @@
     </font>
     <font place="MenuItem">
       <name>Ubuntu</name>
-      <size>{@ if .sysHasSmallScreen @}12{@ else @}13{@ end @}</size>
+      <size>{@ if .sys.hasSmallScreen @}12{@ else @}13{@ end @}</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->

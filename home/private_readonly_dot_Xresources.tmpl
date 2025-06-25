@@ -1,10 +1,10 @@
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "! " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "! " }}
 
-Xft.dpi: {{ .fcDpi }}
-Xft.autohint: {{ int .fcAutohint }}
-Xft.antialias: {{ int .fcAntialias }}
-Xft.hinting: {{ int .fcHinting }}
-Xft.hintstyle: {{ .fcHintStyle }}
-Xft.rgba: {{ .fcRgba }}
-Xft.lcdfilter: {{ .fcLcdfilter }}
-Xcursor.theme: {{ .gtkCursorTheme }}
+Xft.dpi: {{ .xft.dpi }}
+Xft.autohint: {{ int .xft.autohint }}
+Xft.antialias: {{ int .xft.antialias }}
+Xft.hinting: {{ int .xft.hinting }}
+Xft.hintstyle: {{ .xft.hintStyle }}
+Xft.rgba: {{ .xft.rgba }}
+Xft.lcdfilter: {{ .xft.lcdfilter }}
+Xcursor.theme: {{ .gtk.cursorTheme }}

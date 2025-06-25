@@ -1,10 +1,10 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # Openbox autostart script
 
 # --== Setting keyboard and mouse parameters ==--
-xset mouse 20/10 10 r rate {@' int .miscKbdDelay '@} {@' int .miscKbdRepeat '@} b off
+xset mouse 20/10 10 r rate {@' int .misc.kbdDelay '@} {@' int .misc.kbdRepeat '@} b off
 
 # --== XSettings daemon ==--
 xsettingsd &
@@ -17,7 +17,7 @@ picom --daemon &
 tint2 &
 
 # --== Desktop Background ==--
-{@' if .sysIsDebBased -'@}
+{@' if .sys.isDebBased -'@}
 # The --force-setter option is necessary in Debian/Devuan, otherwise the thing doesn't work
 nitrogen --restore --force-setter=xwindows &
 {@'- else -'@}
@@ -25,7 +25,7 @@ nitrogen --restore &
 {@'- end '@}
 
 # --== Varisous Stuff ==--
-{@' if .cmdEmacsDaemon -'@}
+{@' if .misc.startEmacsDaemon -'@}
 emacs --bg-daemon &
 {@'- end '@}
 udiskie --smart-tray --notify --automount &
@@ -41,7 +41,7 @@ clipit &
 #pnmixer &
 
 # --== Conky System Monitor ==--
-(sleep 1; conky --pause={@' int .conkyStartupDelay '@} --daemonize) &
+(sleep 1; conky --pause={@' int .conky.startupDelay '@} --daemonize) &
 
 # --== Layout Switcher Indicator ==--
 (sleep 2; gxkb) &

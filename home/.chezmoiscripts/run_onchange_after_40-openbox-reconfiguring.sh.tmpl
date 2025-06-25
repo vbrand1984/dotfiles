@@ -1,9 +1,8 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #!/bin/sh
-# vim: ft=sh
-
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
 # Automatically reconfigure Openbox if its configuration has been changed
-
+#
 # See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
 {@'- if stat (joinPath .chezmoi.homeDir ".config/openbox/menu.xml") | not | not '@}
 # menu.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/menu.xml" ) | sha256sum '@}
@@ -17,12 +16,13 @@
 {@'- if stat (joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml") | not | not '@}
 # keybindings.xml hash: {@' include ( joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml" ) | sha256sum '@}
 {@'- end '@}
+#
 
 {@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
-{@' includeTemplate .templates.funcPrintMessage . '@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
 {@'/* Print the name of this script */ -'@}
-{@' includeTemplate .templates.msgRunningScript . '@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 # Reconfiugre openbox if it is running
 if pgrep --count openbox 1>/dev/null 2>&1 ; then

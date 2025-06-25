@@ -10,7 +10,7 @@
 #   run     - run a command
 #   drun    - run a desktop applications menu entry
 #   window  - show a window list
-{@'- if or .sysIsGentoo .sysIsVoid '@}
+{@'- if or .sys.isGentoo .sys.isVoid '@}
 #   calc    - calculator mode (currently only supported in non-Debian-based distros)
 {@'- end '@}
 
@@ -24,7 +24,7 @@ case "$1" in
     window)
         exec rofi -modi window -show window -show-icons
         ;;
-{@'- if or .sysIsGentoo .sysIsVoid '@}
+{@'- if or .sys.isGentoo .sys.isVoid '@}
     calc)
         exec rofi -show calc -modi calc -no-show-match -no-sort
         ;;

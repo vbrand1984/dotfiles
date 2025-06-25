@@ -1,6 +1,6 @@
 -- vim: ft=lua fdm=marker
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "-- " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "-- " '@}
 
 --== CONKY.CONFIG ==--
 
@@ -9,7 +9,7 @@
 -- Loading palettes
 dofile({@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote '@})
 
-local current_palette = {@' .conkyPalette | squote '@}
+local current_palette = {@' .conky.palette | squote '@}
 
 -- }}}
 -- conky.config {{{ 
@@ -27,7 +27,7 @@ conky.config = {
     out_to_console          = false,
     out_to_stderr           = false,
     out_to_x                = true,
-{@'- if not .sysIsGentoo '@}
+{@'- if not .sys.isGentoo '@}
     out_to_wayland          = false,
 {@'- end '@}
 
@@ -107,16 +107,16 @@ conky.config = {
     template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar \2}]],
 
     --== Weather widget (old) ==--
-    template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .dirLocalScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
-{@'- if or .sysIsDesktopRig .sysIsOldLaptop '@}
+    template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
+{@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
 
     --== Temperature info in two columns ==--
     -- Parameter 1: Left column caption
     -- Parameter 2: command to execute for the left column
     -- Parameter 3: Right column caption
     -- Parameter 4: command to execute for the right column
-    template8 = [[${color2}\1${goto {@' if .sysIsDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
-{@'- if .sysIsDesktopRig '@}
+    template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+{@'- if .sys.isDesktopRig '@}
 
     --== Fan info in two columns ==--
     -- Parameter 1: Left column caption
@@ -134,16 +134,16 @@ conky.config = {
 -- }}}
 -- {{{ Transparency settings
 
-{@' if eq .conkyTransparency "Full" -'@}
+{@' if eq .conky.transparency "Full" -'@}
 -- Full transparency
 conky.config['own_window_transparent']  = true
 conky.config['own_window_argb_visual']  = false
 conky.config['border_width']            = 0
-{@'- else if eq .conkyTransparency "Semi" -'@}
+{@'- else if eq .conky.transparency "Semi" -'@}
 -- Semi-transparent conky
 conky.config['own_window_transparent']  = false
 conky.config['own_window_argb_visual']  = true
-conky.config['own_window_argb_value']   = {@' int .conkyArgbValue '@}
+conky.config['own_window_argb_value']   = {@' int .conky.argbValue '@}
 conky.config['border_width']            = 1
 conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
 conky.config['default_color']           = conky_palettes[current_palette]['border']
@@ -234,16 +234,16 @@ end
 -- Returns the block for disk usage
 local function display_storage()
     local output_string = "${template0 STORAGE}\n${template6 System\\ Volume /}\n"
-    -- Check if {@' .dirUserData | squote '@} is mounted separately
-    local res = get_cmd_output("findmnt --noheadings {@' .dirUserData | squote '@} | wc -l")
+    -- Check if {@' .dir.userData | squote '@} is mounted separately
+    local res = get_cmd_output("findmnt --noheadings {@' .dir.userData | squote '@} | wc -l")
     if tonumber(res) > 0 then
-        output_string = output_string .. "${template6 Data\\ Volume {@' .dirUserData '@}}\n"
+        output_string = output_string .. "${template6 Data\\ Volume {@' .dir.userData '@}}\n"
     end
     return output_string
 end
 
 -- }}}
-{@'- if or .sysIsDesktopRig .sysIsOldLaptop '@}
+{@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
 -- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
@@ -295,7 +295,7 @@ end -- function populate_hwmon_table()
 local hwmon_table = populate_hwmon_table()
 
 -- }}}
-{@'- if .sysIsDesktopRig '@}
+{@'- if .sys.isDesktopRig '@}
 -- {{{ Initialization of internal variables: Desktop Rig
 
 local t_mobo            = hwmon_table['nct6798'][1]
@@ -318,7 +318,7 @@ local nr_junction       = t_gpu['lbl']['junction']
 local nr_mem            = t_gpu['lbl']['mem']
 
 -- }}}
-{@'- else if .sysIsOldLaptop -'@}
+{@'- else if .sys.isOldLaptop -'@}
 -- {{{ Initialization of internal variables: Old Laptop
 
 local t_mobo    = hwmon_table['dell_smm'][1]
@@ -343,7 +343,7 @@ local nr_GPU    = t_mobo['lbl']['GPU']
 
 --== CONKY.TEXT ==--
 
-{@' if .sysIsDesktopRig -'@}
+{@' if .sys.isDesktopRig -'@}
 -- {{{ conky.text for Desktop Rig
 
 conky.text = display_system_info() .. [[
@@ -368,12 +368,12 @@ ${template9 Rear ]] .. mod_mobo .. [[ 4 GPU\ Fans ]] .. mod_gpu .. [[ 1}
 ]] .. display_storage() .. [[
 ${template8 NVMe\ Temp. hwmon\ nvme\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_drivetemp .. [[\ temp\ 1}
 
-${execpi 900 /usr/bin/python3 -- {@' joinPath .dirLocalScripts "conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-advanced.py" -'@} } {@'- if not .sys.isVoid -'@} ${voffset -10} {@'- end '@}]];
 
---${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sysIsVoid -'@} ${voffset -10} {@'- end '@}]];
+--${execpi 900 /usr/bin/python3 -- {@' joinPath .chezmoi.homeDir "Documents/coding/scripts/python-opyt/weather/conky-weather-advanced.py" -'@} } {@'- if not .sys.isVoid -'@} ${voffset -10} {@'- end '@}]];
 
 -- }}}
-{@'- else if .sysIsOldLaptop -'@}
+{@'- else if .sys.isOldLaptop -'@}
 -- {{{ conky.text for Old Laptop
 
 conky.text = display_system_info() .. [[

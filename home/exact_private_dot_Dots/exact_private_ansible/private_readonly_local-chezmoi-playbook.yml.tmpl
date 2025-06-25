@@ -1,7 +1,7 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
-{@' if .sysIsBrandsPrivate -'@}
+{@' if .sys.isBrandsPrivate -'@}
 
 - name: Establish local symlinks
   hosts: all
@@ -17,7 +17,7 @@
 
 {@'- end '@}
 
-{@' if .sysIsDebianBased -'@}
+{@' if .sys.isDebianBased -'@}
 - name: Manage Packages
   hosts: all
 

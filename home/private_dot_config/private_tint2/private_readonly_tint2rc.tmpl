@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # See https://gitlab.com/o9000/tint2/wikis/Configure for 
 # full documentation of the configuration options.
@@ -31,13 +31,13 @@ end_color = #c1baae 100
 
 # Gradient 5: Active workspace name on taskbar
 gradient = vertical
-{@'- if eq .gtkThemeName "GreylooksGreen" '@}
+{@'- if eq .gtk.themeName "GreylooksGreen" '@}
 start_color = #42443e 100
 end_color = #85897e 100
-{@'- else if eq .gtkThemeName "GreylooksHuman" '@}
+{@'- else if eq .gtk.themeName "GreylooksHuman" '@}
 start_color = #433f37 100
 end_color = #8b8372 100
-{@'- else if eq .gtkThemeName "GreylooksOk" '@}
+{@'- else if eq .gtk.themeName "GreylooksOk" '@}
 start_color = #363f43 100
 end_color = #7c8d95 100
 {@'- else '@}
@@ -225,7 +225,7 @@ task_centered = 0
 urgent_nb_of_blink = 100000
 task_maximum_size = 250 26
 task_padding = 4 0 4
-task_font = {@' .gtkFontName '@}
+task_font = {@' .gtk.fontName '@}
 task_tooltip = 1
 task_thumbnail = 0
 task_thumbnail_size = 350
@@ -282,7 +282,7 @@ tooltip_hide_timeout = 0.1
 tooltip_padding = 6 4
 tooltip_background_id = 5
 tooltip_font_color = #080808 100
-tooltip_font = {@' .gtkFontName '@}
+tooltip_font = {@' .gtk.fontName '@}
 
 # }}}
 # {{{ Separators

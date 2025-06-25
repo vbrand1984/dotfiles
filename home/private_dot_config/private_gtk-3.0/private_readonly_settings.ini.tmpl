@@ -1,20 +1,20 @@
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 [Settings]
-gtk-button-images={{ int .gtkButtonImages }}
-gtk-menu-images={{ int .gtkMenuImages }}
-gtk-cursor-theme-name={{ .gtkCursorTheme }}
-gtk-cursor-theme-size={{ .gtkCursorSize }}
-gtk-enable-event-sounds={{ int .gtkEnableEventSounds }}
-gtk-enable-input-feedback-sounds={{ int .gtkEnableInputFeedbackSounds }}
-gtk-font-name={{ .gtkFontName }}
-gtk-icon-theme-name={{ .gtkIconTheme }}
-gtk-theme-name={{ .gtkThemeName }}
-gtk-toolbar-icon-size={{ .gtkToolbarIconSize }}
-gtk-toolbar-style={{ .gtkToolbarStyle }}
-gtk-xft-antialias={{ int .fcAntialias }}
-gtk-xft-hinting={{ int .fcHinting }}
-gtk-xft-hintstyle={{ .fcHintStyle }}
-gtk-xft-rgba={{ .fcRgba }}
-gtk-decoration-layout={{ .gtkDecorationLayout }}
+gtk-button-images={{ int .gtk.buttonImages }}
+gtk-menu-images={{ int .gtk.menuImages }}
+gtk-cursor-theme-name={{ .gtk.cursorTheme }}
+gtk-cursor-theme-size={{ .gtk.cursorSize }}
+gtk-enable-event-sounds={{ int .gtk.enableEventSounds }}
+gtk-enable-input-feedback-sounds={{ int .gtk.enableInputFeedbackSounds }}
+gtk-font-name={{ .gtk.fontName }}
+gtk-icon-theme-name={{ .gtk.iconTheme }}
+gtk-theme-name={{ .gtk.themeName }}
+gtk-toolbar-icon-size={{ .gtk.toolbarIconSize }}
+gtk-toolbar-style={{ .gtk.toolbarStyle }}
+gtk-xft-antialias={{ int .xft.antialias }}
+gtk-xft-hinting={{ int .xft.hinting }}
+gtk-xft-hintstyle={{ .xft.hintStyle }}
+gtk-xft-rgba={{ .xft.rgba }}
+gtk-decoration-layout={{ .gtk.decorationLayout }}
 gtk-print-preview-command=atril %f
 gtk-overlay-scrolling=0

@@ -1,3 +1,0 @@
-{{/* This template prints absolute path to the obmenu-generator script */ -}}
-{{/* Relative path to this template is stored in the '.templates.pathObmenuGenerator' chezmoi variable */ -}}
-{{ if .sysIsDebBased }}{{ joinPath .dirDownloadedScripts .apps.debiansObmenuGeneratorName }}{{ else }}{{ lookPath "obmenu-generator" }}{{ end -}}

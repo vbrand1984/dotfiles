@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # {{{ Generic intro
 
@@ -177,7 +177,7 @@ alias c='clear'
 # "What's the forecast" alias
 alias wtf='curl https://wttr.in/?M'
 
-{@' if not .sysIsGentoo -'@}
+{@' if not .sys.isGentoo -'@}
 # Coloured man pages for non-Gentoo distros
 alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
 
@@ -187,7 +187,7 @@ alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TE
 # {{{ chezmoi aliases
 
 {@'- /* If this is not a "Brands private PC", the "--exclude=encrypted" suffix will be added to the aliases */'@}
-{@'- $excludeSuffix := .sysIsBrandsPrivate | ternary "" "--exclude=encrypted" '@}
+{@'- $excludeSuffix := .sys.isBrandsPrivate | ternary "" "--exclude=encrypted" '@}
 
 # chezmoi apply
 alias Ca={@' cat .chezmoi.executable "apply" $excludeSuffix | trim | squote '@}
@@ -227,41 +227,41 @@ alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 # }}}
 # {{{ Aliases for package manager. {@'- /* Supported distros only. */'@}
 
-{@' if .sysIsDebBased -'@}
+{@' if .sys.isDebBased -'@}
 
 alias av='aptitude versions'
 alias aw='aptitude why'
 alias f='apt-file search'
 alias fS='apt-file show'
-alias i='{@' .cmdSu '@} aptitude --without-recommends install'
-alias I='{@' .cmdSu '@} aptitude --with-recommends install'
-{@'- if or .sysIsDebian .sysIsDevuan '@}
-alias ib='{@' .cmdSu '@} aptitude --without-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
-alias Ib='{@' .cmdSu '@} aptitude --with-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
+alias i='{@' .cmd.sudo '@} aptitude --without-recommends install'
+alias I='{@' .cmd.sudo '@} aptitude --with-recommends install'
+{@'- if or .sys.isDebian .sys.isDevuan '@}
+alias ib='{@' .cmd.sudo '@} aptitude --without-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
+alias Ib='{@' .cmd.sudo '@} aptitude --with-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
 {@'- end '@}
-alias r='{@' .cmdSu '@} aptitude purge'
+alias r='{@' .cmd.sudo '@} aptitude purge'
 alias s='aptitude search'
 alias S='aptitude show'
-alias upd='{@' .cmdSu '@} aptitude update'
-alias upg='{@' .cmdSu '@} aptitude upgrade'
-alias upgf='{@' .cmdSu '@} apt-file update'
+alias upd='{@' .cmd.sudo '@} aptitude update'
+alias upg='{@' .cmd.sudo '@} aptitude upgrade'
+alias upgf='{@' .cmd.sudo '@} apt-file update'
 
-{@'- else if .sysIsVoid -'@}
+{@'- else if .sys.isVoid -'@}
 
-alias i='{@' .cmdSu '@} xbps-install -S'
-alias r='{@' .cmdSu '@} xbps-remove -R'
+alias i='{@' .cmd.sudo '@} xbps-install -S'
+alias r='{@' .cmd.sudo '@} xbps-remove -R'
 alias s='xbps-query -Rs'
 alias S='xbps-query -RS'
-alias upg='{@' .cmdSu '@} xbps-install -Su'
-alias upgx='{@' .cmdSu '@} xbps-install -u xbps'
+alias upg='{@' .cmd.sudo '@} xbps-install -Su'
+alias upgx='{@' .cmd.sudo '@} xbps-install -u xbps'
 
-{@'- else if .sysIsGentoo -'@}
+{@'- else if .sys.isGentoo -'@}
 
-alias i='{@' .cmdSu '@} emerge --ask --verbose'
+alias i='{@' .cmd.sudo '@} emerge --ask --verbose'
 alias s='emerge --search'
-alias d='{@' .cmdSu '@} emerge --depclean --ask --verbose'
-alias upd='{@' .cmdSu '@} emaint --allrepos sync'
-alias upg='{@' .cmdSu '@} emerge --update --verbose --deep --ask --newuse --keep-going @world'
+alias d='{@' .cmd.sudo '@} emerge --depclean --ask --verbose'
+alias upd='{@' .cmd.sudo '@} emaint --allrepos sync'
+alias upg='{@' .cmd.sudo '@} emerge --update --verbose --deep --ask --newuse --keep-going @world'
 
 {@'- else -'@}
 
@@ -273,7 +273,7 @@ alias upg='{@' .cmdSu '@} emerge --update --verbose --deep --ask --newuse --keep
 # }}}
 
 # }}}
-{@'- if .sysIsDebBased '@}
+{@'- if .sys.isDebBased '@}
 # {{{ Bash-completion configuration from default Deb-based distros skel
 
 # enable programmable completion features (you don't need to enable
@@ -326,7 +326,7 @@ export STD_NBTHREADS=0
 # -9: use maximum compression level (but not extreme)
 export XZ_DEFAULTS="-9 -T0"
 
-{@' if not .sysIsGentoo -'@}
+{@' if not .sys.isGentoo -'@}
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 {@'- end '@}

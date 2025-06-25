@@ -3,7 +3,7 @@
 -- vim: ft=lua
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@' includeTemplate .templates.funcGtkLookupIcon . '@}
+{@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
 local greylooks_variants = {'Greylooks', 'GreylooksGreen', 'GreylooksHuman', 'GreylooksOk'}
 
@@ -13,11 +13,11 @@ for k in pairs(greylooks_variants) do
     local variant_name = greylooks_variants[k]
     local icon_name, the_command
 
-    if variant_name == {@' .gtkThemeName | quote '@} then
-        the_command = "{@' .cmdNotifier '@} 'Current GTK theme: {@' .gtkThemeName '@}'"
-        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .miscObmenuIconSize '@})) .. "'"
+    if variant_name == {@' .gtk.themeName | quote '@} then
+        the_command = "{@' .cmd.notifier '@} 'Current GTK theme: {@' .gtk.themeName '@}'"
+        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@})) .. "'"
     else
-        the_command = "/bin/sh {@' .dirLocalScripts '@}/set-gtk-and-openbox-theme.sh '" .. variant_name .. "'"
+        the_command = [[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "set-gtk-and-openbox-theme.sh" | quote '@} ']] .. variant_name .. "'"
         icon_name = ""
     end
 

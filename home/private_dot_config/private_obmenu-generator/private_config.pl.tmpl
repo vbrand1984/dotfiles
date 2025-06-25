@@ -55,7 +55,7 @@ our $CONFIG = {
   "generic_fallback"    => 0,
   "gtk_rc_filename"     => "$ENV{HOME}/.config/gtk-3.0/settings.ini",
   "gtk_version"         => 3,
-  "icon_size"           => {{ int .miscObmenuIconSize }},
+  "icon_size"           => {{ int .misc.obmenuIconSize }},
   "Linux::DesktopFiles" => {
                              desktop_files_paths     => [
                                                           "/usr/share/applications",
@@ -73,5 +73,5 @@ our $CONFIG = {
   "locale_support"      => 1,
   "missing_icon"        => "gtk-missing-image",
   "terminal"            => "x-terminal-emulator",
-  "VERSION"             => {{ if .sysIsDebBased }}{{ toString .apps.obmenuGeneratorVersion }}{{ else }}{{ last (splitList " " (output "/usr/bin/perl" (includeTemplate .templates.pathObmenuGenerator . ) "-v")) | trim }}{{ end }},
+  "VERSION"             => {{ if .sys.isDebBased }}{{ toString .app.obmenuGeneratorVersion }}{{ else }}{{ last (splitList " " (output "/usr/bin/perl" (includeTemplate .tmpl.ob.obmenuGeneratorPath . ) "-v")) | trim }}{{ end }},
 }

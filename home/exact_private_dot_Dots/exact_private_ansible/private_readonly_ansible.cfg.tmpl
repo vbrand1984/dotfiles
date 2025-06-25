@@ -1,18 +1,21 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
-{@ includeTemplate .templates.msgManagedByChezmoi . | comment "# " @}
+{@ if false -@}
+# vim: ft=cfg
+{@- end -@}
+{@ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @}
 
 [defaults]
 interpreter_python = auto_silent
-home = {@ .dirAnsible @}
-inventory  = {@ joinPath .dirAnsible "inventory.yml" @}
-remote_tmp = {@ .dirAnsibleTmp @}
-local_tmp  = {@ .dirAnsibleTmp @}
+home       = {@ joinPath .chezmoi.homeDir .dir.ansible.home @}
+inventory  = {@ joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.inventory @}
+remote_tmp = {@ joinPath .chezmoi.homeDir .dir.ansible.tmp @}
+local_tmp  = {@ joinPath .chezmoi.homeDir .dir.ansible.tmp @}
+roles_path = {@ joinPath .chezmoi.homeDir .dir.ansible.roles @}
+library    = {@ joinPath .chezmoi.homeDir .dir.ansible.library @}
 
+{@ if false -@}
 # Paths to search for roles, colon separated
 #roles_path = ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
-roles_path = {@ joinPath .dirAnsible "roles" @}
 #library         = ~/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
-library = ~/.Dots/ansible/library
 #facts_modules = gpus_facts,smart
-
-
+{@- end -@}

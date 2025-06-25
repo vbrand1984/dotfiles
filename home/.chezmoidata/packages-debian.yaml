@@ -11,6 +11,6 @@ packages:
       #- x11proto-dev
       #- libx11-dev
       #- libxft-dev
-    backports:
-    markauto:
-      - libfm-modules
+    #backports:
+    #markauto:
+    #  - libfm-modules

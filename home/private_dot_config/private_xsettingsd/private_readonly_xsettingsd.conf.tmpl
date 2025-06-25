@@ -1,23 +1,23 @@
-{{ includeTemplate .templates.msgManagedByChezmoi . | comment "# " }}
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 #
 # See: https://codeberg.org/derat/xsettingsd
 # See: https://www.freedesktop.org/wiki/Specifications/XSettingsRegistry/
 
 # Theme settings
-Net/ThemeName {{ .gtkThemeName | quote }}
-Net/IconThemeName {{ .gtkIconTheme | quote }}
-Gtk/CursorThemeName {{ .gtkCursorTheme | quote }}
-Gtk/FontName {{ .gtkFontName | quote }}
-Gtk/DecorationLayout {{ .gtkDecorationLayout | quote }}
-Net/EnableEventSounds {{ int .gtkEnableEventSounds }}
-Net/EnableInputFeedbackSounds {{ int .gtkEnableInputFeedbackSounds }}
+Net/ThemeName {{ .gtk.themeName | quote }}
+Net/IconThemeName {{ .gtk.iconTheme | quote }}
+Gtk/CursorThemeName {{ .gtk.cursorTheme | quote }}
+Gtk/FontName {{ .gtk.fontName | quote }}
+Gtk/DecorationLayout {{ .gtk.decorationLayout | quote }}
+Net/EnableEventSounds {{ int .gtk.enableEventSounds }}
+Net/EnableInputFeedbackSounds {{ int .gtk.enableInputFeedbackSounds }}
 
 # The value must be 1024*DPI
-Xft/DPI {{ mul .fcDpi 1024 }}
+Xft/DPI {{ mul .xft.dpi 1024 }}
 
 # Font settings
-Xft/Antialias {{ int .fcAntialias }}
-Xft/Hinting {{ int .fcHinting }}
-Xft/HintStyle {{ .fcHintStyle | quote }}
-Xft/RGBA {{ .fcRgba | quote }}
-Xft/lcdfilter {{ .fcLcdfilter | quote }}
+Xft/Antialias {{ int .xft.antialias }}
+Xft/Hinting {{ int .xft.hinting }}
+Xft/HintStyle {{ .xft.hintStyle | quote }}
+Xft/RGBA {{ .xft.rgba | quote }}
+Xft/lcdfilter {{ .xft.lcdfilter | quote }}

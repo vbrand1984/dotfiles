@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 ---
 packages_list:
@@ -143,7 +143,7 @@ packages_list:
         - gxkb
         - libfm-modules
         - libnotify-bin
-        - lua {@'- .apps.luaVersion '@}
+        - lua {@'- .app.luaVersion '@}
         - lua-lgi
         - lxappearance
         - lxpolkit
@@ -157,7 +157,7 @@ packages_list:
         - pcmanfm
         - picom
         - qalculate-gtk
-{@'- if not .sysIsVM '@}
+{@'- if not .sys.isVM '@}
         - redshift-gtk
 {@'- end '@}
         - rofi
@@ -180,7 +180,7 @@ packages_list:
     debian_based: # {{{
       stable:
         - firefox-esr
-{@'- if .sysIsBrandsPrivate '@}
+{@'- if .sys.isBrandsPrivate '@}
         - firefox-esr-l10n-de
         - firefox-esr-l10n-ru
 {@'- end '@}
@@ -218,7 +218,7 @@ packages_list:
         - emacs
         - libreoffice
         - libreoffice-gtk3
-{@'- if .sysIsBrandsPrivate '@}
+{@'- if .sys.isBrandsPrivate '@}
         - libreoffice-l10n-ru
 {@'- end '@}
     # }}}

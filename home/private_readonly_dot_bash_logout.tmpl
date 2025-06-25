@@ -1,11 +1,11 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@' includeTemplate .templates.msgManagedByChezmoi . | comment "# " '@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # ~/.bash_logout: executed by bash(1) when login shell exits.
 
 # when leaving the console clear the screen to increase privacy
 
-{@'- if .sysIsDebBased '@}
+{@'- if .sys.isDebBased '@}
 if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi

@@ -1,0 +1,24 @@
+.conkyrc
+.dircolors
+.gvimrc
+.tmux.conf
+.viminfo
+.vimrc
+.xsettingsd
+
+# Downloaded obmenu-generator script is only needed in deb-based distros
+{{ if not .sys.isDebBased }}
+    {{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName }}
+{{ end }}
+
+# This pipewire launcher script is only needed in non-systemd debian-based distros
+{{ if or (not .sys.isDebianBased) .sys.hasSystemd }}
+    {{ joinPath .dir.downloadedScripts .file.devuansPipewireLauncher }}
+{{ end }}
+
+{{ if .sys.isBrandsPrivate }}
+    .local/bin
+    .git-credentials
+    .gitconfig
+    bin
+{{ end }}

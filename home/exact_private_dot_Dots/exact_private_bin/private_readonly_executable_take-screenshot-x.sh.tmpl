@@ -5,7 +5,7 @@
 #!/bin/sh
 
 die() {
-    {@' .cmdNotifier '@} --urgency='critical' 'Epic Fail' "${1}"
+    {@' .cmd.notifier '@} --urgency='critical' 'Epic Fail' "${1}"
     exit 1
 }
 
@@ -19,7 +19,7 @@ user_dirs_file="${HOME}/.config/user-dirs.dirs"
 picdir="${XDG_PICTURES_DIR:-${HOME}/Pictures}/Screenshots"
 {@'- end '@}
 
-picdir={@' joinPath .chezmoi.homeDir .xdgPicturesDir "Screenshots" | quote '@}
+picdir={@' joinPath .chezmoi.homeDir .xdg.picturesDir "Screenshots" | quote '@}
 
 if [ ! -d "${picdir}" ] ; then
     mkdir --parents "${picdir}" || die "Could not create directory ${picdir}!"
@@ -46,10 +46,10 @@ esac
 
 if [ "x${1}" != 'xselection' ] && [ -n "${2}" ] && [ "x${2}" = 'xdelay' ] ; then
     scrotopts="${scrotopts}d${delay_interval}"
-    {@' .cmdNotifier '@} -t 3000 "Taking a ${1} screenshot in ${delay_interval} seconds..."
+    {@' .cmd.notifier '@} -t 3000 "Taking a ${1} screenshot in ${delay_interval} seconds..."
 fi
 
-scrot_execute="{@' .cmdNotifier '@} --action='open_dir{@' get .apps.notifierActionDelimiter .cmdNotifier '@}Open Directory' --icon='emblem-photos' -t 3000 'Screenshot Saved' '\$n'"
+scrot_execute="{@' .cmd.notifier '@} --action='open_dir{@' get .app.notifierActionDelimiter .cmd.notifier '@}Open Directory' --icon='emblem-photos' -t 3000 'Screenshot Saved' '\$n'"
 got_action=$(scrot --exec="${scrot_execute}" "${scrotopts}" --file="${picdir}/${picname_pattern}" || die "Couldn't save a screenshot in ${picdir}!")
 
 if [ "x${got_action}" = 'xopen_dir' ] ; then
