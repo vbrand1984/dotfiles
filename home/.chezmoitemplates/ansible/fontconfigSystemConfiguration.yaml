@@ -14,17 +14,20 @@ conf_avail:
 conf_d: "/etc/fonts/conf.d"
 
 conf_needed:
+  - 10-nerd-font-symbols.conf
   - 20-unhint-small-dejavu-lgc-sans.conf
   - 20-unhint-small-dejavu-lgc-sans-mono.conf
   - 20-unhint-small-dejavu-lgc-serif.conf
   - 20-unhint-small-dejavu-sans.conf
   - 20-unhint-small-dejavu-sans-mono.conf
   - 20-unhint-small-dejavu-serif.conf
+  - 20-unhint-small-vera.conf
   - 30-liberation-fonts-ttf-mono.conf
   - 30-liberation-fonts-ttf-sans.conf
   - 30-liberation-fonts-ttf-serif.conf
   - 30-metric-aliases.conf
   - 30-opensymbol.conf
+  - 30-win32-aliases.conf
   - 35-lang-normalize.conf
   - 40-nonlatin.conf
   - 45-generic.conf
@@ -33,7 +36,6 @@ conf_needed:
   - 48-spacing.conf
   - 49-sansserif.conf
   - 50-user.conf
-  - 51-local.conf
   - 57-dejavu-sans.conf
   - 57-dejavu-sans-mono.conf
   - 57-dejavu-serif.conf
