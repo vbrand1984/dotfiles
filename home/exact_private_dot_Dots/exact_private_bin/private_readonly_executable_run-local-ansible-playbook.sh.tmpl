@@ -8,9 +8,5 @@
 
 cd {@' joinPath .chezmoi.homeDir .dir.ansible.home | quote '@}
 
-PYTHONDONTWRITEBYTECODE=1
-ANSIBLE_CONFIG={@' joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.config | quote '@}
-export PYTHONDONTWRITEBYTECODE
-export ANSIBLE_CONFIG
-
-ansible-playbook -K {@' .file.ansible.localPlaybook | quote '@} ${@}
+exec env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={@' joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.config | quote '@} \
+    ansible-playbook --ask-become-pass {@' .file.ansible.localPlaybook | quote '@} ${@}

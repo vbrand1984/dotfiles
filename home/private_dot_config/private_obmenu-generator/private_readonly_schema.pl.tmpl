@@ -72,7 +72,7 @@ our $SCHEMA = [
         # Nitrogen
         {item => ['nitrogen',   'Desktop wallpaper',        'preferences-desktop-wallpaper-symbolic']},
         # Reconfiguration of the whole appearance
-        {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localBin "reconfigure-appearance.sh" }}',
+        {item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" }}',
                                 'Reconfigure appearance',   'preferences-desktop-remote-desktop-symbolic']},
 
         {sep => undef},

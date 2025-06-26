@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if and .sys.isDesktopRig (ne .dir.userData .dir.userDataDefault) -'@}
+{@'- if and .sys.isDesktopRig (not .sys.isVoid) (ne .dir.userData .dir.userDataDefault) -'@}
 #!/bin/sh
 {@'- if false -'@}
 # vim: ft=sh

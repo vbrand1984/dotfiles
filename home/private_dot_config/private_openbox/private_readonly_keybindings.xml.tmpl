@@ -107,7 +107,7 @@
   </keybind> <!--}}}-->
   <!-- }}} -->
   <!-- {{{ rofi (Super-Enter + optional stuff) -->
-  {@- $startRofiScript := joinPath .chezmoi.homeDir .dir.localBin "start-rofi.sh" @}
+  {@- $startRofiScript := joinPath .chezmoi.homeDir .dir.localScripts "start-rofi.sh" @}
   <!--{{{ Super-Enter: rofi run -->
   <keybind key="W-Return">
     <action name="Execute">
@@ -136,7 +136,7 @@
   </keybind> <!--}}}-->
   <!-- }}} -->
   <!-- {{{ Screenshots (PrtScr + optional stuff) -->
-  {@ $takeScreenshotScript := joinPath .chezmoi.homeDir .dir.localBin "take-screenshot-x.sh" @}
+  {@ $takeScreenshotScript := joinPath .chezmoi.homeDir .dir.localScripts "take-screenshot-x.sh" @}
   <!--{{{ PrtScr: Take a screenshot (fullscreen) -->
   <keybind key="Print">
     <action name="Execute">
@@ -172,7 +172,7 @@
   <!--{{{ Super-Shift-A: Reconfigure whole appearance -->
   <keybind key="W-S-A">
     <action name="Execute">
-      <command><![CDATA[/bin/sh -e {@ joinPath .chezmoi.homeDir .dir.localBin "reconfigure-appearance.sh" @}]]></command>
+      <command><![CDATA[/bin/sh -e {@ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" @}]]></command>
     </action>
   </keybind> <!--}}}-->
   <!--{{{ Super-Shift-C: Reconfigure Openbox -->
