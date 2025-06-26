@@ -25,4 +25,4 @@ esac
 /usr/bin/python3 {{ joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote }} 'data.gtk.themeName' "${the_theme}" 'doapply'
 
 # reconfiguring whole appearance
-/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localBin "reconfigure-appearance.sh" | quote }}
+/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" | quote }}
