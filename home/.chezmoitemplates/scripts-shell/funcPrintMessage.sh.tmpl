@@ -15,12 +15,11 @@
 {@' $defaultColor := `\033[00m` -'@}
 
 ### TEMPLATE START: funcPrintMessage.sh ###
-print_message() {
-    printf "{@' $theColor '@}${1}{@' $defaultColor '@}\n"
-}
-
 print_message_no_linebreak() {
     printf "{@' $theColor '@}${1}{@' $defaultColor '@}"
+}
+print_message() {
+    printf "{@' $theColor '@}${1}{@' $defaultColor '@}\n"
 }
 ### TEMPLATE END: funcPrintMessage.sh ###
 

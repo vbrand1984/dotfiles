@@ -10,10 +10,9 @@
 
 {@'- /* Check if it is the right chezmoi source dir that was specified */ -'@}
 {@'- if ne (.chezmoi.sourceDir | dir) (joinPath .chezmoi.homeDir $defaultSourceDir) -'@}
-{@'- /*writeToStdout "Your source dir is: " .chezmoi.sourceDir "\nThat is not how this configuration is intended to be used.\n"*/ -'@}
-{@'- writeToStdout "Please run chezmoi init for these dotfiles as following:\n" -'@}
-{@'- writeToStdout "chezmoi init vbrand1984 --source " (joinPath "~" $defaultSourceDir) "\n" -'@}
-{@'- exit 1 -'@}
+{@'-    writeToStdout "Please run chezmoi init for these dotfiles as following:\n" -'@}
+{@'-    writeToStdout "chezmoi init vbrand1984 --source " (joinPath "~" $defaultSourceDir) "\n" -'@}
+{@'-    exit 1 -'@}
 {@'- end -'@}
 
 {@'- /* Other local directories */ -'@}

@@ -1,0 +1,68 @@
+---
+app:
+  envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
+
+  # This is an editor for config files to be invoked via Openbox menu entries
+  chezmoiEditorFromMenu: "/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
+
+  luaVersion: '5.3'
+
+  defaultTmuxSessionName: 'A'
+
+  # A version of obmenu-generator to download from the github repo
+  # This is used in deb-based distros where is no obmenu-generator in the repos
+  # See: https://github.com/trizen/obmenu-generator
+  obmenuGeneratorVersion: '0.93'
+
+  # This thing is used in commands like notify-send and dunstify,
+  # when ``--action`` parameter is used.
+  # This delimiter separates action tag from action text,
+  # and in dunstify, it's ``,``, whereas in notify-send, it's ``=``
+  notifierActionDelimiter:
+    dunstify: ','
+    notify-send: '='
+
+file:
+  # Under which name obmenu-generator script will be saved in Debian-based distros
+  debiansObmenuGeneratorName: 'obmenu-generator'
+
+  # Under which name gentoo-pipewire-launcher script
+  # will be saved in Devuan (and other non-systemd Debian-based distros)
+  devuansPipewireLauncher: 'pipewire-launcher'
+
+  defaultWallpaper: 'nature-sepia-1920x1200.jpg'
+
+  ansible:
+    config: 'ansible.cfg'
+    inventory: 'inventory.yml'
+    localPlaybook: 'local-chezmoi-playbook.yml'
+
+tmpl:
+
+  # Shell scripts
+  sh:
+    funcEnsureSudoIsWorking: 'scripts-shell/funcEnsureSudoIsWorking.sh.tmpl'
+    funcPrintMessage: 'scripts-shell/funcPrintMessage.sh.tmpl'
+
+  # Lua scripts
+  lua:
+    funcGtkLookupIcon: 'scripts-lua/funcGtkLookupIcon.lua.tmpl'
+    funcProcessIsRunning: 'scripts-lua/funcProcessIsRunning.lua.tmpl'
+
+  # Openbox-related stuff
+  ob:
+    # Absolute path to the obmenu-generator script
+    # Used in obmenu-generator's schema.pl and in Openbox' menu.xml
+    obmenuGeneratorPath: 'openbox/obmenuGeneratorPath.tmpl'
+
+    # Default rc.xml for Openbox to be used in the modify script for it
+    defaultOpenboxRc: 'openbox/defaultOpenboxRc.xml.tmpl'
+
+  # Messages to be printed in files or on the screen
+  msg:
+    managedByChezmoi: 'msgManagedByChezmoi.tmpl'
+    printRunningScriptName: 'scripts-shell/printRunningScriptName.sh.tmpl'
+
+  palette:
+    tint2: 'palettes/tint2.yml.tmpl'
+...

@@ -1,4 +1,4 @@
-{{ if not (env "CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS") }}
+{{ if not (env .app.envIgnoreExternals) }}
 # Vim plugin manager
 [".vim/autoload/plug.vim"]
     type = "file"
