@@ -1,35 +1,48 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
-# See https://gitlab.com/o9000/tint2/wikis/Configure for 
+# See https://gitlab.com/o9000/tint2/blob/master/doc/tint2.md for 
 # full documentation of the configuration options.
 
-# {{{ Gradients
+{@'- $palette := includeTemplate .tmpl.palette.tint2 | fromYaml '@}
 
-# Gradient 1: Panel
+#{{{ Gradients
+
+# {{{ Gradient 1: Panel
+
 gradient = vertical
-start_color = #cfc9c0 100
-end_color = #c8c2b7 100
+#start_color = #cfc9c0 100
+#end_color = #c8c2b7 100
+start_color = {@' $palette.panel.gradient.start '@} 100
+end_color = {@' $palette.panel.gradient.end '@} 100
 
-# Gradient 2: Unpressed button on taskbar
+# }}}
+# {{{ Gradient 2: Unpressed button on taskbar
+
 gradient = vertical
-start_color = #cfc9c0 100
-color_stop = 33 #ddd9d3 100
-end_color = #bdb6a9 100
+start_color = {@' $palette.task.unpressed.gradient.start '@} 100
+color_stop = {@' $palette.colorStopPercentUnpressed '@} {@' $palette.task.unpressed.gradient.stop '@} 100
+end_color = {@' $palette.task.unpressed.gradient.end '@} 100
 
-# Gradient 3: Unpressed button on taskbar HOVER
+# }}}
+# {{{ Gradient 3: Unpressed button on taskbar HOVER
+
 gradient = vertical
-start_color = #d8d5d0 100
-color_stop = 33 #e3e1dd 100
-end_color = #beb9b0 100
+start_color = {@' $palette.task.hover.gradient.start '@} 100
+color_stop = {@' $palette.colorStopPercentUnpressed '@} {@' $palette.task.hover.gradient.stop '@} 100
+end_color = {@' $palette.task.hover.gradient.end '@} 100
 
-# Gradient 4: Pressed button on taskbar
+# }}}
+# {{{ Gradient 4: Active (pressed) button on taskbar
+
 gradient = vertical
-start_color = #b9b2a4 100
-color_stop = 33 #afa697 100
-end_color = #c1baae 100
+start_color = {@' $palette.task.pressed.gradient.start '@} 100
+color_stop = {@' $palette.colorStopPercentUnpressed '@} {@' $palette.task.pressed.gradient.stop '@} 100
+end_color = {@' $palette.task.pressed.gradient.end '@} 100
 
-# Gradient 5: Active workspace name on taskbar
+# }}}
+# {{{ Gradient 5: Active workspace name on taskbar
+
 gradient = vertical
 {@'- if eq .gtk.themeName "GreylooksGreen" '@}
 start_color = #42443e 100
@@ -41,82 +54,97 @@ end_color = #8b8372 100
 start_color = #363f43 100
 end_color = #7c8d95 100
 {@'- else '@}
-start_color = #404143 100
-end_color = #828388 100
+start_color = #424141 100
+end_color = #817f7f 100
 {@'- end '@}
 
 # }}}
-# {{{ Backgrounds
 
-# Backgrounds
-# Background 1: Panel
+#}}}
+#{{{ Backgrounds
+
+# {{{ Background 1: Panel
+
 rounded = 0
 border_width = 1
 border_sides = B
 gradient_id = 1
-background_color = #cbc8c2 100 
-border_color = #b8b4ac 100
+background_color = {@' $palette.panel.background '@} 100 
+border_color = {@' $palette.panel.border '@} 100
 
-# Background 2: Default task, Iconified task
+# }}}
+# {{{ Background 2: Default task, Iconified task
+
 rounded = 3
 border_width = 1
 border_sides = TBLR
-background_color = #dbd7ce 0
-border_color = #89827c 100
-border_color_hover = #999792 100
-border_color_pressed = #88847e 100
-background_color_hover = #ece5d4 100
-background_color_pressed = #ddd4c5 100
+background_color = {@' $palette.task.unpressed.background '@} 0
+background_color_hover = {@' $palette.task.hover.background '@} 100
+background_color_pressed = {@' $palette.task.pressed.background '@} 100
+border_color = {@' $palette.task.unpressed.border '@} 100
+border_color_hover = {@' $palette.task.hover.border '@} 100
+border_color_pressed = {@' $palette.task.pressed.border '@} 100
 gradient_id = 2
 gradient_id_hover = 3
 gradient_id_pressed = 4
 
-# Background 3: Active task
+# }}}
+# {{{ Background 3: Active task
+
 rounded = 3
 border_width = 1
 border_sides = TBLR
 border_content_tint_weight = 0
 background_content_tint_weight = 0
-background_color = #c1baad 100
-background_color_hover = #c1baad 100
-background_color_pressed = #c1baad 100
-border_color = #6e6259 100
+background_color = {@' $palette.task.pressed.background '@} 100
+background_color_hover = {@' $palette.task.pressed.background '@} 100
+background_color_pressed = {@' $palette.task.pressed.background '@} 100
+border_color = {@' $palette.task.pressed.border '@} 100
 gradient_id = 4
 gradient_id_hover = 4
 gradient_id_pressed = 4
 
-# Background 4: Urgent task
+# }}}
+# {{{ Background 4: Urgent task
+
 rounded = 3
 border_width = 1
 border_sides = TBLR
 border_content_tint_weight = 0
 background_content_tint_weight = 0
-background_color = #f4f1ec 100
-border_color = #928f89  100
+background_color = {@' $palette.task.urgent.background '@} 100
+border_color = {@' $palette.task.urgent.border '@}  100
 
-# Background 5: Tooltip
+# }}}
+# {{{ Background 5: Tooltip
+
 rounded = 0
 border_width = 1
 border_sides = TBLR
 border_content_tint_weight = 0
 background_content_tint_weight = 0
-background_color = #f3e5ab 100
-border_color = #b59f5f 100
+background_color = {@' $palette.tooltip.background '@} 100
+border_color = {@' $palette.tooltip.border '@} 100
 
-# Background 6: Inactive desktop name
+# }}}
+# {{{ Background 6: Inactive desktop name
+
 rounded = 5
-border_width = 1
+border_width = 2
 border_sides = TBLR
 border_content_tint_weight = 0
 background_content_tint_weight = 0
-background_color = #e1dac1 100
-border_color = #7a6c5f 100
-background_color_hover = #e1dac1 100
-border_color_hover = #7a6c5f 100
-background_color_pressed = #e1dac1 100
-border_color_pressed = #7a6c5f 100
+background_color = #e0ded9 100
+border_color = {@' $palette.task.unpressed.border '@} 100
+#background_color_hover = #e1dac1 100
+#border_color_hover = #7a6c5f 100
+#background_color_pressed = #e1dac1 100
+#border_color_pressed = #7a6c5f 100
+gradient_id = 2
 
-# Background 7: Active desktop name
+# }}}
+# {{{ Background 7: Active desktop name
+
 rounded = 5
 border_width = 1
 border_sides = TBLR
@@ -124,30 +152,36 @@ border_content_tint_weight = 0
 background_content_tint_weight = 0
 background_color = #c1baad 100
 border_color = #7a6c5f 100
-background_color_hover = #c1baad 100
-border_color_hover = #7a6c5f 100
-background_color_pressed = #c1baad 100
-border_color_pressed = #7a6c5f 100
+#background_color_hover = #c1baad 100
+#border_color_hover = #7a6c5f 100
+#background_color_pressed = #c1baad 100
+#border_color_pressed = #7a6c5f 100
+{@'- if $palette.useGradients '@}
 gradient_id = 5
 gradient_id_hover = 5
 gradient_id_pressed = 5
+{@'- end '@}
 
-# Background 8: Clock
+# }}}
+# {{{ Background 8: Clock
+
 rounded = 3
 border_width = 1
 border_sides = TBLR
 border_content_tint_weight = 0
 background_content_tint_weight = 0
-background_color = #dbd7ce 0
-border_color = #dbd7ce 0
-background_color_hover = #dbd7ce 100
-border_color_hover = #928f89 100
-background_color_pressed = #c1baad 100
-border_color_pressed = #88847e 100
-gradient_id_hover = 2
+background_color = {@' $palette.panel.background '@} 0
+border_color = {@' $palette.panel.background '@} 0
+background_color_hover = {@' $palette.task.hover.background '@} 100
+border_color_hover = {@' $palette.task.hover.border '@} 100
+background_color_pressed = {@' $palette.task.pressed.background '@} 100
+border_color_pressed = {@' $palette.task.pressed.border '@} 100
+gradient_id_hover = 3
 gradient_id_pressed = 4
 
-# Background 9: Systray (currently unused)
+# }}}
+# {{{ Background 9: Systray (currently unused)
+
 #rounded = 3
 #border_width = 0
 #border_sides = TBLR
@@ -159,6 +193,8 @@ gradient_id_pressed = 4
 #border_color_hover = #cccccc 100
 #background_color_pressed = #dbd7ce 100
 #border_color_pressed = #cccccc 100
+
+# }}}
 
 # }}}
 
@@ -177,11 +213,11 @@ panel_position = top center horizontal
 panel_layer = normal
 panel_monitor = all
 panel_shrink = 0
-autohide = 0
-autohide_show_timeout = 0
-autohide_hide_timeout = 0.5
+autohide = {@' .misc.autohidePanel | int '@}
+autohide_show_timeout = 0.1
+autohide_hide_timeout = 0.3
 autohide_height = 2
-strut_policy = follow_size
+strut_policy = {@' if .misc.autohidePanel '@}minimum{@' else '@}follow_size{@' end '@}
 panel_window_name = tint2
 disable_transparency = 1
 mouse_effects = 1
@@ -210,8 +246,8 @@ taskbar_name_active_background_id = 7
 taskbar_name_font = Ubuntu Bold 12
 #taskbar_name_font_color = #1d2021 100
 #taskbar_name_active_font_color = #1d2021 100
-taskbar_name_font_color = #d8d5d0 100
-taskbar_name_active_font_color = #d8d5d0 100
+taskbar_name_font_color = {@' $palette.taskbar.nameFontColor '@} 100
+taskbar_name_active_font_color = {@' $palette.taskbar.nameActiveFontColor '@} 100
 taskbar_distribute_size = 1
 taskbar_sort_order = none
 task_align = left
@@ -240,9 +276,9 @@ mouse_right = none
 mouse_scroll_up = prev_task
 mouse_scroll_down = next_task
 # Colors
-task_font_color = #080808 100
-task_active_font_color = #030303 100
-task_iconified_font_color = #66676c 100
+task_font_color = {@' $palette.task.unpressed.fontColor '@} 100
+task_active_font_color = {@' $palette.task.pressed.fontColor '@} 100
+task_iconified_font_color = {@' $palette.task.iconified.fontColor '@} 100
 
 # }}}
 # {{{ Systray
@@ -272,7 +308,7 @@ clock_rclick_command = gsimplecal
 clock_mclick_command = 
 clock_uwheel_command = 
 clock_dwheel_command = 
-clock_font_color = #32302f 100
+clock_font_color = {@' $palette.clock.fontColor '@} 100
 
 # }}}
 # {{{ Tooltip
@@ -281,7 +317,7 @@ tooltip_show_timeout = 0.5
 tooltip_hide_timeout = 0.1
 tooltip_padding = 6 4
 tooltip_background_id = 5
-tooltip_font_color = #080808 100
+tooltip_font_color = {@' $palette.tooltip.fontColor '@} 100
 tooltip_font = {@' .gtk.fontName '@}
 
 # }}}
@@ -290,7 +326,7 @@ tooltip_font = {@' .gtk.fontName '@}
 # Separator between Taskbar and Systray
 separator = new
 separator_background_id = 0
-separator_color = #898275 100
+separator_color = {@' $palette.separator.color '@} 100
 separator_style = line
 separator_size = 1
 separator_padding = 5 3

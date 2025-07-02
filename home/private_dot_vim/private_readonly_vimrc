@@ -158,7 +158,7 @@ let g:gruvbox_invert_selection = 0
 let g:everforest_background = 'hard'
 
 " Gruvbox-material default setup
-let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'soft'
 let g:gruvbox_material_foreground = 'material'
 let g:gruvbox_material_better_performance = 1
 

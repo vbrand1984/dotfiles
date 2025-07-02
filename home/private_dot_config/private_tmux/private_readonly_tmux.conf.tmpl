@@ -116,7 +116,8 @@ set-option -g status-fg {@' $greenFg | quote '@}
 #set-option -g status-fg color15
 
 # Theme
-set-option -g status-left "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}][#S] "
+set-option -g status-left-length 16
+set-option -g status-left "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] %R [#S] "
 set-option -g status-right "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] #T"
 
 set-window-option -g window-status-style bg={@' $greenBg | quote '@},fg={@' $greenFg | quote '@}

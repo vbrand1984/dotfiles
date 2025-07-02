@@ -40,7 +40,7 @@ conky.config = {
     --== Window geometry ==--
     alignment               = 'tr',
     gap_x                   = 20,
-    gap_y                   = 45,
+    gap_y                   = {@' .misc.autohidePanel | ternary 20 45 '@},
     border_width            = 0,
     border_inner_margin     = 10,
     maximum_width           = 350,
@@ -192,7 +192,7 @@ local function display_system_info()
     local distro_id = get_cmd_output('lsb_release --id --short 2>/dev/null')
     distro_id = string.upper(distro_id)
     return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
-${template1 Hodie ${time\ %a\ %d\ %b\ %Y}}
+${template1 Hodie ${time\ %a\ %d\ %b\ %Y\ %R}}
 ${template1 Kernel\ Version ${kernel}}
 ${template1 Uptime ${uptime}}
 ]];
@@ -289,57 +289,57 @@ local function populate_hwmon_table()
 end -- function populate_hwmon_table()
 
 -- }}}
--- {{{ Machine-specific initialization: let's populate!
+-- {{{ Initialization of common machine-specific variables
 
 -- Let's call our precious function
 local hwmon_table = populate_hwmon_table()
+
+-- In case of an error of module search.
+-- hwmon would never have this number.
+local default_hwmon_nr = -1
 
 -- }}}
 {@'- if .sys.isDesktopRig '@}
 -- {{{ Initialization of internal variables: Desktop Rig
 
-local t_mobo            = hwmon_table['nct6798'][1]
-local t_gpu             = hwmon_table['amdgpu'][1]
-local t_cpu             = hwmon_table['k10temp'][1]
-local t_wifi            = hwmon_table['iwlwifi_1'][1]
-local t_drivetemp       = hwmon_table['drivetemp'][1]
+local mod_mobo         = hwmon_table['nct6798'][1]['nbr'] or default_hwmon_nr
+local mod_gpu          = hwmon_table['amdgpu'][1]['nbr'] or default_hwmon_nr
+local mod_cpu          = hwmon_table['k10temp'][1]['nbr'] or default_hwmon_nr
+local mod_wifi         = hwmon_table['iwlwifi_1'][1]['nbr'] or default_hwmon_nr 
+local mod_drivetemp    = hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
 
-local mod_mobo          = t_mobo['nbr']
-local mod_gpu           = t_gpu['nbr']
-local mod_cpu           = t_cpu['nbr']
-local mod_wifi          = t_wifi['nbr']
-local mod_drivetemp     = t_drivetemp['nbr']
-
-local nr_SMBUSMASTER_0  = t_mobo['lbl']['SMBUSMASTER 0']
-local nr_CPUTIN         = t_mobo['lbl']['CPUTIN']
-local nr_SYSTIN         = t_mobo['lbl']['SYSTIN']
-local nr_Tccd1          = t_cpu['lbl']['Tccd1']
-local nr_junction       = t_gpu['lbl']['junction']
-local nr_mem            = t_gpu['lbl']['mem']
+local nr_SMBUSMASTER_0 = hwmon_table['nct6798'][1]['lbl']['SMBUSMASTER 0'] or default_hwmon_nr
+local nr_CPUTIN        = hwmon_table['nct6798'][1]['lbl']['CPUTIN'] or default_hwmon_nr
+local nr_SYSTIN        = hwmon_table['nct6798'][1]['lbl']['SYSTIN'] or default_hwmon_nr
+local nr_Tccd1         = hwmon_table['k10temp'][1]['lbl']['Tccd1'] or default_hwmon_nr
+local nr_junction      = hwmon_table['amdgpu'][1]['lbl']['junction'] or default_hwmon_nr
+local nr_mem           = hwmon_table['amdgpu'][1]['lbl']['mem'] or default_hwmon_nr
 
 -- }}}
 {@'- else if .sys.isOldLaptop -'@}
 -- {{{ Initialization of internal variables: Old Laptop
 
-local t_mobo    = hwmon_table['dell_smm'][1]
-local t_cpu     = hwmon_table['coretemp'][1]
-local t_ssd     = hwmon_table['drivetemp'][1]
-local t_hdd     = hwmon_table['drivetemp'][2]
+local mod_mobo  = hwmon_table['dell_smm'][1]['nbr'] or default_hwmon_nr
+local mod_cpu   = hwmon_table['coretemp'][1]['nbr'] or default_hwmon_nr
+local mod_ssd   = hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
+local mod_hdd   = hwmon_table['drivetemp'][2]['nbr'] or default_hwmon_nr
 
-local mod_mobo  = t_mobo['nbr']
-local mod_cpu   = t_cpu['nbr']
-local mod_ssd   = t_ssd['nbr']
-local mod_hdd   = t_hdd['nbr']
-
-local nr_Core0  = t_cpu['lbl']['Core 0']
-local nr_Core1  = t_cpu['lbl']['Core 1']
-local nr_Other  = t_mobo['lbl']['Other']
-local nr_Memory = t_mobo['lbl']['SODIMM']
-local nr_GPU    = t_mobo['lbl']['GPU']
+local nr_Core0  = hwmon_table['coretemp'][1]['lbl']['Core 0'] or default_hwmon_nr
+local nr_Core1  = hwmon_table['coretemp'][1]['lbl']['Core 1'] or default_hwmon_nr
+local nr_Other  = hwmon_table['dell_smm'][1]['lbl']['Other'] or default_hwmon_nr
+local nr_Memory = hwmon_table['dell_smm'][1]['lbl']['SODIMM'] or default_hwmon_nr
+local nr_GPU    = hwmon_table['dell_smm'][1]['lbl']['GPU'] or default_hwmon_nr
 
 -- }}}
-{@'- end '@}
-{@'- end '@}
+{@'- end -'@} {@'- /* if-else */'@}
+-- {{{ Destruction of common machine-specific variables
+
+-- We don't need it anymore
+hwmon_talbe = nil
+default_hwmon_nr = nil
+
+-- }}}
+{@'- end -'@} {@'- /* if or .sys.isDesktopRig .sys.isOldLaptop */'@}
 
 --== CONKY.TEXT ==--
 

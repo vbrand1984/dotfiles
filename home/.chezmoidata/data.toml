@@ -58,3 +58,6 @@
     managedByChezmoi = "msgManagedByChezmoi.tmpl"
     printRunningScriptName = "scripts-shell/printRunningScriptName.sh.tmpl"
 
+[tmpl.palette]
+    tint2 = "palettes/tint2.yml.tmpl"
+

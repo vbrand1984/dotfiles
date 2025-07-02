@@ -18,5 +18,5 @@ fi
 
 cd "${game_dir}"
 
-taskset --cpu-list "1-$((`nproc`-1))" env WINEARCH=win64 WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
+taskset --cpu-list "1-$(( `nproc` - 1 ))" env WINEARCH=win64 WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
 {@'- end '@}

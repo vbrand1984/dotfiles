@@ -1,0 +1,65 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+useGradients: true
+
+colorStopPercentUnpressed: 33
+colorStopPercentPressed: 66
+
+{@' $fgColor1 := "#080808" '@}
+{@' $fgColor2 := "#32302f" '@}
+
+panel:
+  background: '#cbc8c2'
+  border:     '#b8b4ac'
+  gradient:
+    start:     '#cfcac7'
+    end:       '#c5c1be'
+    #start:    '#cfcbc5'
+    #end:      '#c6c2bb'
+    #start:    '#cbc8c2'
+    #end:      '#c5c1bb'
+
+taskbar:
+  nameFontColor: '#32302f'
+  nameActiveFontColor: '#d8d5d0'
+
+task:
+  unpressed:
+    fontColor:  {@' $fgColor1 | squote '@}
+    background: '#d8d5d0'
+    border:     '#89827c'
+    gradient:
+      start:    '#ccc9c4'
+      stop:     '#d8d5d1'
+      end:      '#b2aea5'
+  hover:
+    background: '#ece5d4'
+    border:     '#999792'
+    gradient:
+      start:    '#d8d5d0'
+      stop:     '#e3e1de'
+      end:      '#bdb9b2'
+  pressed:
+    fontColor:  '#030303'
+    background: '#ddd4c5'
+    border:     '#88847e'
+    gradient:
+      start:    '#bab6ae'
+      stop:     '#a7a297'
+      end:      '#b6b2a9'
+  urgent:
+    background: '#f4f1ec'
+    border:     '#928f89'
+  iconified:
+    fontColor:  '#6c6054'
+
+tooltip:
+  fontColor:  {@' $fgColor1 | squote '@}
+  background: '#f3e5ab'
+  border:     '#b59f5f'
+
+clock:
+  fontColor: {@' $fgColor2 | squote '@}
+
+separator:
+  color: '#898275'
+

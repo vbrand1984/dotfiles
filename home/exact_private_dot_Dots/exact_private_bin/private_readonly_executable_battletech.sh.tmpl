@@ -8,9 +8,10 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 game_dir="${HOME}/Games/SSD/BATTLETECH"
+game_file="start.sh"
 
-if [ ! -x "${game_dir}/start.sh" ] ; then
-	echo "There is no executable 'start.sh' in ${game_dir}! Exiting."
+if [ ! -x "${game_dir}/${game_file}" ] ; then
+	echo "There is no executable '${game_file}' in ${game_dir}! Exiting."
 	exit 1
 fi
 
@@ -25,5 +26,5 @@ while [ $i -le $ncores ] ; do
     i=$(( i + 2 ))
 done
 
-taskset --cpu-list "${cores_line}" ./start.sh
+taskset --cpu-list "${cores_line}" "./${game_file}"
 {@'- end '@}

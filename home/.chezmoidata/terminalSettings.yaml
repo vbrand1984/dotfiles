@@ -9,7 +9,7 @@ terminal:
   colors:
 
     normal:
-      black:    '#282828' #'#2a3439' #'#2c313d' #'#303d2c' 
+      black:    '#353331' #'#282828' '#2a3439' #'#2c313d' #'#303d2c' 
       red:      '#af2528' #'#c14a4a'
       green:    '#6c782e' #'#98971a'
       yellow:   '#b47109' #'#d79921'
@@ -28,7 +28,7 @@ terminal:
       cyan:     '#89b482' #'#8bba7f' #'#8ec07c'
       white:    '#ddc7a1' #'#ddc7a1' #'#e2cca9'
 
-    background: '#282828' #'#2a3439' #'#2c313d' #'#303d2c'
+    background: '#353331' #'#2a3439' #'#2c313d' #'#303d2c'
     foreground: '#ddc7a1'
 
     cursor:     '#ddc7a1'
