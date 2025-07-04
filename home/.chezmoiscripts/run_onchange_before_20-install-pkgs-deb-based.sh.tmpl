@@ -18,14 +18,8 @@
 {@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
 # Update apt just for the case
-print_message "Running 'apt update'..."
-ensure_sudo_is_working && {@' .cmd.sudo '@} apt update
-
-# Install aptitude if it is not installed yet
-if ! command -v aptitude 1>/dev/null 2>&1 ; then
-    print_message "Installing aptitude..."
-    ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --no-install-recommends --assume-yes install aptitude
-fi
+print_message "Running 'aptitude update'..."
+ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude update
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"

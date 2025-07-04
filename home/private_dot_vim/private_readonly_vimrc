@@ -65,43 +65,51 @@ set mouse=a
 augroup custom_indentation
     autocmd!
     autocmd FileType xml setlocal ts=2 sw=2 expandtab
+    autocmd FileType ob3 setlocal ts=4 sw=4 noexpandtab
     "autocmd FileType template setlocal ts=2 sw=2 expandtab
     "autocmd FileType vim setlocal ts=2 sw=2
 augroup END
 
-" Automatic colorization of letters
-"let g:chezmoi#detect_ignore_pattern=.*conky\.conf.*
-autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
-autocmd BufRead,BufNewFile *conky.conf setlocal filetype=lua
-autocmd BufRead,BufNewFile *conky.conf.tmpl setlocal filetype=lua.chezmoitmpl
-"autocmd BufRead,BufNewFile */openbox-3/themerc set filetype=ob3
-
-autocmd BufRead,BufNewFile ~/.Dots/chezmoi/home/* set modeline
+" modeline for chezmoi home directory
+augroup modeline_for_chezmoi_source_dir
+    autocmd!
+    autocmd BufRead,BufNewFile ~/.Dots/chezmoi/home/* set modeline
+augroup END
 
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
 
 " Filetypes
-autocmd BufRead,BufNewFile *.py.tmpl set filetype=python
-autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
-autocmd BufRead,BufNewFile *.pl.tmpl set filetype=perl
-autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
-autocmd BufRead,BufNewFile *.desktop.tmpl set filetype=desktop
-autocmd BufRead,BufNewFile *.toml.tmpl set filetype=toml
-autocmd BufRead,BufNewFile *.lua.tmpl set filetype=lua
-autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl set filetype=yaml
+augroup custom_filetypes
+    autocmd!
+    autocmd BufRead,BufNewFile *.py.tmpl set filetype=python
+    autocmd BufRead,BufNewFile *.xml.tmpl set filetype=xml
+    autocmd BufRead,BufNewFile *.pl.tmpl set filetype=perl
+    autocmd BufRead,BufNewFile *.sh.tmpl set filetype=sh
+    autocmd BufRead,BufNewFile *.desktop.tmpl set filetype=desktop
+    autocmd BufRead,BufNewFile *.toml.tmpl set filetype=toml
+    autocmd BufRead,BufNewFile *.lua.tmpl set filetype=lua
+    autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl set filetype=yaml
+augroup END
 
 " Certain config files
-autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
-autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
-autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=sh
-autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
-autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
-autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
-autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
-autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
-autocmd BufRead,BufNewFile *gvimrc* set filetype=vim
-autocmd BufRead,BufNewFile *_tmux.conf,*_tmux.conf.tmpl set filetype=tmux
-autocmd BufRead,BufNewFile *mc/*menu,*mc/*menu.tmpl set filetype=conf
+augroup certain_config_files
+    autocmd!
+    autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl set filetype=conf
+    autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl set filetype=dosini
+    autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl set filetype=sh
+    autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl set filetype=xml
+    autocmd BufRead,BufNewFile *_Xresources.tmpl set filetype=xdefaults
+    autocmd BufRead,BufNewFile *dunstrc,*dunstrc.tmpl set filetype=cfg
+    autocmd BufRead,BufNewFile *openbox/*autostart* set filetype=sh
+    autocmd BufRead,BufNewFile .profile,*dot_profile* set filetype=sh
+    autocmd BufRead,BufNewFile *gvimrc* set filetype=vim
+    autocmd BufRead,BufNewFile *_tmux.conf,*_tmux.conf.tmpl set filetype=tmux
+    autocmd BufRead,BufNewFile *mc/*menu,*mc/*menu.tmpl set filetype=conf
+    autocmd BufRead,BufNewFile ~/.config/conky/* set filetype=lua
+    autocmd BufRead,BufNewFile *conky.conf setlocal filetype=lua
+    autocmd BufRead,BufNewFile *conky.conf.tmpl setlocal filetype=lua
+    autocmd BufRead,BufNewFile ansible.cfg,*ansible.cfg.tmpl setlocal filetype=dosini
+augroup END
 
 
 " Imported from defaults.vim
@@ -150,12 +158,12 @@ let g:airline#extensions#whitespace#enabled = 0
 
 " Gruvbox default setup
 let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_contrast_dark = 'soft'
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_invert_selection = 0
 
 " Everforest default setup
-let g:everforest_background = 'hard'
+let g:everforest_background = 'medium'
 
 " Gruvbox-material default setup
 let g:gruvbox_material_background = 'soft'
@@ -175,20 +183,23 @@ if ($TERM != 'linux' || has("gui_running"))
         "let g:airline_theme = 'gruvbox'
         "autocmd vimenter * ++nested colorscheme gruvbox
 
-        colorscheme gruvbox-material
-        let g:airline_theme = 'gruvbox_material'
+        "colorscheme gruvbox-material
+        "let g:airline_theme = 'gruvbox_material'
 
-        "colorscheme everforest
-        "let g:airline_theme = 'everforest'
-    else
         colorscheme everforest
         let g:airline_theme = 'everforest'
+    else
+        "set background=light
+        "let g:everforest_background = 'soft'
+        "colorscheme everforest
+        "let g:airline_theme = 'everforest'
 
         "colorscheme gruvbox-material
         "let g:airline_theme = 'gruvbox_material'
 
-        "let g:airline_theme = 'gruvbox'
-        "autocmd vimenter * ++nested colorscheme gruvbox
+        set background=light
+        let g:airline_theme = 'gruvbox'
+        autocmd vimenter * ++nested colorscheme gruvbox
     endif
 else
     colorscheme desert

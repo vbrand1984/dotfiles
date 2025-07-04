@@ -1,7 +1,4 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
-{@ if false -@}
-# vim: ft=cfg
-{@- end -@}
 {@ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @}
 
 [defaults]

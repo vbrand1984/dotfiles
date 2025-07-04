@@ -79,8 +79,8 @@ encryption = "age"
     # These settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
 
-    {@' $isDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") '@}
-    {@' $isDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") '@}
+    {@' $isDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
+    {@' $isDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") -'@}
     {@' $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
     {@' $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
     {@' $isDebBased := or $isDebianBased $isUbuntuBased -'@}
@@ -122,7 +122,7 @@ encryption = "age"
 
 [data.git]
 
-{@' if $isBrandsPrivate '@}
+{@' if $isBrandsPrivate -'@}
     fullName = {@' default "Victor Brand" .git.fullName | quote '@}
     email = {@' default "58734964+vbrand1984@users.noreply.github.com" .git.email | quote '@}
 {@'- else -'@}
@@ -268,7 +268,7 @@ encryption = "age"
 
     # Autohide desktop panel in Openbox
     # This affects several options in tint2 and conky configs
-    autohidePanel = {@' default true (.misc.autohidePanel | not | not) '@}
+    autohidePanel = {@' default false (.misc.autohidePanel | not | not) '@}
 
 # }}}
 # {{{ .redShift: Redshift settings

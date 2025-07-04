@@ -1,0 +1,29 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: ft=sh
+{@'- end -'@}
+{@'- if and .sys.isDebBased (not lookPath "aptitude") -'@}
+#!/bin/sh
+#
+# This script installs aptitude if it is not installed yet
+#
+
+{@'/* Print the name of the script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+{@'/* Include the "ensure_sudo_is_working" function */ -'@}
+{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
+
+{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+print_message "Preparing to install aptitude. Updating apt..."
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt update
+
+print_message "Upgrading apt..."
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends upgrade
+
+print_message "Installing aptitude..."
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends install aptitude
+
+{@'- end '@}
