@@ -13,7 +13,7 @@ case $- in
       *) return;;
 esac
 
-# }}}
+# }}} (Generic intro)
 # {{{ HISTCONTROL and other various settings
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -41,7 +41,7 @@ shopt -s checkwinsize
 # I just sometimes love tabs btw
 tabs -4
 
-# }}}
+# }}} (HISTCONTROL)
 # {{{ PS1: Command line prompt configuration
 
 # See: https://www.learnlinux.tv/10-linux-terminal-tips-and-tricks-to-enhance-your-workflow/
@@ -139,7 +139,7 @@ case "$TERM" in
         ;;
 esac
 
-# }}}
+# }}} (PS1)
 # {{{ Aliases
 
 # {{{ Generic aliases
@@ -167,7 +167,7 @@ rm() { command rm -i "${@}"; }
 cp() { command cp -i "${@}"; }
 mv() { command mv -i "${@}"; }
 
-# }}}
+# }}} (Generic aliases)
 # {{{ Various handy aliases
 
 # Quick clear screen
@@ -183,7 +183,7 @@ alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TE
 
 {@' end -'@}
 
-# }}}
+# }}} (Various handy aliases)
 # {{{ chezmoi aliases
 
 {@'- /* If this is not a "Brands private PC", the "--exclude=encrypted" suffix will be added to the aliases */'@}
@@ -207,13 +207,13 @@ alias Cs={@' cat .chezmoi.executable "status" $excludeSuffix | trim | squote '@}
 # chezmoi update
 alias Cu={@' cat .chezmoi.executable "update" $excludeSuffix | trim | squote '@}
 
-# }}}
+# }}} (chezmoi aliases)
 # {{{ git aliases
 
 # Git messages to be always in English no matter what locale is
 alias git='LC_MESSAGES=C git'
 
-# }}}
+# }}} (git aliases)
 # {{{ Ansible aliases
 
 # Disable writing byte code for python, 
@@ -224,38 +224,84 @@ alias ansible-lint='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 # ansible-lint alias
 alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 
-# }}}
+# }}} (Ansible aliases)
 # {{{ Aliases for package manager. {@'- /* Supported distros only. */'@}
 
+{@'/* {{{ Debian-based */ -'@}
 {@' if .sys.isDebBased -'@}
 
+# Show available versions of a package
 alias av='aptitude versions'
+
+# Describe why the package is installed
 alias aw='aptitude why'
+
+# Search for the packages containing a file by its name
 alias f='apt-file search'
+
+# Show the list of the files a package provides
 alias fS='apt-file show'
+
+# Install a package without recommended dependencies
 alias i='{@' .cmd.sudo '@} aptitude --without-recommends install'
+
+# Install a package with recommended dependencies
 alias I='{@' .cmd.sudo '@} aptitude --with-recommends install'
-{@'- if or .sys.isDebian .sys.isDevuan '@}
+
+{@' if or .sys.isDebian .sys.isDevuan -'@}
+# Install a package from the backports repo without recommended dependencies
 alias ib='{@' .cmd.sudo '@} aptitude --without-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
+
+# Install a package from the backports repo with recommended dependencies
 alias Ib='{@' .cmd.sudo '@} aptitude --with-recommends -t {@' .chezmoi.osRelease.versionCodename '@}-backports install'
 {@'- end '@}
+
+# Remove a package
 alias r='{@' .cmd.sudo '@} aptitude purge'
+
+# Search for a package
 alias s='aptitude search'
+
+# Show pakcage info
 alias S='aptitude show'
+
+# Update apt cache
 alias upd='{@' .cmd.sudo '@} aptitude update'
+
+# Update apt-file cache
+alias updf='{@' .cmd.sudo '@} apt-file update'
+
+# Upgrade the system
 alias upg='{@' .cmd.sudo '@} aptitude upgrade'
-alias upgf='{@' .cmd.sudo '@} apt-file update'
 
-{@'- else if .sys.isVoid -'@}
+{@'/* }}} */ -'@}
+{@'/* {{{ Void */ -'@}
+{@' else if .sys.isVoid -'@}
 
+# Search for the packages containing a file by its name
+alias f='xlocate -S && xlocate'
+
+# Install a package
 alias i='{@' .cmd.sudo '@} xbps-install -S'
+
+# Remove a package
 alias r='{@' .cmd.sudo '@} xbps-remove -R'
+
+# Search for a package
 alias s='xbps-query -Rs'
+
+# Show package info
 alias S='xbps-query -RS'
+
+# Upgrade system
 alias upg='{@' .cmd.sudo '@} xbps-install -Su'
+
+# Upgrade the package manager
 alias upgx='{@' .cmd.sudo '@} xbps-install -u xbps'
 
-{@'- else if .sys.isGentoo -'@}
+{@'/* }}} */ -'@}
+{@'/* {{{ Gentoo */ -'@}
+{@' else if .sys.isGentoo -'@}
 
 alias i='{@' .cmd.sudo '@} emerge --ask --verbose'
 alias s='emerge --search'
@@ -263,16 +309,19 @@ alias d='{@' .cmd.sudo '@} emerge --depclean --ask --verbose'
 alias upd='{@' .cmd.sudo '@} emaint --allrepos sync'
 alias upg='{@' .cmd.sudo '@} emerge --update --verbose --deep --ask --newuse --keep-going @world'
 
-{@'- else -'@}
+{@'/* }}} */ -'@}
+{@'/* {{{ Other distros (not supported) */ -'@}
+{@' else -'@}
 
 # The distro is not supported with this config.
 # ...Just use the right distro btw
 
-{@'- end '@}
+{@' end -'@}
+{@'/* }}} */ -'@}
 
-# }}}
+# }}} (Aliases for package manager)
 
-# }}}
+# }}} (Aliases)
 {@'- if .sys.isDebBased '@}
 # {{{ Bash-completion configuration from default Deb-based distros skel
 
@@ -287,7 +336,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# }}}
+# }}} (Bash-completion configuration)
 {@'- end '@}
 # {{{ Export variables
 
@@ -331,4 +380,4 @@ export XZ_DEFAULTS="-9 -T0"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 {@'- end '@}
 
-# }}}
+# }}} (Export variables)
