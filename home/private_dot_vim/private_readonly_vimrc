@@ -111,6 +111,11 @@ augroup certain_config_files
     autocmd BufRead,BufNewFile ansible.cfg,*ansible.cfg.tmpl setlocal filetype=dosini
 augroup END
 
+" Enable tabs in fstab
+augroup tabs_in_fstab
+    autocmd!
+    autocmd BufRead,BufNewFile fstab* set noexpandtab
+augroup END
 
 " Imported from defaults.vim
 " Put these in an autocmd group, so that you can revert them with:
@@ -197,7 +202,7 @@ if ($TERM != 'linux' || has("gui_running"))
         "colorscheme gruvbox-material
         "let g:airline_theme = 'gruvbox_material'
 
-        set background=light
+        "set background=light
         let g:airline_theme = 'gruvbox'
         autocmd vimenter * ++nested colorscheme gruvbox
     endif
