@@ -7,6 +7,7 @@
 
 # Our default GTK and Openbox themes:
 # Greylooks, GreylooksGreen, GreylooksHuman and GreylooksOk
+{{ if false }}
 {{ range .misc.greylooksThemes }}
 [".local/share/themes/{{ . }}"]
     type = "archive"
@@ -16,6 +17,7 @@
     stripComponents = 2
     include = ["greylooks-master/{{ . }}/**"]
     refreshPeriod = "1680h"
+{{ end }}
 {{ end }}
 
 ### Fonts ###
