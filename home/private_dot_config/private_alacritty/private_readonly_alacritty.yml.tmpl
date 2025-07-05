@@ -123,10 +123,10 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: {@' .misc.terminalFont '@}
+    family: {@' .misc.terminal.font.family '@}
 
     # The `style` can be specified to pick a specific face.
-    style: {@' .misc.terminalFontWeight '@}
+    style: {@' .misc.terminal.font.weight.normal '@}
 
   # Bold font face
   bold:
@@ -137,7 +137,7 @@ font:
     #family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
-    style: ExtraBold
+    style: {@' .misc.terminal.font.weight.bold '@}
 
   # Italic font face
   italic:
@@ -148,7 +148,7 @@ font:
     #family: JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
-    style: Medium Italic
+    style: {@' .misc.terminal.font.weight.italic '@}
 
   # Bold italic font face
   bold_italic:
@@ -159,10 +159,10 @@ font:
     #family: JetBrainsMono
 
     # The `style` can be specified to pick a specific face.
-    style: ExtraBold Italic
+    style: {@' .misc.terminal.font.weight.boldItalic '@}
 
   # Point size
-  size: {@' .misc.terminalFontSize '@}
+  size: {@' .misc.terminal.font.size '@}
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -188,12 +188,13 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (Tomorrow Night)
+{@' $palette := includeTemplate .tmpl.palette.terminal | fromYaml -'@}
+# Colors
 colors:
   # Default colors
   primary:
-    background: {@' .terminal.colors.background | squote '@}
-    foreground: {@' .terminal.colors.foreground | squote '@}
+    background: {@' $palette.background | squote '@}
+    foreground: {@' $palette.foreground | squote '@}
 
     # Bright and dim foreground colors
     #
@@ -286,25 +287,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   {@' .terminal.colors.normal.black | squote '@}
-    red:     {@' .terminal.colors.normal.red | squote '@}
-    green:   {@' .terminal.colors.normal.green | squote '@}
-    yellow:  {@' .terminal.colors.normal.yellow | squote '@}
-    blue:    {@' .terminal.colors.normal.blue | squote '@}
-    magenta: {@' .terminal.colors.normal.magenta | squote '@}
-    cyan:    {@' .terminal.colors.normal.cyan | squote '@}
-    white:   {@' .terminal.colors.normal.white | squote '@}
+    black:   {@' $palette.normal.black | squote '@}
+    red:     {@' $palette.normal.red | squote '@}
+    green:   {@' $palette.normal.green | squote '@}
+    yellow:  {@' $palette.normal.yellow | squote '@}
+    blue:    {@' $palette.normal.blue | squote '@}
+    magenta: {@' $palette.normal.magenta | squote '@}
+    cyan:    {@' $palette.normal.cyan | squote '@}
+    white:   {@' $palette.normal.white | squote '@}
 
   # Bright colors
   bright:
-    black:   {@' .terminal.colors.bright.black | squote '@}
-    red:     {@' .terminal.colors.bright.red | squote '@}
-    green:   {@' .terminal.colors.bright.green | squote '@}
-    yellow:  {@' .terminal.colors.bright.yellow | squote '@}
-    blue:    {@' .terminal.colors.bright.blue | squote '@}
-    magenta: {@' .terminal.colors.bright.magenta | squote '@}
-    cyan:    {@' .terminal.colors.bright.cyan | squote '@}
-    white:   {@' .terminal.colors.bright.white | squote '@}
+    black:   {@' $palette.bright.black | squote '@}
+    red:     {@' $palette.bright.red | squote '@}
+    green:   {@' $palette.bright.green | squote '@}
+    yellow:  {@' $palette.bright.yellow | squote '@}
+    blue:    {@' $palette.bright.blue | squote '@}
+    magenta: {@' $palette.bright.magenta | squote '@}
+    cyan:    {@' $palette.bright.cyan | squote '@}
+    white:   {@' $palette.bright.white | squote '@}
 
 #  # Normal colors
 #  normal:

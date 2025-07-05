@@ -10,29 +10,30 @@
 [colors]
     draw_bold_text_with_bright_colors = true
 
+{@' $palette := includeTemplate .tmpl.palette.terminal | fromYaml -'@}
 [colors.primary]
-    background = {@' .terminal.colors.background | squote '@}
-    foreground = {@' .terminal.colors.foreground | squote '@}
+    background = {@' $palette.background | squote '@}
+    foreground = {@' $palette.foreground | squote '@}
 
 [colors.bright]
-    black =      {@' .terminal.colors.bright.black | squote '@}
-    red =        {@' .terminal.colors.bright.red | squote '@}
-    green =      {@' .terminal.colors.bright.green | squote '@}
-    yellow =     {@' .terminal.colors.bright.yellow | squote '@}
-    blue =       {@' .terminal.colors.bright.blue | squote '@}
-    magenta =    {@' .terminal.colors.bright.magenta | squote '@}
-    cyan =       {@' .terminal.colors.bright.cyan | squote '@}
-    white =      {@' .terminal.colors.bright.white | squote '@}
+    black =      {@' $palette.bright.black | squote '@}
+    red =        {@' $palette.bright.red | squote '@}
+    green =      {@' $palette.bright.green | squote '@}
+    yellow =     {@' $palette.bright.yellow | squote '@}
+    blue =       {@' $palette.bright.blue | squote '@}
+    magenta =    {@' $palette.bright.magenta | squote '@}
+    cyan =       {@' $palette.bright.cyan | squote '@}
+    white =      {@' $palette.bright.white | squote '@}
 
 [colors.normal]
-    black =      {@' .terminal.colors.normal.black | squote '@}
-    red =        {@' .terminal.colors.normal.red | squote '@}
-    green =      {@' .terminal.colors.normal.green | squote '@}
-    yellow =     {@' .terminal.colors.normal.yellow | squote '@}
-    blue =       {@' .terminal.colors.normal.blue | squote '@}
-    magenta =    {@' .terminal.colors.normal.magenta | squote '@}
-    cyan =       {@' .terminal.colors.normal.cyan | squote '@}
-    white =      {@' .terminal.colors.normal.white | squote '@}
+    black =      {@' $palette.normal.black | squote '@}
+    red =        {@' $palette.normal.red | squote '@}
+    green =      {@' $palette.normal.green | squote '@}
+    yellow =     {@' $palette.normal.yellow | squote '@}
+    blue =       {@' $palette.normal.blue | squote '@}
+    magenta =    {@' $palette.normal.magenta | squote '@}
+    cyan =       {@' $palette.normal.cyan | squote '@}
+    white =      {@' $palette.normal.white | squote '@}
 
 [colors.cursor]
     cursor = "CellForeground"
@@ -44,20 +45,20 @@
 
 [font]
     builtin_box_drawing = true
-    size = {@' .misc.terminalFontSize '@}
+    size = {@' .misc.terminal.font.size '@}
 
 [font.normal]
-family = {@' .misc.terminalFont | quote '@}
-style =  {@' .misc.terminalFontWeight | quote '@}
+family = {@' .misc.terminal.font.family | quote '@}
+style =  {@' .misc.terminal.font.weight.normal | quote '@}
 
 [font.bold]
-    style = "ExtraBold"
+    style = {@' .misc.terminal.font.weight.bold | quote '@}
 
 [font.bold_italic]
-    style = "ExtraBold Italic"
+    style = {@' .misc.terminal.font.weight.boldItalic | quote '@}
 
 [font.italic]
-    style = "Medium Italic"
+    style = {@' .misc.terminal.font.weight.italic | quote '@}
 
 [window]
     startup_mode = "Maximized"

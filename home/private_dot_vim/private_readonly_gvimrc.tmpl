@@ -1,5 +1,5 @@
 " A cool font
-set guifont={{ (cat .misc.terminalFont .misc.terminalFontWeight .misc.terminalFontSize) | replace " " "\\ " }}
+set guifont={{ (cat .misc.terminal.font.family .misc.terminal.font.weight.normal .misc.terminal.font.size) | replace " " "\\ " }}
 
 " Disable unnecessary graphic stuff
 set guioptions -=m  " Menu

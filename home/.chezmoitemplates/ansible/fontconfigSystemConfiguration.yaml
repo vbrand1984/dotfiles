@@ -5,6 +5,8 @@
 # Also '70-{yes,no,force}-bitmaps.conf' files are managed automatically and should not be on this list.
 
 # List of patterns (globs) for available fontconfig configuration files
+---
+
 conf_avail:
   - "/usr/share/fontconfig/conf.avail/*.conf"
   - "/etc/fonts/conf.avail/*.conf"
@@ -73,3 +75,6 @@ conf_needed:
 
   - 80-delicious.conf
   - 90-synthetic.conf
+
+...
+

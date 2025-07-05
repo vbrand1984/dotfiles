@@ -2,7 +2,7 @@
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}
-{@'- if and .sys.isDebBased (not lookPath "aptitude") -'@}
+{@'- if and .sys.isDebBased (not (lookPath "aptitude")) -'@}
 #!/bin/sh
 #
 # This script installs aptitude if it is not installed yet

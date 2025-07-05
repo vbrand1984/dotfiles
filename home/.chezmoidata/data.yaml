@@ -63,6 +63,10 @@ tmpl:
     managedByChezmoi: 'msgManagedByChezmoi.tmpl'
     printRunningScriptName: 'scripts-shell/printRunningScriptName.sh.tmpl'
 
+  # Palettes for various applications
   palette:
-    tint2: 'palettes/tint2.yml.tmpl'
+    tint2: 'palettes/tint2.yaml.tmpl'
+    terminal: 'palettes/terminal.yaml.tmpl'
+
 ...
+

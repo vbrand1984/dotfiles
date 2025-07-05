@@ -1,0 +1,42 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+#
+# This is my palette for terminal emulators.
+# It is based on gruvbox and gruvbox-material with certain tweaks.
+#
+# chezmoi variable to store relative path to this template: .tmpl.palette.terminal
+#
+{@'- end -'@}
+---
+
+{@'- $background := "#32302f" '@} {@'- /* "#282828" "#2a3439" "#2c313d" "#32302f" "#303d2c" "#353331" */'@}
+{@'- $foreground := "#ddc7a1" '@} {@'- /* "#ddc7a1" "#e2cca9" */'@}
+
+# My palette
+normal:
+  black:    {@' $background | squote '@}
+  red:      '#af2528' #'#c14a4a'
+  green:    '#6c782e' #'#98971a'
+  yellow:   '#b47109' #'#d79921'
+  blue:     '#066976' #'#076678' #'#4c566a' #'#076678' #'#266b79' #'#076678'
+  magenta:  '#945e80'
+  cyan:     '#689d6a' #'#689d6a' #'#4c7a5d' #'#35a77c' #'#477a5b'
+  white:    '#a89984'
+
+bright:
+  black:    '#7c6f64'
+  red:      '#f2594b' #'#ea6962'
+  green:    '#a9b665' #'#a9b665' #'#b8bb26'
+  yellow:   '#d8a657'
+  blue:     '#66999d'
+  magenta:  '#d3869b' #'#d3869b'
+  cyan:     '#89b482' #'#8bba7f' #'#8ec07c'
+  white:    {@' $foreground | squote '@}
+
+background: {@' $background | squote '@}
+foreground: {@' $foreground | squote '@}
+
+cursor:     {@' $foreground | squote '@}
+cursorInv:  '#7c6f64'
+
+...

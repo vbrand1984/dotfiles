@@ -2,12 +2,13 @@
 #
 # See: https://codeberg.org/derat/xsettingsd
 # See: https://www.freedesktop.org/wiki/Specifications/XSettingsRegistry/
+#
 
 # Theme settings
 Net/ThemeName {{ .gtk.themeName | quote }}
 Net/IconThemeName {{ .gtk.iconTheme | quote }}
 Gtk/CursorThemeName {{ .gtk.cursorTheme | quote }}
-Gtk/FontName {{ .gtk.fontName | quote }}
+Gtk/FontName {{ cat .gtk.font.family .gtk.font.weight .gtk.font.size | quote }}
 Gtk/DecorationLayout {{ .gtk.decorationLayout | quote }}
 Net/EnableEventSounds {{ int .gtk.enableEventSounds }}
 Net/EnableInputFeedbackSounds {{ int .gtk.enableInputFeedbackSounds }}

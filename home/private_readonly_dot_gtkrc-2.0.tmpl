@@ -2,7 +2,7 @@
 
 gtk-theme-name={{ .gtk.themeName | quote }}
 gtk-icon-theme-name={{ .gtk.iconTheme | quote }}
-gtk-font-name={{ .gtk.fontName | quote }}
+gtk-font-name={{ cat .gtk.font.family .gtk.font.weight .gtk.font.size | quote }}
 gtk-cursor-theme-name={{ .gtk.cursorTheme | quote }}
 gtk-cursor-theme-size={{ .gtk.cursorSize }}
 gtk-toolbar-style={{ .gtk.toolbarStyle }}

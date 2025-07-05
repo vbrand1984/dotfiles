@@ -79,18 +79,20 @@ encryption = "age"
     # These settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
 
-    {@' $isDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
-    {@' $isDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") -'@}
-    {@' $isDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
-    {@' $isUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
-    {@' $isDebBased := or $isDebianBased $isUbuntuBased -'@}
-    isDebian = {@' $isDebian '@} 
-    isDevuan = {@' $isDevuan '@} 
-    isDebianBased = {@' $isDebianBased '@} 
-    isUbuntuBased = {@' $isUbuntuBased '@} 
-    isDebBased = {@' $isDebBased '@} 
-    isVoid = {@' eq .chezmoi.osRelease.id "void" '@}
-    isGentoo = {@' eq .chezmoi.osRelease.id "gentoo" '@}
+    {@' $sysIsDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
+    {@' $sysIsDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") -'@}
+    {@' $sysIsVoid := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "void") -'@}
+    {@' $sysIsGentoo := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "gentoo") -'@}
+    {@' $sysIsDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
+    {@' $sysIsUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
+    {@' $sysIsDebBased := or $sysIsDebianBased $sysIsUbuntuBased -'@}
+    isDebian = {@' $sysIsDebian '@} 
+    isDevuan = {@' $sysIsDevuan '@} 
+    isDebianBased = {@' $sysIsDebianBased '@} 
+    isUbuntuBased = {@' $sysIsUbuntuBased '@} 
+    isDebBased = {@' $sysIsDebBased '@} 
+    isVoid = {@' $sysIsVoid '@}
+    isGentoo = {@' $sysIsGentoo '@}
     hasSystemd = {@' lookPath "systemctl" | not | not '@}
 
     isVM = {@' $sysIsVM '@}
@@ -109,7 +111,7 @@ encryption = "age"
 [data.cmd]
 
     # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-    sudo = {@' and (not $isDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
+    sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
 
     terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
 
@@ -190,7 +192,9 @@ encryption = "age"
 [data.gtk]
 
     # General theming
-    fontName = {@' default "Ubuntu Nerd Font Propo Regular 11" .gtk.fontName | quote '@}
+    font.family = {@' default "Ubuntu" .gtk.font.family | quote '@}
+    font.weight = {@' default "Regular" .gtk.font.weight | quote '@}
+    font.size = {@' default 11 .gtk.font.size | quote '@}
     themeName = {@' default "Greylooks" .gtk.themeName | quote '@}
     iconTheme = {@' default "Papirus-Light" .gtk.iconTheme | quote '@}
 
@@ -242,12 +246,15 @@ encryption = "age"
 
 [data.misc]
 
-    {@' $miscTerminalFont := default "JetBrainsMonoNL Nerd Font Mono" -'@}
-    {@' $miscTerminalFontWeight := default "Medium" -'@}
-    {@'- $miscTerminalFontSize := $sysHasSmallScreen | ternary "12.5" "13.5" '@}
-    terminalFont = {@' default $miscTerminalFont .misc.terminalFont | quote '@}
-    terminalFontWeight = {@' default $miscTerminalFontWeight .misc.terminalFontWeight | quote '@}
-    terminalFontSize = {@' default $miscTerminalFontSize .misc.terminalFontSize | quote '@}
+    {@' $defaultTerminalFontFamily := $sysIsVoid | ternary "JetBrainsMonoNL Nerd Font Mono" "JetBrains Mono" -'@}
+    {@' $defaultTerminalFontSize := $sysHasSmallScreen | ternary "12.5" "13.5" -'@}
+    # Terminal settings
+    terminal.font.family = {@' default $defaultTerminalFontFamily .misc.terminal.font.family | quote '@}
+    terminal.font.size = {@' default $defaultTerminalFontSize .misc.terminal.font.size | quote '@}
+    terminal.font.weight.normal = {@' default "Medium" .misc.terminal.font.weight.normal | quote '@}
+    terminal.font.weight.bold = {@' default "ExtraBold" .misc.terminal.font.weight.bold | quote '@}
+    terminal.font.weight.boldItalic = {@' default "ExtraBold Italic" .misc.terminal.font.weight.boldItalic | quote '@}
+    terminal.font.weight.italic = {@' default "Medium Italic" .misc.terminal.font.weight.italic | quote '@}
 
     # Icon sizes for various applications
     obmenuIconSize = {@' default 24 .misc.obmenuIconSize | int '@}
