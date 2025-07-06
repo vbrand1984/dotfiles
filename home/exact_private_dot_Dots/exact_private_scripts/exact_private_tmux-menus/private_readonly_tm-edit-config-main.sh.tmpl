@@ -1,0 +1,21 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens a main edit config menu in tmux
+#
+
+exec tmux display-menu -T 'Edit config files' -x C -y C \
+    'Edit ~/.bashrc' 'b' "new-window -n '~/.bashrc' \"/bin/sh -c 'exec {@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".bashrc" '@}'\"" \
+    'Edit conky.conf' 'y' "new-window -n 'conky.conf' \"/bin/sh -c 'exec {@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" '@}'\"" \
+    'Edit vimrc' 'r' "new-window -n 'vimrc' \"/bin/sh -c 'exec {@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".vim/vimrc" '@}'\"" \
+    '' \
+    'chezmoi...'    'c' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-chezmoi.sh" '@}\"" \
+    'dunst...'      'd' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-dunst.sh" '@}\"" \
+    'Openbox...'    'o' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-openbox.sh" '@}\"" \
+    'Panel...'      'p' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-panel.sh" '@}\"" \
+    'Terminal...'   't' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-terminal.sh" '@}\""

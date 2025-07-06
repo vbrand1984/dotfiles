@@ -7,5 +7,5 @@ chezmoi variable to store relative path to this template: .tmpl.msg.managedByChe
 
 {{- end -}}
 
-This file is managed by chezmoi template:
+{{ .message.managedByChezmoi }}
 {{ joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") .chezmoi.sourceFile -}}

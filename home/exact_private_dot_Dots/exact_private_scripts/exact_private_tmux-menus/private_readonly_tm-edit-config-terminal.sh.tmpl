@@ -1,0 +1,22 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for terminal emulators in tmux
+#
+
+{@'- $alacrittyConfExt := .sys.isDebianBased | ternary ".yml" ".toml" '@}
+{@'- $paletteFileName := base .tmpl.palette.terminal '@}
+
+exec tmux display-menu -T 'Terminal configuration' -x C -y C \
+    'Edit alacritty{@' $alacrittyConfExt '@}' 'a' "new-window -n 'alacritty{@' $alacrittyConfExt '@}' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/alacritty/alacritty" '@}{@' $alacrittyConfExt '@}\"" \
+    'Edit ~/.Xresources' 'x' "new-window -n '.Xresources' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".Xresources" '@}\"" \
+    '' \
+    'Edit terminal palette' 'p' "new-window -n '{@' $paletteFileName '@}' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.terminal '@}'" \
+    '' \
+    'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
+

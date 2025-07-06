@@ -1,0 +1,16 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for dunst in tmux
+#
+
+exec tmux display-menu -T 'Terminal configuration' -x C -y C \
+    'Edit dunstrc' 'r' "new-window -n 'dunstrc' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/dunst/dunstrc" '@}\"" \
+    '' \
+    'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
+

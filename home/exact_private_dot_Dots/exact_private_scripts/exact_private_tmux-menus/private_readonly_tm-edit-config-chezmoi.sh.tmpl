@@ -1,0 +1,21 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for chezmoi in tmux
+#
+
+exec tmux display-menu -T 'chezmoi configuration' -x C -y C \
+    'Edit chezmoi config template' 'C' "new-window -n '{@' .chezmoi.configFile | base '@}.tmpl' '{@' .chezmoi.executable '@} edit-config-template'" \
+    'Edit chezmoi config file' 'c' "new-window -n {@' .chezmoi.configFile | base | squote '@} '{@' .chezmoi.executable '@} edit-config'" \
+    '' \
+    'Edit .chezmoiexternal.toml' 'e' "new-window -n 'chezmoiexternal' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoiexternal.toml.tmpl" '@}'" \
+    'Edit .chezmoiignore.tmpl' 'i' "new-window -n 'chezmoiignore' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoiignore.tmpl" '@}'" \
+    'Edit .chezmoiremove.tmpl' 'r' "new-window -n 'chezmoiremove' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoiremove.tmpl" '@}'" \
+    '' \
+    'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
+

@@ -11,6 +11,7 @@ m   Edit ~/.config/mc/menu
 h   Edit mc directory hotlist
     $EDITOR {{ joinPath .dir.symlinked ".config/mc/hotlist" }}
 
+{{ if false }}
 +
 = ! t rl
 c   Edit chezmoi config
@@ -35,6 +36,7 @@ r   Edit vimrc
 t   Edit tmux.conf
     cd ~/.config/tmux
     {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply tmux.conf
+{{ end }}
 
 + t rl
 = t rl

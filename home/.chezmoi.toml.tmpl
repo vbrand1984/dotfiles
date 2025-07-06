@@ -152,9 +152,11 @@ encryption = "age"
     # These variable must contain paths relative to $HOME
     localCache        = {@' $dirLocalCache | quote '@}
     localBin          = {@' joinPath $defaultDotsDir "bin" | quote '@}
-    localScripts      = {@' joinPath $defaultDotsDir "scripts" | quote '@}
-    obPipeMenus       = {@' joinPath $defaultDotsDir "scripts/openbox-pipemenus" | quote '@}
     downloadedScripts = {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
+    {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" '@}
+    localScripts      = {@' $dirLocalScripts | quote '@}
+    obPipeMenus       = {@' joinPath $dirLocalScripts "openbox-pipemenus" | quote '@}
+    tmuxMenus         = {@' joinPath $dirLocalScripts "tmux-menus" | quote '@}
 
     # symlinked variable must contain absolute path
     symlinked         = {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}

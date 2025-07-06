@@ -4,6 +4,7 @@
 
 # {{{ General config
 
+
 set-option -g default-terminal "xterm-256color"
 set-option -ag terminal-overrides ",xterm-256color:Tc"
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
@@ -37,63 +38,71 @@ set-option -g mouse on
 set-window-option -g mode-keys vi
 
 # Ctrl-Space: A new PREFIX
-unbind C-b
+unbind-key C-b
 set-option -g prefix M-Space
-bind M-Space send-prefix
+bind-key M-Space send-prefix
 
 
 # Ctrl-PgUp, Ctrl-PgDown: Switch between windows
-bind -n C-PgUp previous-window
-bind -n C-PgDn next-window
+bind-key -n C-PgUp previous-window
+bind-key -n C-PgDn next-window
 
 # PREFIX Ctrl-h and PREFIX Ctrl-l: Switch between windows
-bind -r C-h previous-window
-bind -r C-l next-window
+bind-key -r C-h previous-window
+bind-key -r C-l next-window
 
 
 # Creating and killing windows
 # Alt-Ins: New window
-bind -n M-Insert new-window
+bind-key -n M-Insert new-window
 # Alt-Delete: Kill window
-bind -n M-Delete kill-window -t ''
+bind-key -n M-Delete kill-window -t ''
 
 # PREFIX z: Kill window
-bind z kill-window -t ''
+bind-key z kill-window -t ''
 
 # Use Tab to switch to last window
-bind Tab last-window
+bind-key Tab last-window
 
 
 # CTRL-SHIFT-PgUp/PgDn: Reorder windows
-bind -n C-S-PgUp swap-window -d -s '' -t -1
-bind -n C-S-PgDn swap-window -d -s '' -t +1
+bind-key -n C-S-PgUp swap-window -d -s '' -t -1
+bind-key -n C-S-PgDn swap-window -d -s '' -t +1
 
 # PREFIX Ctrl-j and PREFIX Ctrl-k: Reorder windows
-bind -r C-j swap-window -d -s '' -t -1
-bind -r C-k swap-window -d -s '' -t +1
+bind-key -r C-j swap-window -d -s '' -t -1
+bind-key -r C-k swap-window -d -s '' -t +1
 
 # Shift-arrows: Reorder windows
 #bind -n S-Left swap-window -t -1
 #bind -n S-Right swap-window -t +1
 
 # Use Alt-arrow keys without prefix key to switch panes
-bind -n M-Left select-pane -L
-bind -n M-Right select-pane -R
-bind -n M-Up select-pane -U
-bind -n M-Down select-pane -D
+bind-key -n M-Left select-pane -L
+bind-key -n M-Right select-pane -R
+bind-key -n M-Up select-pane -U
+bind-key -n M-Down select-pane -D
 
 # set-option easier window split keys
-bind v split-window -h
-bind b split-window -v
+bind-key v split-window -h
+bind-key b split-window -v
 
 
 # Easy reload of config
-bind r source-file {@' .chezmoi.targetFile | quote '@} \; display-message "tmux.conf reloaded."
+bind-key r source-file {@' .chezmoi.targetFile | quote '@} \; display-message "tmux.conf reloaded."
 
 
 # Edit configuration
-bind e new-window -n 'tmux.conf' "/bin/sh -c 'chezmoi edit --apply {@' .chezmoi.targetFile '@} && tmux source {@' .chezmoi.targetFile '@} && tmux display \"{@' .chezmoi.targetFile | replace .chezmoi.homeDir "~" '@} sourced\"'"
+bind-key e new-window -n 'tmux.conf' "/bin/sh -c '{@' .chezmoi.executable '@} edit --apply {@' .chezmoi.targetFile '@} && tmux source {@' .chezmoi.targetFile '@} && tmux display \"{@' .chezmoi.targetFile | replace .chezmoi.homeDir "~" '@} sourced\"'"
 
+
+# Popup
+#bind C-g display-popup -w 80% -h 80% "/bin/bash -i -l -c 'sudo dmesg'"
+
+# }}}
+# {{{ Menus (testing)
+
+bind-key o run-shell "/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-main.sh" '@}"
 
 # }}}
 # {{{ Theming
@@ -109,16 +118,17 @@ bind e new-window -n 'tmux.conf' "/bin/sh -c 'chezmoi edit --apply {@' .chezmoi.
 {@'- $mywhite := "#d3c6aa" '@} {@'- /* "#d3c6aa" */'@}
 
 # Status bar configuration
-set-option -g status-position top
+set-option -g status-position bottom
 set-option -g status-justify centre
 set-option -g status-bg {@' $greenBg | quote '@}
 set-option -g status-fg {@' $greenFg | quote '@}
 #set-option -g status-fg color15
 
 # Theme
-set-option -g status-left-length 16
-set-option -g status-left "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] %R [#S] "
-set-option -g status-right "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] #T"
+set-option -g status-left-length 40
+set-option -g status-left "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] #T"
+set-option -g status-right-length 16
+set-option -g status-right "#[bg=#{@' $greenBg '@}#,fg=#{@' $greenFg '@}] [#S] %R "
 
 set-window-option -g window-status-style bg={@' $greenBg | quote '@},fg={@' $greenFg | quote '@}
 set-window-option -g window-status-current-style bright,bg="#515c38",fg={@' $mywhite | quote '@}
@@ -149,4 +159,3 @@ set-option -g visual-activity off
 
 
 # }}}
-

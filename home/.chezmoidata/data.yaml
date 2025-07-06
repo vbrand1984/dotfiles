@@ -1,4 +1,5 @@
 ---
+
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
 
@@ -18,6 +19,7 @@ app:
   # when ``--action`` parameter is used.
   # This delimiter separates action tag from action text,
   # and in dunstify, it's ``,``, whereas in notify-send, it's ``=``
+  # See take-screenshot-x.sh script
   notifierActionDelimiter:
     dunstify: ','
     notify-send: '='
@@ -36,6 +38,13 @@ file:
     config: 'ansible.cfg'
     inventory: 'inventory.yml'
     localPlaybook: 'local-chezmoi-playbook.yml'
+
+
+# Various messages
+message:
+
+  managedByChezmoi: 'This file is managed by chezmoi template:'
+  dumbShebang: 'Run this script as following:'
 
 tmpl:
 
@@ -67,6 +76,10 @@ tmpl:
   palette:
     tint2: 'palettes/tint2.yaml.tmpl'
     terminal: 'palettes/terminal.yaml.tmpl'
+
+  # Shebangs, mostly dumb
+  shebang:
+    dumbSh: 'shebangs/dumbSh.tmpl'
 
 ...
 

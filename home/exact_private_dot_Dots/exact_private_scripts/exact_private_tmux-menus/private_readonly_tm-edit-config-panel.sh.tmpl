@@ -1,0 +1,19 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for desktop panel in tmux
+#
+
+{@'- $paletteFileName := base .tmpl.palette.tint2 '@}
+
+exec tmux display-menu -T 'Panel configuration' -x C -y C \
+    'Edit tint2rc' 'r' "new-window -n 'tint2rc' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/tint2/tint2rc" '@}\"" \
+    'Edit tint2 palette' 'p' "new-window -n '{@' $paletteFileName '@}' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.tint2 '@}'" \
+    '' \
+    'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
+

@@ -1,0 +1,24 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for Openbox in tmux
+#
+
+exec tmux display-menu -T 'Openbox configuration' -x C -y C \
+    'Edit keybindings.xml' 'K' "new-window -n 'keybindings.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml" '@}\"" \
+    'Edit applications.xml' 'A' "new-window -n 'applications.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/applications.xml" '@}\"" \
+    '' \
+    'Edit menu.xml' 'm' "new-window -n 'menu.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/menu.xml" '@}\"" \
+    'Edit autostart script' 'a' "new-window -n 'autostart' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/autostart" '@}\"" \
+    'Edit modify script for rc.xml' 'r' "new-window -n 'rc.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/rc.xml" '@}\"" \
+    '' \
+    "Edit obmenu-generator's schema.pl" 's' "new-window -n 'schema.pl' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/obmenu-generator/schema.pl" '@}\"" \
+    "Edit obmenu-generator's config.pl" 'c' "new-window -n 'config.pl' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/obmenu-generator/config.pl" '@}\"" \
+    '' \
+    'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
+

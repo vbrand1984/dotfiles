@@ -2,8 +2,11 @@
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}
-#!/bin/sh
 
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
 # A simple script to start rofi launcher
 # Usage: {@' base .chezmoi.targetFile '@} <mode>
 # Where <mode> is:
@@ -13,6 +16,7 @@
 {@'- if or .sys.isGentoo .sys.isVoid '@}
 #   calc    - calculator mode (currently only supported in non-Debian-based distros)
 {@'- end '@}
+#
 
 case "$1" in
     run)
