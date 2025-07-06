@@ -89,6 +89,7 @@ augroup custom_filetypes
     autocmd BufRead,BufNewFile *.toml.tmpl set filetype=toml
     autocmd BufRead,BufNewFile *.lua.tmpl set filetype=lua
     autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl set filetype=yaml
+    autocmd BufRead,BufNewFile *.ini.tmpl set filetype=dosini
 augroup END
 
 " Certain config files

@@ -1,3 +1,7 @@
+# chezmoi:template: left-delimiter={@ right-delimiter=@}
+
+{@- $libDir := .sys.isDebBased | ternary "/usr/lib" "/usr/libexec" -@}
+
 # Midnight Commander 4.0 extension file
 #
 # Warning: The structure of this file has been completely changed with the version 4.0!
@@ -214,120 +218,120 @@ Include=tar.gz
 [tar.bzip]
 Shell=.tar.bz
 # Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.bzip
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.bzip
 
 [tar.bzip2]
 Regex=\.t(ar\.bz2|bz2?|b2)$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.bzip2
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.bzip2
 
 # .tar.lzma, .tlz
 [tar.lzma]
 Regex=\.t(ar\.lzma|lz)$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.lzma
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.lzma
 
 [tar.lz]
 Shell=.tar.lz
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.lz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.lz
 
 # .tar.lz4, .tlz4
 [tar.lz4]
 Regex=\.t(ar\.lz4|lz4)$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.lz4
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.lz4
 
 # .tar.xz, .txz
 [tar.xz]
 Regex=\.t(ar\.xz|xz)$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.xz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.xz
 
 # .tar.zst, .tzst
 [tar.zst]
 Regex=\.t(ar\.zst|zst)$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.zst
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.zst
 
 # .tar.F - used on QNX
 [tar.F]
 Shell=.tar.F
 # Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.F
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.F
 
 # .qpr/.qpk - QNX Neutrino package installer files
 [tar.qpr]
 Regex=\.qp[rk]$
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.qpr
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.qpr
 
 [tar]
 Shell=.tar
 ShellIgnoreCase=true
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar
 
 [arj]
 Regex=\.a(rj|[0-9][0-9])$
 RegexIgnoreCase=true
 Open=%cd %p/uarj://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view arj
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view arj
 
 [cab]
 Shell=.cab
 ShellIgnoreCase=true
 Open=%cd %p/ucab://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cab
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cab
 
 [ha]
 Shell=.ha
 ShellIgnoreCase=true
 Open=%cd %p/uha://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view ha
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view ha
 
 [rar]
 Regex=\.r(ar|[0-9][0-9])$
 RegexIgnoreCase=true
 Open=%cd %p/urar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view rar
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view rar
 
 # ALZip
 [alz]
 Shell=.alz
 ShellIgnoreCase=true
 Open=%cd %p/ualz://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view alz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view alz
 
 [cpio.Z]
 Shell=.cpio.Z
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.z
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.z
 
 [cpio.lz]
 Shell=.cpio.lz
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.lz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.lz
 
 [cpio.lz4]
 Shell=.cpio.lz4
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.lz4
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.lz4
 
 [cpio.xz]
 Shell=.cpio.xz
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.xz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.xz
 
 [cpio.zst]
 Shell=.cpio.zst
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.zst
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.zst
 
 [cpio.gz]
 Shell=.cpio.gz
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio.gz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio.gz
 
 [cpio]
 Shell=.cpio
@@ -342,32 +346,32 @@ Include=cpio
 Shell=.7z
 ShellIgnoreCase=true
 Open=%cd %p/u7z://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view 7z
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view 7z
 
 [patch]
 Regex=\.(diff|patch)$
 Open=%cd %p/patchfs://
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view cat
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view cat
 
 [patch.gz]
 Regex=\.(diff|patch)\.(gz|Z)$
 Open=%cd %p/patchfs://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view gz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view gz
 
 [patch.bz2]
 Regex=\.(diff|patch)\.bz2$
 Open=%cd %p/patchfs://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view bz2
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view bz2
 
 [patch.xz]
 Regex=\.(diff|patch)\.xz$
 Open=%cd %p/patchfs://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view xz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view xz
 
 [patch.zst]
 Regex=\.(diff|patch)\.zst$
 Open=%cd %p/patchfs://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zst
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zst
 
 [ls-lR]
 Regex=(^|\.)ls-?lR(\.gz|Z|bz2)$
@@ -376,51 +380,51 @@ Open=%cd %p/lslR://
 [trpm]
 Shell=.trpm
 Open=%cd %p/trpm://
-View=%view{ascii} /usr/lib/mc/ext.d/package.sh view trpm
+View=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view trpm
 
 # RPM packages (SuSE uses *.spm for source packages)
 [src.rpm]
 Regex=\.(src\.rpm|spm)$
 Open=%cd %p/rpm://
-View=%view{ascii} /usr/lib/mc/ext.d/package.sh view src.rpm
+View=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view src.rpm
 
 [rpm]
 Shell=.rpm
 Open=%cd %p/rpm://
-View=%view{ascii} /usr/lib/mc/ext.d/package.sh view rpm
+View=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view rpm
 
 [deb]
 Regex=\.u?deb$
 Open=%cd %p/deb://
-View=%view{ascii} /usr/lib/mc/ext.d/package.sh view deb
+View=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view deb
 
 [dpkg]
 Shell=.debd
 Open=%cd %p/debd://
-View=%view{ascii} /usr/lib/mc/ext.d/package.sh view debd
+View=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view debd
 
 [apt]
 Shell=.deba
 Open=%cd %p/deba://
-Ciew=%view{ascii} /usr/lib/mc/ext.d/package.sh view deba
+Ciew=%view{ascii} {@ $libDir @}/mc/ext.d/package.sh view deba
 
 [ISO9660]
 Shell=.iso
 ShellIgnoreCase=true
 Open=%cd %p/iso9660://
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view iso9660
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view iso9660
 
 [ar]
 Regex=\.s?a$
 Open=%cd %p/uar://
 #Open=%view{ascii} ar tv %f
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view ar
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view ar
 
 [gplib]
 Shell=.lib
 ShellIgnoreCase=true
 Open=%cd %p/ulib://
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view lib
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view lib
 
 ### Sources ###
 
@@ -453,7 +457,7 @@ Include=editor
 # .so libraries
 [so]
 Regex=\.(so|so\.[0-9\.]*)$
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view so
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view so
 
 
 ### Documentation ###
@@ -463,7 +467,7 @@ View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view so
 
 [info-by-shell]
 Shell=.info
-Open=/usr/lib/mc/ext.d/text.sh open info
+Open={@ $libDir @}/mc/ext.d/text.sh open info
 
 # Exception: .3gp are video files, not manual pages
 [3gp]
@@ -481,61 +485,61 @@ View=
 
 [troff]
 Shell=.me
-Open=/usr/lib/mc/ext.d/text.sh open nroff.me %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view nroff.me %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open nroff.me %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view nroff.me %var{PAGER:more}
 
 [roff with ms macros]
 Shell=.ms
-Open=/usr/lib/mc/ext.d/text.sh open nroff.ms %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view nroff.ms %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open nroff.ms %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view nroff.ms %var{PAGER:more}
 
 # Manual page
 
 [man.lz]
 Regex=([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.lz$
-Open=/usr/lib/mc/ext.d/text.sh open man.lz %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.lz %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.lz %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.lz %var{PAGER:more}
 
 [man.lz4]
 Regex=([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.lz4$
-Open=/usr/lib/mc/ext.d/text.sh open man.lz4 %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.lz4 %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.lz4 %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.lz4 %var{PAGER:more}
 
 [man.lzma]
 Regex=([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.lzma$
-Open=/usr/lib/mc/ext.d/text.sh open man.lzma %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.lzma %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.lzma %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.lzma %var{PAGER:more}
 
 [man.xz]
 Regex=([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.xz$
-Open=/usr/lib/mc/ext.d/text.sh open man.xz %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.xz %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.xz %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.xz %var{PAGER:more}
 
 [man.zst]
 Regex=([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.zst$
-Open=/usr/lib/mc/ext.d/text.sh open man.zst %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.zst %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.zst %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.zst %var{PAGER:more}
 
 # Perl pod page
 [pod]
 Shell=.pod
-Open=/usr/lib/mc/ext.d/text.sh open pod %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view pod %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open pod %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view pod %var{PAGER:more}
 
 [chm]
 Shell=.chm
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/text.sh open chm
+Open={@ $libDir @}/mc/ext.d/text.sh open chm
 
 ### Images ###
 
 [xcf]
 Shell=.xcf
-Open=/usr/lib/mc/ext.d/image.sh open xcf
+Open={@ $libDir @}/mc/ext.d/image.sh open xcf
 
 [xbm]
 Shell=.xbm
-Open=/usr/lib/mc/ext.d/image.sh open xbm
+Open={@ $libDir @}/mc/ext.d/image.sh open xbm
 
 [xpm]
 Shell=.xpm
@@ -548,8 +552,8 @@ Include=image
 [svg]
 Shell=.svg
 ShellIgnoreCase=true
-View=%view{ascii} /usr/lib/mc/ext.d/image.sh view svg
-Open=/usr/lib/mc/ext.d/image.sh open svg
+View=%view{ascii} {@ $libDir @}/mc/ext.d/image.sh view svg
+Open={@ $libDir @}/mc/ext.d/image.sh open svg
 
 
 ### Sound files ###
@@ -557,53 +561,53 @@ Open=/usr/lib/mc/ext.d/image.sh open svg
 [sound]
 Regex=\.(wav|snd|voc|au|smp|aiff|snd|m4a|ape|aac|wv|spx|flac)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open common
-View=%view{ascii} /usr/lib/mc/ext.d/sound.sh view common
+Open={@ $libDir @}/mc/ext.d/sound.sh open common
+View=%view{ascii} {@ $libDir @}/mc/ext.d/sound.sh view common
 
 [mod]
 Regex=\.(mod|s3m|xm|it|mtm|669|stm|ult|far)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open mod
+Open={@ $libDir @}/mc/ext.d/sound.sh open mod
 
 [wav22]
 Shell=.waw22
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open wav22
+Open={@ $libDir @}/mc/ext.d/sound.sh open wav22
 
 [mp3]
 Shell=.mp3
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open mp3
-View=%view{ascii} /usr/lib/mc/ext.d/sound.sh view mp3
+Open={@ $libDir @}/mc/ext.d/sound.sh open mp3
+View=%view{ascii} {@ $libDir @}/mc/ext.d/sound.sh view mp3
 
 [ogg]
 Regex=\.og[gax]$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open ogg
-View=%view{ascii} /usr/lib/mc/ext.d/sound.sh view ogg
+Open={@ $libDir @}/mc/ext.d/sound.sh open ogg
+View=%view{ascii} {@ $libDir @}/mc/ext.d/sound.sh view ogg
 
 [opus]
 Shell=.opus
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open opus
-View=%view{ascii} /usr/lib/mc/ext.d/sound.sh view opus
+Open={@ $libDir @}/mc/ext.d/sound.sh open opus
+View=%view{ascii} {@ $libDir @}/mc/ext.d/sound.sh view opus
 
 [midi]
 Regex=\.(midi?|rmid?)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open midi
+Open={@ $libDir @}/mc/ext.d/sound.sh open midi
 
 [wma]
 Shell=.wma
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open wma
-View=%view{ascii} /usr/lib/mc/ext.d/sound.sh view wma
+Open={@ $libDir @}/mc/ext.d/sound.sh open wma
+View=%view{ascii} {@ $libDir @}/mc/ext.d/sound.sh view wma
 
 # Play list
 [playlist]
 Regex=\.(m3u|pls)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/sound.sh open playlist
+Open={@ $libDir @}/mc/ext.d/sound.sh open playlist
 
 
 ### Video ###
@@ -672,7 +676,7 @@ Include=video
 [realaudio]
 Regex=\.ra?m$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/video.sh open ram
+Open={@ $libDir @}/mc/ext.d/video.sh open ram
 
 [webm-by-shell]
 Shell=.webm
@@ -685,62 +689,62 @@ Include=video
 [html]
 Regex=\.html?$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/web.sh open html
-View=%view{ascii} /usr/lib/mc/ext.d/web.sh view html
+Open={@ $libDir @}/mc/ext.d/web.sh open html
+View=%view{ascii} {@ $libDir @}/mc/ext.d/web.sh view html
 
 [StarOffice-5.2]
 Shell=.sdw
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open ooffice
+Open={@ $libDir @}/mc/ext.d/doc.sh open ooffice
 
 # StarOffice 6 and OpenOffice.org formats
 [OpenOffice.org]
 Regex=\.(odt|fodt|ott|sxw|stw|ods|fods|ots|sxc|stc|odp|fodp|otp|sxi|sti|odg|fodg|otg|sxd|std|odb|odf|sxm|odm|sxg)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open ooffice
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view odt
+Open={@ $libDir @}/mc/ext.d/doc.sh open ooffice
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view odt
 
 [AbiWord]
 Shell=.abw
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open abw
+Open={@ $libDir @}/mc/ext.d/doc.sh open abw
 
 [Gnumeric]
 Shell=.gnumeric
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open gnumeric
+Open={@ $libDir @}/mc/ext.d/doc.sh open gnumeric
 
 [rtf]
 Shell=.rtf
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open msdoc
+Open={@ $libDir @}/mc/ext.d/doc.sh open msdoc
 
 # Microsoft Word Document
 [msdoc-by-shell]
 Regex=\.(do[ct]|wri|docx)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open msdoc
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msdoc
+Open={@ $libDir @}/mc/ext.d/doc.sh open msdoc
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view msdoc
 
 # Microsoft Excel Worksheet
 [msxls-by-shell]
 Regex=\.(xl[sw]|xlsx)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open msxls
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msxls
+Open={@ $libDir @}/mc/ext.d/doc.sh open msxls
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view msxls
 
 # Microsoft PowerPoint Presentation
 [msppt]
 Regex=\.(pp[ts]|pptx)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open msppt
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msppt
+Open={@ $libDir @}/mc/ext.d/doc.sh open msppt
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view msppt
 
 [dvi]
 Shell=.dvi
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open dvi
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view dvi
+Open={@ $libDir @}/mc/ext.d/doc.sh open dvi
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view dvi
 
 [tex]
 Shell=.tex
@@ -755,21 +759,21 @@ Include=editor
 [djvu]
 Regex=\.djvu?$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open djvu
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view djvu
+Open={@ $libDir @}/mc/ext.d/doc.sh open djvu
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view djvu
 
 # Comic Books
 [cbr]
 Regex=\.cb[zr]$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open comic
+Open={@ $libDir @}/mc/ext.d/doc.sh open comic
 
 # Epup, mobi, fb2
 [ebook]
 Regex=\.(epub|mobi|fb2)$
 RegexIgnoreCase=true
-Open=/usr/lib/mc/ext.d/doc.sh open ebook
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view ebook
+Open={@ $libDir @}/mc/ext.d/doc.sh open ebook
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view ebook
 
 
 ### Miscellaneous ###
@@ -777,7 +781,7 @@ View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view ebook
 # Compiled Java classes
 [javaclass]
 Shell=.class
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view javaclass
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view javaclass
 
 [Imakefile]
 Shell=Imakefile
@@ -795,8 +799,8 @@ Open=make -f %f %{Enter parameters}
 [dbf]
 Shell=.dbf
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/misc.sh open dbf
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view dbf
+Open={@ $libDir @}/mc/ext.d/misc.sh open dbf
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view dbf
 
 # REXX script
 [rexx]
@@ -814,27 +818,27 @@ View=%view{ascii} c1541 %f -list
 [glade]
 Shell=.glade
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/misc.sh open glade
+Open={@ $libDir @}/mc/ext.d/misc.sh open glade
 
 # Gettext Catalogs
 [mo]
 Regex=.g?mo$
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view mo
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view mo
 
 [po]
 Shell=.po
-Open=/usr/lib/mc/ext.d/misc.sh open po
+Open={@ $libDir @}/mc/ext.d/misc.sh open po
 
 [lyx]
 Shell=.lyx
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/misc.sh open lyx
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view lyx
+Open={@ $libDir @}/mc/ext.d/misc.sh open lyx
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view lyx
 
 [torrent]
 Shell=.torrent
 ShellIgnoreCase=true
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view torrent
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view torrent
 
 
 ### Plain compressed files ###
@@ -843,37 +847,37 @@ View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view torrent
 Shell=.ace
 ShellIgnoreCase=true
 Open=%cd %p/uace://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view ace
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view ace
 
 [arc]
 Shell=.arc
 ShellIgnoreCase=true
 Open=%cd %p/uarc://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view arc
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view arc
 
 [zip-by-shell]
 Shell=.zip
 ShellIgnoreCase=true
 Open=%cd %p/uzip://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zip
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zip
 
 [zoo]
 Shell=.zoo
 ShellIgnoreCase=true
 Open=%cd %p/uzoo://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zoo
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zoo
 
 [lz4]
 Shell=.lz4
 ShellIgnoreCase=true
-Open=/usr/lib/mc/ext.d/archive.sh view lz4 %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view lz4
+Open={@ $libDir @}/mc/ext.d/archive.sh view lz4 %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view lz4
 
 [wim]
 Shell=.wim
 ShellIgnoreCase=true
 Open=%cd %p/uwim://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view wim
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view wim
 
 
 ######### Files by Type #########
@@ -891,7 +895,7 @@ Open=%cd %p/mailfs://
 [elf]
 Type=^ELF
 #Open=%var{PAGER:more} %f
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view elf
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view elf
 
 
 ### Documentation ###
@@ -899,29 +903,29 @@ View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view elf
 # GNU Info page
 [info-by-type]
 Type=^Info\ text
-Open=/usr/lib/mc/ext.d/text.sh open info
+Open={@ $libDir @}/mc/ext.d/text.sh open info
 
 # Manual page - compressed
 [troff.gz]
 Type=troff.*gzip compressed
-Open=/usr/lib/mc/ext.d/text.sh open man.gz %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.gz %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.gz %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.gz %var{PAGER:more}
 
 [troff.bzip]
 Type=troff.*bzip compressed
-Open=/usr/lib/mc/ext.d/text.sh open man.bz %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.bz %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.bz %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.bz %var{PAGER:more}
 
 [troff.bzip2]
 Type=troff.*bzip2 compressed
-Open=/usr/lib/mc/ext.d/text.sh open man.bz2 %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man.bz2 %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man.bz2 %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man.bz2 %var{PAGER:more}
 
 # Manual page
 [man]
 Type=troff or preprocessor input
-Open=/usr/lib/mc/ext.d/text.sh open man %var{PAGER:more}
-View=%view{ascii,nroff} /usr/lib/mc/ext.d/text.sh view man %var{PAGER:more}
+Open={@ $libDir @}/mc/ext.d/text.sh open man %var{PAGER:more}
+View=%view{ascii,nroff} {@ $libDir @}/mc/ext.d/text.sh view man %var{PAGER:more}
 
 
 ### Images ###
@@ -982,116 +986,116 @@ Include=video
 
 [postscript]
 Type=^PostScript
-Open=/usr/lib/mc/ext.d/doc.sh open ps
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view ps
+Open={@ $libDir @}/mc/ext.d/doc.sh open ps
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view ps
 
 [pdf]
 Type=^PDF
-#Open=/usr/lib/mc/ext.d/doc.sh open pdf
-Open=exec okular %f &
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view pdf
+#Open={@ $libDir @}/mc/ext.d/doc.sh open pdf
+Open=okular %f &
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view pdf
 
 # Microsoft Word Document
 [msdoc-by-type]
 Type=^Microsoft\ Word
-Open=/usr/lib/mc/ext.d/doc.sh open msdoc
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msdoc
+Open={@ $libDir @}/mc/ext.d/doc.sh open msdoc
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view msdoc
 
 # Microsoft Excel Worksheet
 [msxls-by-type]
 Type=^Microsoft\ Excel
-Open=/usr/lib/mc/ext.d/doc.sh open msxls
-View=%view{ascii} /usr/lib/mc/ext.d/doc.sh view msxls
+Open={@ $libDir @}/mc/ext.d/doc.sh open msxls
+View=%view{ascii} {@ $libDir @}/mc/ext.d/doc.sh view msxls
 
 # Use OpenOffice.org/LibreOffice to open any MS Office documents
 [mso-doc-1]
 Type=^Microsoft\ Office\ Document
-Open=/usr/lib/mc/ext.d/doc.sh open ooffice
+Open={@ $libDir @}/mc/ext.d/doc.sh open ooffice
 
 [mso-doc-2]
 Type=^Microsoft\ OOXML
-Open=/usr/lib/mc/ext.d/doc.sh open ooffice
+Open={@ $libDir @}/mc/ext.d/doc.sh open ooffice
 
 [framemaker]
 Type=^FrameMaker
-Open=/usr/lib/mc/ext.d/doc.sh open framemaker
+Open={@ $libDir @}/mc/ext.d/doc.sh open framemaker
 
 
 ### Miscellaneous ###
 
 [sqlite3.db]
 Type=^SQLite 3.x database
-Open=/usr/lib/mc/ext.d/misc.sh open sqlite
-View=%view{ascii} /usr/lib/mc/ext.d/misc.sh view sqlite
+Open={@ $libDir @}/mc/ext.d/misc.sh open sqlite
+View=%view{ascii} {@ $libDir @}/mc/ext.d/misc.sh view sqlite
 
 
 ### Plain compressed files ###
 
 [gzip]
 Type=\(gzip compressed
-Open=/usr/lib/mc/ext.d/archive.sh view gz %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view gz
+Open={@ $libDir @}/mc/ext.d/archive.sh view gz %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view gz
 
 [bzip]
 Type=\(bzip compressed
-Open=/usr/lib/mc/ext.d/archive.sh view bzip %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view bzip
+Open={@ $libDir @}/mc/ext.d/archive.sh view bzip %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view bzip
 
 [bzip2]
 Type=\(bzip2 compressed
-Open=/usr/lib/mc/ext.d/archive.sh view bzip2 %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view bz2
+Open={@ $libDir @}/mc/ext.d/archive.sh view bzip2 %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view bz2
 
 [compress]
 Type=\(compress'd
-Open=/usr/lib/mc/ext.d/archive.sh view gz %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view gz
+Open={@ $libDir @}/mc/ext.d/archive.sh view gz %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view gz
 
 [lz]
 Type=\(lzip compressed
-Open=/usr/lib/mc/ext.d/archive.sh view lz %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view lz
+Open={@ $libDir @}/mc/ext.d/archive.sh view lz %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view lz
 
 [lzma]
 Type=\(LZMA compressed
-Open=/usr/lib/mc/ext.d/archive.sh view lzma %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view lzma
+Open={@ $libDir @}/mc/ext.d/archive.sh view lzma %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view lzma
 
 [xz]
 Type=\(XZ compressed
-Open=/usr/lib/mc/ext.d/archive.sh view xz %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view xz
+Open={@ $libDir @}/mc/ext.d/archive.sh view xz %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view xz
 
 [zstd]
 Type=\(Zstandard compressed
-Open=/usr/lib/mc/ext.d/archive.sh view zst %var{PAGER:more}
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zst
+Open={@ $libDir @}/mc/ext.d/archive.sh view zst %var{PAGER:more}
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zst
 
 [zip-by-type]
 Type=\(Zip archive
 Open=%cd %p/uzip://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zip
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zip
 
 [jar]
 Type=\(Java\ (Jar\ file|archive)\ data\ \((zip|JAR)\)
 TypeIgnoreCase=true
 Open=%cd %p/uzip://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view zip
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view zip
 
 [lha]
 Type=^LHa\ .*archive
 Open=%cd %p/ulha://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view lha
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view lha
 
 [pak]
 Type=^PAK\ .*archive
 Open=%cd %p/unar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view pak
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view pak
 
 # Parity Archive
 [par2]
 Type=^Parity\ Archive\ Volume\ Set
-Open=/usr/lib/mc/ext.d/archive.sh open par2
+Open={@ $libDir @}/mc/ext.d/archive.sh open par2
 
 
 ######### Includes #########
@@ -1099,22 +1103,22 @@ Open=/usr/lib/mc/ext.d/archive.sh open par2
 
 [Include/tar.gz]
 Open=%cd %p/utar://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view tar.gz
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view tar.gz
 
 [Include/cpio]
 Open=%cd %p/ucpio://
-View=%view{ascii} /usr/lib/mc/ext.d/archive.sh view cpio
+View=%view{ascii} {@ $libDir @}/mc/ext.d/archive.sh view cpio
 
 [Include/editor]
 Open=%var{EDITOR:editor} %f
 
 [Include/image]
-Open=/usr/lib/mc/ext.d/image.sh open ALL_FORMATS
-View=%view{ascii} /usr/lib/mc/ext.d/image.sh view ALL_FORMATS
+Open={@ $libDir @}/mc/ext.d/image.sh open ALL_FORMATS
+View=%view{ascii} {@ $libDir @}/mc/ext.d/image.sh view ALL_FORMATS
 
 [Include/video]
-Open=/usr/lib/mc/ext.d/video.sh open ALL_FORMATS
-View=%view{ascii} /usr/lib/mc/ext.d/video.sh view ALL_FORMATS
+Open={@ $libDir @}/mc/ext.d/video.sh open ALL_FORMATS
+View=%view{ascii} {@ $libDir @}/mc/ext.d/video.sh view ALL_FORMATS
 
 
 ######### Default #########
