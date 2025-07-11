@@ -7,3 +7,7 @@
     {{ joinPath .dir.ansible.home "vars/local-symlinks.yml" }}
     {{ joinPath .dir.localScripts "openweathermap-id.json" }}
 {{ end }}
+
+{{ if not .sys.isVoid }}
+    .dircolors
+{{ end }}
