@@ -179,7 +179,12 @@ alias wtf='curl https://wttr.in/?M'
 
 {@' if not .sys.isGentoo -'@}
 # Coloured man pages for non-Gentoo distros
-alias man="env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
+alias man="LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' man"
+
+{@' end -'@}
+
+{@' if and .sys.isDebBased (lookPath "doas") -'@}
+alias doas="PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' {@' lookPath "doas" '@}"
 
 {@' end -'@}
 

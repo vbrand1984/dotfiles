@@ -265,9 +265,10 @@ encryption = "age"
     # Keyboard settings
     kbdDelay = {@' default 200 .misc.kbdDelay | int '@}
     kbdRepeat = {@' default 35 .misc.kbdRepeat | int '@}
-
+{@'- if false '@}
     # Which variants of the Greylooks theme to install and use
-    greylooksThemes = {@' default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml '@}
+    greylooksThemes = {@'/* default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml */'@}
+{@'- end -'@}
 
     # This will be written in the ~/.config/user-dirs.locale file
     xdgUserDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}

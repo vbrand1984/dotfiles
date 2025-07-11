@@ -53,6 +53,8 @@
     stripComponents = 1
     format = "tar.gz"
     path = "obmenu-generator"
+    filter.command = "sed"
+    filter.args = [ "s/perl//g" ]
     executable = false
     readonly = true
     private = true

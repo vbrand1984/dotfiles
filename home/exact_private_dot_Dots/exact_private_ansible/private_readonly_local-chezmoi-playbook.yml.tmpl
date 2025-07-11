@@ -24,6 +24,7 @@
   pre_tasks:
     - name: Upgrade apt
       become: true
+      become_user: root
       ansible.builtin.apt:
         upgrade: true
         update-cache: true

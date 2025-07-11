@@ -1,22 +1,28 @@
 <!-- chezmoi:template: left-delimiter={@ right-delimiter=@} -->
 <applications>
-  <application class="InputOutput">
-    <decor>no</decor>
-  </application>
   <application name="conky">
     <iconified>false</iconified>
   </application>
   <application name="gsimplecal">
-    <position force="yes">
+    <position force="no">
       <x>-0</x>
       <y>0</y>
     </position>
-    <skip_pager>yes</skip_pager>
-    <skip_taskbar>yes</skip_taskbar>
-    <focus>yes</focus>
+    <skip_pager>true</skip_pager>
+    <skip_taskbar>true</skip_taskbar>
+    <focus>true</focus>
     <layer>above</layer>
   </application>
   <application name="gvim">
+    <maximized>true</maximized>
+  </application>
+  <application name="redshift-gtk">
+    <position force="no">
+      <x>-0</x>
+      <y>0</y>
+    </position>
+  </application>
+  <application name="virt-manager">
     <maximized>true</maximized>
   </application>
   <application name="x-terminal-emulator">

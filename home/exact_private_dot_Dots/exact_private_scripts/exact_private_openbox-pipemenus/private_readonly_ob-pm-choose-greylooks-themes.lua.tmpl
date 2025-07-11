@@ -5,7 +5,12 @@
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
 {@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
-local greylooks_variants = {'Greylooks', 'GreylooksGreen', 'GreylooksHuman', 'GreylooksOk'}
+--local greylooks_variants = {'Greylooks', 'GreylooksGreen', 'GreylooksHuman', 'GreylooksOk'}
+{@'- $themesNames := list '@}
+{@'- range .misc.greylooksThemes '@}
+{@'- $themesNames = append $themesNames ( . | squote)'@}
+{@'- end '@}
+local greylooks_variants = { {@'- $themesNames | join ", " -'@} }
 
 io.write("<openbox_pipe_menu>\n")
 

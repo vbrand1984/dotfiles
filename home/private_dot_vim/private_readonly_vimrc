@@ -195,15 +195,15 @@ if ($TERM != 'linux' || has("gui_running"))
         "let g:airline_theme = 'everforest'
     else
         "let g:everforest_background = 'soft'
-        "colorscheme everforest
-        "let g:airline_theme = 'everforest'
+        colorscheme everforest
+        let g:airline_theme = 'everforest'
 
         "colorscheme gruvbox-material
         "let g:airline_theme = 'gruvbox_material'
 
-        set background=light
-        let g:airline_theme = 'gruvbox'
-        autocmd vimenter * ++nested colorscheme gruvbox
+        "set background=light
+        "let g:airline_theme = 'gruvbox'
+        "autocmd vimenter * ++nested colorscheme gruvbox
     endif
 else
     colorscheme desert
