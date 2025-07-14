@@ -1,14 +1,17 @@
 <!-- chezmoi:template: left-delimiter={@ right-delimiter=@} -->
 {@ if false -@}
+<!-- vim: set ft=xml fdm=marker ts=2 sw=2 et: -->
 <!--
+
 Default Openbox' rc.xml config file which is used by the modify script when no rc.xml is present.
+
 chezmoi variable to store relative path to this template: .tmpl.ob.defaultOpenboxRc
+
 -->
 {@- end -@}
 
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <!-- vim: set ft=xml fdm=marker ts=2 et: -->
   <!--{{{ resistance -->
   <resistance>
     <strength>10</strength>

@@ -170,6 +170,7 @@ encryption = "age"
 
     # symlinked variable must contain absolute path
     symlinked         = {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}
+	helperScripts     = {@' $dirHelperScripts | quote '@}
 
     # Ansible-related
     # Do not change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
