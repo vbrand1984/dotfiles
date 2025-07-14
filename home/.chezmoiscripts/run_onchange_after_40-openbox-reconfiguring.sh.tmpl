@@ -29,6 +29,7 @@ if pgrep --count openbox 1>/dev/null 2>&1 ; then
     print_message_no_linebreak "Reconfiguring Openbox... "
     openbox --reconfigure
     print_message "Done."
+    {@' .cmd.notifier '@} --urgency=low "chezmoi script" "Openbox reconfigured"
 else
     print_message "Openbox is not running. Doing nothing."
 fi

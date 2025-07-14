@@ -11,7 +11,7 @@
 
 exec tmux display-menu -T 'Openbox configuration' -x C -y C \
     'Edit keybindings.xml' 'K' "new-window -n 'keybindings.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/keybindings.xml" '@}\"" \
-    'Edit applications.xml' 'A' "new-window -n 'applications.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/applications.xml" '@}\"" \
+    'Edit applications.xml' 'A' "new-window -n 'applications.xml' \"{@' .chezmoi.executable '@} edit --apply --include=scripts {@' joinPath .chezmoi.homeDir ".config/openbox/applications.xml" '@}\"" \
     '' \
     'Edit menu.xml' 'm' "new-window -n 'menu.xml' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/menu.xml" '@}\"" \
     'Edit autostart script' 'a' "new-window -n 'autostart' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/openbox/autostart" '@}\"" \

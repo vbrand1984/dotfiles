@@ -4,7 +4,8 @@
 
 {@'/* {{{ Variable initialization */ -'@}
 
-{@'- /* Base local directories */ -'@}
+{@'- /* {{{ Source dir initialization and check */ -'@}
+
 {@'- $defaultDotsDir := ".Dots" -'@}
 {@'- $defaultSourceDir := joinPath $defaultDotsDir "chezmoi" -'@}
 
@@ -15,28 +16,45 @@
 {@'-    exit 1 -'@}
 {@'- end -'@}
 
-{@'- /* Other local directories */ -'@}
+{@'- /* }}} (Source dir initialization) */ -'@}
+{@'- /* {{{ Local directories */ -'@}
+
 {@'- $dirLocalCache := joinPath $defaultDotsDir "cache" -'@}
 {@'- $dirHelperScripts := joinPath (.chezmoi.sourceDir | dir) "helper-scripts" -'@}
 {@'- $dirUserDataDefault := "/home" -'@}
 
-{@'- /* Personal data initialization */ -'@}
+{@'- /* }}} (Local directories) */ -'@}
+{@'- /* {{{ Personal data initialization */ -'@}
+
 {@'- $desktopRigName := "saturn" -'@}
 {@'- $oldLaptopName := "antares" -'@}
 {@'- $privatePCs := list $desktopRigName $oldLaptopName -'@}
 {@'- $personalUsername := "victor" -'@}
 {@'- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -'@}
 
-{@'- /* Automatic system detection */ -'@}
+{@'- /* }}} (Personal data initialization) */ -'@}
+{@'- /* {{{ Automatic system detection */ -'@}
+
+{@'- /* General system flags */ -'@}
 {@' $sysIsVM := eq (output "/bin/sh" (joinPath $dirHelperScripts "is-virtual-machine.sh")) "yes" -'@}
 {@' $sysIsDesktopRig := eq .chezmoi.hostname $desktopRigName -'@}
 {@' $sysIsOldLaptop := eq .chezmoi.hostname $oldLaptopName -'@}
 {@' $sysHasSmallScreen := or $sysIsOldLaptop $sysIsVM -'@}
 
+{@'- /* Distro detection */ -'@}
+{@' $sysIsDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
+{@' $sysIsDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") -'@}
+{@' $sysIsVoid := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "void") -'@}
+{@' $sysIsGentoo := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "gentoo") -'@}
+{@' $sysIsDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
+{@' $sysIsUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
+{@' $sysIsDebBased := or $sysIsDebianBased $sysIsUbuntuBased -'@}
+
+{@'- /* }}} (Automatic system detection) */ -'@}
 
 {@'- writeToStdout "Initializing chezmoi...\n" -'@}
 
-{@'- /* }}} */ -'@}
+{@'- /* }}} (Variable initialization) */ -'@}
 
 # {{{ General chezmoi config
 
@@ -70,7 +88,7 @@ encryption = "age"
     pagerArgs = ["--quit-if-one-screen", "--LONG-PROMPT", "--mouse"]
     scriptContents = true
 
-# }}}
+# }}} (General chezmoi config)
 [data]
 # {{{ .sys: General system flags
 
@@ -78,14 +96,6 @@ encryption = "age"
 
     # These settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
-
-    {@' $sysIsDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
-    {@' $sysIsDevuan := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "devuan") -'@}
-    {@' $sysIsVoid := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "void") -'@}
-    {@' $sysIsGentoo := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "gentoo") -'@}
-    {@' $sysIsDebianBased := or (eq .chezmoi.osRelease.id "debian") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "debian")) -'@}
-    {@' $sysIsUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
-    {@' $sysIsDebBased := or $sysIsDebianBased $sysIsUbuntuBased -'@}
     isDebian = {@' $sysIsDebian '@} 
     isDevuan = {@' $sysIsDevuan '@} 
     isDebianBased = {@' $sysIsDebianBased '@} 
@@ -105,7 +115,7 @@ encryption = "age"
     # True if this is Victor Brand's private PC
     isBrandsPrivate = {@' $isBrandsPrivate '@} 
 
-# }}}
+# }}} (.sys)
 # {{{ .cmd: Settings for certain commands
 
 [data.cmd]
@@ -119,7 +129,7 @@ encryption = "age"
     # This MUST be either "notify-send" OR "dunstify"
     notifier = {@' default "dunstify" .cmd.notifier | quote '@}
 
-# }}}
+# }}} (.cmd)
 # {{{ .git: Name and email for git
 
 [data.git]
@@ -134,7 +144,7 @@ encryption = "age"
     email = {@' $gitEmail | quote '@}
 {@'- end '@}
 
-# }}}
+# }}} (.git)
 # {{{ .dir: Local directories
 
 [data.dir]
@@ -174,7 +184,7 @@ encryption = "age"
     [data.dir.desktop]
         localBackgrounds = ".local/share/backgrounds"
 
-# }}}
+# }}} (.dir)
 # {{{ .xdg: XDG user directories
 
 [data.xdg]
@@ -188,7 +198,7 @@ encryption = "age"
     picturesDir = {@' default "Pictures" .xdg.picturesDir | quote '@}
     videosDir = {@' default "Videos" .xdg.videosDir | quote '@}
 
-# }}}
+# }}} (.xdg)
 # {{{ .gtk: Graphical settings: theme, font, icons, etc.
 
 [data.gtk]
@@ -217,7 +227,7 @@ encryption = "age"
     # See: https://docs.gtk.org/gtk3/enum.ToolbarStyle.html
     toolbarStyle = {@' default "GTK_TOOLBAR_BOTH_HORIZ" .gtk.toolbarStyle | quote '@}
 
-# }}}
+# }}} (.gtk)
 # {{{ .xft: Fontconfig options: hinting, antialias, lcdfilter, etc.
 
 [data.xft]
@@ -243,7 +253,7 @@ encryption = "age"
     # If this is true, then '10-scale-bitmap-fonts.conf' will be enabled in system fontconfig configuration via ansible
     scaleBitmapFonts = {@' default true .xft.scaleBitmapFonts | not | not '@}
 
-# }}}
+# }}} (.xft)
 # {{{ .misc: (Miscellaneous settings for desktop)
 
 [data.misc]
@@ -268,7 +278,7 @@ encryption = "age"
 {@'- if false '@}
     # Which variants of the Greylooks theme to install and use
     greylooksThemes = {@'/* default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml */'@}
-{@'- end -'@}
+{@'- end '@}
 
     # This will be written in the ~/.config/user-dirs.locale file
     xdgUserDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
@@ -280,7 +290,7 @@ encryption = "age"
     # This affects several options in tint2 and conky configs
     autohidePanel = {@' default false (.misc.autohidePanel | not | not) '@}
 
-# }}}
+# }}} (.misc)
 # {{{ .redShift: Redshift settings
 
 [data.redShift]
@@ -303,14 +313,14 @@ encryption = "age"
     # Night temperature in K, default 4500
     tempNight = {@' default 4500 .redShift.tempNight | int '@}
 
-# }}}
+# }}} (.redShift)
 # {{{ .rofi
 
 [data.rofi]
     font = {@' default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofi.font | quote '@}
     theme = {@' default "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" .rofi.theme | quote '@}
 
-# }}}
+# }}} (.rofi)
 # {{{ .conky
 
 [data.conky]
@@ -331,7 +341,7 @@ encryption = "age"
     # Available default palettes: Catpuccin, Everforest, Gruvbox-Bright, Mixed
     palette = {@' default "Mixed" .conky.palette | quote '@}
 
-# }}}
+# }}} (.conky)
 
 {@'- /* {{{ Finalizing */ -'@}
 

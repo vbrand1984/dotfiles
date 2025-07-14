@@ -48,8 +48,8 @@ highlight Visual cterm=none ctermfg=black ctermbg=grey
 " Tabulation options
 set tabstop=4
 set shiftwidth=4
-set expandtab
-set smarttab
+set noexpandtab
+"set smarttab
 
 " Indent options
 set autoindent
