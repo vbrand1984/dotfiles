@@ -9,8 +9,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+	*i*) ;;
+	  *) return;;
 esac
 
 # }}} (Generic intro)
@@ -101,19 +101,19 @@ tabs -4
 
 # If inside a git working tree, print current git branch in the bottom line of the command prompt
 function print_git_branch() {
-    if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 ; then 
-        local branch_colo
-        # Check if there are changes in the local repo and choose color of the branch name accordingly
-        # See: https://stackoverflow.com/a/5148851
-        if git diff-files --quiet --ignore-submodules 1>/dev/null 2>&1 ; then
-            # No changes in the repository. The repo is "clean".
-            branch_colo={@' $branchCleanColo | squote '@}
-        else
-            # Untracked changes are present. The repo is "dirty".
-            branch_colo={@' $branchDirtyColo | squote '@}
-        fi
-        printf {@' print `"` $bracketColo "[" "${branch_colo}" $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight `"` '@}
-    fi
+	if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 ; then 
+		local branch_colo
+		# Check if there are changes in the local repo and choose color of the branch name accordingly
+		# See: https://stackoverflow.com/a/5148851
+		if git diff-files --quiet --ignore-submodules 1>/dev/null 2>&1 ; then
+			# No changes in the repository. The repo is "clean".
+			branch_colo={@' $branchCleanColo | squote '@}
+		else
+			# Untracked changes are present. The repo is "dirty".
+			branch_colo={@' $branchDirtyColo | squote '@}
+		fi
+		printf {@' print `"` $bracketColo "[" "${branch_colo}" $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight `"` '@}
+	fi
 }
 
 PS1={@' print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketColour "[" $distroColour .chezmoi.osRelease.id $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n` $lineColour $lineBottomCorner $lineStraight $lineStraight "$(print_git_branch)" $bracketColour "[" $jobColour `\j` $bracketColour "]" $lineColour $lineStraight $bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight $endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " " | squote '@}
@@ -126,17 +126,17 @@ PS1={@' print $lineColour $lineUpperCorner $lineStraight $lineStraight $bracketC
 # If this is a graphical terminal, then set the window title to 'user@host: dir'
 # The list of conditions is borrowed from Gentoo's global bash config
 case "$TERM" in
-    alacritty     |\
-    foot*         |\
-    rxvt-unicode* |\
-    screen*       |\
-    st-256color   |\
-    tmux*         |\
-    xterm*        )
-        PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
+	alacritty	  |\
+	foot*		  |\
+	rxvt-unicode* |\
+	screen*		  |\
+	st-256color   |\
+	tmux*		  |\
+	xterm*		  )
+		PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+		;;
+	*)
+		;;
 esac
 
 # }}} (PS1)
@@ -146,15 +146,15 @@ esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    # We do not have the ~/.dircolors file
-    #test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
+	# We do not have the ~/.dircolors file
+	#test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
 fi
 
 # some more ls aliases
@@ -334,11 +334,11 @@ alias upg='{@' .cmd.sudo '@} emerge --update --verbose --deep --ask --newuse --k
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
 # }}} (Bash-completion configuration)

@@ -7,18 +7,18 @@
 
 # Downloaded obmenu-generator script is only needed in deb-based distros
 {{ if not .sys.isDebBased }}
-    {{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName }}
+	{{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName }}
 {{ end }}
 
 # This pipewire launcher script is only needed in non-systemd debian-based distros
 {{ if or (not .sys.isDebianBased) .sys.hasSystemd }}
-    {{ joinPath .dir.downloadedScripts .file.devuansPipewireLauncher }}
+	{{ joinPath .dir.downloadedScripts .file.devuansPipewireLauncher }}
 {{ end }}
 
 {{ if .sys.isBrandsPrivate }}
-    .local/bin
-    .config/fontconfig/conf.d
-    .git-credentials
-    .gitconfig
-    bin
+	.local/bin
+	.config/fontconfig/conf.d
+	.git-credentials
+	.gitconfig
+	bin
 {{ end }}

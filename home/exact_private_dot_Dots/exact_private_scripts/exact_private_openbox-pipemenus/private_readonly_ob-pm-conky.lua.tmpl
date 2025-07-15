@@ -42,9 +42,9 @@ io.write([[<separator />
         <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" | quote '@}]], ']]', [[></command></execute>
     </action>
 </item>
-<item label='Edit conky-palettes.lua' icon=']], edit_icon, [['>
+<item label='Edit conky palettes' icon=']], edit_icon, [['>
     <action name='Execute'>
-        <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote '@}]], ']]', [[></command></execute>
+        <execute><command><![CDATA[/usr/bin/gvim {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.conky | quote '@}]], ']]', [[></command></execute>
     </action>
 </item>
 </openbox_pipe_menu>

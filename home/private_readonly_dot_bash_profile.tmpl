@@ -2,11 +2,11 @@
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
 if [[ -r "${HOME}/.bashrc" ]] ; then
-    source "${HOME}/.bashrc"
+	source "${HOME}/.bashrc"
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [[ -d {{ joinPath .chezmoi.homeDir .dir.localBin | quote }} ]] ; then
-    PATH="$PATH:{{ joinPath .chezmoi.homeDir .dir.localBin }}"
+	PATH="$PATH:{{ joinPath .chezmoi.homeDir .dir.localBin }}"
 fi
 {{ end }}

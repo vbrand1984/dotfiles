@@ -85,6 +85,7 @@ tmpl:
   palette:
     tint2: 'palettes/tint2.yaml.tmpl'
     terminal: 'palettes/terminal.yaml.tmpl'
+    conky: 'palettes/conky.toml'
 
   # Shebangs, mostly dumb
   shebang:

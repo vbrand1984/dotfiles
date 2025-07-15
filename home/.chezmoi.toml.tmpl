@@ -1,6 +1,9 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@} missing-key=invalid
+# vim: set ft=toml ts=4 sw=4:
+#
 # Victor Brand's Dotfiles
 # https://github.com/vbrand1984/dotfiles
+#
 
 {@'/* {{{ Variable initialization */ -'@}
 
@@ -11,9 +14,9 @@
 
 {@'- /* Check if it is the right chezmoi source dir that was specified */ -'@}
 {@'- if ne (.chezmoi.sourceDir | dir) (joinPath .chezmoi.homeDir $defaultSourceDir) -'@}
-{@'-    writeToStdout "Please run chezmoi init for these dotfiles as following:\n" -'@}
-{@'-    writeToStdout "chezmoi init vbrand1984 --source " (joinPath "~" $defaultSourceDir) "\n" -'@}
-{@'-    exit 1 -'@}
+{@'-	writeToStdout "Please run chezmoi init for these dotfiles as following:\n" -'@}
+{@'-	writeToStdout "chezmoi init vbrand1984 --source " (joinPath "~" $defaultSourceDir) "\n" -'@}
+{@'-	exit 1 -'@}
 {@'- end -'@}
 
 {@'- /* }}} (Source dir initialization) */ -'@}
@@ -74,19 +77,19 @@ sourceDir = {@' joinPath .chezmoi.homeDir $defaultSourceDir | quote '@}
 # Encryption settings
 encryption = "age"
 [age]
-    identity = {@' joinPath .chezmoi.homeDir ".config/age/age-chezmoi-key.txt" | quote '@}
-    recipient = "age198nwpsvctf9f9xke4cy34sjpz4q55wpyup3pp2ahgamsvzv7kdzsxcdnvn"
+	identity = {@' joinPath .chezmoi.homeDir ".config/age/age-chezmoi-key.txt" | quote '@}
+	recipient = "age198nwpsvctf9f9xke4cy34sjpz4q55wpyup3pp2ahgamsvzv7kdzsxcdnvn"
 
 [update]
-    # Don't apply changes automatically after running 'chezmoi update'
-    # This is done because I change the '.chezmoi.toml.tmpl' file from time to time,
-    # and it is necessary to run 'chezmoi init' before 'chezmoi apply' in certain cases
-    apply = false
+	# Don't apply changes automatically after running 'chezmoi update'
+	# This is done because I change the '.chezmoi.toml.tmpl' file from time to time,
+	# and it is necessary to run 'chezmoi init' before 'chezmoi apply' in certain cases
+	apply = false
 
 [diff]
-    pager = "less"
-    pagerArgs = ["--quit-if-one-screen", "--LONG-PROMPT", "--mouse"]
-    scriptContents = true
+	pager = "less"
+	pagerArgs = ["--quit-if-one-screen", "--LONG-PROMPT", "--mouse", "--tabs 4"]
+	scriptContents = true
 
 # }}} (General chezmoi config)
 [data]
@@ -94,40 +97,40 @@ encryption = "age"
 
 [data.sys]
 
-    # These settings are automatically configured during chezmoi init.
-    # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
-    isDebian = {@' $sysIsDebian '@} 
-    isDevuan = {@' $sysIsDevuan '@} 
-    isDebianBased = {@' $sysIsDebianBased '@} 
-    isUbuntuBased = {@' $sysIsUbuntuBased '@} 
-    isDebBased = {@' $sysIsDebBased '@} 
-    isVoid = {@' $sysIsVoid '@}
-    isGentoo = {@' $sysIsGentoo '@}
-    hasSystemd = {@' lookPath "systemctl" | not | not '@}
+	# These settings are automatically configured during chezmoi init.
+	# No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") ".chezmoi.toml.tmpl" | squote '@} instead.
+	isDebian = {@' $sysIsDebian '@} 
+	isDevuan = {@' $sysIsDevuan '@} 
+	isDebianBased = {@' $sysIsDebianBased '@} 
+	isUbuntuBased = {@' $sysIsUbuntuBased '@} 
+	isDebBased = {@' $sysIsDebBased '@} 
+	isVoid = {@' $sysIsVoid '@}
+	isGentoo = {@' $sysIsGentoo '@}
+	hasSystemd = {@' lookPath "systemctl" | not | not '@}
 
-    isVM = {@' $sysIsVM '@}
+	isVM = {@' $sysIsVM '@}
 
-    hasSmallScreen = {@' $sysHasSmallScreen '@}
+	hasSmallScreen = {@' $sysHasSmallScreen '@}
 
-    isDesktopRig = {@' $sysIsDesktopRig '@}
-    isOldLaptop = {@' $sysIsOldLaptop '@}
+	isDesktopRig = {@' $sysIsDesktopRig '@}
+	isOldLaptop = {@' $sysIsOldLaptop '@}
 
-    # True if this is Victor Brand's private PC
-    isBrandsPrivate = {@' $isBrandsPrivate '@} 
+	# True if this is Victor Brand's private PC
+	isBrandsPrivate = {@' $isBrandsPrivate '@} 
 
 # }}} (.sys)
 # {{{ .cmd: Settings for certain commands
 
 [data.cmd]
 
-    # If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-    sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
+	# If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
+	sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
 
-    terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
+	terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
 
-    # A command to send notifications through scripts
-    # This MUST be either "notify-send" OR "dunstify"
-    notifier = {@' default "dunstify" .cmd.notifier | quote '@}
+	# A command to send notifications through scripts
+	# This MUST be either "notify-send" OR "dunstify"
+	notifier = {@' default "dunstify" .cmd.notifier | quote '@}
 
 # }}} (.cmd)
 # {{{ .git: Name and email for git
@@ -135,13 +138,13 @@ encryption = "age"
 [data.git]
 
 {@' if $isBrandsPrivate -'@}
-    fullName = {@' default "Victor Brand" .git.fullName | quote '@}
-    email = {@' default "58734964+vbrand1984@users.noreply.github.com" .git.email | quote '@}
+	fullName = {@' default "Victor Brand" .git.fullName | quote '@}
+	email = {@' default "58734964+vbrand1984@users.noreply.github.com" .git.email | quote '@}
 {@'- else -'@}
-    {@'- $gitFullName := promptStringOnce . "git.fullName" "Your full name to be displayed in git" '@}
-    fullName = {@' $gitFullName | quote '@}
-    {@'- $gitEmail := promptStringOnce . "git.email" "Your git Email" '@}
-    email = {@' $gitEmail | quote '@}
+	{@'- $gitFullName := promptStringOnce . "git.fullName" "Your full name to be displayed in git" '@}
+	fullName = {@' $gitFullName | quote '@}
+	{@'- $gitEmail := promptStringOnce . "git.email" "Your git Email" '@}
+	email = {@' $gitEmail | quote '@}
 {@'- end '@}
 
 # }}} (.git)
@@ -149,198 +152,198 @@ encryption = "age"
 
 [data.dir]
 
-    # Default for userData is /home
-    # Do NOT change userDataDefault in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
-    # userData variable is configurable though
-    {@'- $dirUserData := promptStringOnce . "dir.userData" "Where your personal data partition is mounted, is it /home or another directory" $dirUserDataDefault '@}
-    userData = {@' $dirUserData | quote '@}
-    userDataDefault = {@' $dirUserDataDefault | quote '@}
+	# Default for userData is /home
+	# Do NOT change userDataDefault in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
+	# userData variable is configurable though
+	{@'- $dirUserData := promptStringOnce . "dir.userData" "Where your personal data partition is mounted, is it /home or another directory" $dirUserDataDefault '@}
+	userData = {@' $dirUserData | quote '@}
+	userDataDefault = {@' $dirUserDataDefault | quote '@}
 
-    # Various directories
-    # Do NOT change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
-    # They are bound to the existing directory structure of the dotfiles
-    # These variable must contain paths relative to $HOME
-    localCache        = {@' $dirLocalCache | quote '@}
-    localBin          = {@' joinPath $defaultDotsDir "bin" | quote '@}
-    downloadedScripts = {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
-    {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" '@}
-    localScripts      = {@' $dirLocalScripts | quote '@}
-    obPipeMenus       = {@' joinPath $dirLocalScripts "openbox-pipemenus" | quote '@}
-    tmuxMenus         = {@' joinPath $dirLocalScripts "tmux-menus" | quote '@}
+	# Various directories
+	# Do NOT change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
+	# They are bound to the existing directory structure of the dotfiles
+	# These variable must contain paths relative to $HOME
+	localCache			= {@' $dirLocalCache | quote '@}
+	localBin			= {@' joinPath $defaultDotsDir "bin" | quote '@}
+	downloadedScripts	= {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
+	{@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" '@}
+	localScripts		= {@' $dirLocalScripts | quote '@}
+	obPipeMenus			= {@' joinPath $dirLocalScripts "openbox-pipemenus" | quote '@}
+	tmuxMenus			= {@' joinPath $dirLocalScripts "tmux-menus" | quote '@}
 
-    # symlinked variable must contain absolute path
-    symlinked         = {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}
-	helperScripts     = {@' $dirHelperScripts | quote '@}
+	# These variables must contain absolute path
+	symlinked			= {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}
+	helperScripts		= {@' $dirHelperScripts | quote '@}
 
-    # Ansible-related
-    # Do not change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
-    # These variables must contain paths relative to $HOME
-    {@'- $ansibleHomeDir := joinPath $defaultDotsDir "ansible" '@}
-    [data.dir.ansible]
-        home    = {@' $ansibleHomeDir | quote '@}
-        tmp     = {@' joinPath $ansibleHomeDir "tmp" | quote '@}
-        library = {@' joinPath $ansibleHomeDir "library" | quote '@}
-        roles   = {@' joinPath $ansibleHomeDir "roles" | quote '@}
+	# Ansible-related
+	# Do not change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
+	# These variables must contain paths relative to $HOME
+	{@'- $ansibleHomeDir := joinPath $defaultDotsDir "ansible" '@}
+	[data.dir.ansible]
+		home	= {@' $ansibleHomeDir | quote '@}
+		tmp		= {@' joinPath $ansibleHomeDir "tmp" | quote '@}
+		library	= {@' joinPath $ansibleHomeDir "library" | quote '@}
+		roles	= {@' joinPath $ansibleHomeDir "roles" | quote '@}
 
-    [data.dir.desktop]
-        localBackgrounds = ".local/share/backgrounds"
+	[data.dir.desktop]
+		localBackgrounds = ".local/share/backgrounds"
 
 # }}} (.dir)
 # {{{ .xdg: XDG user directories
 
 [data.xdg]
 
-    desktopDir = {@' default "Desktop" .xdg.desktopDir | quote '@}
-    downloadDir = {@' default "Downloads" .xdg.downloadDir | quote '@}
-    templatesDir = {@' default "Templates" .xdg.templatesDir | quote '@}
-    publicshareDir = {@' default "Public" .xdg.publicshareDir | quote '@}
-    documentsDir = {@' default "Documents" .xdg.documentsDir | quote '@}
-    musicDir = {@' default "Music" .xdg.musicDir | quote '@}
-    picturesDir = {@' default "Pictures" .xdg.picturesDir | quote '@}
-    videosDir = {@' default "Videos" .xdg.videosDir | quote '@}
+	desktopDir = {@' default "Desktop" .xdg.desktopDir | quote '@}
+	downloadDir = {@' default "Downloads" .xdg.downloadDir | quote '@}
+	templatesDir = {@' default "Templates" .xdg.templatesDir | quote '@}
+	publicshareDir = {@' default "Public" .xdg.publicshareDir | quote '@}
+	documentsDir = {@' default "Documents" .xdg.documentsDir | quote '@}
+	musicDir = {@' default "Music" .xdg.musicDir | quote '@}
+	picturesDir = {@' default "Pictures" .xdg.picturesDir | quote '@}
+	videosDir = {@' default "Videos" .xdg.videosDir | quote '@}
 
 # }}} (.xdg)
 # {{{ .gtk: Graphical settings: theme, font, icons, etc.
 
 [data.gtk]
 
-    # General theming
-    font.family = {@' default "Ubuntu" .gtk.font.family | quote '@}
-    font.weight = {@' default "Regular" .gtk.font.weight | quote '@}
-    font.size = {@' default 11 .gtk.font.size | quote '@}
-    themeName = {@' default "Greylooks" .gtk.themeName | quote '@}
-    iconTheme = {@' default "Papirus-Light" .gtk.iconTheme | quote '@}
+	# General theming
+	font.family = {@' default "Ubuntu" .gtk.font.family | quote '@}
+	font.weight = {@' default "Regular" .gtk.font.weight | quote '@}
+	font.size = {@' default 11 .gtk.font.size | quote '@}
+	themeName = {@' default "Greylooks" .gtk.themeName | quote '@}
+	iconTheme = {@' default "Papirus-Light" .gtk.iconTheme | quote '@}
 
-    # Mouse cursor
-    cursorTheme = {@' default (eq .chezmoi.osRelease.id "void" "arch" "artix" | ternary "Vanilla-DMZ" "DMZ-White") .gtk.cursorTheme | quote '@}
-    cursorSize = {@' default 24 .gtk.cursorSize | int '@}
+	# Mouse cursor
+	cursorTheme = {@' default (eq .chezmoi.osRelease.id "void" "arch" "artix" | ternary "Vanilla-DMZ" "DMZ-White") .gtk.cursorTheme | quote '@}
+	cursorSize = {@' default 24 .gtk.cursorSize | int '@}
 
-    # Various GTK settings 
-    decorationLayout = {@' default "menu:minimize,maximize,close" .gtk.decorationLayout | quote '@}
-    buttonImages = {@' default true .gtk.buttonImages | not | not '@}
-    menuImages = {@' default true .gtk.menuImages | not | not '@}
-    enableEventSounds = {@' default false .gtk.enableEventSounds | not | not '@}
-    enableInputFeedbackSounds = {@' default false .gtk.enableInputFeedbackSounds | not | not '@}
+	# Various GTK settings 
+	decorationLayout = {@' default "menu:minimize,maximize,close" .gtk.decorationLayout | quote '@}
+	buttonImages = {@' default true .gtk.buttonImages | not | not '@}
+	menuImages = {@' default true .gtk.menuImages | not | not '@}
+	enableEventSounds = {@' default false .gtk.enableEventSounds | not | not '@}
+	enableInputFeedbackSounds = {@' default false .gtk.enableInputFeedbackSounds | not | not '@}
 
-    # See: https://docs.gtk.org/gtk3/enum.IconSize.html
-    toolbarIconSize = {@' default "GTK_ICON_SIZE_SMALL_TOOLBAR" .gtk.toolbarIconSize | quote '@}
+	# See: https://docs.gtk.org/gtk3/enum.IconSize.html
+	toolbarIconSize = {@' default "GTK_ICON_SIZE_SMALL_TOOLBAR" .gtk.toolbarIconSize | quote '@}
 
-    # See: https://docs.gtk.org/gtk3/enum.ToolbarStyle.html
-    toolbarStyle = {@' default "GTK_TOOLBAR_BOTH_HORIZ" .gtk.toolbarStyle | quote '@}
+	# See: https://docs.gtk.org/gtk3/enum.ToolbarStyle.html
+	toolbarStyle = {@' default "GTK_TOOLBAR_BOTH_HORIZ" .gtk.toolbarStyle | quote '@}
 
 # }}} (.gtk)
 # {{{ .xft: Fontconfig options: hinting, antialias, lcdfilter, etc.
 
 [data.xft]
 
-    dpi = {@' default 96 .xft.dpi | int '@}
-    autohint = {@' default false .xft.autohint | not | not '@}
-    autohintIfNoHinting = {@' default false .xft.autohintIfNoHinting | not | not '@}
-    antialias = {@' default true .xft.antialias | not | not '@}
-    hinting = {@' default true .xft.hinting | not | not '@}
+	dpi = {@' default 96 .xft.dpi | int '@}
+	autohint = {@' default false .xft.autohint | not | not '@}
+	autohintIfNoHinting = {@' default false .xft.autohintIfNoHinting | not | not '@}
+	antialias = {@' default true .xft.antialias | not | not '@}
+	hinting = {@' default true .xft.hinting | not | not '@}
 
-    # Possible values: hintnone, hintslight, hintmedium, hintfull
-    hintStyle = {@' default "hintslight" .xft.hintStyle | quote '@}
+	# Possible values: hintnone, hintslight, hintmedium, hintfull
+	hintStyle = {@' default "hintslight" .xft.hintStyle | quote '@}
 
-    # Possible values: rgb, bgr, vrgb, vbgr, none
-    rgba = {@' default "rgb" .xft.rgba | quote '@}
+	# Possible values: rgb, bgr, vrgb, vbgr, none
+	rgba = {@' default "rgb" .xft.rgba | quote '@}
 
-    # Possible values: lcddefault, lcdlight, lcdlegacy, lcdnone
-    lcdfilter = {@' default "lcddefault" .xft.lcdfilter | quote '@}
+	# Possible values: lcddefault, lcdlight, lcdlegacy, lcdnone
+	lcdfilter = {@' default "lcddefault" .xft.lcdfilter | quote '@}
 
-    # Possible values: yes, no, force
-    bitmaps = {@' default "yes" .xft.bitmaps | quote '@}
+	# Possible values: yes, no, force
+	bitmaps = {@' default "yes" .xft.bitmaps | quote '@}
 
-    # If this is true, then '10-scale-bitmap-fonts.conf' will be enabled in system fontconfig configuration via ansible
-    scaleBitmapFonts = {@' default true .xft.scaleBitmapFonts | not | not '@}
+	# If this is true, then '10-scale-bitmap-fonts.conf' will be enabled in system fontconfig configuration via ansible
+	scaleBitmapFonts = {@' default true .xft.scaleBitmapFonts | not | not '@}
 
 # }}} (.xft)
 # {{{ .misc: (Miscellaneous settings for desktop)
 
 [data.misc]
 
-    {@' $defaultTerminalFontFamily := $sysIsVoid | ternary "JetBrainsMonoNL Nerd Font Mono" "JetBrains Mono" -'@}
-    {@' $defaultTerminalFontSize := $sysHasSmallScreen | ternary "12.5" "13.5" -'@}
-    # Terminal settings
-    terminal.font.family = {@' default $defaultTerminalFontFamily .misc.terminal.font.family | quote '@}
-    terminal.font.size = {@' default $defaultTerminalFontSize .misc.terminal.font.size | quote '@}
-    terminal.font.weight.normal = {@' default "Medium" .misc.terminal.font.weight.normal | quote '@}
-    terminal.font.weight.bold = {@' default "ExtraBold" .misc.terminal.font.weight.bold | quote '@}
-    terminal.font.weight.boldItalic = {@' default "ExtraBold Italic" .misc.terminal.font.weight.boldItalic | quote '@}
-    terminal.font.weight.italic = {@' default "Medium Italic" .misc.terminal.font.weight.italic | quote '@}
+	{@' $defaultTerminalFontFamily := $sysIsVoid | ternary "JetBrainsMonoNL Nerd Font Mono" "JetBrains Mono" -'@}
+	{@' $defaultTerminalFontSize := $sysHasSmallScreen | ternary "12.5" "13.5" -'@}
+	# Terminal settings
+	terminal.font.family = {@' default $defaultTerminalFontFamily .misc.terminal.font.family | quote '@}
+	terminal.font.size = {@' default $defaultTerminalFontSize .misc.terminal.font.size | quote '@}
+	terminal.font.weight.normal = {@' default "Medium" .misc.terminal.font.weight.normal | quote '@}
+	terminal.font.weight.bold = {@' default "ExtraBold" .misc.terminal.font.weight.bold | quote '@}
+	terminal.font.weight.boldItalic = {@' default "ExtraBold Italic" .misc.terminal.font.weight.boldItalic | quote '@}
+	terminal.font.weight.italic = {@' default "Medium Italic" .misc.terminal.font.weight.italic | quote '@}
 
-    # Icon sizes for various applications
-    obmenuIconSize = {@' default 24 .misc.obmenuIconSize | int '@}
-    dunstIconSize = {@' default 48 .misc.dunstIconSize | int '@}
+	# Icon sizes for various applications
+	obmenuIconSize = {@' default 24 .misc.obmenuIconSize | int '@}
+	dunstIconSize = {@' default 48 .misc.dunstIconSize | int '@}
 
-    # Keyboard settings
-    kbdDelay = {@' default 200 .misc.kbdDelay | int '@}
-    kbdRepeat = {@' default 35 .misc.kbdRepeat | int '@}
+	# Keyboard settings
+	kbdDelay = {@' default 200 .misc.kbdDelay | int '@}
+	kbdRepeat = {@' default 35 .misc.kbdRepeat | int '@}
 {@'- if false '@}
-    # Which variants of the Greylooks theme to install and use
-    greylooksThemes = {@'/* default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml */'@}
+	# Which variants of the Greylooks theme to install and use
+	greylooksThemes = {@'/* default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml */'@}
 {@'- end '@}
 
-    # This will be written in the ~/.config/user-dirs.locale file
-    xdgUserDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
+	# This will be written in the ~/.config/user-dirs.locale file
+	xdgUserDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
 
-    # Whether to autostart emacs daemon or not
-    startEmacsDaemon = {@' default false (.misc.startEmacsDaemon | not | not) '@}
+	# Whether to autostart emacs daemon or not
+	startEmacsDaemon = {@' default false (.misc.startEmacsDaemon | not | not) '@}
 
-    # Autohide desktop panel in Openbox
-    # This affects several options in tint2 and conky configs
-    autohidePanel = {@' default false (.misc.autohidePanel | not | not) '@}
+	# Autohide desktop panel in Openbox
+	# This affects several options in tint2 and conky configs
+	autohidePanel = {@' default false (.misc.autohidePanel | not | not) '@}
 
 # }}} (.misc)
 # {{{ .redShift: Redshift settings
 
 [data.redShift]
 
-    # See redshift(1), look at ~/.config/redshift.conf
-    fade = {@' default false .redShift.fade | not | not '@}
+	# See redshift(1), look at ~/.config/redshift.conf
+	fade = {@' default false .redShift.fade | not | not '@}
 
-    # See: redshift -m list
-    adjustmentMethod = {@' default "randr" .redShift.adjustmentMethod | quote '@}
+	# See: redshift -m list
+	adjustmentMethod = {@' default "randr" .redShift.adjustmentMethod | quote '@}
 
-    # See: redshift -l list
-    locationProvider = {@' default "manual" .redShift.locationProvider | quote '@}
+	# See: redshift -l list
+	locationProvider = {@' default "manual" .redShift.locationProvider | quote '@}
 
-    # Latitude and longitude of your location for redshift
-    latitude = {@' default 60 .redShift.latitude | float64 '@}
-    longitude = {@' default 30 .redShift.longitude | float64 '@}
+	# Latitude and longitude of your location for redshift
+	latitude = {@' default 60 .redShift.latitude | float64 '@}
+	longitude = {@' default 30 .redShift.longitude | float64 '@}
 
-    # Day temperature in K, default 6500
-    tempDay = {@' default 6500 .redShift.tempDay | int '@}
-    # Night temperature in K, default 4500
-    tempNight = {@' default 4500 .redShift.tempNight | int '@}
+	# Day temperature in K, default 6500
+	tempDay = {@' default 6500 .redShift.tempDay | int '@}
+	# Night temperature in K, default 4500
+	tempNight = {@' default 4500 .redShift.tempNight | int '@}
 
 # }}} (.redShift)
 # {{{ .rofi
 
 [data.rofi]
-    font = {@' default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofi.font | quote '@}
-    theme = {@' default "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" .rofi.theme | quote '@}
+	font = {@' default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofi.font | quote '@}
+	theme = {@' default "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" .rofi.theme | quote '@}
 
 # }}} (.rofi)
 # {{{ .conky
 
 [data.conky]
 
-    # Startup delay in autostart script, seconds. It's the value of conky's "--pause=" argument
-    # Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
-    startupDelay = {@' default (and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $dirUserData $dirUserDataDefault) | ternary 7 3) .conky.startupDelay | int '@}
+	# Startup delay in autostart script, seconds. It's the value of conky's "--pause=" argument
+	# Mind that there is a delay of 1 sec before loading conky in Openbox autostart script
+	startupDelay = {@' default (and (eq .chezmoi.hostname $desktopRigName $oldLaptopName) (eq $dirUserData $dirUserDataDefault) | ternary 7 3) .conky.startupDelay | int '@}
 
-    # Will conky be fully transparent, semi-transparent or non-transparent
-    # Possible values: "Full", "Semi", "None"
-    transparency = {@' default "Full" .conky.transparency | quote '@}
+	# Will conky be fully transparent, semi-transparent or non-transparent
+	# Possible values: "Full", "Semi", "None"
+	transparency = {@' default "Full" .conky.transparency | quote '@}
 
-    # ARGB value is only used when conky is semi-transparent.
-    # It has range 0 to 255. The more this value is, the less transparent is conky
-    argbValue = {@' default 160 .conky.argbValue | int '@}
+	# ARGB value is only used when conky is semi-transparent.
+	# It has range 0 to 255. The more this value is, the less transparent is conky
+	argbValue = {@' default 160 .conky.argbValue | int '@}
 
-    # Palette to use with conky
-    # Available default palettes: Catpuccin, Everforest, Gruvbox-Bright, Mixed
-    palette = {@' default "Mixed" .conky.palette | quote '@}
+	# Palette to use with conky
+	# Available default palettes: Catpuccin, Everforest, Gruvbox-Bright, Mixed
+	palette = {@' default "Mixed" .conky.palette | quote '@}
 
 # }}} (.conky)
 

@@ -2,47 +2,48 @@
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
 -- vim: ft=lua
 
-dofile({@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | squote '@})
-
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
 {@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
 
--- Sort keys of the conky_palettes table
-local tkeys = {}
-for k in pairs(conky_palettes) do table.insert(tkeys, k) end
-table.sort(tkeys)
+{@'- $theList := includeTemplate .tmpl.palette.conky | fromToml | keys | sortAlpha '@}
+{@'- $paletteList := list '@}
+{@'- range $theList '@}
+{@'- $paletteList = append $paletteList (. | squote) '@}
+{@'- end '@}
+
+local palette_list = { {@'- $paletteList | join ", " -'@} }
 
 io.write("<openbox_pipe_menu>\n")
 
-for k in pairs(tkeys) do
-    local palette_name = tkeys[k]
-    local icon_name, the_command, second_command
+for _, palette_name in pairs(palette_list) do
+	--local palette_name = tkeys[k]
+	local icon_name, the_command, second_command
 
-    if palette_name == {@' .conky.palette | quote '@} then
-        the_command = "{@' .cmd.notifier '@} 'Current conky palette: {@' .conky.palette '@}'"
-        second_command = ''
-        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@})) .. "'"
-    else
-        the_command = [[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.palette' "]] ..
-            palette_name .. [[" 'doapply']]
-        second_command = "{@' .cmd.notifier '@} \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
-        icon_name = ""
-    end
+	if palette_name == {@' .conky.palette | quote '@} then
+		the_command = "{@' .cmd.notifier '@} 'Current conky palette: {@' .conky.palette '@}'"
+		second_command = ''
+		icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@})) .. "'"
+	else
+		the_command = [[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.palette' "]] ..
+			palette_name .. [[" 'doapply']]
+		second_command = "{@' .cmd.notifier '@} \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
+		icon_name = ""
+	end
 
-    io.write("<item label='", palette_name, "'", icon_name, [[>
-    <action name='Execute'>
-        <execute><command><![CDATA[]], the_command, ']]', [[></command></execute>
-    </action>
+	io.write("<item label='", palette_name, "'", icon_name, [[>
+	<action name='Execute'>
+		<execute><command><![CDATA[]], the_command, ']]', [[></command></execute>
+	</action>
 ]]);
 
-    if second_command ~= '' then
-        io.write([[    <action name='Execute'>
-        <execute><command><![CDATA[]], second_command, ']]', [[></command></execute>
-    </action>
+	if second_command ~= '' then
+		io.write([[    <action name='Execute'>
+		<execute><command><![CDATA[]], second_command, ']]', [[></command></execute>
+	</action>
 ]]);
-    end
+	end
 
-    io.write("</item>\n")
+	io.write("</item>\n")
 end
 
 io.write("</openbox_pipe_menu>\n")

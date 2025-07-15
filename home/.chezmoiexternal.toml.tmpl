@@ -1,22 +1,22 @@
 {{ if not (env .app.envIgnoreExternals) }}
 # Vim plugin manager
 [".vim/autoload/plug.vim"]
-    type = "file"
-    url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    refreshPeriod = "168h"
+	type = "file"
+	url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	refreshPeriod = "168h"
 
 # Our default GTK and Openbox themes:
 # Greylooks, GreylooksGreen, GreylooksHuman and GreylooksOk
 {{ if false }}
 {{ range .misc.greylooksThemes }}
 [".local/share/themes/{{ . }}"]
-    type = "archive"
-    url = "https://github.com/vbrand1984/greylooks/archive/master.zip"
-    format = "zip"
-    exact = true
-    stripComponents = 2
-    include = ["greylooks-master/{{ . }}/**"]
-    refreshPeriod = "1680h"
+	type = "archive"
+	url = "https://github.com/vbrand1984/greylooks/archive/master.zip"
+	format = "zip"
+	exact = true
+	stripComponents = 2
+	include = ["greylooks-master/{{ . }}/**"]
+	refreshPeriod = "1680h"
 {{ end }}
 {{ end }}
 
@@ -24,23 +24,23 @@
 
 # JetBrainsMonoNL and Ubuntu Nerd Font Propo fonts
 [".local/share/fonts/nerd-fonts"]
-    type = "archive"
-    url = "https://drive.google.com/uc?export=download&id=1v9Wldc35JyORC_IADhoTyCM3R1n009bB"
-    format = "tar.zst"
-    stripComponents = 1
-    exact = true
-    include = ["nerd-fonts/*.ttf"]
-    refreshPeriod = "1680h"
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1v9Wldc35JyORC_IADhoTyCM3R1n009bB"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["nerd-fonts/*.ttf"]
+	refreshPeriod = "1680h"
 
 # MS fonts
 [".local/share/fonts/winfonts"]
-    type = "archive"
-    url = "https://drive.google.com/uc?export=download&id=1oqMz4-otLnuu3IgenYV5_IqJ7Mzc0kbh"
-    format = "tar.zst"
-    stripComponents = 1
-    exact = true
-    include = ["winfonts/*.tt?"]
-    refreshPeriod = "1680h"
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1oqMz4-otLnuu3IgenYV5_IqJ7Mzc0kbh"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["winfonts/*.tt?"]
+	refreshPeriod = "1680h"
 
 
 ### Distro-specific ###
@@ -48,30 +48,30 @@
 {{ if .sys.isDebBased }}
 # Obmenu-generator script
 [{{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote }}]
-    type= "archive-file"
-    url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{{ .app.obmenuGeneratorVersion }}.tar.gz"
-    stripComponents = 1
-    format = "tar.gz"
-    path = "obmenu-generator"
-    filter.command = "sed"
-    filter.args = [ "s/perl//g" ]
-    executable = false
-    readonly = true
-    private = true
-    refreshPeriod = 0
+	type= "archive-file"
+	url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{{ .app.obmenuGeneratorVersion }}.tar.gz"
+	stripComponents = 1
+	format = "tar.gz"
+	path = "obmenu-generator"
+	filter.command = "sed"
+	filter.args = [ "s/perl//g" ]
+	executable = false
+	readonly = true
+	private = true
+	refreshPeriod = 0
 {{ end }}
 
 {{ if and .sys.isDebianBased (not .sys.hasSystemd) }}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
 [{{ joinPath .dir.downloadedScripts .file.devuansPipewireLauncher | quote }}]
-    type= "file"
-    url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
-    filter.command = "sed"
-    filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
-    refreshPeriod = 0
-    executable = false
-    readonly = true
-    private = true
+	type= "file"
+	url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
+	filter.command = "sed"
+	filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
+	refreshPeriod = 0
+	executable = false
+	readonly = true
+	private = true
 {{ end }}
 
 
@@ -81,10 +81,10 @@
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
 [".local/share/fonts/weathericons-regular-webfont.ttf"]
-    type = "file"
-    url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
-    executable = false
-    refreshPeriod = 0
+	type = "file"
+	url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
+	executable = false
+	refreshPeriod = 0
 {{ end }}
 
 {{ end }}

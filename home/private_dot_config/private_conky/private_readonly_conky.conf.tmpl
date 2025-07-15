@@ -1,17 +1,13 @@
--- vim: ft=lua fdm=marker
+-- vim: set ft=lua fdm=marker ts=4 sw=4:
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "-- " '@}
 
+{@'- /* Palette initialization */'@}
+{@'- $palette := includeTemplate .tmpl.palette.conky | fromToml '@}
+{@'- $currentPalette := get $palette .conky.palette '@}
+
 --== CONKY.CONFIG ==--
 
--- Palette initialization {{{
-
--- Loading palettes
-dofile({@' joinPath .chezmoi.homeDir ".config/conky/conky-palettes.lua" | quote '@})
-
-local current_palette = {@' .conky.palette | squote '@}
-
--- }}}
 -- conky.config {{{ 
 
 --local celsius_sign = utf8.char(0x2103)
@@ -19,113 +15,113 @@ local celsius_sign = utf8.char(0x00B0) .. 'C'
 
 conky.config = {
 
-    update_interval         = 4,
-    --== Font setting ==--
-    font                    = 'DejaVu Sans:bold:size=10',
+	update_interval			= 4,
+	--== Font setting ==--
+	font					= 'DejaVu Sans:bold:size=10',
 
-    --== Outputs ==--
-    out_to_console          = false,
-    out_to_stderr           = false,
-    out_to_x                = true,
+	--== Outputs ==--
+	out_to_console			= false,
+	out_to_stderr			= false,
+	out_to_x				= true,
 {@'- if not .sys.isGentoo '@}
-    out_to_wayland          = false,
+	out_to_wayland			= false,
 {@'- end '@}
 
-    --== Base window properties ==--
-    own_window              = true,
-    own_window_type         = 'desktop',
-    own_window_class        = 'normal',
-    own_window_hints        = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	--== Base window properties ==--
+	own_window				= true,
+	own_window_type			= 'desktop',
+	own_window_class		= 'normal',
+	own_window_hints		= 'undecorated,below,sticky,skip_taskbar,skip_pager',
 
-    --== Window geometry ==--
-    alignment               = 'tr',
-    gap_x                   = 20,
-    gap_y                   = {@' .misc.autohidePanel | ternary 20 45 '@},
-    border_width            = 0,
-    border_inner_margin     = 10,
-    maximum_width           = 350,
-    minimum_width           = 350,
-    minimum_height          = 600,
-    -- Most of our bars will be of default width and height
-    default_bar_height      = 10,
-    default_bar_width       = 300,
-    
-    --== Various settings ==--
-    background              = false,
-    cpu_avg_samples         = 2,
-    net_avg_samples         = 2,
-    draw_borders            = true,
-    draw_outline            = true,
-    draw_shades             = true,
-    use_xft                 = true,
-    no_buffers              = true,
-    extra_newline           = false,
-    short_units             = true,
-    stippled_borders        = 0,
-    double_buffer           = true,
+	--== Window geometry ==--
+	alignment				= 'tr',
+	gap_x					= 20,
+	gap_y					= {@' .misc.autohidePanel | ternary 20 45 '@},
+	border_width			= 0,
+	border_inner_margin		= 10,
+	maximum_width			= 350,
+	minimum_width			= 350,
+	minimum_height			= 600,
+	-- Most of our bars will be of default width and height
+	default_bar_height		= 10,
+	default_bar_width		= 300,
+	
+	--== Various settings ==--
+	background				= false,
+	cpu_avg_samples			= 2,
+	net_avg_samples			= 2,
+	draw_borders			= true,
+	draw_outline			= true,
+	draw_shades				= true,
+	use_xft					= true,
+	no_buffers				= true,
+	extra_newline			= false,
+	short_units				= true,
+	stippled_borders		= 0,
+	double_buffer			= true,
 
-    --== COLOURS ==--
-    default_outline_color   = 'black',
-    default_shade_color     = 'black',
-    color1                  = conky_palettes[current_palette]['headers'],
-    color2                  = conky_palettes[current_palette]['captions'],
-    color3                  = conky_palettes[current_palette]['text'],
-    color4                  = conky_palettes[current_palette]['temperatures'],
-    color5                  = conky_palettes[current_palette]['progressbars'],
+	--== COLOURS ==--
+	default_outline_color	= 'black',
+	default_shade_color		= 'black',
+	color1					= {@' get $currentPalette "headers" | squote '@},
+	color2					= {@' get $currentPalette "captions" | squote '@},
+	color3					= {@' get $currentPalette "text" | squote '@},
+	color4					= {@' get $currentPalette "temperatures" | squote '@},
+	color5					= {@' get $currentPalette "progressbars" | squote '@},
 
-    --== TEMPLATES ==--
+	--== TEMPLATES ==--
 
-    --== Headers of the sections ==--
-    -- Parameter 1: Name of the section
-    template0 = [[${color1}\1 ${hr 3}]],
+	--== Headers of the sections ==--
+	-- Parameter 1: Name of the section
+	template0 = [[${color1}\1 ${hr 3}]],
 
-    --== Info string: caption tag to the left and lightgray inscription to the right ==--
-    -- Parameter 1: Tag to the left (caption color)
-    -- Parameter 2: Inscription to be displayed to the right
-    template1 = [[${color2}\1${alignr}${color3}\2]],
+	--== Info string: caption tag to the left and lightgray inscription to the right ==--
+	-- Parameter 1: Tag to the left (caption color)
+	-- Parameter 2: Inscription to be displayed to the right
+	template1 = [[${color2}\1${alignr}${color3}\2]],
 
-    --== Information on the cpu cores ==--
-    -- Parameter 1: # of the CPU for conky command {cpu} (starting from 1)
-    -- Parameter 2: # of the CPU core to be displayed (starting from 0)
-    template2 = [[${color2}\\#\2${goto 50}${color3}${cpu cpu\1}% ${goto 95}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
+	--== Information on the cpu cores ==--
+	-- Parameter 1: # of the CPU for conky command {cpu} (starting from 1)
+	-- Parameter 2: # of the CPU core to be displayed (starting from 0)
+	template2 = [[${color2}\\#\2${goto 50}${color3}${cpu cpu\1}% ${goto 95}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
 
-    --== Processes table header (no parameters) ==--
-    template3 = [[${color2}Name${goto 180}PID${goto 245}CPU%${alignr}MEM%]],
+	--== Processes table header (no parameters) ==--
+	template3 = [[${color2}Name${goto 180}PID${goto 245}CPU%${alignr}MEM%]],
 
-    --== Processes table entry ==--
-    -- Parameter 1: # of the entry in the top list
-    template4 = [[${color3}${top name \1}${goto \160}${top pid \1}${goto 240}${top cpu \1}${alignr}${top mem \1}]],
+	--== Processes table entry ==--
+	-- Parameter 1: # of the entry in the top list
+	template4 = [[${color3}${top name \1}${goto \160}${top pid \1}${goto 240}${top cpu \1}${alignr}${top mem \1}]],
 
-    --== Memory or swap info entry ==--
-    -- Parameter 1: Caption of the entry
-    -- Parameter 2: conky command to execute and display results (mem or swap)
-    template5 = [[${color2}\1${alignr}${color3}${\2} / ${\2max}\n${color3}$\2perc% ${alignr}${color5}${\2bar}]],
+	--== Memory or swap info entry ==--
+	-- Parameter 1: Caption of the entry
+	-- Parameter 2: conky command to execute and display results (mem or swap)
+	template5 = [[${color2}\1${alignr}${color3}${\2} / ${\2max}\n${color3}$\2perc% ${alignr}${color5}${\2bar}]],
 
-    --== Disk usage info entry ==--
-    -- Parameter 1: Caption of the entry
-    -- Parameter 2: Mountpoint of the volume
-    template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar \2}]],
+	--== Disk usage info entry ==--
+	-- Parameter 1: Caption of the entry
+	-- Parameter 2: Mountpoint of the volume
+	template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar \2}]],
 
-    --== Weather widget (old) ==--
-    template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
+	--== Weather widget (old) ==--
+	template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
 {@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
 
-    --== Temperature info in two columns ==--
-    -- Parameter 1: Left column caption
-    -- Parameter 2: command to execute for the left column
-    -- Parameter 3: Right column caption
-    -- Parameter 4: command to execute for the right column
-    template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+	--== Temperature info in two columns ==--
+	-- Parameter 1: Left column caption
+	-- Parameter 2: command to execute for the left column
+	-- Parameter 3: Right column caption
+	-- Parameter 4: command to execute for the right column
+	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 {@'- if .sys.isDesktopRig '@}
 
-    --== Fan info in two columns ==--
-    -- Parameter 1: Left column caption
-    -- Parameter 2: hwmon subdirectory number for the left column
-    -- Parameter 3: hwmon fan number for the left column
-    -- Parameter 4: Right column caption
-    -- Parameter 5: hwmon subdirectory number for the right column
-    -- Parameter 6: hwmon fan number for the right column
-    template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
+	--== Fan info in two columns ==--
+	-- Parameter 1: Left column caption
+	-- Parameter 2: hwmon subdirectory number for the left column
+	-- Parameter 3: hwmon fan number for the left column
+	-- Parameter 4: Right column caption
+	-- Parameter 5: hwmon subdirectory number for the right column
+	-- Parameter 6: hwmon fan number for the right column
+	template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
 {@'- end '@}
 {@'- end '@}
 
@@ -136,29 +132,25 @@ conky.config = {
 
 {@' if eq .conky.transparency "Full" -'@}
 -- Full transparency
-conky.config['own_window_transparent']  = true
-conky.config['own_window_argb_visual']  = false
-conky.config['border_width']            = 0
+conky.config['own_window_transparent']	= true
+conky.config['own_window_argb_visual']	= false
+conky.config['border_width']			= 0
 {@'- else if eq .conky.transparency "Semi" -'@}
 -- Semi-transparent conky
-conky.config['own_window_transparent']  = false
-conky.config['own_window_argb_visual']  = true
-conky.config['own_window_argb_value']   = {@' int .conky.argbValue '@}
-conky.config['border_width']            = 1
-conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
-conky.config['default_color']           = conky_palettes[current_palette]['border']
+conky.config['own_window_transparent']	= false
+conky.config['own_window_argb_visual']	= true
+conky.config['own_window_argb_value']	= {@' int .conky.argbValue '@}
+conky.config['border_width']			= 1
+conky.config['own_window_colour']		= {@' get $currentPalette "background" | squote '@}
+conky.config['default_color']			= {@' get $currentPalette "border" | squote '@}
 {@'- else -'@}
 -- Non-transparent conky
-conky.config['own_window_transparent']  = false
-conky.config['own_window_argb_visual']  = false
---conky.config['own_window_argb_value']   = conky_argb_value
-conky.config['border_width']            = 1
-conky.config['own_window_colour']       = conky_palettes[current_palette]['background']
-conky.config['default_color']           = conky_palettes[current_palette]['border']
+conky.config['own_window_transparent']	= false
+conky.config['own_window_argb_visual']	= false
+conky.config['border_width']			= 1
+conky.config['own_window_colour']		= {@' get $currentPalette "background" | squote '@}
+conky.config['default_color']			= {@' get $currentPalette "border" | squote '@}
 {@'- end '@}
-
--- Now we can delete this
-conky_palettes = nil
 
 -- }}}
 
@@ -168,20 +160,20 @@ conky_palettes = nil
 
 -- Reads a string from a file. One string only!
 local function read_from_file(path_to_file)
-    local f = io.open(path_to_file, 'r')
-    local the_data = f:read() or ''
-    f:close()
-    the_data = string.gsub(the_data, '\n$', '')
-    return the_data
+	local f = io.open(path_to_file, 'r')
+	local the_data = f:read() or ''
+	f:close()
+	the_data = string.gsub(the_data, '\n$', '')
+	return the_data
 end -- function read_from_file()
 
 -- Returns the first string of a shell command output. The first string only!
 local function get_cmd_output(the_cmd)
-    local f = io.popen(the_cmd)
-    local the_data = f:read() or ''
-    f:close()
-    the_data = string.gsub(the_data, '\n$', '')
-    return the_data
+	local f = io.popen(the_cmd)
+	local the_data = f:read() or ''
+	f:close()
+	the_data = string.gsub(the_data, '\n$', '')
+	return the_data
 end -- function get_cmd_output()
 
 -- }}}
@@ -189,9 +181,9 @@ end -- function get_cmd_output()
 
 -- Returns the text block for system info
 local function display_system_info()
-    local distro_id = get_cmd_output('lsb_release --id --short 2>/dev/null')
-    distro_id = string.upper(distro_id)
-    return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
+	local distro_id = get_cmd_output('lsb_release --id --short 2>/dev/null')
+	distro_id = string.upper(distro_id)
+	return [[${template0 SYSTEM\ INFO\ (]] .. distro_id .. [[)}
 ${template1 Hodie ${time\ %a\ %d\ %b\ %Y\ %R}}
 ${template1 Kernel\ Version ${kernel}}
 ${template1 Uptime ${uptime}}
@@ -200,46 +192,46 @@ end
 
 -- Returns the table of CPU cores usage
 local function display_cpu_usage()
-    local ncores = tonumber(get_cmd_output('nproc'))
-    local output_string = '${template0 CPU}\n'
+	local ncores = tonumber(get_cmd_output('nproc'))
+	local output_string = '${template0 CPU}\n'
 
-    for i = 1, ncores, 1 do
-        output_string = output_string .. '${template2 ' .. tostring(i) .. ' ' .. tostring(i - 1) .. '}\n'
-    end
+	for i = 1, ncores, 1 do
+		output_string = output_string .. '${template2 ' .. tostring(i) .. ' ' .. tostring(i - 1) .. '}\n'
+	end
 
-    return output_string
+	return output_string
 end
 
 -- Returns the table of the <top_number> top processes
 local function display_top_processes(top_number)
-    local output_string = '${template0 TOP\\ PROCESSES}\n${template3}\n'
-    for i = 1, top_number, 1 do
-        output_string = output_string .. '${template4 ' .. i .. '}\n'
-    end
-    return output_string
+	local output_string = '${template0 TOP\\ PROCESSES}\n${template3}\n'
+	for i = 1, top_number, 1 do
+		output_string = output_string .. '${template4 ' .. i .. '}\n'
+	end
+	return output_string
 end
 
 -- Returns the block for memory usage
 local function display_memory_usage()
-    -- RAM usage
-    local output_string = "${template0 MEMORY\\ USAGE}\n${template5 RAM mem}\n"
-    -- Check if we have a swap. If so, add swap info to the output string.
-    local swaps = get_cmd_output("cat /proc/swaps | wc -l")
-    if tonumber(swaps) > 1 then
-        output_string = output_string .. "${template5 Swap swap}\n"
-    end
-    return output_string
+	-- RAM usage
+	local output_string = "${template0 MEMORY\\ USAGE}\n${template5 RAM mem}\n"
+	-- Check if we have a swap. If so, add swap info to the output string.
+	local swaps = get_cmd_output("cat /proc/swaps | wc -l")
+	if tonumber(swaps) > 1 then
+		output_string = output_string .. "${template5 Swap swap}\n"
+	end
+	return output_string
 end
 
 -- Returns the block for disk usage
 local function display_storage()
-    local output_string = "${template0 STORAGE}\n${template6 System\\ Volume /}\n"
-    -- Check if {@' .dir.userData | squote '@} is mounted separately
-    local res = get_cmd_output("findmnt --noheadings {@' .dir.userData | squote '@} | wc -l")
-    if tonumber(res) > 0 then
-        output_string = output_string .. "${template6 Data\\ Volume {@' .dir.userData '@}}\n"
-    end
-    return output_string
+	local output_string = "${template0 STORAGE}\n${template6 System\\ Volume /}\n"
+	-- Check if {@' .dir.userData | squote '@} is mounted separately
+	local res = get_cmd_output("findmnt --noheadings {@' .dir.userData | squote '@} | wc -l")
+	if tonumber(res) > 0 then
+		output_string = output_string .. "${template6 Data\\ Volume {@' .dir.userData '@}}\n"
+	end
+	return output_string
 end
 
 -- }}}
@@ -262,30 +254,30 @@ end
 -- Thus we calculate these numbers dynamically and address sensors by their module names and lables instead.
 
 local function populate_hwmon_table()
-    local work_table = {}
+	local work_table = {}
 
-    for hwmon_n in io.popen('ls /sys/class/hwmon 2>/dev/null'):lines() do
-        local hw_name = read_from_file('/sys/class/hwmon/' .. hwmon_n .. '/name')
+	for hwmon_n in io.popen('ls /sys/class/hwmon 2>/dev/null'):lines() do
+		local hw_name = read_from_file('/sys/class/hwmon/' .. hwmon_n .. '/name')
 
-        if work_table[hw_name] == nil then
-            work_table[hw_name] = {}
-        end
-        local das_array = {}
-        local current_dir = '/sys/class/hwmon/' .. hwmon_n
-        das_array['nbr'] = string.gsub(hwmon_n, '[%D]', '')
+		if work_table[hw_name] == nil then
+			work_table[hw_name] = {}
+		end
+		local das_array = {}
+		local current_dir = '/sys/class/hwmon/' .. hwmon_n
+		das_array['nbr'] = string.gsub(hwmon_n, '[%D]', '')
 
-        for label_file in io.popen('find ' .. current_dir .. '/ -type f -name "temp*_label" -printf "%f\\n" 2>/dev/null'):lines() do
-            if das_array['lbl'] == nil then
-                das_array['lbl'] = {}
-            end
-            local das_index = string.gsub(label_file, '[%D]', '')
-            local label_name = read_from_file(current_dir .. '/' .. label_file)
-            das_array['lbl'][label_name] = das_index
-        end -- for label_file in ...
-        table.insert(work_table[hw_name], das_array)
-    end -- for hwmon_n in ...
+		for label_file in io.popen('find ' .. current_dir .. '/ -type f -name "temp*_label" -printf "%f\\n" 2>/dev/null'):lines() do
+			if das_array['lbl'] == nil then
+				das_array['lbl'] = {}
+			end
+			local das_index = string.gsub(label_file, '[%D]', '')
+			local label_name = read_from_file(current_dir .. '/' .. label_file)
+			das_array['lbl'][label_name] = das_index
+		end -- for label_file in ...
+		table.insert(work_table[hw_name], das_array)
+	end -- for hwmon_n in ...
 
-    return work_table
+	return work_table
 end -- function populate_hwmon_table()
 
 -- }}}
@@ -302,33 +294,33 @@ local default_hwmon_nr = -1
 {@'- if .sys.isDesktopRig '@}
 -- {{{ Initialization of internal variables: Desktop Rig
 
-local mod_mobo         = hwmon_table['nct6798'][1]['nbr'] or default_hwmon_nr
-local mod_gpu          = hwmon_table['amdgpu'][1]['nbr'] or default_hwmon_nr
-local mod_cpu          = hwmon_table['k10temp'][1]['nbr'] or default_hwmon_nr
-local mod_wifi         = hwmon_table['iwlwifi_1'][1]['nbr'] or default_hwmon_nr 
-local mod_drivetemp    = hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
+local mod_mobo			= hwmon_table['nct6798'][1]['nbr'] or default_hwmon_nr
+local mod_gpu			= hwmon_table['amdgpu'][1]['nbr'] or default_hwmon_nr
+local mod_cpu			= hwmon_table['k10temp'][1]['nbr'] or default_hwmon_nr
+local mod_wifi			= hwmon_table['iwlwifi_1'][1]['nbr'] or default_hwmon_nr 
+local mod_drivetemp		= hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
 
-local nr_SMBUSMASTER_0 = hwmon_table['nct6798'][1]['lbl']['SMBUSMASTER 0'] or default_hwmon_nr
-local nr_CPUTIN        = hwmon_table['nct6798'][1]['lbl']['CPUTIN'] or default_hwmon_nr
-local nr_SYSTIN        = hwmon_table['nct6798'][1]['lbl']['SYSTIN'] or default_hwmon_nr
-local nr_Tccd1         = hwmon_table['k10temp'][1]['lbl']['Tccd1'] or default_hwmon_nr
-local nr_junction      = hwmon_table['amdgpu'][1]['lbl']['junction'] or default_hwmon_nr
-local nr_mem           = hwmon_table['amdgpu'][1]['lbl']['mem'] or default_hwmon_nr
+local nr_SMBUSMASTER_0	= hwmon_table['nct6798'][1]['lbl']['SMBUSMASTER 0'] or default_hwmon_nr
+local nr_CPUTIN			= hwmon_table['nct6798'][1]['lbl']['CPUTIN'] or default_hwmon_nr
+local nr_SYSTIN			= hwmon_table['nct6798'][1]['lbl']['SYSTIN'] or default_hwmon_nr
+local nr_Tccd1			= hwmon_table['k10temp'][1]['lbl']['Tccd1'] or default_hwmon_nr
+local nr_junction		= hwmon_table['amdgpu'][1]['lbl']['junction'] or default_hwmon_nr
+local nr_mem			= hwmon_table['amdgpu'][1]['lbl']['mem'] or default_hwmon_nr
 
 -- }}}
 {@'- else if .sys.isOldLaptop -'@}
 -- {{{ Initialization of internal variables: Old Laptop
 
-local mod_mobo  = hwmon_table['dell_smm'][1]['nbr'] or default_hwmon_nr
-local mod_cpu   = hwmon_table['coretemp'][1]['nbr'] or default_hwmon_nr
-local mod_ssd   = hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
-local mod_hdd   = hwmon_table['drivetemp'][2]['nbr'] or default_hwmon_nr
+local mod_mobo	= hwmon_table['dell_smm'][1]['nbr'] or default_hwmon_nr
+local mod_cpu	= hwmon_table['coretemp'][1]['nbr'] or default_hwmon_nr
+local mod_ssd	= hwmon_table['drivetemp'][1]['nbr'] or default_hwmon_nr
+local mod_hdd	= hwmon_table['drivetemp'][2]['nbr'] or default_hwmon_nr
 
-local nr_Core0  = hwmon_table['coretemp'][1]['lbl']['Core 0'] or default_hwmon_nr
-local nr_Core1  = hwmon_table['coretemp'][1]['lbl']['Core 1'] or default_hwmon_nr
-local nr_Other  = hwmon_table['dell_smm'][1]['lbl']['Other'] or default_hwmon_nr
-local nr_Memory = hwmon_table['dell_smm'][1]['lbl']['SODIMM'] or default_hwmon_nr
-local nr_GPU    = hwmon_table['dell_smm'][1]['lbl']['GPU'] or default_hwmon_nr
+local nr_Core0	= hwmon_table['coretemp'][1]['lbl']['Core 0'] or default_hwmon_nr
+local nr_Core1	= hwmon_table['coretemp'][1]['lbl']['Core 1'] or default_hwmon_nr
+local nr_Other	= hwmon_table['dell_smm'][1]['lbl']['Other'] or default_hwmon_nr
+local nr_Memory	= hwmon_table['dell_smm'][1]['lbl']['SODIMM'] or default_hwmon_nr
+local nr_GPU	= hwmon_table['dell_smm'][1]['lbl']['GPU'] or default_hwmon_nr
 
 -- }}}
 {@'- end -'@} {@'- /* if-else */'@}
