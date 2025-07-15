@@ -11,16 +11,7 @@
 #
 {@'- end -'@}
 
-{@' $theColor := `\033[00;36m` -'@}
-{@' $defaultColor := `\033[00m` -'@}
-
-### TEMPLATE START: funcPrintMessage.sh ###
-print_message_no_linebreak() {
-    printf "{@' $theColor '@}${1}{@' $defaultColor '@}"
-}
-print_message() {
-    printf "{@' $theColor '@}${1}{@' $defaultColor '@}\n"
-}
-### TEMPLATE END: funcPrintMessage.sh ###
+# Include the ``print_message*'' functions
+. {@' joinPath .dir.helperScripts "func-print-message.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}

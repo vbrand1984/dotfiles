@@ -5,12 +5,13 @@
 # This template is used in scripts from the .chezmoiscripts directory.
 # It prints the name of the running script in color.
 #
+# ATTENTION: the file ``func-print-message.sh'' MUST be sourced BEFORE
+# including this template.
+#
 # chezmoi variable to store relative path to this template: .tmpl.msg.printRunningScriptName
 #
 {@'- end -'@}
 
-### TEMPLATE START: printRunningScriptName.sh ###
-printf "\n\033[01;35mRunning {@' base .chezmoi.sourceFile '@}...\033[00m\n"
-### TEMPLATE END: printRunningScriptName.sh ###
+print_message_header "Running {@' base .chezmoi.sourceFile '@}..."
 
 {@'- /* This deletes an empty line after the template */ -'@}

@@ -1,41 +1,33 @@
-#!/bin/sh
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: ft=sh
+{@'- end -'@}
+#!/bin/sh -e
 #
 # This script updates fonts cache when downloaded fonts are changed
 # (or downloaded for the first time)
-# See: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
 #
 
-{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts") | not | not '@}
-# nerd-fonts directory hash: {@' (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/nerd-fonts")) | sha256sum '@}
-{@'- end '@}
-{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts") | not | not '@}
-# winfonts directory hash: {@' (output "ls" "-l" (joinPath .chezmoi.homeDir ".local/share/fonts/winfonts")) | sha256sum '@}
-{@'- end '@}
-
-
-{@' if and .sys.isDesktopRig .sys.isBrandsPrivate -'@}
-#
-# Updates fonts cache when WeatherIcons font updates
-# Used on my main desktop rig, where this font is utilized in conky setup
-#
-{@'- if stat (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | not | not '@}
-# weathericons-regular-webfont.ttf hash: {@' include (joinPath .chezmoi.homeDir ".local/share/fonts/weathericons-regular-webfont.ttf") | sha256sum '@}
-{@'- end '@}
-{@'- end '@}
-#
-
-{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
+{@'/* Include the ``print_message*'' functions */ -'@}
 {@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
 {@'/* Print the name of this script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
+{@' $fontsBaseDir := joinPath .chezmoi.homeDir ".local/share/fonts" -'@}
+
 print_message "Updating fonts cache..."
-fc-cache --force --verbose {@' joinPath .chezmoi.homeDir ".local/share/fonts" | quote '@}
+fc-cache --force --verbose {@' $fontsBaseDir | quote '@}
 
-# Restart conky if it is running
-#if pgrep --count conky 1>/dev/null 2>&1 ; then
-#    /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart conky
-#fi
+{@'/* {{{ Include hashes of the files */ -'@}
 
+{@'/* Generate file list */ -'@}
+{@' $theList := list -'@}
+{@' range list "nerd-fonts" "winfonts" "weathericons-regular-webfont.ttf" -'@}
+	{@'- $theList = append $theList (joinPath $fontsBaseDir .) -'@}
+{@' end -'@}
+
+{@'/* This template will include hashes for the files listed */ -'@}
+{@' includeTemplate .tmpl.listFileHashes $theList | comment "# " -'@}
+
+{@'- /* }}} */ -'@}

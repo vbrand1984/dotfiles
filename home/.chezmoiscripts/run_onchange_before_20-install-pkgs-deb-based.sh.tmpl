@@ -8,24 +8,24 @@
 # Install crucial packages before chezmoi builds its target tree
 #
 
+{@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
+{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
 {@'/* Print the name of the script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
-{@'/* Include the "ensure_sudo_is_working" function */ -'@}
-{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
-
-{@'/* Include the "print_message" and "print_message_no_linebreak" functions */ -'@}
-{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
-
 # Update apt just for the case
 print_message "Running 'aptitude update'..."
-ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude update
+ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude update
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"
 
 print_message "\nInstalling packages from stable repository..."
-ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
+ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>
@@ -35,9 +35,9 @@ install_deb_pkg_from_internet() {
     cd /tmp
     wget "${pkg_addr}"
     pkg_filename=$(basename "${pkg_addr}")
-    ensure_sudo_is_working && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
+    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
     if [ $? -ne 0 ] ; then
-        ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
+        ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
     fi
     rm "${pkg_filename}"
     cd "${old_wd}"
@@ -49,7 +49,7 @@ install_deb_pkg_from_internet() {
 if ! command -v clipit 1>/dev/null 2>&1 ; then
     print_message "Installing clipit..."
     install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
-    ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude hold clipit 
+    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude hold clipit 
 fi
 
 # A handy tool to manage papirus icon theme

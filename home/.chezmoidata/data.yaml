@@ -57,6 +57,8 @@ message:
 
 tmpl:
 
+  listFileHashes: 'listFileHashes.tmpl'
+
   # Shell scripts
   sh:
     funcEnsureSudoIsWorking: 'scripts-shell/funcEnsureSudoIsWorking.sh.tmpl'

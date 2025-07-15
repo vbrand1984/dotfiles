@@ -9,14 +9,7 @@
 #
 {@'- end -'@}
 
-### TEMPLATE START: funcEnsureSudoIsWorking.sh ###
-ensure_sudo_is_working() {
-    sudo_working=1
-    while [ $sudo_working -ne 0 ] ; do
-        {@' .cmd.sudo '@} true
-        sudo_working=$?
-    done
-}
-### TEMPLATE END: funcEnsureSudoIsWorking.sh ###
+# Include the ``ensure_sudo_is_working'' function
+. {@' joinPath .dir.helperScripts "func-ensure-sudo-is-working.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}
