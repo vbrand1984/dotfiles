@@ -6,23 +6,23 @@
 the_theme="${1}"
 
 case "${the_theme}" in
-    Greylooks*)
-        ;;
-    *)
-        if [ -z "${the_theme}" ] ; then
-            echo "You must specify the theme name as the first parameter to the script."
-        else
-            echo "This script works with the Greylooks theme pack only."
-        fi
-        exit 1
-        ;;
+	Greylooks*)
+		;;
+	*)
+		if [ -z "${the_theme}" ] ; then
+			echo "You must specify the theme name as the first parameter to the script."
+		else
+			echo "This script works with the Greylooks theme pack only."
+		fi
+		exit 1
+		;;
 esac
 
 # Setting openbox theme
 /usr/bin/python3 {{ joinPath .chezmoi.homeDir .dir.localScripts "set-openbox-theme.py" | quote }} "${the_theme}"
 
 # Setting GTK theme and applying the changes made to the chezmoi config
-/usr/bin/python3 {{ joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote }} 'data.gtk.themeName' "${the_theme}" 'doapply'
+{{ .cmd.tinkerChezmoiConfig }} 'data.gtk.themeName' "${the_theme}" 'doapply'
 
 # reconfiguring whole appearance
-/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" | quote }}
+#{{ .cmd.reconfigureAppearance }}

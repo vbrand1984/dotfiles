@@ -102,7 +102,7 @@ bind-key e new-window -n 'tmux.conf' "/bin/sh -c '{@' .chezmoi.executable '@} ed
 # }}}
 # {{{ Menus (testing)
 
-bind-key o run-shell "/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-main.sh" '@}"
+bind-key o run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}
 
 # }}}
 # {{{ Theming

@@ -26,6 +26,12 @@
 {@'- $dirHelperScripts := joinPath (.chezmoi.sourceDir | dir) "helper-scripts" -'@}
 {@'- $dirUserDataDefault := "/home" -'@}
 
+{@'- /* These variables MUST contain RELATIVE (to $HOME) paths */ -'@}
+{@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
+{@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
+{@'- $dirObPipeMenus := joinPath $dirLocalScripts "openbox-pipemenus" -'@}
+{@'- $dirTmuxMenus := joinPath $dirLocalScripts "tmux-menus" -'@}
+
 {@'- /* }}} (Local directories) */ -'@}
 {@'- /* {{{ Personal data initialization */ -'@}
 
@@ -119,20 +125,6 @@ encryption = "age"
 	isBrandsPrivate = {@' $isBrandsPrivate '@} 
 
 # }}} (.sys)
-# {{{ .cmd: Settings for certain commands
-
-[data.cmd]
-
-	# If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-	sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
-
-	terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
-
-	# A command to send notifications through scripts
-	# This MUST be either "notify-send" OR "dunstify"
-	notifier = {@' default "dunstify" .cmd.notifier | quote '@}
-
-# }}} (.cmd)
 # {{{ .git: Name and email for git
 
 [data.git]
@@ -162,16 +154,15 @@ encryption = "age"
 	# Various directories
 	# Do NOT change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
 	# They are bound to the existing directory structure of the dotfiles
-	# These variable must contain paths relative to $HOME
+	# These variables MUST contain paths RELATIVE to $HOME
 	localCache			= {@' $dirLocalCache | quote '@}
-	localBin			= {@' joinPath $defaultDotsDir "bin" | quote '@}
+	localBin			= {@' $dirLocalBin | quote '@}
 	downloadedScripts	= {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
-	{@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" '@}
 	localScripts		= {@' $dirLocalScripts | quote '@}
-	obPipeMenus			= {@' joinPath $dirLocalScripts "openbox-pipemenus" | quote '@}
-	tmuxMenus			= {@' joinPath $dirLocalScripts "tmux-menus" | quote '@}
+	obPipeMenus			= {@' $dirObPipeMenus | quote '@}
+	tmuxMenus			= {@' $dirTmuxMenus | quote '@}
 
-	# These variables must contain absolute path
+	# These variables MUST contain ABSOLUTE paths
 	symlinked			= {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}
 	helperScripts		= {@' $dirHelperScripts | quote '@}
 
@@ -189,18 +180,43 @@ encryption = "age"
 		localBackgrounds = ".local/share/backgrounds"
 
 # }}} (.dir)
-# {{{ .xdg: XDG user directories
+# {{{ .cmd: Settings for certain commands
+
+[data.cmd]
+
+	# If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
+	sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
+
+	terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
+
+	# A command to send notifications through scripts
+	# This MUST be either "notify-send" OR "dunstify"
+	notifier = {@' default "dunstify" .cmd.notifier | quote '@}
+
+	manageService = {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "manage-service.sh") | quote '@}
+	tmuxMenuEditConfigMain = {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirTmuxMenus "tm-edit-config-main.sh") | quote '@}
+	startRofi = {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "start-rofi.sh") | quote '@}
+	takeScreenshot = {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot-x.sh") | quote '@}
+	reconfigureAppearance = {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "reconfigure-appearance.sh") | quote '@}
+	tinkerChezmoiConfig = {@' cat "/usr/bin/python3" (joinPath .chezmoi.homeDir $dirLocalScripts "tinker-chezmoi-config.py") | quote '@}
+
+# }}} (.cmd)
+# {{{ .xdg: XDG user directories and their locale
 
 [data.xdg]
 
+	# This will be written in the ~/.config/user-dirs.dirs file
 	desktopDir = {@' default "Desktop" .xdg.desktopDir | quote '@}
-	downloadDir = {@' default "Downloads" .xdg.downloadDir | quote '@}
-	templatesDir = {@' default "Templates" .xdg.templatesDir | quote '@}
-	publicshareDir = {@' default "Public" .xdg.publicshareDir | quote '@}
 	documentsDir = {@' default "Documents" .xdg.documentsDir | quote '@}
+	downloadDir = {@' default "Downloads" .xdg.downloadDir | quote '@}
 	musicDir = {@' default "Music" .xdg.musicDir | quote '@}
 	picturesDir = {@' default "Pictures" .xdg.picturesDir | quote '@}
+	publicshareDir = {@' default "Public" .xdg.publicshareDir | quote '@}
+	templatesDir = {@' default "Templates" .xdg.templatesDir | quote '@}
 	videosDir = {@' default "Videos" .xdg.videosDir | quote '@}
+
+	# This will be written in the ~/.config/user-dirs.locale file
+	userDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
 
 # }}} (.xdg)
 # {{{ .gtk: Graphical settings: theme, font, icons, etc.
@@ -208,7 +224,7 @@ encryption = "age"
 [data.gtk]
 
 	# General theming
-	font.family = {@' default "Ubuntu" .gtk.font.family | quote '@}
+	font.family = {@' default "Roboto" .gtk.font.family | quote '@}
 	font.weight = {@' default "Regular" .gtk.font.weight | quote '@}
 	font.size = {@' default 11 .gtk.font.size | quote '@}
 	themeName = {@' default "Greylooks" .gtk.themeName | quote '@}
@@ -283,9 +299,6 @@ encryption = "age"
 	# Which variants of the Greylooks theme to install and use
 	greylooksThemes = {@'/* default (list "Greylooks" "GreylooksGreen" "GreylooksHuman" "GreylooksOk") .misc.greylooksThemes | toToml */'@}
 {@'- end '@}
-
-	# This will be written in the ~/.config/user-dirs.locale file
-	xdgUserDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
 
 	# Whether to autostart emacs daemon or not
 	startEmacsDaemon = {@' default false (.misc.startEmacsDaemon | not | not) '@}

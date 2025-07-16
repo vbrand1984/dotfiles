@@ -15,7 +15,7 @@ for argb_value = 120, 240, 10 do
         second_command = ''
         icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@}) .. "'"
     else
-        the_command=[[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.argbValue' ']] ..
+        the_command=[[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.argbValue' ']] ..
             tostring(argb_value) .. "' 'doapply'"
         second_command = "{@' .cmd.notifier '@} \"Changing conky's ARGB value to " .. tostring(argb_value) .. "\" 'Please wait a little bit...' "
         icon_name=''

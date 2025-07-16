@@ -107,64 +107,62 @@
 	</keybind> <!--}}}-->
 	<!-- }}} -->
 	<!-- {{{ rofi (Super-Enter + optional stuff) -->
-	{@- $startRofiScript := joinPath .chezmoi.homeDir .dir.localScripts "start-rofi.sh" @}
 	<!--{{{ Super-Enter: rofi run -->
 	<keybind key="W-Return">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $startRofiScript | quote @} run]]></command>
+			<command><![CDATA[{@ .cmd.startRofi @} run]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Super-Shift-Enter: rofi drun -->
 	<keybind key="W-S-Return">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $startRofiScript | quote @} drun]]></command>
+			<command><![CDATA[{@ .cmd.startRofi @} drun]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	{@- if or .sys.isGentoo .sys.isVoid @}
 	<!--{{{ Super-F1: rofi calc module -->
 	<keybind key="W-F1">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $startRofiScript | quote @} calc]]></command>
+			<command><![CDATA[{@ .cmd.startRofi @} calc]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	{@- end @}
 	<!--{{{ Super-Tab: rofi window switching module -->
 	<keybind key="W-Tab">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $startRofiScript | quote @} window]]></command>
+			<command><![CDATA[{@ .cmd.startRofi @} window]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!-- }}} -->
 	<!-- {{{ Screenshots (PrtScr + optional stuff) -->
-	{@ $takeScreenshotScript := joinPath .chezmoi.homeDir .dir.localScripts "take-screenshot-x.sh" @}
 	<!--{{{ PrtScr: Take a screenshot (fullscreen) -->
 	<keybind key="Print">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $takeScreenshotScript | quote @} fullscreen]]></command>
+			<command><![CDATA[{@ .cmd.takeScreenshot @} fullscreen]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Alt-PrtScr: Screenshot of the current window -->
 	<keybind key="A-Print">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $takeScreenshotScript | quote @} window]]></command>
+			<command><![CDATA[{@ .cmd.takeScreenshot @} window]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Ctrl-PrtScr: Screenshot of selection -->
 	<keybind key="C-Print">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $takeScreenshotScript | quote @} selection]]></command>
+			<command><![CDATA[{@ .cmd.takeScreenshot @} selection]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Super-PrtScr: Take a screenshot (fullscreen) with a 5 sec delay -->
 	<keybind key="W-Print">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $takeScreenshotScript | quote @} fullscreen delay]]></command>
+			<command><![CDATA[{@ .cmd.takeScreenshot @} fullscreen delay]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Super-Alt-PrtScr: Screenshot of the current window with a 5 sec delay -->
 	<keybind key="W-A-Print">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ $takeScreenshotScript | quote @} window delay]]></command>
+			<command><![CDATA[{@ .cmd.takeScreenshot @} window delay]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!-- }}} -->
@@ -172,7 +170,7 @@
 	<!--{{{ Super-Shift-A: Reconfigure whole appearance -->
 	<keybind key="W-S-A">
 		<action name="Execute">
-			<command><![CDATA[/bin/sh -e {@ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" @}]]></command>
+			<command><![CDATA[{@ .cmd.reconfigureAppearance @}]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!--{{{ Super-Shift-C: Reconfigure Openbox -->
@@ -200,13 +198,13 @@
 			<command><![CDATA[xdg-screensaver lock]]></command>
 		</action>
 	</keybind> <!--}}}-->
-	<!--{{{ Super-Ctrl-Q: Run logout dialogue -->
+	<!--{{{ Super-Ctrl-Esc: Run logout dialogue -->
 	<keybind key="W-C-Escape">
 		<action name="Execute">
-			<command><![CDATA[lxsession-logout --prompt='<big><big><b>Vero exire a sessione vis?</b></big></big>']]></command>
+			<command><![CDATA[{@ includeTemplate .tmpl.shellCmd.openboxLogout . @}]]></command>
 		</action>
 	</keybind> <!--}}}-->
-	<!--{{{ Super-Shift-Q: Quit from Openbox -->
+	<!--{{{ Super-Shift-Esc: Quit from Openbox -->
 	<keybind key="W-S-Escape">
 		<action name="Exit">
 			<prompt>yes</prompt>

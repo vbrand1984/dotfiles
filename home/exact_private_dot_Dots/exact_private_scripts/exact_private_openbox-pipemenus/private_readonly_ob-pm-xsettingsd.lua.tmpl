@@ -13,19 +13,19 @@ io.write("<openbox_pipe_menu>\n")
 if process_is_running('xsettingsd') then
     io.write("<item label='Restart XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart xsettingsd]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} restart xsettingsd]], ']]', [[></command></execute>
     </action>
 </item>
 <item label='Stop XSettingsD' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} stop xsettingsd]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} stop xsettingsd]], ']]', [[></command></execute>
     </action>
 </item>
 ]]);
 else
     io.write("<item label='Start XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} start xsettingsd]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} start xsettingsd]], ']]', [[></command></execute>
     </action>
 </item>
 ]]);

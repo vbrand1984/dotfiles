@@ -15,8 +15,7 @@ for _, variant in ipairs({'Full', 'Semi', 'None'}) do
         second_command = ''
         icon_name = " icon='" .. lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@}) .. "'"
     else
-        the_command = [[/usr/bin/python3 {@' joinPath .chezmoi.homeDir .dir.localScripts "tinker-chezmoi-config.py" | quote '@} 'data.conky.transparency' ']] ..
-            variant .. "' 'doapply'"
+        the_command = [[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.transparency' ']] .. variant .. "' 'doapply'"
         second_command = "{@' .cmd.notifier '@} \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
         icon_name = ''
     end

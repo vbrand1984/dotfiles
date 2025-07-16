@@ -16,7 +16,7 @@
 
 # restart dunst, xsettingsd, tint2
 for the_service in 'dunst' 'xsettingsd' 'tint2' ; do
-    /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart "${the_service}"
+	{@' .cmd.manageService '@} restart "${the_service}"
 done
 
 # reconfigure openbox

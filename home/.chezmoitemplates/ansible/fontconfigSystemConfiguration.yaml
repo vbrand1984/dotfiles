@@ -1,19 +1,21 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
 # This file contains list of fontconfig configuration files which are unconditionally used.
 # "Unconditionally" means that there should not be files starting with '10-' like '10-hinting-slight.conf', because
 # these are applied through a template depending on the current configuration written in the 'chezmoi.toml' file.
 # Also '70-{yes,no,force}-bitmaps.conf' files are managed automatically and should not be on this list.
+#
 
-# List of patterns (globs) for available fontconfig configuration files
 ---
 
+# List of patterns (globs) for available fontconfig configuration files
 conf_avail:
-  - "/usr/share/fontconfig/conf.avail/*.conf"
-  - "/etc/fonts/conf.avail/*.conf"
+  - '/usr/share/fontconfig/conf.avail/*.conf'
+  - '/etc/fonts/conf.avail/*.conf'
 
 # Directory to store actual fontconfig configuration
 # Symlinks will be created here
-conf_d: "/etc/fonts/conf.d"
+conf_d: '/etc/fonts/conf.d'
 
 conf_needed:
   - 10-nerd-font-symbols.conf
@@ -77,4 +79,3 @@ conf_needed:
   - 90-synthetic.conf
 
 ...
-

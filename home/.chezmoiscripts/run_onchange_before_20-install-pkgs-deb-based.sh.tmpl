@@ -1,8 +1,8 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if .sys.isDebBased -'@}
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}
+{@'- if and .sys.isDebBased (env .app.envIgnoreExternals | not) -'@}
 #!/bin/sh
 #
 # Install crucial packages before chezmoi builds its target tree

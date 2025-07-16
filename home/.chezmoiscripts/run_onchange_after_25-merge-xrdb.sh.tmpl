@@ -1,0 +1,23 @@
+#!/bin/sh -e
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# Automatically merge xrdb if its configuration has been changed
+#
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+# Merge xrdb if Xorg (namely Openbox) is running
+if pgrep --count openbox 1>/dev/null 2>&1 ; then
+    print_message_no_linebreak "Merging xrdb... "
+	[ -r ~/.Xresources ] && xrdb -merge -I${HOME} ~/.Xresources
+    print_message "Done."
+else
+    print_message "Xorg is not running. Doing nothing."
+fi
+
+{@'/* This template will include hashes for the files listed */ -'@}
+{@' includeTemplate .tmpl.listFileHashes (list (joinPath .chezmoi.homeDir ".Xresources")) | comment "# " -'@}

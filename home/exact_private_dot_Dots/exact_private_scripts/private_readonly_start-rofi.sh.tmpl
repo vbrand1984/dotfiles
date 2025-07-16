@@ -1,42 +1,39 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: ft=sh
-{@'- end -'@}
-
 {@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+# vim: set ft=sh ts=4 sw=4:
 #
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # A simple script to start rofi launcher
 # Usage: {@' base .chezmoi.targetFile '@} <mode>
 # Where <mode> is:
-#   run     - run a command
-#   drun    - run a desktop applications menu entry
-#   window  - show a window list
+#	run		- run a command
+#	drun	- run a desktop applications menu entry
+#	window	- show a window list
 {@'- if or .sys.isGentoo .sys.isVoid '@}
-#   calc    - calculator mode (currently only supported in non-Debian-based distros)
+#	calc	- calculator mode (currently only supported in non-Debian-based distros)
 {@'- end '@}
 #
 
-case "$1" in
-    run)
-        exec rofi -modi run -show run
-        ;;
-    drun)
-        exec rofi -modi drun -drun-match-fields name,generic,categories,comment -drun-display-format "<b>{name}</b> [<span weight='light' size='small'><i>({generic})</i></span>] <span weight='light' size='small'>({categories})</span>" -show-icons -show drun
-        ;;
-    window)
-        exec rofi -modi window -show window -show-icons
-        ;;
+case "${1}" in
+	run)
+		exec rofi -modi run -show run
+		;;
+	drun)
+		exec rofi -modi drun -drun-match-fields name,generic,categories,comment -drun-display-format "<b>{name}</b> [<span weight='light' size='small'><i>({generic})</i></span>] <span weight='light' size='small'>({categories})</span>" -show-icons -show drun
+		;;
+	window)
+		exec rofi -modi window -show window -show-icons
+		;;
 {@'- if or .sys.isGentoo .sys.isVoid '@}
-    calc)
-        exec rofi -show calc -modi calc -no-show-match -no-sort
-        ;;
-    *)
-        echo 'Usage: either run, drun, window or calc'
+	calc)
+		exec rofi -show calc -modi calc -no-show-match -no-sort
+		;;
+	*)
+		echo 'Usage: either run, drun, window or calc'
 {@'- else '@}
-    *)
-        echo 'Usage: either run, drun or window'
+	*)
+		echo 'Usage: either run, drun or window'
 {@'- end '@}
-        ;;
+		;;
 esac

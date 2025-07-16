@@ -1,9 +1,0 @@
-{{ if false -}}
-
-This template prints absolute path to the obmenu-generator script
-
-chezmoi variable to store relative path to this template: .tmpl.ob.obmenuGeneratorPath
-
-{{- end -}}
-
-{{ if .sys.isDebBased }}{{ joinPath .chezmoi.homeDir .dir.downloadedScripts .file.debiansObmenuGeneratorName }}{{ else }}{{ lookPath "obmenu-generator" }}{{ end -}}

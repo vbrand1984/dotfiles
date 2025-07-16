@@ -1,0 +1,23 @@
+#!/bin/sh -e
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# Automatically restart tint2 if its configuration has been changed
+#
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+# Restart tint2 if it is running
+if pgrep --count tint2 1>/dev/null 2>&1 ; then
+    print_message_no_linebreak "Restarting tint2... "
+	{@' .cmd.manageService '@} restart tint2
+    print_message "Done."
+else
+    print_message "Tint2 is not running. Doing nothing."
+fi
+
+{@'/* This template will include hashes for the files listed */ -'@}
+{@' includeTemplate .tmpl.listFileHashes (list (joinPath .chezmoi.homeDir ".config/tint2/tint2rc")) | comment "# " -'@}

@@ -1,0 +1,10 @@
+{{ if false -}}
+
+A command to call Openbox logout dialog
+
+chezmoi variable: .tmpl.shellCmd.openboxLogout
+
+{{- end -}}
+lxsession-logout --prompt="<big><big><b>{{ .message.farewell }}</b></big></big>"
+
+{{- /* This deletes a newline symbol in the end of the template output */ -}}

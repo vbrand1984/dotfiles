@@ -13,7 +13,7 @@ app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
 
   # This is an editor for config files to be invoked via Openbox menu entries
-  chezmoiEditorFromMenu: "/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
+  chezmoiEditorFromMenu: "/usr/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
 
   luaVersion: '5.3'
 
@@ -54,15 +54,11 @@ message:
 
   managedByChezmoi: 'This file is managed by chezmoi template:'
   dumbShebang: 'Run this script as following:'
+  farewell: 'Vero a sessione exire vis?'
 
 tmpl:
 
-  listFileHashes: 'listFileHashes.tmpl'
-
-  # Shell scripts
-  sh:
-    funcEnsureSudoIsWorking: 'scripts-shell/funcEnsureSudoIsWorking.sh.tmpl'
-    funcPrintMessage: 'scripts-shell/funcPrintMessage.sh.tmpl'
+  listFileHashes: 'list-file-hashes.tmpl'
 
   # Lua scripts
   lua:
@@ -80,8 +76,8 @@ tmpl:
 
   # Messages to be printed in files or on the screen
   msg:
-    managedByChezmoi: 'msgManagedByChezmoi.tmpl'
-    printRunningScriptName: 'scripts-shell/printRunningScriptName.sh.tmpl'
+    managedByChezmoi: 'msg-managed-by-chezmoi.tmpl'
+    printRunningScriptName: 'scripts-shell/print-running-script-name.sh.tmpl'
 
   # Palettes for various applications
   palette:
@@ -89,9 +85,19 @@ tmpl:
     terminal: 'palettes/terminal.yaml.tmpl'
     conky: 'palettes/conky.toml'
 
+  # Shell scripts
+  sh:
+    funcEnsureSudoIsWorking: 'scripts-shell/ensure-sudo-is-working.sh.tmpl'
+    funcPrintMessage: 'scripts-shell/print-message.sh.tmpl'
+
   # Shebangs, mostly dumb
   shebang:
-    dumbSh: 'shebangs/dumbSh.tmpl'
+    dumbSh: 'shebangs/dumb-sh.tmpl'
+
+  # Various commands
+  shellCmd:
+    openboxLogout: 'shell-cmd/openbox-logout.tmpl'
+    obmenuGenerator: 'shell-cmd/obmenu-generator.tmpl'
 
 ...
 

@@ -73,5 +73,5 @@ our $CONFIG = {
   "locale_support"      => 1,
   "missing_icon"        => "gtk-missing-image",
   "terminal"            => "x-terminal-emulator",
-  "VERSION"             => {{ if .sys.isDebBased }}{{ toString .app.obmenuGeneratorVersion }}{{ else }}{{ last (splitList " " (output "/usr/bin/perl" (includeTemplate .tmpl.ob.obmenuGeneratorPath . ) "-v")) | trim }}{{ end }},
+  "VERSION"             => {{ .app.obmenuGeneratorVersion }},
 }

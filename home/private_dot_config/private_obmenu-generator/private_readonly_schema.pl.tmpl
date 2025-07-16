@@ -72,8 +72,7 @@ our $SCHEMA = [
 		# Nitrogen
 		{item => ['nitrogen',	'Desktop wallpaper',		'preferences-desktop-wallpaper-symbolic']},
 		# Reconfiguration of the whole appearance
-		{item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "reconfigure-appearance.sh" }}',
-								'Reconfigure appearance',	'preferences-desktop-remote-desktop-symbolic']},
+		{item => [{{ .cmd.reconfigureAppearance | squote }}, 'Reconfigure appearance', 'preferences-desktop-remote-desktop-symbolic']},
 
 		{sep => undef},
 
@@ -92,8 +91,7 @@ our $SCHEMA = [
 
 			{sep  => undef},
 
-			{item => ['/usr/bin/perl -- {{ includeTemplate .tmpl.ob.obmenuGeneratorPath . }} -d',
-								'Refresh cache',			'view-refresh-symbolic']},
+			{item => ['{{ includeTemplate .tmpl.shellCmd.obmenuGenerator . }} -d', 'Refresh cache', 'view-refresh-symbolic']},
 		{end => undef},
 
 		# Openbox configuration category
@@ -116,9 +114,9 @@ our $SCHEMA = [
 		# Varia category
 		# settings-configure
 		{beg => ['Varia', 'preferences-system-details-symbolic']},
-			{item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" }} restart tint2',
+			{item => ['{{ .cmd.manageService }} restart tint2',
 					'Restart tint2', 'preferences-ubuntu-panel-symbolic']},
-			{item => ['/bin/sh -e {{ joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" }} restart dunst',
+			{item => ['{{ .cmd.manageService }} restart dunst',
 					'Restart dunst', 'notifications-applet-symbolic']},
 
 			{sep => undef},
@@ -143,5 +141,5 @@ our $SCHEMA = [
 	{exit => ['Log out', 'system-log-out-symbolic']},
 
 	## This uses the 'oblogout' menu
-	{item => ['lxsession-logout --prompt="<big><big><b>Vero exire a sessione vis?</b></big></big>"', 'Shutdown', 'system-shutdown-symbolic']},
+	{item => [{{ includeTemplate .tmpl.shellCmd.openboxLogout . | squote }}, 'Shutdown', 'system-shutdown-symbolic']},
 ]

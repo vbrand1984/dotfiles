@@ -1,0 +1,30 @@
+#!/bin/sh -e
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# Automatically restart XSettingsD if its configuration has been changed
+#
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+# Restart XSettingsD if it is running
+if pgrep --count xsettingsd 1>/dev/null 2>&1 ; then
+    print_message "Restarting XSettingsD... "
+	{@' .cmd.manageService '@} restart xsettingsd
+    print_message "Done."
+else
+    print_message "XSettingsD is not running. Doing nothing."
+fi
+
+{@'/* Generate a file list to watch for */ -'@}
+{@' $fileList := list
+	(joinPath .chezmoi.homeDir ".gtkrc-2.0")
+	(joinPath .chezmoi.homeDir ".config/gtk-3.0/settings.ini")
+	(joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf")
+-'@}
+
+{@'/* This template will include hashes for the files listed */ -'@}
+{@' includeTemplate .tmpl.listFileHashes $fileList | comment "# " -'@}

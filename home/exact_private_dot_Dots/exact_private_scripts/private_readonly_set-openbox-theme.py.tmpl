@@ -37,7 +37,7 @@ with NamedTemporaryFile() as tmp:
     tmp.write(s.encode())
 
     # Make a backup copy of the config file
-    shutil.move(rc_xml, rc_xml + ".orig")
+    #shutil.move(rc_xml, rc_xml + ".orig")
 
     # We need to copy the tempfile, not to move it,
     # otherwise it wouldn't be properly closed afterwards.

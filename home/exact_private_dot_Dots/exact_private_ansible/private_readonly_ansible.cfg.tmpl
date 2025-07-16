@@ -10,9 +10,9 @@ local_tmp  = {@ joinPath .chezmoi.homeDir .dir.ansible.tmp @}
 roles_path = {@ joinPath .chezmoi.homeDir .dir.ansible.roles @}
 library    = {@ joinPath .chezmoi.homeDir .dir.ansible.library @}
 
-{@ if false -@}
+{@- if false -@}
 # Paths to search for roles, colon separated
 #roles_path = ~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
-#library         = ~/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+#library    = ~/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
 #facts_modules = gpus_facts,smart
 {@- end -@}

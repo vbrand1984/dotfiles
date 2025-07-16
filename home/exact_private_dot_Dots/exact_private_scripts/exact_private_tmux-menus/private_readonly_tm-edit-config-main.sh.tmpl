@@ -1,6 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
-# vim: set ft=sh:
+# vim: set ft=sh ts=4 sw=4:
 {@'- end -'@}
 {@'- includeTemplate .tmpl.shebang.dumbSh . '@}
 #
@@ -10,13 +10,13 @@
 #
 
 exec tmux display-menu -T 'Edit config files' -x C -y C \
-	'Edit ~/.bashrc' 'b' "new-window -n '~/.bashrc' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".bashrc" '@}\"" \
-	'Edit conky.conf' 'y' "new-window -n 'conky.conf' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" '@}\"" \
-	'Edit vimrc' 'r' "new-window -n 'vimrc' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".vim/vimrc" '@}\"" \
-	'Edit fonts.conf' 'f' "new-window -n 'fonts.conf' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/fontconfig/fonts.conf" '@}\"" \
+	'Edit ~/.bashrc'	'b' "new-window -n '~/.bashrc'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".bashrc" '@}'" \
+	'Edit conky.conf'	'y' "new-window -n 'conky.conf'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" '@}'" \
+	'Edit vimrc'		'r' "new-window -n 'vimrc'		'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".vim/vimrc" '@}'" \
+	'Edit fonts.conf'	'f' "new-window -n 'fonts.conf'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/fontconfig/fonts.conf" '@}'" \
 	'' \
-	'chezmoi...'	'c' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-chezmoi.sh" '@}\"" \
-	'dunst...'		'd' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-dunst.sh" '@}\"" \
-	'Openbox...'	'o' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-openbox.sh" '@}\"" \
-	'Panel...'		'p' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-panel.sh" '@}\"" \
-	'Terminal...'	't' "run-shell \"/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-terminal.sh" '@}\""
+	'chezmoi...'	'c' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-chezmoi.sh" '@}'" \
+	'dunst...'		'd' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-dunst.sh" '@}'" \
+	'Openbox...'	'o' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-openbox.sh" '@}'" \
+	'Panel...'		'p' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-panel.sh" '@}'" \
+	'Terminal...'	't' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-terminal.sh" '@}'"

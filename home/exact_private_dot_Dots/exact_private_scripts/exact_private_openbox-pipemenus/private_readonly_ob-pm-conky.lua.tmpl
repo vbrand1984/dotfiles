@@ -13,12 +13,12 @@ io.write("<openbox_pipe_menu>\n")
 if process_is_running('conky') then
     io.write("<item label='Restart conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} restart conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} restart conky]], ']]', [[></command></execute>
     </action>
 </item>
 <item label='Stop conky' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} stop conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} stop conky]], ']]', [[></command></execute>
     </action>
 </item>
 <separator />
@@ -28,7 +28,7 @@ if process_is_running('conky') then
 else
     io.write("<item label='Start conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .misc.obmenuIconSize '@}), [['>
     <action name='Execute'>
-        <execute><command><![CDATA[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "manage-service.sh" | quote '@} start conky]], ']]', [[></command></execute>
+        <execute><command><![CDATA[{@' .cmd.manageService '@} start conky]], ']]', [[></command></execute>
     </action>
 </item>
 ]]);

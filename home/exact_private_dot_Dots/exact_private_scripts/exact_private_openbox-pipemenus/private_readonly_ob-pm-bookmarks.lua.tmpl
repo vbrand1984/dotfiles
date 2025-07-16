@@ -6,7 +6,6 @@
 
 -- local mymodule = require({@' joinPath .chezmoi.homeDir .dir.obPipeMenus "mymodule.lua" | quote '@})
 package.path = package.path .. ";/home/victor/.Dots/scripts/openbox-pipemenus/?.lua"
-local mymodule = require("mymodule")
 
 {@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
 {@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}

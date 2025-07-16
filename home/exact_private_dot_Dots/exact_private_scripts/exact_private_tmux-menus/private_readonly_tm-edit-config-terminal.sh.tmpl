@@ -1,8 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: set ft=sh:
-{@'- end -'@}
 {@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+# vim: set ft=sh ts=4 sw=4:
 #
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
@@ -18,5 +16,4 @@ exec tmux display-menu -T 'Terminal configuration' -x C -y C \
 	'' \
 	'Edit terminal palette' 'p' "new-window -n '{@' $paletteFileName '@}' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.terminal '@}'" \
 	'' \
-	'Back' 'b' 'run-shell "/bin/sh -e {@' joinPath .dir.tmuxMenus "tm-edit-config-main.sh" '@}"'
-
+	'Back' 'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
