@@ -82,5 +82,5 @@ with NamedTemporaryFile() as tmp:
     shutil.copyfile(tmp.name, config_file)
 
 if do_apply:
-    run(['/usr/bin/env', '{{ .app.envIgnoreExternals }}=1', {{ .chezmoi.executable | squote }}, 'apply', '--force', '--exclude=externals'])
+    run(['/usr/bin/env', '{{ .app.envIgnoreExternals }}=1', {{ .chezmoi.executable | squote }}, 'apply', '--force', '--exclude=externals,encrypted'])
 

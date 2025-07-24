@@ -8,6 +8,8 @@
 # (or downloaded for the first time)
 #
 
+{@'/* {{{ Include stuff and initialize variables */ -'@}
+
 {@'/* Include the ``print_message*'' functions */ -'@}
 {@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
@@ -15,6 +17,8 @@
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 {@' $fontsBaseDir := joinPath .chezmoi.homeDir ".local/share/fonts" -'@}
+
+{@'/* }}} */ -'@}
 
 print_message "Updating fonts cache..."
 fc-cache --force --verbose {@' $fontsBaseDir | quote '@}

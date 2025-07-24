@@ -8,6 +8,8 @@
 # This script installs aptitude if it is not installed yet
 #
 
+{@'/* {{{ Include stuff */ -'@}
+
 {@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
 {@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
 
@@ -17,13 +19,15 @@
 {@'/* Print the name of the script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
+{@'/* }}} */ -'@}
+
 print_message "\nPreparing to install aptitude. Updating apt..."
-ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} apt update
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt update
 
 print_message "\nUpgrading apt..."
-ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends upgrade
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends upgrade
 
 print_message "\nInstalling aptitude..."
-ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends install aptitude
+ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --assume-yes --no-install-recommends install aptitude
 
-{@'- end '@}
+{@'- end -'@}

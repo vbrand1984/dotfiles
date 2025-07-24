@@ -10,6 +10,6 @@
 {@'- end -'@}
 
 # Include the ``ensure_sudo_is_working'' function
-. {@' joinPath .dir.helperScripts "func-ensure-sudo-is-working.sh" '@}
+. {@' joinPath .chezmoi.homeDir .dir.include "func-ensure-sudo-is-working.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}

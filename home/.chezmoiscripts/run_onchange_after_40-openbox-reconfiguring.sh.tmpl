@@ -4,18 +4,22 @@
 # Automatically reconfigure Openbox if its configuration has been changed
 #
 
+{@'/* {{{ Include stuff */ -'@}
+
 {@'/* Include the ``print_message*'' functions */ -'@}
 {@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
 
 {@'/* Print the name of this script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
+{@'/* }}} */ -'@}
+
 # Reconfiugre openbox if it is running
 if pgrep --count openbox 1>/dev/null 2>&1 ; then
     print_message_no_linebreak "Reconfiguring Openbox... "
     openbox --reconfigure
     print_message "Done."
-    {@' .cmd.notifier '@} --urgency=low "chezmoi script" "Openbox reconfigured"
+    {@' .cmd.notifier '@} --urgency=low --icon='openbox' "Openbox reconfigured"
 else
     print_message "Openbox is not running. Doing nothing."
 fi

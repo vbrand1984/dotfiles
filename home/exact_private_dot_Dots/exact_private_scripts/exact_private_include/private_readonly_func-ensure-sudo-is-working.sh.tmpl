@@ -1,0 +1,14 @@
+# vim: set ft=sh ts=4 sw=4:
+#
+# This file is intended to be sourced  in shell scripts
+# from the .chezmoiscripts directory and others.
+# It adds a function which makes a user to enter
+# sudo/doas password until he succeeds
+#
+
+ensure_sudo_is_working() {
+	sudo_working=1
+	while [ $sudo_working -ne 0 ] ; do
+		{{ .cmd.sudo }} true && sudo_working=0 || sudo_working=1
+	done
+}

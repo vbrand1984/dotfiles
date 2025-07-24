@@ -29,6 +29,7 @@
 {@'- /* These variables MUST contain RELATIVE (to $HOME) paths */ -'@}
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
+{@'- $dirInclude := joinPath $dirLocalScripts "include" -'@}
 {@'- $dirObPipeMenus := joinPath $dirLocalScripts "openbox-pipemenus" -'@}
 {@'- $dirTmuxMenus := joinPath $dirLocalScripts "tmux-menus" -'@}
 
@@ -159,6 +160,7 @@ encryption = "age"
 	localBin			= {@' $dirLocalBin | quote '@}
 	downloadedScripts	= {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
 	localScripts		= {@' $dirLocalScripts | quote '@}
+	include				= {@' $dirInclude | quote '@}
 	obPipeMenus			= {@' $dirObPipeMenus | quote '@}
 	tmuxMenus			= {@' $dirTmuxMenus | quote '@}
 

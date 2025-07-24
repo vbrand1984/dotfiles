@@ -3,11 +3,11 @@
 misc:
   greylooksThemes:
     - Greylooks
-    - GreylooksCyan
     - GreylooksGreen
     - GreylooksHuman
     - GreylooksOk
-    - GreylooksSand
+    - GreylooksPurple
+    - GreylooksTaupe
 
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'

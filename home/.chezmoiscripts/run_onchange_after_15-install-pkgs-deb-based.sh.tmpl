@@ -1,12 +1,14 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if and .sys.isDebBased (env .app.envIgnoreExternals | not) -'@}
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}
-{@'- if and .sys.isDebBased (env .app.envIgnoreExternals | not) -'@}
 #!/bin/sh
 #
 # Install crucial packages before chezmoi builds its target tree
 #
+
+{@'/* {{{ Include stuff */ -'@}
 
 {@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
 {@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
@@ -17,15 +19,17 @@
 {@'/* Print the name of the script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
+{@'/* }}} */ -'@}
+
 # Update apt just for the case
 print_message "Running 'aptitude update'..."
-ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude update
+ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude update
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"
 
 print_message "\nInstalling packages from stable repository..."
-ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
+ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>
@@ -35,9 +39,9 @@ install_deb_pkg_from_internet() {
     cd /tmp
     wget "${pkg_addr}"
     pkg_filename=$(basename "${pkg_addr}")
-    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
+    ensure_sudo_is_working && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
     if [ $? -ne 0 ] ; then
-        ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
+        ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
     fi
     rm "${pkg_filename}"
     cd "${old_wd}"
@@ -61,4 +65,4 @@ fi
 
 #https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb
 
-{@'- end '@}
+{@'- end -'@}
