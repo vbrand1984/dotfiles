@@ -7,7 +7,7 @@ misc:
     - GreylooksHuman
     - GreylooksOk
     - GreylooksPurple
-    - GreylooksTaupe
+    - GreylooksSand
 
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
