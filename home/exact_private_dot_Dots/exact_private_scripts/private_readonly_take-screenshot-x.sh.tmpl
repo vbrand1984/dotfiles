@@ -1,12 +1,12 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
-# vim: ft=sh
+# vim: set ft=sh ts=4 sw=4:
 {@'- end -'@}
 #!/bin/sh
 
 die() {
-    {@' .cmd.notifier '@} --urgency='critical' 'Epic Fail' "${1}"
-    exit 1
+	{@' .cmd.notifier '@} --urgency='critical' 'Epic Fail' "${1}"
+	exit 1
 }
 
 picname_pattern='Screenshot at %Y-%m-%d %H:%M:%S $wx$h.png'
@@ -22,37 +22,40 @@ picdir="${XDG_PICTURES_DIR:-${HOME}/Pictures}/Screenshots"
 picdir={@' joinPath .chezmoi.homeDir .xdg.picturesDir "Screenshots" | quote '@}
 
 if [ ! -d "${picdir}" ] ; then
-    mkdir --parents "${picdir}" || die "Could not create directory ${picdir}!"
+	mkdir --parents "${picdir}" || die "Could not create directory ${picdir}!"
 fi
 
 scrotopts=""
 
 case "${1}" in
-    fullscreen)
-        scrotopts='-z' # --silent
-        ;;
-    window)
-        scrotopts='-zbu' # --silent --focused --border
-        ;;
-    selection)
-        scrotopts='-zs' # --silent --select
-        ;;
-    *)
-        echo 'Use this script with parameters: fullscreen, window or selection'
-        echo "with optional second parameter 'delay' to delay the screenshot for ${delayinterval} seconds"
-        exit 1
-        ;;
+	fullscreen)
+		scrotopts='-z' # --silent
+		;;
+	window)
+		scrotopts='-zbu' # --silent --focused --border
+		;;
+	window-noborder)
+		scrotopts='-zu' # --silent --focused
+		;;
+	selection)
+		scrotopts='-zs' # --silent --select
+		;;
+	*)
+		echo 'Use this script with parameters: fullscreen, window, window-noborder or selection'
+		echo "with optional second parameter 'delay' to delay the screenshot for ${delayinterval} seconds"
+		exit 1
+		;;
 esac
 
 if [ "x${1}" != 'xselection' ] && [ -n "${2}" ] && [ "x${2}" = 'xdelay' ] ; then
-    scrotopts="${scrotopts}d${delay_interval}"
-    {@' .cmd.notifier '@} -t 3000 "Taking a ${1} screenshot in ${delay_interval} seconds..."
+	scrotopts="${scrotopts}d${delay_interval}"
+	{@' .cmd.notifier '@} -t 3000 "Taking a ${1} screenshot in ${delay_interval} seconds..."
 fi
 
 scrot_execute="{@' .cmd.notifier '@} --action='open_dir{@' get .app.notifierActionDelimiter .cmd.notifier '@}Open Directory' --icon='emblem-photos' -t 3000 'Screenshot Saved' '\$n'"
 got_action=$(scrot --exec="${scrot_execute}" "${scrotopts}" --file="${picdir}/${picname_pattern}" || die "Couldn't save a screenshot in ${picdir}!")
 
 if [ "x${got_action}" = 'xopen_dir' ] ; then
-    exec xdg-open "${picdir}"
+	exec xdg-open "${picdir}"
 fi
 

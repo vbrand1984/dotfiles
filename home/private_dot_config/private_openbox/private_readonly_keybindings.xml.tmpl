@@ -147,6 +147,12 @@
 			<command><![CDATA[{@ .cmd.takeScreenshot @} window]]></command>
 		</action>
 	</keybind> <!--}}}-->
+	<!--{{{ Shift-PrtScr: Screenshot of the current window (no border) -->
+	<keybind key="S-Print">
+		<action name="Execute">
+			<command><![CDATA[{@ .cmd.takeScreenshot @} window-noborder]]></command>
+		</action>
+	</keybind> <!--}}}-->
 	<!--{{{ Ctrl-PrtScr: Screenshot of selection -->
 	<keybind key="C-Print">
 		<action name="Execute">
@@ -163,6 +169,12 @@
 	<keybind key="W-A-Print">
 		<action name="Execute">
 			<command><![CDATA[{@ .cmd.takeScreenshot @} window delay]]></command>
+		</action>
+	</keybind> <!--}}}-->
+	<!--{{{ Super-Shift-PrtScr: Screenshot of the current window (no border) with a 5 sec delay -->
+	<keybind key="W-S-Print">
+		<action name="Execute">
+			<command><![CDATA[{@ .cmd.takeScreenshot @} window-noborder delay]]></command>
 		</action>
 	</keybind> <!--}}}-->
 	<!-- }}} -->
