@@ -1,51 +1,111 @@
-#!/usr/bin/lua
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
 -- vim: ft=lua
+{@'- end -'@}
 
-{@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@'- includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
+package.path = package.path .. {@' printf ";%s" (joinPath .chezmoi.homeDir .dir.luaModules "?.lua") | squote '@}
+local obmenu = require('obmenu')
+local prc = require('process_query')
+local item
 
-{@'/* Template which adds the process_is_running function */ -'@}
-{@'- includeTemplate .tmpl.lua.funcProcessIsRunning . '@}
+local function build_palettes_menu(obmenu)
 
-io.write("<openbox_pipe_menu>\n")
+	{@'- /* Generate list of available palettes*/'@}
+	{@'- $theList := includeTemplate .tmpl.palette.conky | fromToml | keys | sortAlpha '@}
+	{@'- $paletteList := list '@}
+	{@'- range $theList '@}
+	{@'- $paletteList = append $paletteList (. | squote) '@}
+	{@'- end '@}
+	local palette_list = { {@'- $paletteList | join ", " -'@} }
 
-if process_is_running('conky') then
-    io.write("<item label='Restart conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} restart conky]], ']]', [[></command></execute>
-    </action>
-</item>
-<item label='Stop conky' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} stop conky]], ']]', [[></command></execute>
-    </action>
-</item>
-<separator />
-<menu id='vbd_conky_palettes_sub_menu' label='Conky palette' execute='/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-palettes.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'applications-graphics-symbolic', {@' .misc.obmenuIconSize '@}), [[' />
-<menu id='vbd_conky_transparency_sub_menu' label='Conky transparency' execute='/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-transparency.lua" | quote '@}' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'preferences-color-symbolic', {@' .misc.obmenuIconSize '@}), [[' />
-]]);
+	obmenu:add_separator('Palette')
+
+	for _, palette_name in pairs(palette_list) do
+		local icon_name, the_command, second_command
+
+		if palette_name == {@' .conky.palette | quote '@} then
+			the_command = "{@' .cmd.notifier '@} 'Current conky palette: {@' .conky.palette '@}'"
+			second_command = ''
+			icon_name = {@' .misc.menuSymbols.selected | squote '@}
+		else
+			the_command = [[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.palette' "]] .. palette_name .. [[" 'doapply']]
+			second_command = "{@' .cmd.notifier '@} --icon='conky' \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
+			icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+		end
+
+		local item = obmenu:add_menuitem(palette_name, icon_name)
+		item:add_action_execute(the_command)
+
+		if second_command ~= '' then
+			item:add_action_execute(second_command)
+		end
+
+	end
+
+end -- function build_palettes_menu
+
+
+function build_transparency_menu(obmenu)
+	obmenu:add_separator('Transparency')
+
+	for _, variant in ipairs({'Full', 'Semi', 'None'}) do
+		local icon_name, the_command, second_command
+
+		if variant == {@' .conky.transparency | squote '@} then
+			the_command = "{@' .cmd.notifier '@} --icon='conky' 'Current conky transparency: {@' .conky.transparency '@}'"
+			second_command = ''
+			icon_name = {@' .misc.menuSymbols.selected | squote '@}
+		else
+			the_command = [[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.transparency' ']] .. variant .. "' 'doapply'"
+			second_command = "{@' .cmd.notifier '@} --icon='conky' \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
+			icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+		end
+
+		local item = obmenu:add_menuitem(variant, icon_name)
+		item:add_action_execute(the_command)
+
+		if second_command ~= '' then
+			item:add_action_execute(second_command)
+		end
+
+	end
+
+	{@'- if eq .conky.transparency "Semi" '@}
+
+	obmenu:add_separator('')
+	obmenu:add_sub_pipemenu('vbd_conky_argb_values_sub_menu', 'ARGB value',
+		'/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-argb-values.lua" '@}', 'applications-graphics-symbolic')
+	{@'- end '@}
+
+end -- function build_transparency_menu
+
+
+if prc.is_running('conky') then
+
+	item = obmenu:add_menuitem('Restart conky', 'view-refresh-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "restart" "conky" | squote'@}) 
+	item = obmenu:add_menuitem('Stop conky', 'process-stop-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "stop" "conky" | squote'@}) 
+
+	build_palettes_menu(obmenu)
+	build_transparency_menu(obmenu)
+--	obmenu:add_sub_pipemenu('vbd_conky_palettes_sub_menu', 'Conky palette',
+--		'/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-palettes.lua" '@}', 'applications-graphics-symbolic')
+--	obmenu:add_sub_pipemenu('vbd_conky_transparency_sub_menu', 'Conky transparency',
+--		'/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky-transparency.lua" '@}', 'preferences-color-symbolic')
+
 else
-    io.write("<item label='Start conky' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} start conky]], ']]', [[></command></execute>
-    </action>
-</item>
-]]);
+	item = obmenu:add_menuitem('Start conky', 'system-restart-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "start" "conky" | squote'@}) 
 end
 
-local edit_icon = lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', {@' .misc.obmenuIconSize '@})
 
-io.write([[<separator />
-<item label='Edit conky.conf' icon=']], edit_icon, [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" | quote '@}]], ']]', [[></command></execute>
-    </action>
-</item>
-<item label='Edit conky palettes' icon=']], edit_icon, [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[/usr/bin/gvim {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.conky | quote '@}]], ']]', [[></command></execute>
-    </action>
-</item>
-</openbox_pipe_menu>
-]]);
+obmenu:add_separator('Configuration')
+
+item = obmenu:add_menuitem('Edit conky.conf', 'edit-symbolic')
+item:add_action_execute({@' cat .app.chezmoiEditorFromMenu (joinPath .chezmoi.homeDir ".config/conky/conky.conf" | squote) | quote'@})
+
+item = obmenu:add_menuitem('Edit conky palettes', 'edit-symbolic')
+item:add_action_execute("/usr/bin/gvim {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.conky | squote '@}")
+
+io.write(tostring(obmenu))

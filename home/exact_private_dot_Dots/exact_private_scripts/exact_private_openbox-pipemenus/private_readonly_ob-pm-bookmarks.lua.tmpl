@@ -1,20 +1,13 @@
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
 -- vim: ft=lua
---
--- GTK bookmarks pipemenu for Openbox
---
+{@'- end -'@}
 
--- local mymodule = require({@' joinPath .chezmoi.homeDir .dir.obPipeMenus "mymodule.lua" | quote '@})
-package.path = package.path .. ";/home/victor/.Dots/scripts/openbox-pipemenus/?.lua"
-
-{@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
-
--- The script has optional command line parameter, size of icons for menu
-local icon_size
-if #arg >= 1 then icon_size = tonumber(arg[1]) else icon_size = 24 end
+package.path = package.path .. {@' printf ";%s" (joinPath .chezmoi.homeDir .dir.luaModules "?.lua") | squote '@}
+local obmenu = require("obmenu")
 
 -- XDG user directories
+local lgi = require("lgi")
 local GLib = lgi.GLib
 
 local home_dir = GLib.get_home_dir()
@@ -24,31 +17,36 @@ local xdg_documents_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY
 
 local file_manager = 'xdg-open'
 local bookmarks_file = home_dir .. '/.config/gtk-3.0/bookmarks'
-local home_folder_icon = lookup_icon(Gtk, gtk_icon_theme, 'folder-home', icon_size)
-local default_folder_icon = lookup_icon(Gtk, gtk_icon_theme, 'folder', icon_size)
 
-io.write("<openbox_pipe_menu>\n<item label='Home Directory' icon='", home_folder_icon, "'><action name='Execute'><execute><command><![CDATA[", file_manager, " ", home_dir, "]]></command></execute></action></item>\n")
+local the_item = obmenu:add_menuitem('Home Directory', 'folder-home')
+the_item:add_action_execute(file_manager .. ' ' .. home_dir)
 
 local f = io.open(bookmarks_file, 'r')
 
 if f ~= nil then
-    io.write("<separator />\n")
+	obmenu:add_separator('')
 
-    for the_line in f:lines() do
-        local item_name = string.gsub(the_line, '^[^%s]*%s', '')
-        local item_path = string.gsub(the_line, '%s[^%s]*$', '')
-        local the_str = string.sub(item_path, -(string.len(item_path)-7))
-        local icon_path
+	for the_line in f:lines() do
+		local item_name = string.gsub(the_line, '^[^%s]*%s', '')
+		local item_path = string.gsub(the_line, '%s[^%s]*$', '')
+		local the_str = string.sub(item_path, -(string.len(item_path)-7))
+		local icon_name
 
-        if the_str == xdg_documents_dir then icon_path = lookup_icon(Gtk, gtk_icon_theme, 'folder-documents', icon_size)
-        elseif the_str == xdg_download_dir then icon_path = lookup_icon(Gtk, gtk_icon_theme, 'folder-download', icon_size)
-        elseif the_str == xdg_pictures_dir then icon_path = lookup_icon(Gtk, gtk_icon_theme, 'folder-pictures', icon_size)
-        else icon_path = default_folder_icon end
+		if the_str == xdg_documents_dir then
+			icon_name = 'folder-documents'
+		elseif the_str == xdg_download_dir then
+			icon_name = 'folder-download'
+		elseif the_str == xdg_pictures_dir then
+			icon_name = 'folder-pictures'
+		else
+			icon_name = 'folder'
+		end
 
-        io.write("<item label='", item_name, "' icon='", icon_path, "'><action name='Execute'><execute><command><![CDATA[", file_manager, " ", item_path, "]]></command></execute></action></item>\n")
-    end
+		the_item = obmenu:add_menuitem(item_name, icon_name)
+		the_item:add_action_execute(file_manager .. ' ' .. item_path)
+	end
 
-    io.close(f)
+	io.close(f)
 end
 
-io.write("</openbox_pipe_menu>\n")
+io.write(tostring(obmenu))

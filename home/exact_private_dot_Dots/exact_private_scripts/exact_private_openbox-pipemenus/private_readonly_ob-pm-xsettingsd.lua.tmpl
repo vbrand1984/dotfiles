@@ -1,41 +1,25 @@
-#!/usr/bin/lua
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
 -- vim: ft=lua
+{@'- end -'@}
 
-{@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@'- includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
+package.path = package.path .. {@' printf ";%s" (joinPath .chezmoi.homeDir .dir.luaModules "?.lua") | squote '@}
+local obmenu = require('obmenu')
+local prc = require('process_query')
+local item
 
-{@'/* Template which adds the process_is_running function */ -'@}
-{@'- includeTemplate .tmpl.lua.funcProcessIsRunning . '@}
-
-io.write("<openbox_pipe_menu>\n")
-
-if process_is_running('xsettingsd') then
-    io.write("<item label='Restart XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'view-refresh-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} restart xsettingsd]], ']]', [[></command></execute>
-    </action>
-</item>
-<item label='Stop XSettingsD' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'process-stop-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} stop xsettingsd]], ']]', [[></command></execute>
-    </action>
-</item>
-]]);
+if prc.is_running('xsettingsd') then
+	item = obmenu:add_menuitem('Restart XsettingsD', 'view-refresh-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "restart" "xsettingsd" | squote'@})
+	item = obmenu:add_menuitem('Stop XsettingsD', 'process-stop-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "stop" "xsettingsd" | squote'@})
 else
-    io.write("<item label='Start XSettingsD' icon='", lookup_icon(Gtk, gtk_icon_theme, 'system-restart-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .cmd.manageService '@} start xsettingsd]], ']]', [[></command></execute>
-    </action>
-</item>
-]]);
+	item = obmenu:add_menuitem('Start XsettingsD', 'system-restart-symbolic')
+	item:add_action_execute({@' cat .cmd.manageService "start" "xsettingsd" | squote'@})
 end
 
-io.write([[<separator />
-<item label='Edit xsettingsd.conf' icon=']], lookup_icon(Gtk, gtk_icon_theme, 'edit-symbolic', {@' .misc.obmenuIconSize '@}), [['>
-    <action name='Execute'>
-        <execute><command><![CDATA[{@' .app.chezmoiEditorFromMenu '@} {@' joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | squote '@}]], ']]', [[></command></execute>
-    </action>
-</item>
-</openbox_pipe_menu>
-]]);
+obmenu:add_separator('')
+item = obmenu:add_menuitem('Edit xsettingsd.conf', 'edit-symbolic')
+item:add_action_execute({@' cat .app.chezmoiEditorFromMenu (joinPath .chezmoi.homeDir ".config/xsettingsd/xsettingsd.conf" | squote) | quote'@})
+
+io.write(tostring(obmenu))

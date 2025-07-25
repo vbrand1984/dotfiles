@@ -30,6 +30,7 @@
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
 {@'- $dirInclude := joinPath $dirLocalScripts "include" -'@}
+{@'- $dirLuaModules := joinPath $dirLocalScripts "lua-modules" -'@}
 {@'- $dirObPipeMenus := joinPath $dirLocalScripts "openbox-pipemenus" -'@}
 {@'- $dirTmuxMenus := joinPath $dirLocalScripts "tmux-menus" -'@}
 
@@ -161,6 +162,7 @@ encryption = "age"
 	downloadedScripts	= {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
 	localScripts		= {@' $dirLocalScripts | quote '@}
 	include				= {@' $dirInclude | quote '@}
+	luaModules			= {@' $dirLuaModules | quote '@}
 	obPipeMenus			= {@' $dirObPipeMenus | quote '@}
 	tmuxMenus			= {@' $dirTmuxMenus | quote '@}
 

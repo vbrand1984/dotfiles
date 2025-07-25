@@ -9,6 +9,15 @@ misc:
     - GreylooksPurple
     - GreylooksSand
 
+  menuSymbols:
+
+    # Non-selected radiobutton
+    nonSelected: 'tool-circle-symbolic'
+
+    # Selected radiobutton
+    # Variants: selection-mode-symbolic, system-hibernate-symbolic
+    selected: 'selection-mode-symbolic'
+
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
 
@@ -59,11 +68,6 @@ message:
 tmpl:
 
   listFileHashes: 'list-file-hashes.tmpl'
-
-  # Lua scripts
-  lua:
-    funcGtkLookupIcon: 'scripts-lua/funcGtkLookupIcon.lua.tmpl'
-    funcProcessIsRunning: 'scripts-lua/funcProcessIsRunning.lua.tmpl'
 
   # Openbox-related stuff
   ob:

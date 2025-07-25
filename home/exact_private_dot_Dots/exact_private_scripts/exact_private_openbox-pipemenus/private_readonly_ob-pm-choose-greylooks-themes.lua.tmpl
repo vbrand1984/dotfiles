@@ -1,38 +1,32 @@
-#!/usr/bin/lua
 -- chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
 -- vim: ft=lua
+{@'- end -'@}
 
-{@'/* Template which adds the lookup_icon function and initializes Gtk */ -'@}
-{@' includeTemplate .tmpl.lua.funcGtkLookupIcon . '@}
+package.path = package.path .. {@' printf ";%s" (joinPath .chezmoi.homeDir .dir.luaModules "?.lua") | squote '@}
+local obmenu = require("obmenu")
 
---local greylooks_variants = {'Greylooks', 'GreylooksGreen', 'GreylooksHuman', 'GreylooksOk'}
-{@'- $themesNames := list '@}
-{@'- range .misc.greylooksThemes '@}
-{@'- $themesNames = append $themesNames ( . | squote)'@}
-{@'- end '@}
+{@' $themesNames := list -'@}
+{@' range .misc.greylooksThemes -'@}
+{@' $themesNames = append $themesNames ( . | squote) -'@}
+{@' end -'@}
 local greylooks_variants = { {@'- $themesNames | join ", " -'@} }
 
-io.write("<openbox_pipe_menu>\n")
-
 for k in pairs(greylooks_variants) do
-    local variant_name = greylooks_variants[k]
-    local icon_name, the_command
+	local variant_name = greylooks_variants[k]
+	local icon_name, the_command
 
-    if variant_name == {@' .gtk.themeName | quote '@} then
-        the_command = "{@' .cmd.notifier '@} 'Current GTK theme: {@' .gtk.themeName '@}'"
-        icon_name = " icon='" .. tostring(lookup_icon(Gtk, gtk_icon_theme, 'emblem-ok-symbolic', {@' .misc.obmenuIconSize '@})) .. "'"
-    else
-        the_command = [[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "set-gtk-and-openbox-theme.sh" | quote '@} ']] .. variant_name .. "'"
-        icon_name = ""
-    end
+	if variant_name == {@' .gtk.themeName | quote '@} then
+		the_command = "{@' .cmd.notifier '@} 'Current GTK theme: {@' .gtk.themeName '@}'"
+		icon_name = {@' .misc.menuSymbols.selected | squote '@}
+	else
+		the_command = [[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "set-gtk-and-openbox-theme.sh" | quote '@} ']] .. variant_name .. "'"
+		icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+	end
 
-    io.write("<item label='", variant_name, "'", icon_name, [[>
-    <action name='Execute'>
-        <execute><command><![CDATA[]], the_command, ']]', [[></command></execute>
-    </action>
-</item>
-]]);
+	local item = obmenu:add_menuitem(variant_name, icon_name)
+	item:add_action_execute(the_command)
+
 end
 
-io.write("</openbox_pipe_menu>\n")
-
+io.write(tostring(obmenu))
