@@ -12,7 +12,7 @@ for argb_value = 120, 240, 10 do
 	if argb_value == {@' .conky.argbValue '@} then
 		the_command = "{@' .cmd.notifier '@} --icon='conky' 'Current conky ARGB value: {@' .conky.argbValue '@}'"
 		second_command = ''
-		icon_name = 'emblem-ok-symbolic'
+		icon_name = {@' .misc.menuSymbols.selected | squote '@}
 	else
 		the_command=[[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.argbValue' ']] ..
 			tostring(argb_value) .. "' 'doapply'"

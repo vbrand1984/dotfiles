@@ -18,10 +18,10 @@ for k in pairs(greylooks_variants) do
 
 	if variant_name == {@' .gtk.themeName | quote '@} then
 		the_command = "{@' .cmd.notifier '@} 'Current GTK theme: {@' .gtk.themeName '@}'"
-		icon_name = {@' .misc.menuSymbols.selected | squote '@}
+		icon_name = {@' .misc.menuSymbols.radioChecked | squote '@}
 	else
 		the_command = [[/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "set-gtk-and-openbox-theme.sh" | quote '@} ']] .. variant_name .. "'"
-		icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+		icon_name = {@' .misc.menuSymbols.radioUnchecked | squote '@}
 	end
 
 	local item = obmenu:add_menuitem(variant_name, icon_name)

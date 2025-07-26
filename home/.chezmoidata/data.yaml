@@ -12,11 +12,15 @@ misc:
   menuSymbols:
 
     # Non-selected radiobutton
-    nonSelected: 'tool-circle-symbolic'
+    radioUnchecked: 'radio-symbolic'
 
     # Selected radiobutton
     # Variants: selection-mode-symbolic, system-hibernate-symbolic
-    selected: 'selection-mode-symbolic'
+    radioChecked: 'radio-checked-symbolic'
+
+    # Variants: emblem-ok-symbolic, emblem-default-symbolic,
+    # dino-tick-symbolic, process-completed-symbolic, object-select-symbolic
+    selected: 'object-select-symbolic'
 
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'

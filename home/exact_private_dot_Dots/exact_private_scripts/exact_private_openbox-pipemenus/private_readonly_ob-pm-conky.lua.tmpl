@@ -26,11 +26,11 @@ local function build_palettes_menu(obmenu)
 		if palette_name == {@' .conky.palette | quote '@} then
 			the_command = "{@' .cmd.notifier '@} 'Current conky palette: {@' .conky.palette '@}'"
 			second_command = ''
-			icon_name = {@' .misc.menuSymbols.selected | squote '@}
+			icon_name = {@' .misc.menuSymbols.radioChecked | squote '@}
 		else
 			the_command = [[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.palette' "]] .. palette_name .. [[" 'doapply']]
 			second_command = "{@' .cmd.notifier '@} --icon='conky' \"Changing conky's palette to " .. palette_name .. "\" 'Please wait a little bit...' "
-			icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+			icon_name = {@' .misc.menuSymbols.radioUnchecked | squote '@}
 		end
 
 		local item = obmenu:add_menuitem(palette_name, icon_name)
@@ -54,11 +54,11 @@ function build_transparency_menu(obmenu)
 		if variant == {@' .conky.transparency | squote '@} then
 			the_command = "{@' .cmd.notifier '@} --icon='conky' 'Current conky transparency: {@' .conky.transparency '@}'"
 			second_command = ''
-			icon_name = {@' .misc.menuSymbols.selected | squote '@}
+			icon_name = {@' .misc.menuSymbols.radioChecked | squote '@}
 		else
 			the_command = [[{@' .cmd.tinkerChezmoiConfig '@} 'data.conky.transparency' ']] .. variant .. "' 'doapply'"
 			second_command = "{@' .cmd.notifier '@} --icon='conky' \"Changing conky's transparency to " .. variant .. "\" 'Please wait a little bit...' "
-			icon_name = {@' .misc.menuSymbols.nonSelected | squote '@}
+			icon_name = {@' .misc.menuSymbols.radioUnchecked | squote '@}
 		end
 
 		local item = obmenu:add_menuitem(variant, icon_name)
