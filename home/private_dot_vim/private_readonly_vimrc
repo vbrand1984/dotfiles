@@ -34,6 +34,9 @@ set ruler
 
 set viminfo='50,f1,<500,n~/.vim/.viminfo
 
+" Set cwd to the directory where edited file is
+set autochdir
+
 " Search options
 set nohlsearch
 set ignorecase smartcase
