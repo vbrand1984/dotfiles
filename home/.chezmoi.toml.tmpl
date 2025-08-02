@@ -61,6 +61,22 @@
 {@' $sysIsUbuntuBased := or (eq .chezmoi.osRelease.id "ubuntu") (and (hasKey .chezmoi.osRelease "idLike") (eq .chezmoi.osRelease.idLike "ubuntu")) -'@}
 {@' $sysIsDebBased := or $sysIsDebianBased $sysIsUbuntuBased -'@}
 
+{@'- /* Initializing .cmd.sudo */ -'@}
+{@' $cmdSudo := "" -'@}
+{@' if (lookPath "sudo") -'@}
+	{@' $cmdSudo = lookPath "sudo" -'@}
+{@' else if (lookPath "doas") -'@}
+	{@' $cmdSudo = lookPath "doas" -'@}
+{@' end -'@}
+
+{@'- /* Initializing .ansible.become */ -'@}
+{@' $ansibleBecome := "" -'@}
+{@' if (eq $cmdSudo "sudo" "/usr/bin/sudo") -'@}
+	{@' $ansibleBecome = "sudo" -'@}
+{@' else -'@}
+	{@' $ansibleBecome = "su" -'@}
+{@' end -'@}
+
 {@'- /* }}} (Automatic system detection) */ -'@}
 
 {@'- writeToStdout "Initializing chezmoi...\n" -'@}
@@ -188,8 +204,8 @@ encryption = "age"
 
 [data.cmd]
 
-	# If a non-deb-based distro has doas in its $PATH, then "doas", else "sudo"
-	sudo = {@' and (not $sysIsDebBased) (lookPath "doas" | not | not) | ternary "doas" "sudo" | quote '@}
+	# If sudo is found in $PATH, then sudo, else if doas is found in $PATH, then doas, else ""
+	sudo = {@' $cmdSudo | quote '@}
 
 	terminalEmulator = {@' default "alacritty" .cmd.terminalEmulator | quote '@}
 
@@ -221,6 +237,14 @@ encryption = "age"
 
 	# This will be written in the ~/.config/user-dirs.locale file
 	userDirsLocale = {@' default "en_US" .misc.xdgUserDirsLocale | quote '@}
+
+# }}} (.xdg)
+# {{{ .app: Various applications settings
+
+[data.app]
+
+	[data.app.ansible]
+		become = {@' $ansibleBecome | quote '@}
 
 # }}} (.xdg)
 # {{{ .gtk: Graphical settings: theme, font, icons, etc.
