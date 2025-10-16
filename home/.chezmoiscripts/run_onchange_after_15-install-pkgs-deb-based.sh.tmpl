@@ -33,35 +33,35 @@ ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_
 
 # Usage:
 # install_deb_pkg_from_internet <address>
-install_deb_pkg_from_internet() {
-    old_wd=$(pwd)
-    pkg_addr="${1}"
-    cd /tmp
-    wget "${pkg_addr}"
-    pkg_filename=$(basename "${pkg_addr}")
-    ensure_sudo_is_working && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
-    if [ $? -ne 0 ] ; then
-        ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
-    fi
-    rm "${pkg_filename}"
-    cd "${old_wd}"
-}
-
-# For whatever reason, clipit is not longer maintained in Debian
-# Here is the solution: install clipit package from Debian 10 repo and hold it
-# Not ideal, but working approach
-if ! command -v clipit 1>/dev/null 2>&1 ; then
-    print_message "Installing clipit..."
-    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
-    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude hold clipit 
-fi
-
-# A handy tool to manage papirus icon theme
-# See: https://github.com/PapirusDevelopmentTeam/papirus-folders
-if ! command -v papirus-folders 1>/dev/null 2>&1 ; then
-    print_message "Installing papirus-folders..."
-    install_deb_pkg_from_internet "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb"
-fi
+#install_deb_pkg_from_internet() {
+#    old_wd=$(pwd)
+#    pkg_addr="${1}"
+#    cd /tmp
+#    wget "${pkg_addr}"
+#    pkg_filename=$(basename "${pkg_addr}")
+#    ensure_sudo_is_working && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
+#    if [ $? -ne 0 ] ; then
+#        ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
+#    fi
+#    rm "${pkg_filename}"
+#    cd "${old_wd}"
+#}
+#
+## For whatever reason, clipit is not longer maintained in Debian
+## Here is the solution: install clipit package from Debian 10 repo and hold it
+## Not ideal, but working approach
+#if ! command -v clipit 1>/dev/null 2>&1 ; then
+#    print_message "Installing clipit..."
+#    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
+#    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude hold clipit 
+#fi
+#
+## A handy tool to manage papirus icon theme
+## See: https://github.com/PapirusDevelopmentTeam/papirus-folders
+#if ! command -v papirus-folders 1>/dev/null 2>&1 ; then
+#    print_message "Installing papirus-folders..."
+#    install_deb_pkg_from_internet "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb"
+#fi
 
 #https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/papirus-folders_1.13.1-1~130~ubuntu24.04.1_all.deb
 
