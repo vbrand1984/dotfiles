@@ -40,7 +40,7 @@ our $SCHEMA = [
 	{item =>	['x-terminal-emulator', 'Terminal',			'utilities-terminal-symbolic']},
 	{item =>	['xdg-open http://',	'Web Browser',		'web-browser-symbolic']},
 {@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
-{@'- $telegramCmd := .sys.isDebBased | ternary "flatpak run org.telegram.desktop" "telegram-desktop" '@}
+{@'- $telegramCmd := .sys.isDebBased | ternary "flatpak run org.telegram.desktop" (.sys.isVoid | ternary "Telegram" "telegram-desktop") '@}
 	{item => 	[{@' $telegramCmd | quote '@}, 'Telegram', '/usr/share/icons/Papirus-Light/24x24/panel/telegram-panel.svg']},
 {@'- end '@}
 
