@@ -1,5 +1,3 @@
-{{/* In Void Linux, vivaldi is installed via flatpak */ -}}
-{{ if not .sys.isVoid -}}
 # Options were added to make vivaldi keep its cache in $XDG_RUNTIME_DIR and use hardware video acceleration
 [Desktop Entry]
 Version=1.0
@@ -33,4 +31,3 @@ Name=New Private Window
 Name[de]=Neues privates Fenster
 Name[ru]=Новое приватное окно
 Exec=/usr/bin/vivaldi-stable --incognito --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder
-{{ end -}}
