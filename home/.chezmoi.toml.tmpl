@@ -39,6 +39,7 @@
 
 {@'- $desktopRigName := "saturn" -'@}
 {@'- $oldLaptopName := "antares" -'@}
+{@'- $necroLaptopName := "altair" -'@}
 {@'- $privatePCs := list $desktopRigName $oldLaptopName -'@}
 {@'- $personalUsername := "victor" -'@}
 {@'- $isBrandsPrivate := and (has .chezmoi.hostname $privatePCs) (eq .chezmoi.username $personalUsername) -'@}
@@ -50,6 +51,7 @@
 {@' $sysIsVM := eq (output "/bin/sh" (joinPath $dirHelperScripts "is-virtual-machine.sh")) "yes" -'@}
 {@' $sysIsDesktopRig := eq .chezmoi.hostname $desktopRigName -'@}
 {@' $sysIsOldLaptop := eq .chezmoi.hostname $oldLaptopName -'@}
+{@' $sysIsNecroLaptop := eq .chezmoi.hostname $necroLaptopName -'@}
 {@' $sysHasSmallScreen := or $sysIsOldLaptop $sysIsVM -'@}
 
 {@'- /* Distro detection */ -'@}
