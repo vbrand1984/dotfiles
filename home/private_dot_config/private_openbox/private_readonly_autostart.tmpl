@@ -32,7 +32,8 @@ xscreensaver --no-splash &
 clipit &
 
 # --== Sound Volume Manager ==--
-(sleep 2; volumeicon) &
+#(sleep {@' if eq .dir.userData .dir.userDataDefault -'@}4{@'- else -'@}2{@'- end -'@}; volumeicon) &
+/bin/sh {@' joinPath .chezmoi.homeDir .dir.localScripts "launch-volumeicon.sh" '@} &
 #pnmixer &
 
 # --== Conky System Monitor ==--
