@@ -53,6 +53,7 @@
 {@' $sysIsDesktopRig := eq .chezmoi.hostname $desktopRigName -'@}
 {@' $sysIsOldLaptop := eq .chezmoi.hostname $oldLaptopName -'@}
 {@' $sysIsNecroLaptop := eq .chezmoi.hostname $necroLaptopName -'@}
+{@' $sysIsAlcoLaptop := eq .chezmoi.hostname $alcoLaptopName -'@}
 {@' $sysHasSmallScreen := or $sysIsOldLaptop $sysIsVM -'@}
 
 {@'- /* Distro detection */ -'@}
@@ -141,6 +142,8 @@ encryption = "age"
 
 	isDesktopRig = {@' $sysIsDesktopRig '@}
 	isOldLaptop = {@' $sysIsOldLaptop '@}
+	isNecroLaptop = {@' $sysIsNecroLaptop '@}
+	isAlcoLaptop = {@' $sysIsAlcoLaptop '@}
 
 	# True if this is Victor Brand's private PC
 	isBrandsPrivate = {@' $isBrandsPrivate '@} 
