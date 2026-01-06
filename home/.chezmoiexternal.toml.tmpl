@@ -1,26 +1,32 @@
-{{ if not (env .app.envIgnoreExternals) }}
+# chezmoi:template: left-delimiter={@' right-delimiter='@} missing-key=invalid
+# vim: set ft=toml ts=4 sw=4 noet:
+{@' if not (env .app.envIgnoreExternals) '@}
+# {{{ General
+
 # Vim plugin manager
 [".vim/autoload/plug.vim"]
 	type = "file"
 	url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	refreshPeriod = "168h"
 
+# }}}
+# {{{ Themes
+
 # Our default GTK and Openbox themes:
-# Greylooks, GreylooksGreen, GreylooksHuman and GreylooksOk
-{{ if false }}
-{{ range .misc.greylooksThemes }}
-[".local/share/themes/{{ . }}"]
+# Greylooks, GreylooksGreen, GreylooksHuman, GreylooksOk, GreylooksPurple, GreylooksSand
+{@' range .misc.greylooksThemes '@}
+[".local/share/themes/{@' . '@}"]
 	type = "archive"
 	url = "https://github.com/vbrand1984/greylooks/archive/master.zip"
 	format = "zip"
 	exact = true
 	stripComponents = 2
-	include = ["greylooks-master/{{ . }}/**"]
+	include = ["greylooks-master/{@' . '@}/**"]
 	refreshPeriod = "1680h"
-{{ end }}
-{{ end }}
+{@' end '@}
 
-### Fonts ###
+# }}}
+# {{{ Fonts
 
 # JetBrainsMonoNL and Ubuntu Nerd Font Propo fonts
 [".local/share/fonts/nerd-fonts"]
@@ -30,6 +36,8 @@
 	stripComponents = 1
 	exact = true
 	include = ["nerd-fonts/*.ttf"]
+	checksum.sha512 = "fb46cc27f4e734d628cb5967799f1019c5c352359f9dc531fd00e7974a992230c20fad9bd2c944cfb54e3854ee4583f719b9ee8b814b48e58b51deb371afa648"
+	checksum.size = 3896650
 	refreshPeriod = "1680h"
 
 # MS fonts
@@ -40,16 +48,28 @@
 	stripComponents = 1
 	exact = true
 	include = ["winfonts/*.tt?"]
+	checksum.sha512 = "6b1b7440c03523eea3218bf8c07002000a890c82af5567473fca1dac15a28735e3309df4b855d934fea6d1425ac744e539eccd7b29182bb4c5f8ea825d371570"
+	checksum.size = 16195257
 	refreshPeriod = "1680h"
 
+{@' if and .sys.isBrandsPrivate .sys.isDesktopRig '@}
+# Font with weather icons which is used in my python-powered conky weather widget
+# Only used on my desktop rig
+[".local/share/fonts/weathericons-regular-webfont.ttf"]
+	type = "file"
+	url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
+	executable = false
+	refreshPeriod = 0
+{@' end '@}
 
-### Distro-specific ###
+# }}}
+# {{{ Distro-specific
 
-{{ if .sys.isDebBased }}
+{@' if .sys.isDebBased '@}
 # Obmenu-generator script
-[{{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote }}]
+[{@' joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote '@}]
 	type= "archive-file"
-	url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{{ .app.obmenuGeneratorVersion }}.tar.gz"
+	url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{@' .app.obmenuGeneratorVersion '@}.tar.gz"
 	stripComponents = 1
 	format = "tar.gz"
 	path = "obmenu-generator"
@@ -59,11 +79,11 @@
 	readonly = true
 	private = true
 	refreshPeriod = 0
-{{ end }}
+{@' end '@}
 
-{{ if and .sys.isDebianBased (not .sys.hasSystemd) }}
+{@' if and .sys.isDebianBased (not .sys.hasSystemd) '@}
 # Pipewire-launcher script from Gentoo to be installed and used in Devuan
-[{{ joinPath .dir.downloadedScripts .file.devuansPipewireLauncher | quote }}]
+[{@' joinPath .dir.downloadedScripts .file.devuansPipewireLauncher | quote '@}]
 	type= "file"
 	url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r3"
 	filter.command = "sed"
@@ -72,19 +92,7 @@
 	executable = false
 	readonly = true
 	private = true
-{{ end }}
+{@' end '@}
 
-
-### Personal ###
-
-{{ if and .sys.isBrandsPrivate .sys.isDesktopRig }}
-# Font with weather icons which is used in my python-powered conky weather widget
-# Only used on my desktop rig
-[".local/share/fonts/weathericons-regular-webfont.ttf"]
-	type = "file"
-	url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
-	executable = false
-	refreshPeriod = 0
-{{ end }}
-
-{{ end }}
+# }}}
+{@' end '@}
