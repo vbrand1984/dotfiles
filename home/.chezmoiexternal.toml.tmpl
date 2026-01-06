@@ -26,6 +26,34 @@
 {@' end '@}
 
 # }}}
+# {{{ Desktop Backgrounds
+
+# Hercules as default wallpaper
+[{@' joinPath .dir.desktop.localBackgrounds .file.defaultWallpaper | quote '@}]
+	type = "file"
+	url = "https://images.squarespace-cdn.com/content/v1/5ce71504c7259600017b8c37/1663017845570-N437I6Y5NLT3G8LWGK4W/AdobeStock_300989887+(1).jpeg"
+	checksum.sha512 = "16c79d418c6d27149cc7c9db5c31e69cd2171be5266e39ac5744cd7ab9cc1a06e1eafeeab231d3c522a2d69c73ff7b5cbd6f60b747d958332c4c8badb0871d55"
+	checksum.size = 587384
+	executable = false
+	readonly = false
+	private = false
+	refreshPeriod = 0
+
+{@' if .sys.isBrandsPrivate '@}
+# Victor Brand's personal wallpapers
+[{@' joinPath .dir.desktop.localBackgrounds "brands-desktop-wallpapers" | quote '@}]
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1v1OQQq8HyKBEVGz4BO7tiJwacrc2_w2x"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["brands-desktop-wallpapers/*"]
+	checksum.sha512 = "f03c0b707970a503398216ec7701cf445d1b280d7cc037489cd92b9b9b553e99d9922ec33aa5508510d7454de4f60f8100567636d6bb2df02d1888744fa09b54"
+	checksum.size = 1686856
+	refreshPeriod = "1680h"
+{@' end '@}
+
+# }}}
 # {{{ Fonts
 
 # JetBrainsMonoNL and Ubuntu Nerd Font Propo fonts

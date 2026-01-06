@@ -54,7 +54,8 @@ file:
   # will be saved in Devuan (and other non-systemd Debian-based distros)
   devuansPipewireLauncher: 'pipewire-launcher'
 
-  defaultWallpaper: 'nature-sepia-1920x1200.jpg'
+  #defaultWallpaper: 'nature-sepia-1920x1200.jpg'
+  defaultWallpaper: 'Heracles-2500x1406.jpeg'
 
   ansible:
     config: 'ansible.cfg'
