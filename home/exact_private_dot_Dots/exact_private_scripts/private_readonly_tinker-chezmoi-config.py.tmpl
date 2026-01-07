@@ -7,10 +7,7 @@ import shutil
 from tempfile import NamedTemporaryFile
 from subprocess import run
 from sys import argv
-from tomlkit import parse
-from tomlkit import dumps
-from tomlkit.exceptions import UnexpectedCharError
-from tomlkit.exceptions import NonExistentKey
+from ruamel.yaml import YAML
 
 # The chezmoi config file must be in toml format obviously
 config_file = {{ .chezmoi.configFile | quote }} 
@@ -27,26 +24,25 @@ new_value = argv[2]
 do_apply = (nargs == 4) and (argv[3] == 'doapply')
 
 # Safety net: list of the keys that are allowed to be changed via this script
-#allowed_keys = ('data.gtk.themeName', 'data.conky.argbValue', 'data.conky.palette', 'data.conky.transparency')
-#
-#if not the_key in allowed_keys:
-#    print("The key '" + the_key + "' is not allowed to be changed via this script!")
-#    exit(2)
+allowed_keys = ('data.gtk.themeName', 'data.conky.argbValue', 'data.conky.palette', 'data.conky.transparency')
 
+if not the_key in allowed_keys:
+    print("The key '" + the_key + "' is not allowed to be changed via this script!")
+    exit(2)
+
+yaml = YAML()
+yaml.preserve_quotes = True
 
 try:
     with open(config_file, "rt") as f:
         file_data = f.read()
-        data = parse(file_data)
+        data = yaml.load(file_data)
 
 except (FileNotFoundError):
     print("File '" + config_file + "' not found!")
     exit(1)
 except (PermissionError):
     print("Have no permission to open the file '" + config_file + "'!")
-    exit(1)
-except (UnexpectedCharError):
-    print("Your toml file '" + config_file + "' seems to be damaged!")
     exit(1)
 
 param_list = the_key.split('.')
@@ -71,8 +67,7 @@ except (NonExistentKey):
     
 # Now save the modified data into a temporary file and replace the config file with it
 with NamedTemporaryFile() as tmp:
-    s = dumps(data)
-    tmp.write(s.encode())
+    yaml.dump(data, tmp)
 
     # Make a backup copy of the config file
     shutil.move(config_file, config_file + ".orig")
