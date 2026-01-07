@@ -1,4 +1,8 @@
-# This file is managed by chezmoi
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: ft=conf:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 #################################
 #             Shadows           #
@@ -216,7 +220,7 @@ backend = "xrender";
 
 # Enable/disable VSync.
 # vsync = false
-vsync = false;
+vsync = {@' .sys.isAlcoLaptop | not | not '@};
 
 # Enable remote control via D-Bus. See the *D-BUS API* section below for more details.
 # dbus = false
