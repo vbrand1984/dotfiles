@@ -5,9 +5,6 @@
 .vimrc
 .xsettingsd
 
-# After transition to YAML for chezmoi config file
-.config/chezmoi/chezmoi.toml*
-
 # Downloaded obmenu-generator script is only needed in deb-based distros
 {{ if not .sys.isDebBased }}
 	{{ joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName }}

@@ -11,7 +11,7 @@
 
 import shutil
 from tempfile import NamedTemporaryFile
-from sys import argv
+from sys import argv,stdout
 from xml.dom import minidom
 
 # Parsing command line arguments
@@ -36,8 +36,11 @@ with NamedTemporaryFile() as tmp:
     s = doc.toxml()
     tmp.write(s.encode())
 
+    # Since Python 3.14 (?), this seems to be necessary:
+    tmp.flush()
+
     # Make a backup copy of the config file
-    #shutil.move(rc_xml, rc_xml + ".orig")
+    shutil.move(rc_xml, rc_xml + ".orig")
 
     # We need to copy the tempfile, not to move it,
     # otherwise it wouldn't be properly closed afterwards.
