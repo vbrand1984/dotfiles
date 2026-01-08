@@ -104,7 +104,7 @@ conky.config = {
 
 	--== Weather widget (old) ==--
 	template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
-{@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
+{@'- if or .sys.isDesktopRig .sys.isOldLaptop .sys.isAlcoLaptop '@}
 
 	--== Temperature info in two columns ==--
 	-- Parameter 1: Left column caption
@@ -235,7 +235,7 @@ local function display_storage()
 end
 
 -- }}}
-{@'- if or .sys.isDesktopRig .sys.isOldLaptop '@}
+{@'- if or .sys.isDesktopRig .sys.isOldLaptop .sys.isAlcoLaptop '@}
 -- {{{ Machine-specific functions
 
 -- Our main weapon. Populates the work_table with actual hwmon module names, labels and numbers
@@ -323,6 +323,26 @@ local nr_Memory	= hwmon_table['dell_smm'][1]['lbl']['SODIMM'] or default_hwmon_n
 local nr_GPU	= hwmon_table['dell_smm'][1]['lbl']['GPU'] or default_hwmon_nr
 
 -- }}}
+{@'- else if .sys.isAlcoLaptop -'@}
+-- {{{ Initialization of internal variables: Alco Laptop
+
+local tbl_mobo	= hwmon_table['asus'][1] or {}
+local tbl_acpi	= hwmon_table['acpitz'][1] or {}
+local tbl_cpu	= hwmon_table['coretemp'][1] or {}
+local tbl_hdd	= hwmon_table['drivetemp'][1] or {}
+local tbl_ssd	= hwmon_table['drivetemp'][2] or {}
+
+local mod_mobo	= tbl_mobo['nbr'] or default_hwmon_nr
+local mod_acpi	= tbl_acpi['nbr'] or default_hwmon_nr
+local mod_cpu	= tbl_cpu['nbr'] or default_hwmon_nr
+local mod_ssd	= tbl_ssd['nbr'] or default_hwmon_nr
+local mod_hdd	= tbl_hdd['nbr'] or default_hwmon_nr
+
+local nr_Core0	= tbl_cpu['lbl']['Core 0'] or default_hwmon_nr
+local nr_Core1	= tbl_cpu['lbl']['Core 1'] or default_hwmon_nr
+local nr_PkgId0	= tbl_cpu['lbl']['Package id 0'] or default_hwmon_nr
+
+-- }}}
 {@'- end -'@} {@'- /* if-else */'@}
 -- {{{ Destruction of common machine-specific variables
 
@@ -378,6 +398,30 @@ ${color2}GPU${goto 115}${if_match "${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_GP
 ${color2}Fan${goto 115}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM${goto 220}${color2}Memory${alignr}${color4}${hwmon ]] .. mod_mobo .. [[ temp ]] .. nr_Memory .. [[}°C
 
 ]] .. display_top_processes(5) .. [[
+
+]] .. display_memory_usage() .. [[
+
+]] .. display_storage() .. [[
+${template8 SSD\ Temp. hwmon\ ]] .. mod_ssd .. [[\ temp\ 1 HDD\ Temp. hwmon\ ]] .. mod_hdd .. [[\ temp\ 1}
+
+${template0 WEATHER}
+${template7 St.\ Petersburg ASI\\|RU\\|RS073\\|SAINTPETERSBURG\\|}
+${template7 Moscow ASI\\|RU\\|RS052\\|MOSCOW\\|}]];
+
+-- }}}
+{@'- else if .sys.isAlcoLaptop -'@}
+-- {{{ conky.text for Alco Laptop
+
+conky.text = display_system_info() .. [[
+
+]] .. display_cpu_usage() .. [[
+
+${template0 TEMPERATURES}
+${template8 Pkg\ id\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_PkgId0 .. [[ ACPI hwmon\ ]] .. mod_acpi .. [[\ temp\ 1}
+${template8 Core\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core0 .. [[ Temp1 hwmon\ ]] .. mod_mobo .. [[\ temp\ 1}
+${color2}Core 1${goto 115}${color4}${hwmon ]] .. mod_cpu .. " temp " .. nr_Core1 .. [[}°C${goto 220}${color2}Fan${alignr}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM
+
+]] .. display_top_processes(6) .. [[
 
 ]] .. display_memory_usage() .. [[
 

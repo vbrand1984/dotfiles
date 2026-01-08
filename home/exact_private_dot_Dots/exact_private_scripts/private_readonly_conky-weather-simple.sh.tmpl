@@ -1,4 +1,4 @@
-{{ if .sys.isOldLaptop -}}
+{{ if or .sys.isOldLaptop .sys.isAlcoLaptop -}}
 #!/bin/sh
 # vim: ft=sh
 
