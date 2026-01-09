@@ -1,5 +1,4 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or (not .sys.isDebianBased) (and .sys.isDebian (gt (int .chezmoi.osRelease.versionID) 12)) '@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # Changing $TERM for alacritty due to a bug with incorrect colors
@@ -63,4 +62,3 @@ style =  {@' .misc.terminal.font.weight.normal | quote '@}
 [window]
     startup_mode = "Maximized"
 
-{@'- end '@}
