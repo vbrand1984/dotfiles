@@ -54,7 +54,7 @@
 {@' $sysIsOldLaptop := eq .chezmoi.hostname $oldLaptopName -'@}
 {@' $sysIsNecroLaptop := eq .chezmoi.hostname $necroLaptopName -'@}
 {@' $sysIsAlcoLaptop := eq .chezmoi.hostname $alcoLaptopName -'@}
-{@' $sysHasSmallScreen := or $sysIsOldLaptop $sysIsVM -'@}
+{@' $sysHasSmallScreen := or $sysIsOldLaptop $sysIsAlcoLaptop $sysIsVM -'@}
 
 {@'- /* Distro detection */ -'@}
 {@' $sysIsDebian := and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "debian") -'@}
