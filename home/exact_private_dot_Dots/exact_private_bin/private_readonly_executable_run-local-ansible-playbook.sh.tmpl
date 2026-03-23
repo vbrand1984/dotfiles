@@ -6,7 +6,24 @@
 
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
 cd {@' joinPath .chezmoi.homeDir .dir.ansible.home | quote '@}
+
+{@' $pwdType := "" -'@}
+
+{@' if eq .app.ansible.become "sudo" -'@}
+	{@' $pwdType = "USER" '@}
+{@'- else if eq .app.ansible.become "su" -'@}
+	{@' $pwdType = "ROOT" '@}
+{@'- else -'@}
+	{@'- fail ".app.ansible.become should be either 'sudo' or 'su'." -'@}
+{@'- end -'@}
+
+print_message_header "Running local Ansible playbook..."
+print_message "Ansible BECOME method is set to {@' .app.ansible.become | squote '@}."
+print_message "BECOME password is your {@' $pwdType '@} password."
 
 exec /usr/bin/env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={@' joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.config | quote '@} \
     ansible-playbook --ask-become-pass {@' .file.ansible.localPlaybook | quote '@} ${@}
