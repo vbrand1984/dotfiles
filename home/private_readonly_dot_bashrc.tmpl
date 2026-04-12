@@ -179,7 +179,7 @@ alias wtf='curl https://wttr.in/?M'
 
 # Vim
 alias v='vim'
-alias vs={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "visudo" "doas vim") | squote '@}
+alias vs={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
 
 {@' if not .sys.isGentoo -'@}
 # Coloured man pages for non-Gentoo distros
