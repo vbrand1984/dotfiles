@@ -23,13 +23,13 @@
 
 # Update apt just for the case
 print_message "Running 'aptitude update'..."
-ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude update
+ensure_sudo_is_working aptitude update
 
 yes_sir="--assume-yes"
 no_install_recommends="-R"
 
 print_message "\nInstalling packages from stable repository..."
-ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
+ensure_sudo_is_working aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>
@@ -39,9 +39,9 @@ ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_
 #    cd /tmp
 #    wget "${pkg_addr}"
 #    pkg_filename=$(basename "${pkg_addr}")
-#    ensure_sudo_is_working && {@' .cmd.sudo '@} dpkg --install "${pkg_filename}"
+#    ensure_sudo_is_working dpkg --install "${pkg_filename}"
 #    if [ $? -ne 0 ] ; then
-#        ensure_sudo_is_working && {@' .cmd.sudo '@} apt-get --fix-broken --assume-yes install
+#        ensure_sudo_is_working apt-get --fix-broken --assume-yes install
 #    fi
 #    rm "${pkg_filename}"
 #    cd "${old_wd}"
@@ -53,7 +53,7 @@ ensure_sudo_is_working && {@' .cmd.sudo '@} aptitude "${yes_sir}" "${no_install_
 #if ! command -v clipit 1>/dev/null 2>&1 ; then
 #    print_message "Installing clipit..."
 #    install_deb_pkg_from_internet "ftp.debian.org/debian/pool/main/c/clipit/clipit_1.4.4+git20190202-1_{@' .chezmoi.arch '@}.deb"
-#    ensure_sudo_is_working {@' .cmd.sudo | squote '@} && {@' .cmd.sudo '@} aptitude hold clipit 
+#    ensure_sudo_is_working aptitude hold clipit 
 #fi
 #
 ## A handy tool to manage papirus icon theme
