@@ -46,6 +46,9 @@ app:
     dunstify: ','
     notify-send: '='
 
+  versions:
+    clipIt: '1.4.5'
+
 file:
   # Under which name obmenu-generator script will be saved in Debian-based distros
   debiansObmenuGeneratorName: 'obmenu-generator'
@@ -94,10 +97,15 @@ tmpl:
     terminal: 'palettes/terminal.yaml.tmpl'
     conky: 'palettes/conky.toml'
 
+  # Package lists for installing
+  pkgLists:
+    clipitBuildDeps: 'pkglists/clipitBuildDeps.yaml.tmpl'
+
   # Shell scripts
   sh:
     funcEnsureSudoIsWorking: 'scripts-shell/ensure-sudo-is-working.sh.tmpl'
     funcPrintMessage: 'scripts-shell/print-message.sh.tmpl'
+    funcPkgManager: 'scripts-shell/pkg-manager.sh.tmpl'
 
   # Shebangs, mostly dumb
   shebang:

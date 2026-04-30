@@ -1,0 +1,15 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if .sys.isDebBased -'@}
+deps:
+  - automake
+  - autopoint
+  - build-essential
+  - intltool
+  - libayatana-appindicator3-1
+  - xdotool
+build:
+  - libayatana-appindicator3-dev
+  - libgtk-3-dev
+  - pkgconf
+{@' else if .sys.isVoid -'@}
+{@'- end -'@}

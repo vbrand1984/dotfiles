@@ -1,0 +1,36 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isVoid .sys.isDebBased -'@}
+# vim: ft=sh ts=4 sw=4:
+
+{@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
+{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
+
+install_pkg() {
+{@'- if .sys.isDebBased '@}
+	ensure_sudo_is_working aptitude --assume-yes --without-recommends install "${@}"
+{@'- else if .sys.isVoid '@}
+{@'- end '@}
+}
+
+remove_pkg() {
+{@'- if .sys.isDebBased '@}
+	ensure_sudo_is_working aptitude --assume-yes purge "${@}"
+{@'- else if .sys.isVoid '@}
+{@'- end '@}
+}
+
+update_system() {
+{@'- if .sys.isDebBased '@}
+	ensure_sudo_is_working aptitude update && ensure_sudo_is_working aptitude --assume-yes upgrade
+{@'- else if .sys.isVoid '@}
+{@'- end '@}
+}
+
+update_pkg_cache() {
+{@'- if .sys.isDebBased '@}
+	ensure_sudo_is_working aptitude update
+{@'- else if .sys.isVoid '@}
+{@'- end '@}
+}
+
+{@' end '@}

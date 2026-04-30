@@ -10,8 +10,9 @@
 
 {@'/* {{{ Include stuff */ -'@}
 
-{@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
-{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
+{@'/* Include package manager functions */ -'@}
+{@'/* (Alongside with the ``ensure_sudo_is_working'' function */ -'@}
+{@' includeTemplate .tmpl.sh.funcPkgManager . '@}
 
 {@'/* Include the ``print_message*'' functions */ -'@}
 {@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
@@ -23,13 +24,10 @@
 
 # Update apt just for the case
 print_message "Running 'aptitude update'..."
-ensure_sudo_is_working aptitude update
-
-yes_sir="--assume-yes"
-no_install_recommends="-R"
+update_pkg_cache
 
 print_message "\nInstalling packages from stable repository..."
-ensure_sudo_is_working aptitude "${yes_sir}" "${no_install_recommends}" install {@' .packages.debian.stable | join " " '@}
+install_pkg {@' .packages.debian.stable | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>

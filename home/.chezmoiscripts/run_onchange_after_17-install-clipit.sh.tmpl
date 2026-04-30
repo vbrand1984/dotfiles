@@ -1,0 +1,73 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if .sys.isDebBased -'@}
+#!/bin/sh
+
+{@'/* {{{ Include stuff */ -'@}
+
+{@'/* Include package manager functions */ -'@}
+{@'/* (Alongside with the ``ensure_sudo_is_working'' function */ -'@}
+{@' includeTemplate .tmpl.sh.funcPkgManager . '@}
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+{@'/* Print the name of the script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+{@'/* }}} */ -'@}
+
+{@'- $pkgList := includeTemplate .tmpl.pkgLists.clipitBuildDeps . | fromYaml '@}
+{@'- $installList := concat $pkgList.build $pkgList.deps '@}
+
+git_username='CristianHenzel'
+pkg_name='ClipIt'
+pkg_version={@' .app.versions.clipIt | quote '@}
+cmd_prefix='/usr/local'
+the_tmpdir=$(mktemp --directory --tmpdir="/run/user/$(id -u)" "${pkg_name}-source.XXXXXXXXX")
+
+cleanup_func() {
+	cd
+	[ -d "${the_tmpdir}" ] && rm -rf "${the_tmpdir}"
+}
+
+trap 'cleanup_func' EXIT
+
+print_message "\nInstalling required packages..."
+install_pkg {@' $installList | join " " '@}
+
+cd "${the_tmpdir}"
+
+print_message "\nDownloading source code..."
+wget "https://github.com/${git_username}/${pkg_name}/archive/refs/tags/v${pkg_version}.tar.gz"
+tar xf "v${pkg_version}.tar.gz"
+
+cd "${pkg_name}-${pkg_version}"
+
+print_message "\nDownloading patches..."
+wget "https://raw.githubusercontent.com/vbrand1984/clipit-patches/refs/heads/master/missing-prototypes.patch"
+wget "https://raw.githubusercontent.com/vbrand1984/clipit-patches/refs/heads/master/incompatible-pointer-types.patch"
+
+patch -p1 <missing-prototypes.patch
+patch -p1 <incompatible-pointer-types.patch
+
+print_message "\nRunning autogen.sh..."
+./autogen.sh
+
+print_message "\nRunning configure..."
+./configure --prefix="${cmd_prefix}" --with-gtk3 --enable-appindicator --enable-nls
+
+print_message "\nCompiling..."
+make -j$(nproc)
+
+if [ -x "${cmd_prefix}/bin/clipit" ] ; then
+	print_message "\nUninstalling previous version..."
+	ensure_sudo_is_working make uninstall
+fi
+
+print_message "\nInstalling clipit..."
+ensure_sudo_is_working make install
+
+print_message "\nRemoving development packages..."
+remove_pkg {@' $pkgList.build | join " " '@}
+
+{@'- end -'@}

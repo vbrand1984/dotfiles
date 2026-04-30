@@ -1,0 +1,15 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
+# vim: ft=sh
+#
+# This template is used in scripts from the .chezmoiscripts directory and others.
+# It adds several distro-independent function to manage system and packages via package manager.
+#
+# chezmoi variable to store relative path to this template: .tmpl.sh.funcPkgManager
+#
+{@'- end -'@}
+
+# Include  functions
+. {@' joinPath .chezmoi.homeDir .dir.include "func-pkg-manager.sh" '@}
+
+{@'- /* This deletes an empty line after the template */ -'@}
