@@ -190,7 +190,7 @@ alias man="/usr/bin/env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m
 {@' end -'@}
 
 {@' if and .sys.isDebBased (lookPath "doas") -'@}
-alias doas="PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' {@' lookPath "doas" '@}"
+alias doas="{@' lookPath "doas" '@} {@' lookPath "env" '@} PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'"
 
 {@' end -'@}
 
