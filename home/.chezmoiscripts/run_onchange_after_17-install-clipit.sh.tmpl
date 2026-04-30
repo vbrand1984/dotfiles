@@ -32,6 +32,9 @@ cleanup_func() {
 
 trap 'cleanup_func' EXIT
 
+print_message "\nUpdating the system..."
+update_system
+
 print_message "\nInstalling required packages..."
 install_pkg {@' $installList | join " " '@}
 
