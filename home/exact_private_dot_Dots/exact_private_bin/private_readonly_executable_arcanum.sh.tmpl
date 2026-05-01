@@ -1,0 +1,24 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if and .sys.isDesktopRig (not .sys.isVoid) (ne .dir.userData .dir.userDataDefault) -'@}
+#!/bin/sh
+{@'- if false -'@}
+# vim: ft=sh
+{@'- end '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+
+wine_prefix="${HOME}/Games/Arcanum"
+game_dir="${wine_prefix}/drive_c/Arcanum"
+game_binary="Arcanum.exe"
+
+if [ ! -r "${game_dir}/${game_binary}" ] ; then
+	echo "There is no '${game_binary}' in ${game_dir}! Exiting."
+	exit 1
+fi
+
+cd "${game_dir}"
+
+xrandr --size 1280x720
+taskset --cpu-list "1-$(( `nproc` - 1 ))" env WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
+xrandr --size 1920x1080
+{@'- end '@}
