@@ -7,15 +7,17 @@
 
 install_pkg() {
 {@'- if .sys.isDebBased '@}
-	ensure_sudo_is_working aptitude --assume-yes --without-recommends install "${@}"
+	ensure_sudo_is_working aptitude --assume-yes --without-recommends install -- "${@}"
 {@'- else if .sys.isVoid '@}
+	ensure_sudo_is_working xbps-install -Sy -- "${@}"
 {@'- end '@}
 }
 
 remove_pkg() {
 {@'- if .sys.isDebBased '@}
-	ensure_sudo_is_working aptitude --assume-yes purge "${@}"
+	ensure_sudo_is_working aptitude --assume-yes purge -- "${@}"
 {@'- else if .sys.isVoid '@}
+	ensure_sudo_is_working xbps-remove -Ry -- "${@}"
 {@'- end '@}
 }
 
@@ -23,6 +25,7 @@ update_system() {
 {@'- if .sys.isDebBased '@}
 	ensure_sudo_is_working aptitude update && ensure_sudo_is_working aptitude --assume-yes upgrade
 {@'- else if .sys.isVoid '@}
+	ensure_sudo_is_working xbps-install -Syu xbps && ensure_sudo_is_working xbps-install -Syu
 {@'- end '@}
 }
 
@@ -30,6 +33,7 @@ update_pkg_cache() {
 {@'- if .sys.isDebBased '@}
 	ensure_sudo_is_working aptitude update
 {@'- else if .sys.isVoid '@}
+	ensure_sudo_is_working xbps-install -Sy
 {@'- end '@}
 }
 
