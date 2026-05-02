@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if and .sys.isDebBased (env .app.envIgnoreExternals | not) -'@}
+{@'- if and (or .sys.isDebBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}
@@ -20,14 +20,17 @@
 {@'/* Print the name of the script */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
+{@'/* Initialize the list of the packages to install */ -'@}
+{@' $pkgList := includeTemplate .tmpl.pkgLists.preInstall . | fromYaml '@}
+
 {@'/* }}} */ -'@}
 
 # Update apt just for the case
-print_message "Running 'aptitude update'..."
-update_pkg_cache
+print_message 'Updating the system...'
+update_system
 
-print_message "\nInstalling packages from stable repository..."
-install_pkg {@' .packages.debian.stable | join " " '@}
+print_message "\nInstalling the packages..."
+install_pkg {@' $pkgList | join " " '@}
 
 # Usage:
 # install_deb_pkg_from_internet <address>

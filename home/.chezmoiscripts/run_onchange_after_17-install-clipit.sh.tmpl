@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or .sys.isDebBased .sys.isVoid -'@}
+{@'- if and (or .sys.isDebBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
 #!/bin/sh
 
 {@'/* {{{ Include stuff */ -'@}

@@ -1,0 +1,26 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+
+{@'- if false -'@}
+#
+# This file contains list of packages which are to be installed
+# before other chezmoi scripts are executed
+#
+# chezmoi variable to store relative path to this template: .tmpl.pkgLists.preInstall
+#
+{@'- end -'@}
+
+{@'- if .sys.isDebBased -'@}
+---
+- ansible
+- lua5.3
+- perl
+- python-is-python3
+- python3
+- wget
+...
+{@' else if .sys.isVoid -'@}
+---
+- ansible
+- python3-ansible-lint
+...
+{@'- end -'@}
