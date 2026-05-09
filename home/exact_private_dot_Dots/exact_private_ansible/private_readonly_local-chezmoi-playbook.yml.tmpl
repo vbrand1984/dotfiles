@@ -3,38 +3,31 @@
 ---
 {@' if .sys.isBrandsPrivate -'@}
 
-#- name: Establish local symlinks
-#  hosts: all
-#  roles:
-#    - file_manager
-#  vars_files:
-#    - vars/local-symlinks.yml
-#  become: false
-#  gather_facts: false
-#  tags:
-#    - local
-#    - symlinks
+# - name: Establish local symlinks
+#   hosts: all
+#   roles:
+#     - file_manager
+#   vars_files:
+#     - vars/local-symlinks.yml
+#   become: false
+#   gather_facts: false
+#   tags:
+#     - local
+#     - symlinks
 
 {@'- end '@}
 
 {@' if .sys.isDebianBased -'@}
-- name: Manage Packages
-  hosts: all
 
+- name: Desktop Package Management
+  hosts: all
   pre_tasks:
-    - name: Upgrade apt
-      become: true
-      become_user: root
-      ansible.builtin.apt:
-        upgrade: true
-        update-cache: true
-        install_recommends: false
-        autoclean: true
-        autoremove: true
-      diff: true
+    - name: Update System
+      ansible.builtin.import_tasks:
+        file: tasks/update_system.yml
 
 #  roles:
-#    - desktop_stuff
+#    - desktop_install
 
 {@'- end '@}
 
@@ -44,5 +37,5 @@
     - vars/fontconfig-config.yml
 
   roles:
-    - fontconfig_config
+    - sys_files
 ...

@@ -1,0 +1,31 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+---
+- name: Prepare system fontconfig configuration
+  get_fontconfig_config_symlinks_list:
+    conf_avail: "{{ sys_files_fc_cfg.conf_avail }}"
+    conf_d: "{{ sys_files_fc_cfg.conf_d }}"
+    conf_needed: "{{ sys_files_fc_cfg.conf_needed }}"
+    antialias: "{{ sys_files_fc_cfg.antialias }}"
+    autohint: "{{ sys_files_fc_cfg.autohint }}"
+    autohint_if_no_hinting: "{{ sys_files_fc_cfg.autohint_if_no_hinting }}"
+    hinting: "{{ sys_files_fc_cfg.hinting }}"
+    hintstyle: "{{ sys_files_fc_cfg.hintstyle }}"
+    lcdfilter: "{{ sys_files_fc_cfg.lcdfilter }}"
+    rgba: "{{ sys_files_fc_cfg.rgba }}"
+    bitmaps: "{{ sys_files_fc_cfg.bitmaps }}"
+    scale_bitmap_fonts: "{{ sys_files_fc_cfg.scale_bitmap_fonts }}"
+  register: sys_files_fc_cfg_symlinks_list
+  tags: [fontconfig, system, symlinks]
+
+- name: Adjust system fontconfig configuration
+  become: true
+  ansible.builtin.file:
+    src: "{{ item.src if 'src' in item else '' }}"
+    dest: "{{ item.dest }}"
+    state: "{{ item.state }}"
+    owner: "{{ 'root' if item.state == 'link' else '' }}"
+    group: "{{ 'root' if item.state == 'link' else '' }}"
+    mode: ""
+  loop: "{{ sys_files_fc_cfg_symlinks_list.file_list }}"
+  tags: [fontconfig, system, symlinks]
+...

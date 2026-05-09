@@ -1,0 +1,16 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Desktop Install | Update System
+  become: true
+  become_user: root
+  ansible.builtin.apt:
+    upgrade: true
+    update-cache: true
+    install_recommends: false
+    autoclean: true
+    autoremove: true
+  diff: true
+
+...

@@ -1,13 +1,13 @@
 ---
-fontconfig_config:
+sys_files_fc_cfg:
   antialias: true
   autohint: false
   autohint_if_no_hinting: false
   bitmaps: "yes"
   conf_avail:
-    - /usr/share/fontconfig/conf.avail/*.conf
-    - /etc/fonts/*.conf
-  conf_d: /etc/fonts/conf.d
+    - "/usr/share/fontconfig/conf.avail/*.conf"
+    - "/etc/fonts/*.conf"
+  conf_d: "/etc/fonts/conf.d"
   conf_needed:
     - 40-nonlatin.conf
     - 45-generic.conf

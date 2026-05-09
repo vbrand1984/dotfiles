@@ -1,3 +1,0 @@
-stable_pkgs: "{{ [] }}"
-backports_pkgs: "{{ [] }}"
-cpan_pkgs: "{{ [] }}"
