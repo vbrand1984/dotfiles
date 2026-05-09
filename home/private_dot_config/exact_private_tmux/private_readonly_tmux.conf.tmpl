@@ -4,6 +4,9 @@
 
 # {{{ General config
 
+# This is done in order for tmux not to start login shell
+# and not to duplicate $PATH entries via executing .profile
+set-option -g default-command "${SHELL}"
 
 set-option -g default-terminal "xterm-256color"
 set-option -ag terminal-overrides ",xterm-256color:Tc"
