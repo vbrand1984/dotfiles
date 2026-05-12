@@ -26,4 +26,4 @@ print_message "Ansible BECOME method is set to {@' .app.ansible.become | squote 
 print_message "BECOME password is your {@' $pwdType '@} password."
 
 exec /usr/bin/env PYTHONDONTWRITEBYTECODE=1 ANSIBLE_CONFIG={@' joinPath .chezmoi.homeDir .dir.ansible.home .file.ansible.config | quote '@} \
-    ansible-playbook --ask-become-pass {@' .file.ansible.localPlaybook | quote '@} ${@}
+    ansible-playbook --ask-become-pass {@' .file.ansible.localPlaybook | quote '@} "${@}"

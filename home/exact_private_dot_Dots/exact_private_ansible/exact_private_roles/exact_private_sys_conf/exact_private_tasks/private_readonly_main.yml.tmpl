@@ -1,0 +1,12 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+---
+
+- name: Fontconfig configuration
+  ansible.builtin.import_tasks:
+    file: tweaks/fontconfig.yml
+
+- name: Configuration for /root
+  ansible.builtin.import_tasks:
+    file: tweaks/rootconf.yml
+
+...

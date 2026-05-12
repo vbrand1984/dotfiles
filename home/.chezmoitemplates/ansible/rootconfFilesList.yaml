@@ -1,0 +1,16 @@
+---
+
+directories:
+  - '.vim/autoload'
+  - '.config/gtk-3.0'
+  - '.config/mc'
+
+symlinks:
+  - '.vim/vimrc'
+  - '.config/gtk-3.0/settings.ini'
+
+remove:
+  - '.vimrc'
+  - '.viminfo'
+
+...
