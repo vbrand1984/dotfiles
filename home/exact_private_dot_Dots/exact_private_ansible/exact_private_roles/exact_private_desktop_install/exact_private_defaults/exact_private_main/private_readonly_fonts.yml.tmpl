@@ -1,0 +1,22 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+{@'- if .sys.isDebianBased '@}
+desktop_install_pkg_fonts:
+  stable:
+    - fonts-dejavu
+    - fonts-dejavu-extra
+    - fonts-freefont-otf
+    - fonts-jetbrains-mono
+    - fonts-liberation
+    - fonts-liberation2
+    - fonts-noto
+    - fonts-noto-cjk
+    - fonts-noto-color-emoji
+    - fonts-paratype
+    - fonts-roboto
+    - fonts-ubuntu
+{@' end -'@}
+...
+{@'- end -'@}
