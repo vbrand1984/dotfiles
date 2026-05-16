@@ -1,26 +1,5 @@
 ---
-
-misc:
-  greylooksThemes:
-    - Greylooks
-    - GreylooksGreen
-    - GreylooksHuman
-    - GreylooksOk
-    - GreylooksPurple
-    - GreylooksSand
-
-  menuSymbols:
-
-    # Non-selected radiobutton
-    radioUnchecked: 'radio-symbolic'
-
-    # Selected radiobutton
-    # Variants: selection-mode-symbolic, system-hibernate-symbolic
-    radioChecked: 'radio-checked-symbolic'
-
-    # Variants: emblem-ok-symbolic, emblem-default-symbolic,
-    # dino-tick-symbolic, process-completed-symbolic, object-select-symbolic
-    selected: 'object-select-symbolic'
+# {{{ .app: Various applications settings
 
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
@@ -46,8 +25,37 @@ app:
     dunstify: ','
     notify-send: '='
 
-  versions:
+  version:
+
+    # Sources of ClipIt of this version will be downloaded, compiled and installed
+    # in deb-based distros and Void
+    # See: https://github.com/CristianHenzel/ClipIt
     clipIt: '1.4.5'
+
+    # In deb-based distros, .deb installer for deadbeef will be downloaded from here:
+    # https://deadbeef.sourceforge.io/download.html
+    # and installed via Ansible.
+    # See also: .chezmoiexternals.toml.tmpl
+    deadbeef:
+      ver: '1.10.2'
+      build: '1'
+      filenamePattern: 'deadbeef-static_%s-%s_amd64.deb' 
+      sha512: 'b02408d837e3cecb9ac27b545e8f6c9258d06c1fe01d93e01bd6d5a4dca1670fe86210aa61edec097a9de95b519c9b73456b66eb32ea6eab8d2276e345ae94c1'
+      size: 11744488
+
+    # In deb-based distros, .deb installer for papirus-folders will be downloaded from here:
+    # https://deadbeef.sourceforge.io/download.html
+    # and installed via Ansible.
+    # See also: .chezmoiexternals.toml.tmpl
+    papirusFolders:
+      ver: '1.14.0-1~133'
+      ubuntuVer: '24.04'
+      filenamePattern: 'papirus-folders_%s~ubuntu%s.1_all.deb'
+      sha512: 'b57090e51fafc315141777303f2722592a61cbc84fed3e7d4994c24e4e74263dadc4cfeedb455931f6b7c292230364b37d54ae96ca07786086582d14aa5a7d86'
+      size: 7006
+
+# }}}
+# {{{ .file: Filenames
 
 file:
   # Under which name obmenu-generator script will be saved in Debian-based distros
@@ -60,19 +68,52 @@ file:
   #defaultWallpaper: 'nature-sepia-1920x1200.jpg'
   defaultWallpaper: 'Heracles-2500x1406.jpeg'
 
+  papirusFoldersDeb: 'papirus-folders_1.14.0-1~133~ubuntu24.04.1_all.deb'
+
   ansible:
     config: 'ansible.cfg'
     inventory: 'inventory.yml'
     localPlaybook: 'local-chezmoi-playbook.yml'
 
+# }}}
+# {{{ .message: Various messages
 
-# Various messages
 message:
 
   managedByChezmoi: 'This file is managed by chezmoi template:'
   dumbShebang: 'Run this script as following:'
   farewell: 'Vero a sessione exire vis?'
 
+# }}}
+# {{{ .misc: Miscellaneous settings
+
+misc:
+
+  papirusTheme: 'yaru'
+
+  greylooksThemes:
+    - Greylooks
+    - GreylooksGreen
+    - GreylooksHuman
+    - GreylooksOk
+    - GreylooksPurple
+    - GreylooksSand
+
+  menuSymbols:
+
+    # Non-selected radiobutton
+    radioUnchecked: 'radio-symbolic'
+
+    # Selected radiobutton
+    # Variants: selection-mode-symbolic, system-hibernate-symbolic
+    radioChecked: 'radio-checked-symbolic'
+
+    # Variants: emblem-ok-symbolic, emblem-default-symbolic,
+    # dino-tick-symbolic, process-completed-symbolic, object-select-symbolic
+    selected: 'object-select-symbolic'
+
+# }}}
+# {{{ .tmpl: Paths to templates
 tmpl:
 
   listFileHashes: 'list-file-hashes.tmpl'
@@ -117,5 +158,5 @@ tmpl:
     openboxLogout: 'shell-cmd/openbox-logout.tmpl'
     obmenuGenerator: 'shell-cmd/obmenu-generator.tmpl'
 
+# }}}
 ...
-

@@ -21,7 +21,7 @@
 
 git_username='CristianHenzel'
 pkg_name='ClipIt'
-pkg_version={@' .app.versions.clipIt | quote '@}
+pkg_version={@' .app.version.clipIt | quote '@}
 cmd_prefix='/usr/local'
 the_tmpdir=$(mktemp --directory --tmpdir="/run/user/$(id -u)" "${pkg_name}-source.XXXXXXXXX")
 

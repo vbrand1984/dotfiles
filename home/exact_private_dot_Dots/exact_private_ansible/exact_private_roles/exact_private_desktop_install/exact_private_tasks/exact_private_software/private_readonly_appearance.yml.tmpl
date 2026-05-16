@@ -1,0 +1,25 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+
+---
+
+- name: Desktop Install | Appearance | Installing packages (stable)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_appearance.stable }}"
+    state: present
+    install_recommends: false
+  tags: [packages, appearance]
+
+{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) -'@}
+{@' $papirusFoldersDebPath := joinPath .chezmoi.homeDir .dir.downloadedDeb $papirusFoldersFileName -'@}
+- name: Desktop Install | Appearance | Installing papirus-folders .deb package
+  become: true
+  ansible.builtin.apt:
+    deb: {@' $papirusFoldersDebPath | squote '@}
+  tags: [packages, appearance]
+  when: "{@' $papirusFoldersDebPath | squote '@} is file"
+
+...
+{@'- end '@}

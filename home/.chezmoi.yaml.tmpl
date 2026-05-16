@@ -28,6 +28,7 @@
 
 {@'- /* These variables MUST contain RELATIVE (to $HOME) paths */ -'@}
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
+{@'- $dirDownloaded := joinPath $defaultDotsDir "downloaded" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
 {@'- $dirInclude := joinPath $dirLocalScripts "include" -'@}
 {@'- $dirLuaModules := joinPath $dirLocalScripts "lua-modules" -'@}
@@ -181,7 +182,9 @@ data:
     # These variables MUST contain paths RELATIVE to $HOME
     localCache: {@' $dirLocalCache | quote '@}
     localBin: {@' $dirLocalBin | quote '@}
-    downloadedScripts: {@' joinPath $defaultDotsDir "downloaded-scripts" | quote '@}
+    downloaded: {@' $dirDownloaded | quote '@}
+    downloadedScripts: {@' joinPath $dirDownloaded "scripts" | quote '@}
+    downloadedDeb: {@' joinPath $dirDownloaded "deb" | quote '@}
     localScripts: {@' $dirLocalScripts | quote '@}
     include: {@' $dirInclude | quote '@}
     luaModules: {@' $dirLuaModules | quote '@}

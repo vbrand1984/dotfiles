@@ -2,9 +2,11 @@
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
+desktop_install_pkg_appearance:
 {@'- if .sys.isDebianBased '@}
-desktop_install_pkg_fonts:
   stable:
+
+    # Fonts
     - fonts-dejavu
     - fonts-dejavu-extra
     - fonts-freefont-otf
@@ -17,6 +19,18 @@ desktop_install_pkg_fonts:
     - fonts-paratype
     - fonts-roboto
     - fonts-ubuntu
+
+    # Themes
+    - gnome-themes-extra
+    - gtk2-engines
+    - mate-themes
+
+    # Icons
+    - breeze-icon-theme
+    - dmz-cursor-theme
+    - gnome-extra-icons
+    - gnome-icon-theme
+    - papirus-icon-theme
 {@' end -'@}
 ...
-{@'- end -'@}
+{@'- end '@}

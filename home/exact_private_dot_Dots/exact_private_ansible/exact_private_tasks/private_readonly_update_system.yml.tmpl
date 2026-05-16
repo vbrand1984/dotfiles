@@ -2,15 +2,15 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Desktop Install | Update System
+- name: Desktop Install | Update Apt Cache
   become: true
   become_user: root
   ansible.builtin.apt:
-    upgrade: true
+    upgrade: 'no'
     update-cache: true
     install_recommends: false
-    autoclean: true
-    autoremove: true
+    autoclean: false
+    autoremove: false
   diff: true
 
 ...

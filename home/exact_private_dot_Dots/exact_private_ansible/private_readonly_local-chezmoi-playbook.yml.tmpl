@@ -22,12 +22,13 @@
 - name: Desktop Package Management
   hosts: all
   pre_tasks:
-    - name: Update System
+    - name: Update Apt Cache
       ansible.builtin.import_tasks:
         file: tasks/update_system.yml
+      tags: always
 
-#  roles:
-#    - desktop_install
+  roles:
+    - desktop_install
 
 {@'- end '@}
 
