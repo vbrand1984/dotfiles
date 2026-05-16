@@ -9,6 +9,7 @@
     owner: "{{ 'root' if item.state != 'absent' else '' }}"
     group: "{{ 'root' if item.state != 'absent' else '' }}"
     follow: false
+    force: true
     mode: "{{ '700' if item.state == 'directory' else '' }}"
   loop: "{{ sys_conf_root_symlinks }}"
   tags: [files, system_files, rootconf]

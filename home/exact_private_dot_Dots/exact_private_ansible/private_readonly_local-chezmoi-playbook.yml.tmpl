@@ -17,14 +17,14 @@
 
 {@'- end '@}
 
-{@' if .sys.isDebianBased -'@}
+{@' if or .sys.isDebianBased .sys.isVoid -'@}
 
 - name: Desktop Package Management
   hosts: all
   pre_tasks:
     - name: Update Apt Cache
       ansible.builtin.import_tasks:
-        file: tasks/update_system.yml
+        file: tasks/update_package_cache.yml
       tags: always
 
   roles:

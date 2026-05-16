@@ -2,6 +2,7 @@
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
+
 desktop_install_pkg_appearance:
 {@'- if .sys.isDebianBased '@}
   stable:
@@ -31,6 +32,32 @@ desktop_install_pkg_appearance:
     - gnome-extra-icons
     - gnome-icon-theme
     - papirus-icon-theme
-{@' end -'@}
+
+{@'- else if .sys.isVoid '@}
+
+  # Fonts
+  - dejavu-fonts-ttf
+  - fonts-roboto-ttf
+  - freefont-ttf
+  - liberation-fonts-ttf
+  - noto-fonts-cjk
+  - noto-fonts-emoji
+  - noto-fonts-ttf
+  - ttf-ubuntu-font-family
+
+  # Themes
+  - gtk2-engines
+  - mate-themes
+
+  # Icons
+  - breeze-icons
+  - gnome-icon-theme
+  - gnome-icon-theme-extras
+  - papirus-folders
+  - papirus-icon-theme
+  - xcursor-vanilla-dmz
+
+{@'- end '@}
+
 ...
 {@'- end '@}

@@ -1,8 +1,9 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
-
 ---
+
+{@' if .sys.isDebianBased -'@}
 
 - name: Desktop Install | Appearance | Installing packages (stable)
   become: true
@@ -20,6 +21,17 @@
     deb: {@' $papirusFoldersDebPath | squote '@}
   tags: [packages, appearance]
   when: "{@' $papirusFoldersDebPath | squote '@} is file"
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Desktop Install | Appearance | Installing packages
+  become: true
+  community.general.xbps:
+    name: "{{ desktop_install_pkg_appearance }}"
+    state: present
+  tags: [packages, appearance]
+
+{@'- end '@}
 
 ...
 {@'- end '@}
