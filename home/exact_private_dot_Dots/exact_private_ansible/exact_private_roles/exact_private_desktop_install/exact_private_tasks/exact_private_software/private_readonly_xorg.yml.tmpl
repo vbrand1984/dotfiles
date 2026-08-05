@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@' if .sys.isDebianBased -'@}
+
+- name: Desktop Install | Xorg | Installing packages (stable)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_xorg.stable }}"
+    state: present
+    install_recommends: false
+  tags: [packages, xorg]
+
+- name: Desktop Install | Xorg | Installing packages (CPAN)
+  become: true
+  community.general.cpanm:
+    name: "{{ item }}"
+  loop: "{{ desktop_install_pkg_xorg.cpan }}"
+  tags: [packages, xorg]
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Desktop Install | Utilities | Installing packages
+  become: true
+  community.general.xbps:
+    name: "{{ desktop_install_pkg_xorg.xbps }}"
+    state: present
+  tags: [packages, xorg]
+
+{@'- end '@}
+
+...
+{@'- end '@}

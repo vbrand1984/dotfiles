@@ -10,7 +10,9 @@ desktop_install_pkg_appearance:
     # Fonts
     - fonts-dejavu
     - fonts-dejavu-extra
+    - fonts-firacode
     - fonts-freefont-otf
+    - fonts-hack
     - fonts-jetbrains-mono
     - fonts-liberation
     - fonts-liberation2
@@ -25,6 +27,12 @@ desktop_install_pkg_appearance:
     - gnome-themes-extra
     - gtk2-engines
     - mate-themes
+    - qt-style-kvantum
+    - qt-style-kvantum-l10n
+    - qt-style-kvantum-themes
+    - qt5-gtk-platformtheme
+    - qt5ct
+    - qt6ct
 
     # Icons
     - breeze-icon-theme
@@ -35,27 +43,36 @@ desktop_install_pkg_appearance:
 
 {@'- else if .sys.isVoid '@}
 
-  # Fonts
-  - dejavu-fonts-ttf
-  - fonts-roboto-ttf
-  - freefont-ttf
-  - liberation-fonts-ttf
-  - noto-fonts-cjk
-  - noto-fonts-emoji
-  - noto-fonts-ttf
-  - ttf-ubuntu-font-family
+  xbps:
 
-  # Themes
-  - gtk2-engines
-  - mate-themes
+    # Fonts
+    - dejavu-fonts-ttf
+    - font-firacode
+    - font-hack-ttf
+    - font-weather-icons
+    - fonts-roboto-ttf
+    - freefont-ttf
+    - liberation-fonts-ttf
+    - noto-fonts-cjk
+    - noto-fonts-emoji
+    - noto-fonts-ttf
+    - ttf-ubuntu-font-family
 
-  # Icons
-  - breeze-icons
-  - gnome-icon-theme
-  - gnome-icon-theme-extras
-  - papirus-folders
-  - papirus-icon-theme
-  - xcursor-vanilla-dmz
+    # Themes
+    - gtk2-engines
+    - kvantum
+    - mate-themes
+    - qt5-styleplugins
+    - qt5ct
+    - qt6ct
+
+    # Icons
+    - breeze-icons
+    - gnome-icon-theme
+    - gnome-icon-theme-extras
+    - papirus-folders
+    - papirus-icon-theme
+    - xcursor-vanilla-dmz
 
 {@'- end '@}
 

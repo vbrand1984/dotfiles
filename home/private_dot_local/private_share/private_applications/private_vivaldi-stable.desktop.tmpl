@@ -1,3 +1,8 @@
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
+#
+
+{{ $params := includeTemplate .tmpl.chromiumFlags (dict "app" "vivaldi" "userid" .chezmoi.uid) | fromYaml | join " " -}}
+
 # Options were added to make vivaldi keep its cache in $XDG_RUNTIME_DIR and use hardware video acceleration
 [Desktop Entry]
 Version=1.0
@@ -11,7 +16,7 @@ GenericName[ru]=Веб-браузер
 Comment=Access the Internet
 Comment[de]=Internetzugriff
 Comment[ru]=Доступ в Интернет
-Exec=/usr/bin/vivaldi-stable --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder %U
+Exec=/usr/bin/vivaldi-stable {{ $params }} %U
 StartupNotify=true
 Terminal=false
 Icon=vivaldi
@@ -24,10 +29,10 @@ Actions=new-window;new-private-window;
 Name=New Window
 Name[de]=Neues Fenster
 Name[ru]=Новое окно
-Exec=/usr/bin/vivaldi-stable --new-window --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder
+Exec=/usr/bin/vivaldi-stable {{ $params }} --new-window
 
 [Desktop Action new-private-window]
 Name=New Private Window
 Name[de]=Neues privates Fenster
 Name[ru]=Новое приватное окно
-Exec=/usr/bin/vivaldi-stable --incognito --disk-cache-dir=/run/user/{{ .chezmoi.uid }}/vivaldi-cache --enable-features=VaapiVideoDecoder
+Exec=/usr/bin/vivaldi-stable {{ $params }} --incognito

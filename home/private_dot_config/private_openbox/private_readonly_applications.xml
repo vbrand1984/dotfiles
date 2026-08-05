@@ -1,4 +1,3 @@
-<!-- chezmoi:template: left-delimiter={@ right-delimiter=@} -->
 <applications>
 	<application name="conky">
 		<iconified>false</iconified>
@@ -14,6 +13,9 @@
 		<layer>above</layer>
 	</application>
 	<application name="gvim">
+		<maximized>yes</maximized>
+	</application>
+	<application name="Opera">
 		<maximized>yes</maximized>
 	</application>
 	<application name="redshift-gtk">

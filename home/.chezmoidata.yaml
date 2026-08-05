@@ -116,6 +116,8 @@ misc:
 # {{{ .tmpl: Paths to templates
 tmpl:
 
+  chromiumFlags: 'chromiumFlags.yaml.tmpl'
+
   listFileHashes: 'list-file-hashes.tmpl'
 
   # Openbox-related stuff

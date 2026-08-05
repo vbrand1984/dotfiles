@@ -1,0 +1,37 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@' if .sys.isDebianBased -'@}
+
+- name: Desktop Install | Utilities | Installing packages (stable)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_utilities.stable }}"
+    state: present
+    install_recommends: false
+  tags: [packages, utilities]
+
+- name: Desktop Install | Utilities | Installing packages (backports)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_utilities.backports }}"
+    default_release: {@' .chezmoi.osRelease.versionCodename '@}-backports
+    state: latest
+    install_recommends: false
+  tags: [packages, utilities]
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Desktop Install | Utilities | Installing packages
+  become: true
+  community.general.xbps:
+    name: "{{ desktop_install_pkg_utilities.xbps }}"
+    state: present
+  tags: [packages, utilities]
+
+{@'- end '@}
+
+...
+{@'- end '@}

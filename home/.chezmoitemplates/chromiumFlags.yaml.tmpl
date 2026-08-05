@@ -1,0 +1,29 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# chezmoi variable to store relative path to this template: .tmpl.chromiumFlags
+#
+
+---
+
+{@' if ne .app "opera" -'@}
+- --start-maximized
+{@'- end '@}
+
+# Hardware video acceleration
+- --enable-accelerated-video-decode
+- --enable-gpu-rasterization
+- --enable-zero-copy
+
+# See: https://wiki.archlinux.org/title/Chromium#Vulkan
+#- --enable-features=VaapiVideoDecoder,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE
+- --enable-features=VaapiVideoDecoder,VaapiIgnoreDriverChecks
+
+# Disable JIT for javascript for security reasons.
+# See: https://wiki.archlinux.org/title/Chromium#Disable_JIT
+#- --js-flags=--jitless
+
+# Set up cache in tmpfs.
+# See: https://wiki.archlinux.org/title/Chromium#Cache_in_tmpfs
+- --disk-cache-dir=/run/user/{@' .userid '@}/{@' .app '@}-cache
+
+...

@@ -1,0 +1,69 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+desktop_install_pkg_apps:
+{@'- if .sys.isDebianBased '@}
+
+  stable:
+
+    # Graphics
+    - eom
+    - gimp
+    - geeqie
+    - imagemagick
+    - inkscape
+    - kolourpaint
+
+    # Document viewers
+    - atril
+    - djview4
+    - foliate
+    - okular
+    - okular-extra-backends
+    - okular-mobile
+
+    # Video
+    - cheese
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-plugins-ugly
+    - vlc
+
+    # Dictionaries
+    - hunspell
+    - hunspell-de-de
+    - hunspell-en-gb
+    - hunspell-ru
+
+    # Utils
+    - caja
+    - conky-all
+    - dconf-editor
+    - emacs
+    - engrampa
+    - gsimplecal
+    - qalculate-gtk
+    - xdg-desktop-portal-gtk
+
+    # Network stuff
+    - amule
+    - network-manager-gnome
+#    - qbittorrent
+
+    # Debian-specific
+    - gdebi
+    - lintian
+
+  backports:
+    - libreoffice
+    - libreoffice-gtk3
+    - libreoffice-l10n-ru
+    - qbittorrent
+
+{@'- else if .sys.isVoid '@}
+
+{@'- end '@}
+
+...
+{@'- end '@}

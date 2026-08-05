@@ -1,0 +1,46 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@' if .sys.isDebianBased -'@}
+
+- name: Desktop Install | Apps | Installing packages (stable)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_apps.stable }}"
+    state: present
+    install_recommends: false
+  tags: [packages, apps]
+
+- name: Desktop Install | Apps | Installing packages (backports)
+  become: true
+  ansible.builtin.apt:
+    name: "{{ desktop_install_pkg_apps.backports }}"
+    default_release: {@' .chezmoi.osRelease.versionCodename '@}-backports
+    state: present
+    install_recommends: false
+  tags: [packages, apps]
+
+{@' $deadbeefFileName := (printf .app.version.deadbeef.filenamePattern .app.version.deadbeef.ver .app.version.deadbeef.build) -'@}
+{@' $deadbeefDebPath := joinPath .chezmoi.homeDir .dir.downloadedDeb $deadbeefFileName -'@}
+- name: Desktop Install | Apps | Installing deadbeef .deb package
+  become: true
+  ansible.builtin.apt:
+    deb: {@' $deadbeefDebPath | squote '@}
+  when: "{@' $deadbeefDebPath | squote '@} is file"
+  tags: [packages, apps]
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Desktop Install | Apps | Installing packages
+  become: true
+  community.general.xbps:
+    name: "{{ desktop_install_pkg_apps.xbps }}"
+    state: present
+  tags: [packages, apps]
+
+{@'- end '@}
+
+...
+{@'- end '@}

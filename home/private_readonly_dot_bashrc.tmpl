@@ -181,6 +181,9 @@ alias wtf='curl https://wttr.in/?M'
 alias v='vim'
 alias vs={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
 
+# Cheats
+function cheat() { curl "cheat.sh/$1"; }
+
 {@' if not .sys.isGentoo -'@}
 # Coloured man pages for non-Gentoo distros
 # Also, GROFF_NO_SGR=1 must be exported for that
