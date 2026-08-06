@@ -1,0 +1,72 @@
+{
+	"layer": "top",
+	"mode": "dock",
+	"position": "top",
+	"height": 28,
+	"spacing": 3,
+	"reload_style_on_change": true,
+	"modules-left": ["sway/workspaces", "sway-mode"],
+	"modules-center": [
+		"sway/window"
+	],
+	"modules-right": ["tray", "pulseaudio", "idle_inhibitor", "sway/language", "clock"],
+
+	"sway/workspaces": {
+		"format": "{name}",
+		"sort-by-number": true,
+		"on-click": "activate"
+	},
+
+	"sway/window": {
+		"format": "{}",
+		"max-length": 50,
+		"separate-outputs": true
+	},
+
+/*	"wlr/taskbar": {
+		"format": "{icon}{title}",
+		"icon-size": 16,
+		"all-outputs": false,
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+		"on-click-middle": "close"
+	},*/
+
+	"tray": {
+		"icon-size": 24
+	},
+
+	"pulseaudio": {
+		"format": "{icon} {volume}%",
+		"format-icons": {
+			"default": ["\uf026", "\uf027", "\uf028"],
+			"default-muted": "\ueee8"
+		},
+		"min-length": 7
+	},
+
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "\uf185",
+			"deactivated": "\uf186"
+		},
+		"cursor": false
+	},
+
+	"sway/language": {
+		"format": "{}",
+		"on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+		"on-scroll-up": "swaymsg input type:keyboard xkb_switch_layout next",
+		"on-scroll-down": "swaymsg input type:keyboard xkb_switch_layout prev",
+		"tooltip-format": "{long}",
+		"cursor": false,
+		"min-lenght": 2
+	},
+
+	"clock": {
+		"on-click": "gsimplecal",
+		"cursor": false,
+		"tooltip-format": "{:%A %e %B %Y}"
+	}
+}

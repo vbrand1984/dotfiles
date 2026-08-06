@@ -1,0 +1,9 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#!/bin/sh
+{@'- if false -'@}
+# vim: ft=sh
+{@'- end '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+
+exec dbus-run-session -- sway

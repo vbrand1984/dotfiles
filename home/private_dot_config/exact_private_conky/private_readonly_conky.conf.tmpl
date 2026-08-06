@@ -22,21 +22,20 @@ conky.config = {
 	--== Outputs ==--
 	out_to_console			= false,
 	out_to_stderr			= false,
-	out_to_x				= true,
-{@'- if not .sys.isGentoo '@}
-	out_to_wayland			= false,
-{@'- end '@}
+	out_to_x				= false,
+	out_to_wayland			= true,
 
 	--== Base window properties ==--
 	own_window				= true,
-	own_window_type			= 'desktop',
+	own_window_type			= 'override',
 	own_window_class		= 'normal',
 	own_window_hints		= 'undecorated,below,sticky,skip_taskbar,skip_pager',
 
 	--== Window geometry ==--
 	alignment				= 'tr',
 	gap_x					= 20,
-	gap_y					= {@' .misc.autohidePanel | ternary 20 45 '@},
+	-- gap_y					= {@' .misc.autohidePanel | ternary 20 45 '@},
+	gap_y					= {@' .misc.autohidePanel | ternary 20 20 '@},
 	border_width			= 0,
 	border_inner_margin		= 10,
 	maximum_width			= 350,
@@ -83,14 +82,14 @@ conky.config = {
 	--== Information on the cpu cores ==--
 	-- Parameter 1: # of the CPU for conky command {cpu} (starting from 1)
 	-- Parameter 2: # of the CPU core to be displayed (starting from 0)
-	template2 = [[${color2}\\#\2${goto 50}${color3}${cpu cpu\1}% ${goto 95}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
+	template2 = [[${color2}\\#\2${alignr 250}${color3}${cpu cpu\1}% ${alignr 15}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
 
 	--== Processes table header (no parameters) ==--
-	template3 = [[${color2}Name${goto 180}PID${goto 245}CPU%${alignr}MEM%]],
+	template3 = [[${color2}Name${alignr 60}PID${alignr 20}CPU%${alignr}MEM%]],
 
 	--== Processes table entry ==--
 	-- Parameter 1: # of the entry in the top list
-	template4 = [[${color3}${top name \1}${goto \160}${top pid \1}${goto 240}${top cpu \1}${alignr}${top mem \1}]],
+	template4 = [[${color3}${top name \1}${alignr 60}${top pid \1}${alignr 30}${top cpu \1}${alignr}${top mem \1}]],
 
 	--== Memory or swap info entry ==--
 	-- Parameter 1: Caption of the entry
@@ -100,7 +99,7 @@ conky.config = {
 	--== Disk usage info entry ==--
 	-- Parameter 1: Caption of the entry
 	-- Parameter 2: Mountpoint of the volume
-	template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar \2}]],
+	template6 = [[${color2}\1 ${alignr}${color3}${fs_used \2} / ${fs_size \2}\n${color3}${fs_used_perc \2}%${alignr}${color5}${fs_bar 10,285 \2}]],
 
 	--== Weather widget (old) ==--
 	template7 = [[${color2}\1 ${alignr}${color3}${execi\ 300\ /bin/sh -e {@' joinPath .chezmoi.homeDir .dir.localScripts "conky-weather-simple.sh" | quote '@}\ \2}]],
@@ -111,7 +110,7 @@ conky.config = {
 	-- Parameter 2: command to execute for the left column
 	-- Parameter 3: Right column caption
 	-- Parameter 4: command to execute for the right column
-	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} -100 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 360}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 {@'- if .sys.isDesktopRig '@}
 
 	--== Fan info in two columns ==--

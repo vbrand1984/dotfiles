@@ -4,61 +4,62 @@
 # Changing $TERM for alacritty due to a bug with incorrect colors
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
 [env]
-    TERM = "xterm-256color"
+	TERM = 'xterm-256color'
 
 [colors]
-    draw_bold_text_with_bright_colors = true
+	draw_bold_text_with_bright_colors = true
 
 {@' $palette := includeTemplate .tmpl.palette.terminal | fromYaml -'@}
+
 [colors.primary]
-    background = {@' $palette.background | squote '@}
-    foreground = {@' $palette.foreground | squote '@}
+	background = {@' $palette.background | squote '@}
+	foreground = {@' $palette.foreground | squote '@}
 
 [colors.bright]
-    black =      {@' $palette.bright.black | squote '@}
-    red =        {@' $palette.bright.red | squote '@}
-    green =      {@' $palette.bright.green | squote '@}
-    yellow =     {@' $palette.bright.yellow | squote '@}
-    blue =       {@' $palette.bright.blue | squote '@}
-    magenta =    {@' $palette.bright.magenta | squote '@}
-    cyan =       {@' $palette.bright.cyan | squote '@}
-    white =      {@' $palette.bright.white | squote '@}
+	black =		 {@' $palette.bright.black | squote '@}
+	red =		 {@' $palette.bright.red | squote '@}
+	green =		 {@' $palette.bright.green | squote '@}
+	yellow =	 {@' $palette.bright.yellow | squote '@}
+	blue =		 {@' $palette.bright.blue | squote '@}
+	magenta =	 {@' $palette.bright.magenta | squote '@}
+	cyan =		 {@' $palette.bright.cyan | squote '@}
+	white =		 {@' $palette.bright.white | squote '@}
 
 [colors.normal]
-    black =      {@' $palette.normal.black | squote '@}
-    red =        {@' $palette.normal.red | squote '@}
-    green =      {@' $palette.normal.green | squote '@}
-    yellow =     {@' $palette.normal.yellow | squote '@}
-    blue =       {@' $palette.normal.blue | squote '@}
-    magenta =    {@' $palette.normal.magenta | squote '@}
-    cyan =       {@' $palette.normal.cyan | squote '@}
-    white =      {@' $palette.normal.white | squote '@}
+	black =		 {@' $palette.normal.black | squote '@}
+	red =		 {@' $palette.normal.red | squote '@}
+	green =		 {@' $palette.normal.green | squote '@}
+	yellow =	 {@' $palette.normal.yellow | squote '@}
+	blue =		 {@' $palette.normal.blue | squote '@}
+	magenta =	 {@' $palette.normal.magenta | squote '@}
+	cyan =		 {@' $palette.normal.cyan | squote '@}
+	white =		 {@' $palette.normal.white | squote '@}
 
 [colors.cursor]
-    cursor = "CellForeground"
-    text = "CellBackground"
+	cursor = 'CellForeground'
+	text = 'CellBackground'
 
 [colors.selection]
-    background = "CellForeground"
-    text = "CellBackground"
+	background = 'CellForeground'
+	text = 'CellBackground'
 
 [font]
-    builtin_box_drawing = true
-    size = {@' .misc.terminal.font.size '@}
+	builtin_box_drawing = true
+	size = {@' .misc.terminal.font.size '@}
 
 [font.normal]
-family = {@' .misc.terminal.font.family | quote '@}
-style =  {@' .misc.terminal.font.weight.normal | quote '@}
+	family = {@' .misc.terminal.font.family | squote '@}
+	style =  {@' .misc.terminal.font.weight.normal | squote '@}
 
 [font.bold]
-    style = {@' .misc.terminal.font.weight.bold | quote '@}
+	style = {@' .misc.terminal.font.weight.bold | squote '@}
 
 [font.bold_italic]
-    style = {@' .misc.terminal.font.weight.boldItalic | quote '@}
+	style = {@' .misc.terminal.font.weight.boldItalic | squote '@}
 
 [font.italic]
-    style = {@' .misc.terminal.font.weight.italic | quote '@}
+	style = {@' .misc.terminal.font.weight.italic | squote '@}
 
 [window]
-    startup_mode = "Maximized"
+	startup_mode = 'Maximized'
 

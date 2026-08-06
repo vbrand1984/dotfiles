@@ -9,10 +9,15 @@
 set-option -g default-command "${SHELL}"
 
 set-option -g default-terminal "xterm-256color"
+#set-option -g default-terminal "tmux-256color"
 set-option -ag terminal-overrides ",xterm-256color:Tc"
+#set-option -ag terminal-overrides ",xterm-256color:RGB"
+#set-option -ag terminal-overrides ",xterm-foot:Tc"
 # See: https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
 #set-option -ag terminal-overrides ",xterm-256color:RGB"
 
+# Update environment
+set-option -g update-environment "WAYLAND_DISPLAY DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE"
 
 # set-option the base-index to 1 rather than 0
 set-option -g base-index 1

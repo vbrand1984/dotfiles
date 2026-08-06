@@ -1,0 +1,14 @@
+{{/* vim: set ft=cfg : */ -}}
+[general]
+fade={{ int .redShift.fade }}
+adjustment-method=wayland
+location-provider={{ .redShift.locationProvider }}
+
+temp-day={{ int .redShift.tempDay }}
+temp-night={{ int .redShift.tempNight }}
+
+{{ if eq .redShift.locationProvider "manual" -}}
+[manual]
+lat={{ int .redShift.latitude }}
+lon={{ int .redShift.longitude }}
+{{ end -}}

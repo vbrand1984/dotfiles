@@ -98,6 +98,7 @@ augroup END
 " Certain config files
 augroup certain_config_files
     autocmd!
+	autocmd BufRead,BufNewFile *sway/*config,*sway/*config.tmpl setlocal filetype=swayconfig
     autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl setlocal filetype=conf
     autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl setlocal filetype=dosini
     autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl setlocal filetype=sh
@@ -179,6 +180,13 @@ let g:gruvbox_material_foreground = 'material'
 let g:gruvbox_material_better_performance = 1
 
 set background=dark
+
+" You might have to force true color when using regular vim inside tmux as the
+" colorscheme can appear to be grayscale with 'termguicolors' option enabled.
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 
 if ($TERM != 'linux' || has("gui_running"))
     if (has("termguicolors"))
