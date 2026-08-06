@@ -110,7 +110,7 @@ conky.config = {
 	-- Parameter 2: command to execute for the left column
 	-- Parameter 3: Right column caption
 	-- Parameter 4: command to execute for the right column
-	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} -100 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 360}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 305 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 360}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 {@'- if .sys.isDesktopRig '@}
 
 	--== Fan info in two columns ==--
