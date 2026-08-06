@@ -106,14 +106,15 @@
 	refreshPeriod = 0
 
 # papirus-folders package
-{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) '@}
-[{@' joinPath .dir.downloadedDeb $papirusFoldersFileName | quote '@}]
-	type= "file"
-	url = "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/{@' $papirusFoldersFileName '@}"
-	checksum.sha512 = {@' .app.version.papirusFolders.sha512 | quote '@}
-	checksum.size = {@' .app.version.papirusFolders.size '@}
-	executable = false
-	refreshPeriod = 0
+# https://launchpad.net/~papirus/+archive/ubuntu/papirus/+packages?field.name_filter=papirus-folders
+#{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) '@}
+#[{@' joinPath .dir.downloadedDeb $papirusFoldersFileName | quote '@}]
+#	type= "file"
+#	url = "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/{@' $papirusFoldersFileName '@}"
+#	checksum.sha512 = {@' .app.version.papirusFolders.sha512 | quote '@}
+#	checksum.size = {@' .app.version.papirusFolders.size '@}
+#	executable = false
+#	refreshPeriod = 0
 
 # Obmenu-generator script
 [{@' joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote '@}]
