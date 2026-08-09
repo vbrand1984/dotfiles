@@ -421,7 +421,7 @@ conky.text = display_system_info() .. [[
 ${template0 TEMPERATURES}
 ${template8 Pkg\ id\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_PkgId0 .. [[ ACPI hwmon\ ]] .. mod_acpi .. [[\ temp\ 1}
 ${template8 Core\ 0 hwmon\ ]] .. mod_cpu .. [[\ temp\ ]] .. nr_Core0 .. [[ Temp1 hwmon\ ]] .. mod_mobo .. [[\ temp\ 1}
-${color2}Core 1${goto 115}${color4}${hwmon ]] .. mod_cpu .. " temp " .. nr_Core1 .. [[}°C${goto 220}${color2}Fan${alignr}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM
+${color2}Core 1${goto 105}${color4}${hwmon ]] .. mod_cpu .. " temp " .. nr_Core1 .. [[}°C${goto 210}${color2}Fan${alignr}${color3}${hwmon ]] .. mod_mobo .. [[ fan 1} RPM
 
 ]] .. display_top_processes(6) .. [[
 
