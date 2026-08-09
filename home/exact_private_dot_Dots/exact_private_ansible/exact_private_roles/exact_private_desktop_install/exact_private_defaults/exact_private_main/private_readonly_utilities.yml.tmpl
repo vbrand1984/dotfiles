@@ -21,6 +21,7 @@ desktop_install_pkg_utilities:
     - zstd
 
     # Common utilities
+    - age
     - ansible-lint
     - bash-completion
     - devscripts # for checkbashisms mainly
@@ -47,7 +48,7 @@ desktop_install_pkg_utilities:
     - debootstrap
     - hodie
     - python3-apt
-#    - python3-debian
+#    - python3-debian # backported
     - python-is-python3
     - vrms
 
@@ -65,7 +66,7 @@ desktop_install_pkg_utilities:
     - curl
     - inetutils-ping
     - iperf3
-#    - nmap
+#    - nmap # backported
     - tcpdump
     - traceroute
     - wget

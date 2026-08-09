@@ -24,8 +24,8 @@ HISTCONTROL='ignoreboth:erasedups'
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000
-HISTFILESIZE=5000
+HISTSIZE=12000
+HISTFILESIZE=8000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -172,6 +172,9 @@ mv() { command mv -i "${@}"; }
 
 # Quick clear screen
 alias c='clear'
+
+# Fastfetch
+alias ff='fastfetch'
 
 # Weather conditions and forecast
 # "What's the forecast" alias
@@ -357,41 +360,5 @@ fi
 ### GPG options ###
 GPG_TTY=$(tty)
 export GPG_TTY
-
-### Editor ###
-EDITOR='/usr/bin/vim'
-VISUAL="${EDITOR}"
-export EDITOR
-export VISUAL
-
-### Firefox options ###
-export MOZ_WEBRENDER=1
-export MOZ_X11_EGL=1
-
-### Graphical Gtk and Qt options ###
-export QT_QPA_PLATFORMTHEME=qt5ct
-# Turn off accessibility bus
-export NO_AT_BRIDGE=1
-# Do not hide scrollbars in Gtk applications
-# See: https://bbs.archlinux.org/viewtopic.php?id=196118
-# See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
-export GTK_OVERLAY_SCROLLING=0
-
-### Compressors options ###
-
-# Zstd. See: https://wiki.gentoo.org/wiki/Zstd#Configuration
-# See: https://lists.archlinux.org/pipermail/arch-dev-public/2019-March/029520.html
-export STD_CLEVEL=16
-export STD_NBTHREADS=0
-
-# Xz. See https://wiki.gentoo.org/wiki/Xz-utils#Configuration
-# -T0: compress and decompress with the number of cores available
-# -9: use maximum compression level (but not extreme)
-export XZ_DEFAULTS="-9 -T0"
-
-{@' if not .sys.isGentoo -'@}
-# Colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-{@'- end '@}
 
 # }}} (Export variables)

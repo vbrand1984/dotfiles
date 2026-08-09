@@ -22,6 +22,11 @@ set $term alacritty
 set $menu wofi --show run
 set $dmenu wofi --show drun
 
+# Sound volume commands
+set $cmd_volume_up {@' .cmd.volumeUp '@}
+set $cmd_volume_down {@' .cmd.volumeDown '@}
+set $cmd_volume_mute_toggle {@' .cmd.volumeMute '@}
+
 # }}} (Variables)
 # {{{ Output configuration
 
@@ -54,33 +59,58 @@ input "type:keyboard" {
 # }}}
 # {{{ Autostart
 
-exec dbus-update-activation-environment --systemd XDG_SESSION_TYPE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway &
+exec_always dbus-update-activation-environment {@' if .sys.hasSystemd -'@} --systemd {@' end -'@} XDG_SESSION_TYPE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+exec --no-startup-id /usr/libexec/xdg-desktop-portal -r
+
+# Desktop wallpaper
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/Heracles-2500x1406.jpeg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/clay-banks-fuji.jpg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/greek-warrior.jpg -m fill
+exec_always swaybg -i /home/victor/.local/share/backgrounds/greek-brawler.jpg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/nature-sepia-1920x1200.jpg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/Forest-Railway.jpg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/saturn-1920x1080.jpg -m fill
+#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/canova-cupid-and-psyche-1920x1080.jpg -m fill
+
+# Gammastep: Redshift alternative for wayland
+exec gammastep-indicator
+
+# Network Manager applet
+exec nm-applet --indicator
+
+# Per-window keyboard layout
+exec swaykbdd
+
+exec swayosd-server
+
+# Conky system monitor
+exec sleep 1 && conky -p {@' int .conky.startupDelay '@} -d
+
+#exec dunst
+
+# }}} (Autostart)
+# {{{ Idle configuration
+
+# As of now (?), swaylock doesn't hide mouse cursor after blanking the screen
+# See:
+# https://github.com/swaywm/swaylock/issues/103
+# https://github.com/swaywm/sway/issues/8342
+#
+# This is a temporary solution for that:
+seat * hide_cursor {@' mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int '@}
+
+# The command to lock the screen
+set $lock swaylock -f -c 000000
 
 # Idle configuration
 exec swayidle -w \
-	timeout 300 'swaylock -f -c 000000' && swaymsg seat - cursor move 1 1 \
-	timeout 900 'swaymsg "output * dpms off"' \
-		resume 'swaymsg "output * dpms on"; sleep 1; swaymsg focus' \
-	before-sleep 'swaylock -f -c 000000' &
+	timeout {@' mul .misc.idle.lockDelay 60 | int '@} '$lock' \
+	timeout {@' mul .misc.idle.poweroffDelay 60 | int '@} 'swaymsg "output * power off"' \
+	   	resume 'swaymsg "output * power on"; /bin/sh {@' joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" '@}; sleep 1; swaymsg focus' \
+	before-sleep '$lock'
 
-# Desktop wallpaper
-exec swaybg -i /home/victor/.local/share/backgrounds/Heracles-2500x1406.jpeg -m fill &
-
-# Gammastep: Redshift alternative for wayland
-exec gammastep-indicator &
-
-# Network Manager applet
-exec nm-applet --indicator &
-
-# Per-window keyboard layout
-exec swaykbdd &
-
-exec swayosd-server &
-
-# Conky system monitor
-exec sleep 1 && conky --pause={@' int .conky.startupDelay '@} --daemonize &
-
-# }}} (Autostart)
+# }}} (Idle configuration)
 # {{{ Key bindings
 # {{{ Basics
 
@@ -110,14 +140,24 @@ exec sleep 1 && conky --pause={@' int .conky.startupDelay '@} --daemonize &
 	bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 
-	bindsym $mod+Ctrl+b exec env MOZ_ENABLE_WAYLAND=1 firefox
+	bindsym $mod+Ctrl+b exec env MOZ_X11_EGL=0 MOZ_ENABLE_WAYLAND=1 firefox
 
 # }}}
 # {{{ Volume control
 
-bindsym $mod+equal exec swayosd-client --output-volume +2
-bindsym $mod+minus exec swayosd-client --output-volume -2
-bindsym $mod+backspace exec swayosd-client --output-volume mute-toggle
+# Volume up
+bindsym $mod+equal exec $cmd_volume_up
+bindsym $mod+KP_Add exec $cmd_volume_up
+bindsym XF86AudioRaiseVolume exec $cmd_volume_up
+
+# Volume down
+bindsym $mod+minus exec $cmd_volume_down
+bindsym $mod+KP_Subtract exec $cmd_volume_down
+bindsym XF86AudioLowerVolume exec $cmd_volume_down
+
+# Toggle mute
+bindsym $mod+backspace exec $cmd_volume_mute_toggle
+bindsym XF86AudioMute exec $cmd_volume_mute_toggle
 
 # }}}
 # {{{ Moving around
@@ -246,17 +286,31 @@ bindsym $mod+r mode "resize"
 # }}} (Key bindings)
 # {{{ Application rules
 
+workspace_layout tabbed
+
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
+
+default_floating_border normal 2
+for_window [window_type="dialog"] floating enable, border normal
 
 # }}} (Theme setup)
 # {{{ Theme setup
 
 font pango: DejaVu Sans Condensed 11
-#font pango: Ubuntu Regular 12
+#font pango: Ubuntu Nerd Font Regular 12
+#\udb80\ude39
 
 # Window title configuration
-for_window [title="."] title_format "<b>%title</b>"
+title_align left
+#for_window [title="."] title_format "<b>%title</b>"
+for_window [title="."] title_format "󰣆 <b>%title</b>"
+for_window [app_id="firefox-esr"] title_format "󰈹 <b>%title</b>"
+for_window [app_id="chrom*"] title_format " <b>%title</b>"
+for_window [app_id="vivaldi"] title_format " <b>%title</b>"
+for_window [app_id="Alacritty"] title_format " <b>%title</b>"
+for_window [app_id="deadbeef"] title_format "󰝚 <b>%title</b>"
+for_window [app_id="telegram"] title_format " <b>%title</b>"
 
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface
@@ -269,6 +323,7 @@ exec_always {
 }
 
 hide_edge_borders smart
+smart_borders on
 
 # Status Bar:
 bar {
@@ -277,5 +332,21 @@ bar {
 }
 
 # }}} (Theme setup)
+# {{{ Color scheme
+
+#set $selected_fg #f5f3ef
+set $selected_fg #f0ede5
+#set $selected_bg #858483
+set $selected_bg #757474
+
+# 7a7774
+set $border_color #656261
+
+# https://thomashunter.name/i3-configurator/
+
+# class					border			bground			text			indicator	child_border
+client.focused			$border_color	$selected_bg	$selected_fg	#7b7a7a		#7f7e7d
+
+# }}}
 
 include /etc/sway/config.d/*

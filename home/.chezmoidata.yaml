@@ -55,6 +55,14 @@ app:
       size: 7006
 
 # }}}
+# {{{ .cmd: Various commands
+
+cmd:
+  volumeUp: "swayosd-client --output-volume +2"
+  volumeDown: "swayosd-client --output-volume -2"
+  volumeMute: "swayosd-client --output-volume mute-toggle"
+
+# }}}
 # {{{ .file: Filenames
 
 file:
@@ -67,8 +75,6 @@ file:
 
   #defaultWallpaper: 'nature-sepia-1920x1200.jpg'
   defaultWallpaper: 'Heracles-2500x1406.jpeg'
-
-  papirusFoldersDeb: 'papirus-folders_1.14.0-1~133~ubuntu24.04.1_all.deb'
 
   ansible:
     config: 'ansible.cfg'

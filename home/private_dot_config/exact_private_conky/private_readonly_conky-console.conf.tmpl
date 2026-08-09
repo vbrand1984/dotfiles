@@ -18,32 +18,30 @@ conky.config = {
 	update_interval			= 4,
 	--== Font setting ==--
 	font					= 'DejaVu Sans:bold:size=10',
-	--font					= 'Ubuntu:bold:size=11',
-	--font					= 'Roboto:bold:size=10',
 
 	--== Outputs ==--
-	out_to_console			= false,
+	out_to_console			= true,
 	out_to_stderr			= false,
 	out_to_x				= false,
 {@'- if not .sys.isGentoo '@}
-	out_to_wayland			= true,
+	out_to_wayland			= false,
 {@'- end '@}
 
 	--== Base window properties ==--
 	own_window				= true,
-	own_window_type			= 'normal',
-	own_window_class		= 'Conky',
+	own_window_type			= 'desktop',
+	own_window_class		= 'normal',
 	own_window_hints		= 'undecorated,below,sticky,skip_taskbar,skip_pager',
 
 	--== Window geometry ==--
-	alignment				= 'tl',
-	gap_x					= 0,
-	gap_y					= 0,
+	alignment				= 'tr',
+	gap_x					= 20,
+	gap_y					= {@' .misc.autohidePanel | ternary 20 45 '@},
 	border_width			= 0,
 	border_inner_margin		= 10,
 	maximum_width			= 350,
 	minimum_width			= 350,
-	--minimum_height			= 600,
+	minimum_height			= 600,
 	-- Most of our bars will be of default width and height
 	default_bar_height		= 10,
 	default_bar_width		= 300,
@@ -85,14 +83,14 @@ conky.config = {
 	--== Information on the cpu cores ==--
 	-- Parameter 1: # of the CPU for conky command {cpu} (starting from 1)
 	-- Parameter 2: # of the CPU core to be displayed (starting from 0)
-	template2 = [[${color2}\\#\2${goto 40}${color3}${cpu cpu\1}% ${goto 85}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
+	template2 = [[${color2}\\#\2${goto 50}${color3}${cpu cpu\1}% ${goto 95}${color5}${cpubar cpu\1 10,185}${alignr}${color3}${freq \1} MHz]],
 
 	--== Processes table header (no parameters) ==--
-	template3 = [[${color2}Name${goto 170}PID${goto 235}CPU%${alignr}MEM%]],
+	template3 = [[${color2}Name${goto 180}PID${goto 245}CPU%${alignr}MEM%]],
 
 	--== Processes table entry ==--
 	-- Parameter 1: # of the entry in the top list
-	template4 = [[${color3}${top name \1}${goto \150}${top pid \1}${goto 230}${top cpu \1}${alignr}${top mem \1}]],
+	template4 = [[${color3}${top name \1}${goto \160}${top pid \1}${goto 240}${top cpu \1}${alignr}${top mem \1}]],
 
 	--== Memory or swap info entry ==--
 	-- Parameter 1: Caption of the entry
@@ -113,7 +111,7 @@ conky.config = {
 	-- Parameter 2: command to execute for the left column
 	-- Parameter 3: Right column caption
 	-- Parameter 4: command to execute for the right column
-	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 140 {@'- else -'@} 105 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 210}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
+	template8 = [[${color2}\1${goto {@' if .sys.isDesktopRig -'@} 150 {@'- else -'@} 115 {@'- end -'@} }${color4}${\2}]] .. celsius_sign .. [[${goto 220}${color2}\3${alignr}${color4}${\4}]] .. celsius_sign,
 {@'- if .sys.isDesktopRig '@}
 
 	--== Fan info in two columns ==--
@@ -123,7 +121,7 @@ conky.config = {
 	-- Parameter 4: Right column caption
 	-- Parameter 5: hwmon subdirectory number for the right column
 	-- Parameter 6: hwmon fan number for the right column
-	template9 = [[${color2}\1${goto 130}${color3}${hwmon \2 fan \3}${goto 200}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
+	template9 = [[${color2}\1${goto 140}${color3}${hwmon \2 fan \3}${goto 210}${color2}\4 ${color3}${alignr}${if_match ${hwmon \5 fan \6} > 0}${hwmon \5 fan \6}${else}Off${endif}]],
 {@'- end '@}
 {@'- end '@}
 

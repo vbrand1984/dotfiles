@@ -6,4 +6,28 @@
 #
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
+### Exporting variables ###
+
+### Firefox options ###
+
+export MOZ_WEBRENDER=1
+#export MOZ_X11_EGL=1
+export MOZ_ENABLE_WAYLAND=1
+
+### Graphical Gtk and Qt options ###
+
+export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# Turn off accessibility bus
+export NO_AT_BRIDGE=1
+
+# Do not hide scrollbars in Gtk applications
+# See: https://bbs.archlinux.org/viewtopic.php?id=196118
+# See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
+export GTK_OVERLAY_SCROLLING=0
+
+
+# Launch sway
 exec dbus-run-session -- sway
+

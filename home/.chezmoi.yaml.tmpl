@@ -346,6 +346,12 @@ data:
     # This affects several options in tint2 and conky configs
     autohidePanel: {@' default false (.misc.autohidePanel | not | not) '@}
 
+    # Idle timeouts before locking the screen and turning off the monitor
+    # In MINUTES, integer values
+    idle:
+      lockDelay: {@' default 6 .misc.idle.lockDelay | int '@}
+      poweroffDelay: {@' default 15 .misc.idle.poweroffDelay | int '@}
+
 # }}} (.misc)
 # {{{ .redShift: Redshift settings
 

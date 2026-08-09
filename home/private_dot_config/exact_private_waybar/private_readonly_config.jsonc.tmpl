@@ -1,27 +1,48 @@
+// chezmoi:template: left-delimiter={@' right-delimiter='@}
 {
+// {{{ Main thing
+
 	"layer": "top",
 	"mode": "dock",
 	"position": "top",
 	"height": 28,
 	"spacing": 3,
 	"reload_style_on_change": true,
-	"modules-left": ["sway/workspaces", "sway-mode"],
+	"modules-left": ["sway/workspaces", "sway/mode"],
 	"modules-center": [
 		"sway/window"
 	],
 	"modules-right": ["tray", "pulseaudio", "idle_inhibitor", "sway/language", "clock"],
 
+// }}}
+// {{{ sway/workspaces
+
 	"sway/workspaces": {
 		"format": "{name}",
 		"sort-by-number": true,
-		"on-click": "activate"
+		"on-click": "activate",
+		"cursor": false
 	},
+
+// }}}
+// {{{ sway/mode
+
+	"sway/mode": {
+		"format": " {}",
+		"cursor": false
+	},
+
+// }}}
+// {{{ sway/window
 
 	"sway/window": {
 		"format": "{}",
-		"max-length": 50,
+		"max-length": 80,
 		"separate-outputs": true
 	},
+
+// }}}
+// {{{ wlr/taskbar
 
 /*	"wlr/taskbar": {
 		"format": "{icon}{title}",
@@ -32,9 +53,15 @@
 		"on-click-middle": "close"
 	},*/
 
+// }}}
+// {{{ tray
+
 	"tray": {
 		"icon-size": 24
 	},
+
+// }}}
+// {{{ pulseaudio
 
 	"pulseaudio": {
 		"format": "{icon} {volume}%",
@@ -42,8 +69,16 @@
 			"default": ["\uf026", "\uf027", "\uf028"],
 			"default-muted": "\ueee8"
 		},
-		"min-length": 7
+		"on-scroll-up": {@' .cmd.volumeUp | quote '@},
+		"on-scroll-down": {@' .cmd.volumeDown | quote '@},
+		"on-click": "pavucontrol",
+		"on-click-right": {@' .cmd.volumeMute | quote '@},
+		"min-length": 7,
+		"cursor": false
 	},
+
+// }}}
+// {{{ idle_inhibitor
 
 	"idle_inhibitor": {
 		"format": "{icon}",
@@ -53,6 +88,9 @@
 		},
 		"cursor": false
 	},
+
+// }}}
+// {{{ sway/language
 
 	"sway/language": {
 		"format": "{}",
@@ -64,9 +102,14 @@
 		"min-lenght": 2
 	},
 
+// }}}
+// {{{ clock
+
 	"clock": {
 		"on-click": "gsimplecal",
 		"cursor": false,
 		"tooltip-format": "{:%A %e %B %Y}"
 	}
+
+// }}}
 }
