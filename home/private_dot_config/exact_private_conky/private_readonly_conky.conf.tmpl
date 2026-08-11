@@ -31,11 +31,14 @@ conky.config = {
 
 	--== Base window properties ==--
 	own_window				= true,
-	own_window_type			= 'normal',
+	own_window_type			= 'override',
 	own_window_class		= 'Conky',
 	own_window_hints		= 'undecorated,below,sticky,skip_taskbar,skip_pager',
 
 	--== Window geometry ==--
+	-- Alignment MUST be set to 'top_left' in wayland
+	-- That's because of a bug which breaks conky's goto command behaviour
+	-- See: https://github.com/brndnmtthws/conky/issues/1671
 	alignment				= 'tl',
 	gap_x					= 0,
 	gap_y					= 0,

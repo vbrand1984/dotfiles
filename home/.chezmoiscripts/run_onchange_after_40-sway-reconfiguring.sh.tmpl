@@ -1,0 +1,35 @@
+#!/bin/sh -e
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# Automatically reconfigure Sway if its configuration has been changed
+#
+
+{@'/* {{{ Include stuff */ -'@}
+
+{@'/* Include the ``print_message*'' functions */ -'@}
+{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
+
+{@'/* Print the name of this script */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+{@'/* }}} */ -'@}
+
+# Reconfiugre sway if it is running
+if pgrep --count '^sway$' 1>/dev/null 2>&1 ; then
+    print_message_no_linebreak "Reconfiguring Sway... "
+    swaymsg reload >/dev/null
+    print_message "Done."
+    {@' .cmd.notifier '@} --urgency=low --icon='openbox' "Sway reconfigured"
+else
+    print_message "Sway is not running. Doing nothing."
+fi
+
+{@'/* {{{ Include hash of the sway config file */ -'@}
+
+{@'/* Generate file list */ -'@}
+{@' $theList := list (joinPath .chezmoi.homeDir ".config/sway/config") -'@}
+
+{@'/* This template will include hashes for the files listed */ -'@}
+{@' includeTemplate .tmpl.listFileHashes $theList | comment "# " -'@}
+
+{@'- /* }}} */ -'@}

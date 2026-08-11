@@ -34,6 +34,8 @@
 {@'- $dirLuaModules := joinPath $dirLocalScripts "lua-modules" -'@}
 {@'- $dirObPipeMenus := joinPath $dirLocalScripts "openbox-pipemenus" -'@}
 {@'- $dirTmuxMenus := joinPath $dirLocalScripts "tmux-menus" -'@}
+{@'- $dirLocalBackgrounds := ".local/share/backgrounds" -'@}
+{@'- $dirBrandsBackgrounds := joinPath $dirLocalBackgrounds "brands-desktop-wallpapers" -'@}
 
 {@'- /* }}} (Local directories) */ -'@}
 {@'- /* {{{ Personal data initialization */ -'@}
@@ -206,7 +208,8 @@ data:
       roles: {@' joinPath $ansibleHomeDir "roles" | quote '@}
 
     desktop:
-      localBackgrounds: ".local/share/backgrounds"
+      localBackgrounds: {@' $dirLocalBackgrounds | quote '@}
+      brandsBackgrounds: {@' $dirBrandsBackgrounds | quote '@}
 
 # }}} (.dir)
 # {{{ .xdg: XDG user directories and their locale
@@ -335,22 +338,39 @@ data:
     obmenuIconSize: {@' default 24 .misc.obmenuIconSize | int '@}
     dunstIconSize: {@' default 48 .misc.dunstIconSize | int '@}
 
-    # Keyboard settings
-    kbdDelay: {@' default 200 .misc.kbdDelay | int '@}
-    kbdRepeat: {@' default 35 .misc.kbdRepeat | int '@}
-
     # Whether to autostart emacs daemon or not
     startEmacsDaemon: {@' default false (.misc.startEmacsDaemon | not | not) '@}
 
-    # Autohide desktop panel in Openbox
-    # This affects several options in tint2 and conky configs
-    autohidePanel: {@' default false (.misc.autohidePanel | not | not) '@}
+    # Desktop wallpaper and/or background color
+    background:
+
+      # Whether to use background image or not (if false, solid background color is used)
+      useImage: {@' default ($isBrandsPrivate | ternary true false) .misc.background.useImage | not | not '@}
+
+      {@' $defaultBackground := $isBrandsPrivate | ternary (joinPath .chezmoi.homeDir $dirBrandsBackgrounds "greek-warrior-1920x1080.jpg") "/dev/null" -'@}
+      # This MUST be an ABSOLUTE path (or an empty string)
+      imagePath: {@' default $defaultBackground .misc.background.imagePath | quote '@} 
+
+      # One of "stretch", "fill", "fit", "center", "tile"
+      imageMode: {@' default "fill" .misc.background.imageMode | quote '@}
+
+      # Background color to use when background image is not used
+      # Also is specified as <fallback_color> in sway background image settings
+      color: {@' default "#282828" .misc.background.color | quote '@}
 
     # Idle timeouts before locking the screen and turning off the monitor
     # In MINUTES, integer values
     idle:
       lockDelay: {@' default 6 .misc.idle.lockDelay | int '@}
       poweroffDelay: {@' default 15 .misc.idle.poweroffDelay | int '@}
+
+    # Keyboard settings
+    kbd:
+      layout: {@' default "us,ru" .misc.kbd.layout | quote '@}
+      variant: {@' default "," .misc.kbd.variant | quote '@}
+      options: {@' default "grp:alt_shift_toggle,grp_led:scroll,numpad:microsoft" .misc.kbd.options | quote '@}
+      delay: {@' default 200 .misc.kbd.delay | int '@}
+      repeat: {@' default 35 .misc.kbd.repeat | int '@}
 
 # }}} (.misc)
 # {{{ .redShift: Redshift settings

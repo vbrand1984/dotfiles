@@ -41,15 +41,15 @@
 
 {@' if .sys.isBrandsPrivate '@}
 # Victor Brand's personal wallpapers
-[{@' joinPath .dir.desktop.localBackgrounds "brands-desktop-wallpapers" | quote '@}]
+[{@' joinPath .dir.desktop.brandsBackgrounds | quote '@}]
 	type = "archive"
 	url = "https://drive.google.com/uc?export=download&id=1v1OQQq8HyKBEVGz4BO7tiJwacrc2_w2x"
 	format = "tar.zst"
 	stripComponents = 1
 	exact = true
 	include = ["brands-desktop-wallpapers/*"]
-	checksum.sha512 = "f03c0b707970a503398216ec7701cf445d1b280d7cc037489cd92b9b9b553e99d9922ec33aa5508510d7454de4f60f8100567636d6bb2df02d1888744fa09b54"
-	checksum.size = 1686856
+	checksum.sha512 = "fd0fa4cc92314d44006c4f1a33323fdd20d5df7abbfbe05f6c56ef51cbbd2d8002d0603b3cef41ccd0603afb76dcd9a1199919e05cc00d5520dcadd94830f86d"
+	checksum.size = 2682067
 	refreshPeriod = "1680h"
 {@' end '@}
 

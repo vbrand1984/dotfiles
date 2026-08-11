@@ -85,7 +85,7 @@ window#waybar {
 
 #language {
 	font-size: 13pt;
-	font-family: "JetBrains Mono NL Nerd Font Mono", monospace;
+	font-family: "JetBrainsMonoNL Nerd Font Mono", monospace;
 	font-weight: bold;
 	font-feature-settings: "tnum";
 	color: #dbd7d2;

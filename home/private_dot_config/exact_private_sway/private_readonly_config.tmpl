@@ -1,4 +1,4 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@ right-delimiter=@}
 # Read `man 5 sway` for a complete reference.
 
 # {{{ Variables
@@ -23,19 +23,20 @@ set $menu wofi --show run
 set $dmenu wofi --show drun
 
 # Sound volume commands
-set $cmd_volume_up {@' .cmd.volumeUp '@}
-set $cmd_volume_down {@' .cmd.volumeDown '@}
-set $cmd_volume_mute_toggle {@' .cmd.volumeMute '@}
+set $cmd_volume_up {@ .cmd.volumeUp @}
+set $cmd_volume_down {@ .cmd.volumeDown @}
+set $cmd_volume_mute_toggle {@ .cmd.volumeMute @}
 
 # }}} (Variables)
-# {{{ Output configuration
+# {{{ Various settings
 
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-#output HDMI-A-1 {
-#	 resolution 1920x1080
-#	 #bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#}
-#output * bg /usr/share/backgrounds/Hercules.png fill
+# Desktop background
+{@ if and .misc.background.useImage (ne .misc.background.imagePath "/dev/null") (stat .misc.background.imagePath) (lookPath "swaybg") -@}
+output * bg {@ .misc.background.imagePath | quote @} {@ .misc.background.imageMode @} {@ .misc.background.color | quote @} 
+{@- else -@}
+output * bg {@ .misc.background.color | quote @} solid_color
+{@- end @}
+
 #
 # Example configuration:
 #
@@ -43,35 +44,27 @@ set $cmd_volume_mute_toggle {@' .cmd.volumeMute '@}
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
+# Various stuff
 focus_follows_mouse no
+workspace_layout tabbed
 
-# }}}
-# {{{ Input configuration
-
+# Keyboard layout and configuration
 input "type:keyboard" {
-	xkb_layout "us,ru"
-	xkb_variant ","
-	xkb_options "grp:alt_shift_toggle,grp_led:scroll,numpad:microsoft"
-	repeat_delay 200
-	repeat_rate 35
+	xkb_layout {@ .misc.kbd.layout | quote @} 
+	xkb_variant {@ .misc.kbd.variant | quote @}
+	xkb_options {@ .misc.kbd.options | quote @}
+	repeat_delay {@ .misc.kbd.delay | int @}
+	repeat_rate {@ .misc.kbd.repeat | int @} 
 }
 
 # }}}
 # {{{ Autostart
 
-exec_always dbus-update-activation-environment {@' if .sys.hasSystemd -'@} --systemd {@' end -'@} XDG_SESSION_TYPE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# Update environment variables
+exec_always dbus-update-activation-environment {@ if .sys.hasSystemd -@} --systemd {@ end -@} XDG_SESSION_TYPE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
+# Desktop Portal
 exec --no-startup-id /usr/libexec/xdg-desktop-portal -r
-
-# Desktop wallpaper
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/Heracles-2500x1406.jpeg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/clay-banks-fuji.jpg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/greek-warrior.jpg -m fill
-exec_always swaybg -i /home/victor/.local/share/backgrounds/greek-brawler.jpg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/nature-sepia-1920x1200.jpg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/Forest-Railway.jpg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/saturn-1920x1080.jpg -m fill
-#exec_always swaybg -i /home/victor/.local/share/backgrounds/brands-desktop-wallpapers/canova-cupid-and-psyche-1920x1080.jpg -m fill
 
 # Gammastep: Redshift alternative for wayland
 exec gammastep-indicator
@@ -85,7 +78,7 @@ exec swaykbdd
 exec swayosd-server
 
 # Conky system monitor
-exec sleep 1 && conky -p {@' int .conky.startupDelay '@} -d
+exec sleep 1 && conky -p {@ int .conky.startupDelay @} -d
 
 #exec dunst
 
@@ -98,16 +91,16 @@ exec sleep 1 && conky -p {@' int .conky.startupDelay '@} -d
 # https://github.com/swaywm/sway/issues/8342
 #
 # This is a temporary solution for that:
-seat * hide_cursor {@' mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int '@}
+seat * hide_cursor {@ mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int @}
 
 # The command to lock the screen
 set $lock swaylock -f -c 000000
 
 # Idle configuration
 exec swayidle -w \
-	timeout {@' mul .misc.idle.lockDelay 60 | int '@} '$lock' \
-	timeout {@' mul .misc.idle.poweroffDelay 60 | int '@} 'swaymsg "output * power off"' \
-	   	resume 'swaymsg "output * power on"; /bin/sh {@' joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" '@}; sleep 1; swaymsg focus' \
+	timeout {@ mul .misc.idle.lockDelay 60 | int @} '$lock' \
+	timeout {@ mul .misc.idle.poweroffDelay 60 | int @} 'swaymsg "output * power off"' \
+	   	resume 'swaymsg "output * power on"; /bin/sh {@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @}; sleep 1; swaymsg focus' \
 	before-sleep '$lock'
 
 # }}} (Idle configuration)
@@ -115,7 +108,7 @@ exec swayidle -w \
 # {{{ Basics
 
 	# Start a terminal
-	bindsym $mod+Ctrl+t exec $term -e {@' joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" '@}
+	bindsym $mod+Ctrl+t exec $term -e {@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @}
 
 	# Kill focused window
 	bindsym --to-code $mod+q kill
@@ -132,9 +125,9 @@ exec swayidle -w \
 	floating_modifier $mod normal
 
 	# Reload the configuration file
-	bindsym $mod+Shift+c reload, exec notify-send --icon='openbox' 'Sway config reloaded'
+	bindsym $mod+Shift+c reload, exec notify-send --urgency=low --icon='openbox' 'Sway config reloaded'
 
-	bindsym $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send 'Waybar config reloaded'
+	bindsym $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --urgency=low 'Waybar config reloaded'
 
 	# Exit sway (logs you out of your Wayland session)
 	bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -286,8 +279,6 @@ bindsym $mod+r mode "resize"
 # }}} (Key bindings)
 # {{{ Application rules
 
-workspace_layout tabbed
-
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
 
@@ -303,32 +294,44 @@ font pango: DejaVu Sans Condensed 11
 
 # Window title configuration
 title_align left
-#for_window [title="."] title_format "<b>%title</b>"
 for_window [title="."] title_format "󰣆 <b>%title</b>"
+
+# Browsers
 for_window [app_id="firefox-esr"] title_format "󰈹 <b>%title</b>"
 for_window [app_id="chrom*"] title_format " <b>%title</b>"
-for_window [app_id="vivaldi"] title_format " <b>%title</b>"
+for_window [app_id="vivaldi"] title_format " <b>%title</b>"
+
+# Terminal emulators
 for_window [app_id="Alacritty"] title_format " <b>%title</b>"
 for_window [app_id="deadbeef"] title_format "󰝚 <b>%title</b>"
 for_window [app_id="telegram"] title_format " <b>%title</b>"
 
+# Image viewers
+for_window [app_id="eom"] title_format " <b>%title</b>"
+for_window [app_id="geeqie"] title_format " <b>%title</b>"
+
+# File managers
+for_window [class="Caja"] title_format " <b>%title</b>"
+
+# Varia
+for_window [app_id="emacs"] title_format " <b>%title</b>"
+
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
-	gsettings set $gnome-schema gtk-theme {@' .gtk.themeName | squote '@}
-	gsettings set $gnome-schema icon-theme {@' .gtk.iconTheme | squote '@}
-	gsettings set $gnome-schema cursor-theme {@' .gtk.cursorTheme | squote '@}
-	gsettings set $gnome-schema cursor-size {@' int .gtk.cursorSize '@}
-	gsettings set $gnome-schema font-name {@' cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote '@}
+	gsettings set $gnome-schema gtk-theme {@ .gtk.themeName | squote @}
+	gsettings set $gnome-schema icon-theme {@ .gtk.iconTheme | squote @}
+	gsettings set $gnome-schema cursor-theme {@ .gtk.cursorTheme | squote @}
+	gsettings set $gnome-schema cursor-size {@ int .gtk.cursorSize @}
+	gsettings set $gnome-schema font-name {@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @}
 }
 
 hide_edge_borders smart
-smart_borders on
+#smart_borders on
 
 # Status Bar:
 bar {
 	swaybar_command waybar
-	icon_theme Papirus-Light
 }
 
 # }}} (Theme setup)
@@ -350,3 +353,4 @@ client.focused			$border_color	$selected_bg	$selected_fg	#7b7a7a		#7f7e7d
 # }}}
 
 include /etc/sway/config.d/*
+
