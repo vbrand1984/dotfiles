@@ -56,7 +56,7 @@
 # }}}
 # {{{ Fonts
 
-# JetBrainsMonoNL and Ubuntu Nerd Font Propo fonts
+# JetBrainsMonoNL and Ubuntu Nerd Font fonts
 [".local/share/fonts/nerd-fonts"]
 	type = "archive"
 	url = "https://drive.google.com/uc?export=download&id=1v9Wldc35JyORC_IADhoTyCM3R1n009bB"
@@ -64,8 +64,8 @@
 	stripComponents = 1
 	exact = true
 	include = ["nerd-fonts/*.ttf"]
-	checksum.sha512 = "fb46cc27f4e734d628cb5967799f1019c5c352359f9dc531fd00e7974a992230c20fad9bd2c944cfb54e3854ee4583f719b9ee8b814b48e58b51deb371afa648"
-	checksum.size = 3896650
+	checksum.sha512 = "68c85773eba99d55794d016cb8bc24f937e3e179fa43912ab8f067c3f3eaefa2cea3b6431323d4b8373b32f9901bb8f166e2eb7119039e21170adb471855ed38"
+	checksum.size = 5253639
 	refreshPeriod = "1680h"
 
 # MS fonts
@@ -96,7 +96,8 @@
 {@' if .sys.isDebBased '@}
 
 # deadbeef package
-{@' $deadbeefFileName := (printf .app.version.deadbeef.filenamePattern .app.version.deadbeef.ver .app.version.deadbeef.build) '@}
+#{@' $deadbeefFileName := (printf .app.version.deadbeef.filenamePattern .app.version.deadbeef.ver .app.version.deadbeef.build) '@}
+# https://sourceforge.net/projects/deadbeef/files/Builds/1.10.2/linux/deadbeef-static_1.10.2-1_amd64.deb/download
 [{@' joinPath .dir.downloadedDeb $deadbeefFileName | quote '@}]
 	type= "file"
 	url = "https://sourceforge.net/projects/deadbeef/files/Builds/{@' .app.version.deadbeef.ver '@}/linux/{@' $deadbeefFileName '@}/download"

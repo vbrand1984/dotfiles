@@ -1,11 +1,13 @@
 // chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "// " '@}
+
 {
 // {{{ Main thing
 
 	"layer": "top",
 	"mode": "dock",
 	"position": "top",
-	"height": 28,
+	"height": 29,
 	"spacing": 3,
 	"reload_style_on_change": true,
 	"modules-left": ["sway/workspaces", "sway/mode"],
@@ -38,6 +40,7 @@
 	"sway/window": {
 		"format": "{}",
 		"max-length": 80,
+		"icon": true,
 		"separate-outputs": true
 	},
 

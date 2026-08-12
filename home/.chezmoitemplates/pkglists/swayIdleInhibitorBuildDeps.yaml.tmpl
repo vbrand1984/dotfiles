@@ -1,0 +1,15 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if .sys.isDebBased -'@}
+---
+deps:
+  - meson
+build:
+  {@' if .sys.hasSystemd -'@}
+  - libsystemd-dev
+  {@'- else -'@}
+  - libelogind-dev
+  {@'- end '@}
+  - libpulse-dev
+  - pkgconf
+...
+{@'- end -'@}

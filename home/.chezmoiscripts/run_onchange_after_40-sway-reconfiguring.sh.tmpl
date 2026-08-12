@@ -17,9 +17,12 @@
 # Reconfiugre sway if it is running
 if pgrep --count '^sway$' 1>/dev/null 2>&1 ; then
     print_message_no_linebreak "Reconfiguring Sway... "
-    swaymsg reload >/dev/null
-    print_message "Done."
-    {@' .cmd.notifier '@} --urgency=low --icon='openbox' "Sway reconfigured"
+    if swaymsg reload >/dev/null ; then
+		print_message "Done."
+		{@' .cmd.notifier '@} --urgency=low --icon='openbox' "Sway reconfigured"
+	else
+		print_message "Error! Couldn't reconfigure sway."
+	fi
 else
     print_message "Sway is not running. Doing nothing."
 fi

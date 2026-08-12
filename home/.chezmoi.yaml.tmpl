@@ -85,6 +85,11 @@
 {@' end -'@}
 
 {@'- /* }}} (Automatic system detection) */ -'@}
+{@'- /* {{{ Varia */ -'@}
+
+{@'- $fontJetBrainsMono := "JetBrainsMonoNL Nerd Font Mono" -'@}
+
+{@'- /* }}} (Varia) */ -'@}
 
 {@'- writeToStdout "Initializing chezmoi...\n" -'@}
 
@@ -316,23 +321,22 @@ data:
     ansible:
       become: {@' $ansibleBecome | quote '@}
 
-# }}} (.xdg)
-# {{{ .misc: (Miscellaneous settings for desktop)
-
-  misc:
-
-    {@' $defaultTerminalFontFamily := $sysIsVoid | ternary "JetBrainsMonoNL Nerd Font Mono" "JetBrains Mono" -'@}
     {@' $defaultTerminalFontSize := $sysHasSmallScreen | ternary "12.5" "13.5" -'@}
     # Terminal settings
     terminal:
       font:
-        family: {@' default $defaultTerminalFontFamily .misc.terminal.font.family | quote '@}
-        size: {@' default $defaultTerminalFontSize .misc.terminal.font.size | quote '@}
+        family: {@' default $fontJetBrainsMono .app.terminal.font.family | quote '@}
+        size: {@' default $defaultTerminalFontSize .app.terminal.font.size | quote '@}
         weight:
-          normal: {@' default "Medium" .misc.terminal.font.weight.normal | quote '@}
-          bold: {@' default "ExtraBold" .misc.terminal.font.weight.bold | quote '@}
-          boldItalic: {@' default "ExtraBold Italic" .misc.terminal.font.weight.boldItalic | quote '@}
-          italic: {@' default "Medium Italic" .misc.terminal.font.weight.italic | quote '@}
+          normal: {@' default "Medium" .app.terminal.font.weight.normal | quote '@}
+          bold: {@' default "ExtraBold" .app.terminal.font.weight.bold | quote '@}
+          boldItalic: {@' default "ExtraBold Italic" .app.terminal.font.weight.boldItalic | quote '@}
+          italic: {@' default "Medium Italic" .app.terminal.font.weight.italic | quote '@}
+
+# }}} (.xdg)
+# {{{ .misc: (Miscellaneous settings for desktop)
+
+  misc:
 
     # Icon sizes for various applications
     obmenuIconSize: {@' default 24 .misc.obmenuIconSize | int '@}
@@ -340,6 +344,9 @@ data:
 
     # Whether to autostart emacs daemon or not
     startEmacsDaemon: {@' default false (.misc.startEmacsDaemon | not | not) '@}
+
+    # This font is so good
+    fontJetBrainsMono: {@' $fontJetBrainsMono | quote '@}
 
     # Desktop wallpaper and/or background color
     background:

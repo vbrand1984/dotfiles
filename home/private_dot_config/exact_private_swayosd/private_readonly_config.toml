@@ -1,0 +1,16 @@
+[server]
+## style file for the OSD
+# style = "/etc/xdg/swayosd/style.css"
+
+## on which height to show the OSD
+# top_margin = 0.85
+
+## The maximum volume that can be reached in %
+max_volume = 100
+
+## The minimum brightness that can be reached in %
+# min_brightness = 5
+
+## show percentage on the right of the OSD
+show_percentage = true
+

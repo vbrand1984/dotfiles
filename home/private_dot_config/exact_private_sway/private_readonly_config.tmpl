@@ -1,4 +1,6 @@
-# chezmoi:template: left-delimiter={@ right-delimiter=@}
+# chezmoi:template: left-delimiter=[@ right-delimiter=@]
+[@ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @]
+#
 # Read `man 5 sway` for a complete reference.
 
 # {{{ Variables
@@ -13,7 +15,7 @@ set $up k
 set $right l
 
 # Default terminal emulator
-set $term alacritty
+set $term [@ .cmd.terminalEmulator | quote @]
 
 # Preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -23,19 +25,19 @@ set $menu wofi --show run
 set $dmenu wofi --show drun
 
 # Sound volume commands
-set $cmd_volume_up {@ .cmd.volumeUp @}
-set $cmd_volume_down {@ .cmd.volumeDown @}
-set $cmd_volume_mute_toggle {@ .cmd.volumeMute @}
+set $cmd_volume_up [@ .cmd.volumeUp @]
+set $cmd_volume_down [@ .cmd.volumeDown @]
+set $cmd_volume_mute_toggle [@ .cmd.volumeMute @]
 
 # }}} (Variables)
 # {{{ Various settings
 
 # Desktop background
-{@ if and .misc.background.useImage (ne .misc.background.imagePath "/dev/null") (stat .misc.background.imagePath) (lookPath "swaybg") -@}
-output * bg {@ .misc.background.imagePath | quote @} {@ .misc.background.imageMode @} {@ .misc.background.color | quote @} 
-{@- else -@}
-output * bg {@ .misc.background.color | quote @} solid_color
-{@- end @}
+[@ if and .misc.background.useImage (ne .misc.background.imagePath "/dev/null") (stat .misc.background.imagePath) (lookPath "swaybg") -@]
+output * bg [@ .misc.background.imagePath | quote @] [@ .misc.background.imageMode @] [@ .misc.background.color | quote @] 
+[@- else -@]
+output * bg [@ .misc.background.color | quote @] solid_color
+[@- end @]
 
 #
 # Example configuration:
@@ -50,18 +52,18 @@ workspace_layout tabbed
 
 # Keyboard layout and configuration
 input "type:keyboard" {
-	xkb_layout {@ .misc.kbd.layout | quote @} 
-	xkb_variant {@ .misc.kbd.variant | quote @}
-	xkb_options {@ .misc.kbd.options | quote @}
-	repeat_delay {@ .misc.kbd.delay | int @}
-	repeat_rate {@ .misc.kbd.repeat | int @} 
+	xkb_layout [@ .misc.kbd.layout | quote @] 
+	xkb_variant [@ .misc.kbd.variant | quote @]
+	xkb_options [@ .misc.kbd.options | quote @]
+	repeat_delay [@ .misc.kbd.delay | int @]
+	repeat_rate [@ .misc.kbd.repeat | int @] 
 }
 
 # }}}
 # {{{ Autostart
 
 # Update environment variables
-exec_always dbus-update-activation-environment {@ if .sys.hasSystemd -@} --systemd {@ end -@} XDG_SESSION_TYPE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 
 # Desktop Portal
 exec --no-startup-id /usr/libexec/xdg-desktop-portal -r
@@ -75,10 +77,10 @@ exec nm-applet --indicator
 # Per-window keyboard layout
 exec swaykbdd
 
-exec swayosd-server
+exec swayosd-server >/dev/null 2>&1
 
 # Conky system monitor
-exec sleep 1 && conky -p {@ int .conky.startupDelay @} -d
+exec sleep 1 && conky -p [@ int .conky.startupDelay @] -d
 
 #exec dunst
 
@@ -91,16 +93,16 @@ exec sleep 1 && conky -p {@ int .conky.startupDelay @} -d
 # https://github.com/swaywm/sway/issues/8342
 #
 # This is a temporary solution for that:
-seat * hide_cursor {@ mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int @}
+seat * hide_cursor [@ mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int @]
 
 # The command to lock the screen
 set $lock swaylock -f -c 000000
 
 # Idle configuration
 exec swayidle -w \
-	timeout {@ mul .misc.idle.lockDelay 60 | int @} '$lock' \
-	timeout {@ mul .misc.idle.poweroffDelay 60 | int @} 'swaymsg "output * power off"' \
-	   	resume 'swaymsg "output * power on"; /bin/sh {@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @}; sleep 1; swaymsg focus' \
+	timeout [@ mul .misc.idle.lockDelay 60 | int @] '$lock' \
+	timeout [@ mul .misc.idle.poweroffDelay 60 | int @] 'swaymsg "output * power off"' \
+	   	resume 'swaymsg "output * power on"; /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @]; sleep 1; swaymsg focus' \
 	before-sleep '$lock'
 
 # }}} (Idle configuration)
@@ -108,7 +110,7 @@ exec swayidle -w \
 # {{{ Basics
 
 	# Start a terminal
-	bindsym $mod+Ctrl+t exec $term -e {@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @}
+	bindsym $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @]
 
 	# Kill focused window
 	bindsym --to-code $mod+q kill
@@ -155,61 +157,67 @@ bindsym XF86AudioMute exec $cmd_volume_mute_toggle
 # }}}
 # {{{ Moving around
 
-	# Move your focus around
-	bindsym --to-code {
-		$mod+$left focus left
-		$mod+$down focus down
-		$mod+$up focus up
-		$mod+$right focus right
-	}
-	# Or use $mod+[up|down|left|right]
-	bindsym $mod+Left focus left
-	bindsym $mod+Down focus down
-	bindsym $mod+Up focus up
-	bindsym $mod+Right focus right
+# Move your focus around
+bindsym --to-code {
+	$mod+$left focus left
+	$mod+$down focus down
+	$mod+$up focus up
+	$mod+$right focus right
+}
 
-	# Move the focused window with the same, but add Shift
-	bindsym --to-code {
-		$mod+Shift+$left move left
-		$mod+Shift+$down move down
-		$mod+Shift+$up move up
-		$mod+Shift+$right move right
-	}
-	# Ditto, with arrow keys
-	bindsym $mod+Shift+Left move left
-	bindsym $mod+Shift+Down move down
-	bindsym $mod+Shift+Up move up
-	bindsym $mod+Shift+Right move right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym --to-code {
+	$mod+Shift+$left move left
+	$mod+Shift+$down move down
+	$mod+Shift+$up move up
+	$mod+Shift+$right move right
+}
+
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
 # }}}
 # {{{ Workspaces
 
-	# Switch to workspace
-	bindsym $mod+1 workspace number 1
-	bindsym $mod+2 workspace number 2
-	bindsym $mod+3 workspace number 3
-	bindsym $mod+4 workspace number 4
-	bindsym $mod+5 workspace number 5
-	bindsym $mod+6 workspace number 6
-	bindsym $mod+7 workspace number 7
-	bindsym $mod+8 workspace number 8
-	bindsym $mod+9 workspace number 9
-	bindsym $mod+0 workspace number 10
-	# Move focused container to workspace
-	bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
-	bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
-	bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
-	bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
-	bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
-	bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
-	bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
-	bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
-	bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
-	bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
-	# Note: workspaces can have any name you want, not just numbers.
-	# We just use 1-10 as the default.
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 
-	bindsym $mod+Shift+Tab workspace back_and_forth
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+
+bindsym $mod+Ctrl+Left move container to workspace prev, workspace prev
+bindsym $mod+Ctrl+Right move container to workspace next, workspace next
+
+bindsym $mod+Shift+Tab workspace back_and_forth
 
 # }}}
 # {{{ Layout stuff
@@ -288,30 +296,44 @@ for_window [window_type="dialog"] floating enable, border normal
 # }}} (Theme setup)
 # {{{ Theme setup
 
-font pango: DejaVu Sans Condensed 11
-#font pango: Ubuntu Nerd Font Regular 12
-#\udb80\ude39
+#font pango: DejaVu Sans Condensed 11
+font pango: Ubuntu Nerd Font 12
 
 # Window title configuration
+titlebar_padding 5 3
 title_align left
-for_window [title="."] title_format "󰣆 <b>%title</b>"
+for_window [title="."] title_format "󰣆 <b>%title</b> %app_id"
 
 # Browsers
-for_window [app_id="firefox-esr"] title_format "󰈹 <b>%title</b>"
-for_window [app_id="chrom*"] title_format " <b>%title</b>"
-for_window [app_id="vivaldi"] title_format " <b>%title</b>"
+for_window [app_id="firefox-esr"] {
+	title_format "<span color='#ff7f1f'>󰈹</span> <b>%title</b>"
+	inhibit_idle fullscreen
+}
+for_window [app_id="chrom*"] title_format "<span color='#6199f6'></span> <b>%title</b>"
+for_window [app_id="chrom*"] inhibit_idle fullscreen
+for_window [app_id="vivaldi"] title_format "<span color='#ef3939'>󰕷</span> <b>%title</b>"
+for_window [app_id="vivaldi"] inhibit_idle fullscreen
 
 # Terminal emulators
 for_window [app_id="Alacritty"] title_format " <b>%title</b>"
+
+# Office
+for_window [app_id="libreoffice-writer"] title_format "<span color='#1b83d4'></span> <b>%title</b>"
+for_window [app_id="libreoffice-calc"] title_format "<span color='#4ba425'></span> <b>%title</b>"
+
+# Varia
 for_window [app_id="deadbeef"] title_format "󰝚 <b>%title</b>"
-for_window [app_id="telegram"] title_format " <b>%title</b>"
+for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> <b>%title</b>"
 
 # Image viewers
 for_window [app_id="eom"] title_format " <b>%title</b>"
 for_window [app_id="geeqie"] title_format " <b>%title</b>"
 
+# Image editors
+for_window [app_id="gimp"] title_format "<span color='#e99012'></span> <b>%title</b>"
+
 # File managers
-for_window [class="Caja"] title_format " <b>%title</b>"
+for_window [class="Caja"] title_format "<span color='#eeca8f'></span> <b>%title</b>"
 
 # Varia
 for_window [app_id="emacs"] title_format " <b>%title</b>"
@@ -319,11 +341,11 @@ for_window [app_id="emacs"] title_format " <b>%title</b>"
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
-	gsettings set $gnome-schema gtk-theme {@ .gtk.themeName | squote @}
-	gsettings set $gnome-schema icon-theme {@ .gtk.iconTheme | squote @}
-	gsettings set $gnome-schema cursor-theme {@ .gtk.cursorTheme | squote @}
-	gsettings set $gnome-schema cursor-size {@ int .gtk.cursorSize @}
-	gsettings set $gnome-schema font-name {@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @}
+	gsettings set $gnome-schema gtk-theme [@ .gtk.themeName | squote @]
+	gsettings set $gnome-schema icon-theme [@ .gtk.iconTheme | squote @]
+	gsettings set $gnome-schema cursor-theme [@ .gtk.cursorTheme | squote @]
+	gsettings set $gnome-schema cursor-size [@ int .gtk.cursorSize @]
+	gsettings set $gnome-schema font-name [@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @]
 }
 
 hide_edge_borders smart
@@ -338,9 +360,20 @@ bar {
 # {{{ Color scheme
 
 #set $selected_fg #f5f3ef
-set $selected_fg #f0ede5
+#set $selected_fg #f0ede5
+set $selected_fg #dbd7d2
+
 #set $selected_bg #858483
-set $selected_bg #757474
+
+#set $selected_bg #7b756b
+#set $selected_bg #625c53
+#set $selected_bg #4f4c48
+#set $selected_bg #4a453c
+
+#set $selected_bg #757474
+set $selected_bg #545352
+#set $selected_bg #464544
+#set $selected_bg #4b4844
 
 # 7a7774
 set $border_color #656261
@@ -349,6 +382,28 @@ set $border_color #656261
 
 # class					border			bground			text			indicator	child_border
 client.focused			$border_color	$selected_bg	$selected_fg	#7b7a7a		#7f7e7d
+client.unfocused		#2a3b33			#252321			#8b8589			#3b5b4c		#1a2a22
+client.focused_inactive	#2a3b33			#252321			#8b8589			#3b5b4c		#1a2a22
+
+### Window Colors – Chameleon Grove Green Palette
+# -------------------------
+# Active window
+#client.focused #57886C #334d3f #FFFFFF #57886C #334d3f
+#
+## Inactive window
+#client.focused_inactive #334d3f #1a2a22 #CCCCCC #445c4e #1a2a22
+#
+## Visible but unfocused
+#client.unfocused #2a3b33 #1a2a22 #AAAAAA #3b5b4c #1a2a22
+#
+## Urgent window
+#client.urgent #78bfa1 #445c4e #FFFFFF #78bfa1 #334d3f
+#
+## Split container placeholders
+#client.placeholder #445c4e #1a2a22 #AAAAAA #445c4e #1a2a22
+#
+## Background / special tagged windows
+#client.background #1a2a22 #1a2a22 #888888 #1a2a22 #1a2a22
 
 # }}}
 

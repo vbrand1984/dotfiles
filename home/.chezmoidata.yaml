@@ -37,11 +37,11 @@ app:
     # and installed via Ansible.
     # See also: .chezmoiexternals.toml.tmpl
     deadbeef:
-      ver: '1.10.2'
+      ver: '1.10.3'
       build: '1'
-      filenamePattern: 'deadbeef-static_%s-%s_amd64.deb' 
-      sha512: 'b02408d837e3cecb9ac27b545e8f6c9258d06c1fe01d93e01bd6d5a4dca1670fe86210aa61edec097a9de95b519c9b73456b66eb32ea6eab8d2276e345ae94c1'
-      size: 11744488
+      filenamePattern: 'deadbeef-static_%s-%s_amd64.deb'
+      sha512: '383a75e396e92c13f9352082093ed351984af13aee46793d8df20b381af474fc32b3314fa4b72713e800ac43b7f1bfb48c034dde182c00318ea05b823a90d727'
+      size: 11856668
 
     # In deb-based distros, .deb installer for papirus-folders will be downloaded from here:
     # https://deadbeef.sourceforge.io/download.html
