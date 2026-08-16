@@ -6,3 +6,6 @@ configuration {
 	cache-dir: {{ joinPath .chezmoi.homeDir .dir.localCache "rofi" | quote }};
 }
 @theme {{ .rofi.theme | quote }}
+window {
+	border-radius: 10px;
+}

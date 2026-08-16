@@ -1,7 +1,7 @@
 {{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 #
 
-{{ $params := includeTemplate .tmpl.chromiumFlags (dict "app" "vivaldi" "userid" .chezmoi.uid) | fromYaml | join " " -}}
+{{ $params := includeTemplate .tmpl.chromiumFlags (dict "app" "vivaldi" "userid" .chezmoi.uid "useWayland" .misc.useWayland) | fromYaml | join " " -}}
 
 # Options were added to make vivaldi keep its cache in $XDG_RUNTIME_DIR and use hardware video acceleration
 [Desktop Entry]

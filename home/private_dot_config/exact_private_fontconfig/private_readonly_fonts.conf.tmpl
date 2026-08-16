@@ -115,6 +115,11 @@
 	</alias>
 
 	<alias binding="strong">
+		<family>Ubuntu Nerd Font</family>
+		<default><family>sans-serif</family></default>
+	</alias>
+
+	<alias binding="strong">
 		<family>Ubuntu Nerd Font Propo</family>
 		<default><family>sans-serif</family></default>
 	</alias>
@@ -127,10 +132,11 @@
 	<alias binding="strong">
 		<family>sans-serif</family>
 		<prefer>
-			<family>Ubuntu Nerd Font Propo</family>
+			<family>Ubuntu Nerd Font</family>
 			<family>Segoe UI</family>
 			<family>Roboto</family>
 			<family>Ubuntu</family>
+			<family>Ubuntu Nerd Font Propo</family>
 			<family>PT Sans</family>
 			<family>PT Astra Sans</family>
 			<family>Golos Text</family>
@@ -248,7 +254,17 @@
 <!-- {{{ Set full hinting for JetBrains Mono (on) -->
 
 	<match target="font">
-		<test name="family" compare="contains"><string>JetBrains Mono</string></test>
+		<test name="family" compare="contains"><string>JetBrains</string></test>
+		<edit name="autohint" mode="assign"><bool>false</bool></edit>
+		<edit name="hinting" mode="assign"><bool>true</bool></edit>
+		<edit name="hintstyle" mode="assign"><const>hintfull</const></edit>
+	</match>
+
+<!-- }}} -->
+<!-- {{{ Set full hinting for Ubuntu Nerd Font (on) -->
+
+	<match target="font">
+		<test name="family" compare="contains"><string>Ubuntu Nerd Font</string></test>
 		<edit name="autohint" mode="assign"><bool>false</bool></edit>
 		<edit name="hinting" mode="assign"><bool>true</bool></edit>
 		<edit name="hintstyle" mode="assign"><const>hintfull</const></edit>

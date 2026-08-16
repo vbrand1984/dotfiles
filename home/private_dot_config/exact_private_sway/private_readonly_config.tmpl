@@ -21,8 +21,10 @@ set $term [@ .cmd.terminalEmulator | quote @]
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu wofi --show run
-set $dmenu wofi --show drun
+#set $menu wofi --show run
+#set $dmenu wofi --show drun
+set $menu [@ cat .cmd.startRofi "run" @]
+set $dmenu [@ cat .cmd.startRofi "drun" @]
 
 # Sound volume commands
 set $cmd_volume_up [@ .cmd.volumeUp @]
@@ -66,7 +68,7 @@ input "type:keyboard" {
 exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 
 # Desktop Portal
-exec --no-startup-id /usr/libexec/xdg-desktop-portal -r
+exec_always /usr/libexec/xdg-desktop-portal -r
 
 # Gammastep: Redshift alternative for wayland
 exec gammastep-indicator
@@ -81,6 +83,12 @@ exec swayosd-server >/dev/null 2>&1
 
 # Conky system monitor
 exec sleep 1 && conky -p [@ int .conky.startupDelay @] -d
+
+# Udiskie
+exec udiskie --smart-tray --notify --automount
+
+# Clipboard manager
+exec CLIPBOARD_STATE=sensitive wl-paste --watch cliphist store
 
 #exec dunst
 
@@ -102,40 +110,43 @@ set $lock swaylock -f -c 000000
 exec swayidle -w \
 	timeout [@ mul .misc.idle.lockDelay 60 | int @] '$lock' \
 	timeout [@ mul .misc.idle.poweroffDelay 60 | int @] 'swaymsg "output * power off"' \
-	   	resume 'swaymsg "output * power on"; /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @]; sleep 1; swaymsg focus' \
+		resume 'swaymsg "output * power on"; /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @]; sleep 1; swaymsg focus' \
 	before-sleep '$lock'
 
 # }}} (Idle configuration)
 # {{{ Key bindings
 # {{{ Basics
 
-	# Start a terminal
-	bindsym $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @]
+# Kill focused window
+bindsym --to-code $mod+q kill
 
-	# Kill focused window
-	bindsym --to-code $mod+q kill
+# Start your launcher
+bindsym $mod+Return exec $menu
+bindsym $mod+Shift+Return exec $dmenu
 
-	# Start your launcher
-	bindsym $mod+Return exec $menu
-	bindsym $mod+Shift+Return exec $dmenu
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
 
-	# Drag floating windows by holding down $mod and left mouse button.
-	# Resize them with right mouse button + $mod.
-	# Despite the name, also works for non-floating windows.
-	# Change normal to inverse to use left mouse button for resizing and right
-	# mouse button for dragging.
-	floating_modifier $mod normal
+# Reload the configuration file
+bindsym --to-code $mod+Shift+c reload, exec notify-send --urgency=low --icon='openbox' 'Sway config reloaded'
 
-	# Reload the configuration file
-	bindsym $mod+Shift+c reload, exec notify-send --urgency=low --icon='openbox' 'Sway config reloaded'
+bindsym --to-code $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --urgency=low 'Waybar config reloaded'
 
-	bindsym $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --urgency=low 'Waybar config reloaded'
+# Exit sway (logs you out of your Wayland session)
+bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-	# Exit sway (logs you out of your Wayland session)
-	bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+# }}}
+# {{{ Applications
 
+# Default browser: Firefox
+bindsym --to-code $mod+Ctrl+b exec firefox-esr
 
-	bindsym $mod+Ctrl+b exec env MOZ_X11_EGL=0 MOZ_ENABLE_WAYLAND=1 firefox
+# Start a terminal
+bindsym --to-code $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @]
 
 # }}}
 # {{{ Volume control
@@ -220,30 +231,36 @@ bindsym $mod+Ctrl+Right move container to workspace next, workspace next
 bindsym $mod+Shift+Tab workspace back_and_forth
 
 # }}}
-# {{{ Layout stuff
+# {{{ Layout control
 #
-	# You can "split" the current object of your focus with
-	# $mod+b or $mod+v, for horizontal and vertical splits
-	# respectively.
-	bindsym $mod+b splith
-	bindsym $mod+v splitv
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
 
-	# Switch the current container between different layout styles
-	bindsym $mod+s layout stacking
-	bindsym $mod+w layout tabbed
-	bindsym $mod+e layout toggle split
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
 
-	# Make the current focus fullscreen
-	bindsym $mod+f fullscreen
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
 
-	# Toggle the current focus between tiling and floating mode
-	bindsym $mod+Shift+space floating toggle
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
 
-	# Swap focus between the tiling area and the floating area
-	bindsym $mod+space focus mode_toggle
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
 
-	# Move focus to the parent container
-	bindsym $mod+a focus parent
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+# }}}
+# {{{ Clipboard control
+
+# Super+` - Show clipboard history
+bindsym --to-code $mod+grave exec /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "clipboard-select.sh" @]
 
 # }}}
 # {{{ Scratchpad
@@ -302,41 +319,60 @@ font pango: Ubuntu Nerd Font 12
 # Window title configuration
 titlebar_padding 5 3
 title_align left
-for_window [title="."] title_format "󰣆 <b>%title</b> %app_id"
+
+set $win_title_text <span font_weight='medium'>%title</span>
+
+# Generic window
+for_window [title="."] title_format "󰣆 $win_title_text %class"
 
 # Browsers
-for_window [app_id="firefox-esr"] {
-	title_format "<span color='#ff7f1f'>󰈹</span> <b>%title</b>"
-	inhibit_idle fullscreen
-}
-for_window [app_id="chrom*"] title_format "<span color='#6199f6'></span> <b>%title</b>"
-for_window [app_id="chrom*"] inhibit_idle fullscreen
-for_window [app_id="vivaldi"] title_format "<span color='#ef3939'>󰕷</span> <b>%title</b>"
-for_window [app_id="vivaldi"] inhibit_idle fullscreen
+for_window [app_id="firefox-esr"] inhibit_idle fullscreen, title_format "<span color='#ff7f1f'>󰈹</span> $win_title_text"
+for_window [app_id="chromium"] inhibit_idle fullscreen, title_format "<span color='#6199f6'></span> $win_title_text"
+for_window [app_id="vivaldi"] inhibit_idle fullscreen, title_format "<span color='#ef3939'>󰕷</span> $win_title_text"
+for_window [app_id="Opera"] inhibit_idle fullscreen, title_format "<span color='#f23845'></span> $win_title_text"
 
 # Terminal emulators
-for_window [app_id="Alacritty"] title_format " <b>%title</b>"
+set $symbol_terminal <span color='#8ec07c'></span> 
+for_window [app_id="Alacritty"] title_format "$symbol_terminal $win_title_text"
+for_window [app_id="foot"] title_format "$symbol_terminal $win_title_text"
 
 # Office
-for_window [app_id="libreoffice-writer"] title_format "<span color='#1b83d4'></span> <b>%title</b>"
-for_window [app_id="libreoffice-calc"] title_format "<span color='#4ba425'></span> <b>%title</b>"
+for_window [app_id="libreoffice-startcenter"] title_format "<span color='#d9d6ce'></span> $win_title_text"
+for_window [app_id="libreoffice-base"] title_format "<span color='#8b3ea7'></span> $win_title_text"
+for_window [app_id="libreoffice-calc"] title_format "<span color='#4ba425'></span> $win_title_text"
+for_window [app_id="libreoffice-draw"] title_format "<span color='#f3ae16'></span> $win_title_text"
+for_window [app_id="libreoffice-impress"] title_format "<span color='#e96412'></span> $win_title_text"
+for_window [app_id="libreoffice-math"] title_format "<span color='#da477d'></span> $win_title_text"
+for_window [app_id="libreoffice-writer"] title_format "<span color='#1b83d4'></span> $win_title_text"
 
 # Varia
-for_window [app_id="deadbeef"] title_format "󰝚 <b>%title</b>"
-for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> <b>%title</b>"
+for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $win_title_text"
+
+# Internet
+for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> $win_title_text"
+for_window [app_id="amule"] title_format "<span color='#c78b52'></span> $win_title_text"
+for_window [app_id="wireshark"] title_format "<span background='#4e91d9' color='#343434'></span> $win_title_text"
+
+
+# Multimedia
+for_window [app_id="deadbeef"] title_format "󰝚 $win_title_text"
+for_window [app_id="mpv"] inhibit_idle fullscreen, title_format "<span color='#a579a5'></span> $win_title_text"
+for_window [app_id="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
+for_window [class="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
 
 # Image viewers
-for_window [app_id="eom"] title_format " <b>%title</b>"
-for_window [app_id="geeqie"] title_format " <b>%title</b>"
+for_window [app_id="eom"] title_format " $win_title_text"
+for_window [app_id="geeqie"] title_format " $win_title_text"
 
 # Image editors
-for_window [app_id="gimp"] title_format "<span color='#e99012'></span> <b>%title</b>"
+for_window [app_id="gimp"] title_format "<span color='#e99012'></span> $win_title_text"
 
 # File managers
-for_window [class="Caja"] title_format "<span color='#eeca8f'></span> <b>%title</b>"
+for_window [class="Caja"] title_format "<span color='#eeca8f'></span> $win_title_text"
 
-# Varia
-for_window [app_id="emacs"] title_format " <b>%title</b>"
+# Text editors
+for_window [app_id="emacs"] title_format "<span color='#a5a3d0'></span> $win_title_text"
+for_window [app_id="geany"] title_format "<span color='#fabd2f'></span> $win_title_text"
 
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface
@@ -347,6 +383,8 @@ exec_always {
 	gsettings set $gnome-schema cursor-size [@ int .gtk.cursorSize @]
 	gsettings set $gnome-schema font-name [@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @]
 }
+
+seat * xcursor_theme [@ .gtk.cursorTheme @] [@ int .gtk.cursorSize @]
 
 hide_edge_borders smart
 #smart_borders on
@@ -359,31 +397,16 @@ bar {
 # }}} (Theme setup)
 # {{{ Color scheme
 
-#set $selected_fg #f5f3ef
-#set $selected_fg #f0ede5
-set $selected_fg #dbd7d2
-
-#set $selected_bg #858483
-
-#set $selected_bg #7b756b
-#set $selected_bg #625c53
-#set $selected_bg #4f4c48
-#set $selected_bg #4a453c
-
-#set $selected_bg #757474
-set $selected_bg #545352
-#set $selected_bg #464544
-#set $selected_bg #4b4844
-
-# 7a7774
-set $border_color #656261
+set $selected_fg #f0ede5
+set $selected_bg #53504e
+set $border_color #6c6b6a
 
 # https://thomashunter.name/i3-configurator/
 
 # class					border			bground			text			indicator	child_border
 client.focused			$border_color	$selected_bg	$selected_fg	#7b7a7a		#7f7e7d
-client.unfocused		#2a3b33			#252321			#8b8589			#3b5b4c		#1a2a22
-client.focused_inactive	#2a3b33			#252321			#8b8589			#3b5b4c		#1a2a22
+client.unfocused		#4a4948			#353331			#a29f98			#3b5b4c		#1a2a22
+client.focused_inactive	#464544			#252321			#8b8589			#3b5b4c		#1a2a22
 
 ### Window Colors – Chameleon Grove Green Palette
 # -------------------------

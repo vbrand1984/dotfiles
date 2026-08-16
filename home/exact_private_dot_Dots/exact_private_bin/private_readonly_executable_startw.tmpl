@@ -16,6 +16,8 @@ export MOZ_ENABLE_WAYLAND=1
 
 ### Graphical Gtk and Qt options ###
 
+export XDG_CURRENT_DESKTOP=sway
+
 export GDK_BACKEND=wayland,x11
 export QT_QPA_PLATFORM=wayland
 export QT_QPA_PLATFORMTHEME=qt5ct
@@ -27,6 +29,8 @@ export NO_AT_BRIDGE=1
 # See: https://bbs.archlinux.org/viewtopic.php?id=196118
 # See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
 export GTK_OVERLAY_SCROLLING=0
+
+#export BEMENU_OPTS="--fn={@' cat .misc.fontJetBrainsMono "Medium" "13" | squote '@}"
 
 
 # Launch sway
