@@ -1,0 +1,18 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- $cmdBase := .sys.hasSystemd | ternary "systemctl" "loginctl" -'@}
+---
+- label: shutdown
+  action: {@' cat $cmdBase "poweroff" '@}
+  text: Shutdown
+  keybind: s
+
+- label: reboot
+  action: {@' cat $cmdBase "reboot" '@}
+  text: Reboot
+  keybind: r
+
+- label: suspend
+  action: {@' cat $cmdBase "suspend" '@}
+  text: Suspend
+  keybind: u
+...

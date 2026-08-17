@@ -1,0 +1,4 @@
+{{- $layout := includeTemplate "wlogoutConf.yaml.tmpl" . | fromYaml -}}
+{{- range $layout -}}
+{{ toJson . }}
+{{ end -}}

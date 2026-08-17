@@ -58,9 +58,20 @@ app:
 # {{{ .cmd: Various commands
 
 cmd:
-  volumeUp: "swayosd-client --output-volume +2"
-  volumeDown: "swayosd-client --output-volume -2"
-  volumeMute: "swayosd-client --output-volume mute-toggle"
+
+  # A command to start audio mixer from status bar and keyboard shortcut
+  audioMixer: 'pavucontrol-qt --tab=3'
+
+  # Wayland-specific desktop stuff
+  wayland:
+
+    # Commands to contol sound volume
+    volumeUp: 'swayosd-client --output-volume +2'
+    volumeDown: 'swayosd-client --output-volume -2'
+    volumeMute: 'swayosd-client --output-volume mute-toggle'
+
+    # Command to lock the screen
+    lockScreen: 'swaylock -f -c 000000'
 
 # }}}
 # {{{ .file: Filenames

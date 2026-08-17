@@ -133,6 +133,10 @@ data:
 
   sys:
 
+    # Whether to use Wayland (Sway) or Xorg (Openbox)
+    # Currently, does not have much effect, WIP
+    useWayland: {@' default true .misc.useWayland | not | not '@}
+
     # These settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") "chezmoi.yaml.tmpl" | squote '@} instead.
     isDebian: {@' $sysIsDebian | not | not '@}
@@ -337,8 +341,6 @@ data:
 # {{{ .misc: (Miscellaneous settings for desktop)
 
   misc:
-
-    useWayland: {@' default true .misc.useWayland | not | not '@}
 
     # Icon sizes for various applications
     obmenuIconSize: {@' default 24 .misc.obmenuIconSize | int '@}

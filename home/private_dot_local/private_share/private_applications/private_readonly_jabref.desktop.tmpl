@@ -1,0 +1,14 @@
+{{ if and .sys.useWayland .sys.isDebBased -}}
+[Desktop Entry]
+Name=JabRef
+Comment=Graphical editor for BibTex bibliographies
+Comment[de]=Grafischer Editor für BibTex-Bibliographien
+Exec=env _JAVA_AWT_WM_NONREPARENTING=1 jabref %f
+Icon=JabRef-icon-48
+Terminal=false
+Type=Application
+Categories=Office;Database;
+MimeType=text/x-bibtex;
+Keywords=BibTex;
+StartupWMClass=net-sf-jabref-JabRefMain
+{{- end }}

@@ -72,10 +72,10 @@
 			"default": ["\uf026", "\uf027", "\uf028"],
 			"default-muted": "\ueee8"
 		},
-		"on-scroll-up": {@' .cmd.volumeUp | quote '@},
-		"on-scroll-down": {@' .cmd.volumeDown | quote '@},
-		"on-click": "pavucontrol",
-		"on-click-right": {@' .cmd.volumeMute | quote '@},
+		"on-scroll-up": {@' .cmd.wayland.volumeUp | quote '@},
+		"on-scroll-down": {@' .cmd.wayland.volumeDown | quote '@},
+		"on-click": {@' .cmd.audioMixer | quote '@},
+		"on-click-right": {@' .cmd.wayland.volumeMute | quote '@},
 		"min-length": 7,
 		"cursor": false
 	},

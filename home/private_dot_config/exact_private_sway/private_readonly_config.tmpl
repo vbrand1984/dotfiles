@@ -27,12 +27,15 @@ set $menu [@ cat .cmd.startRofi "run" @]
 set $dmenu [@ cat .cmd.startRofi "drun" @]
 
 # Sound volume commands
-set $cmd_volume_up [@ .cmd.volumeUp @]
-set $cmd_volume_down [@ .cmd.volumeDown @]
-set $cmd_volume_mute_toggle [@ .cmd.volumeMute @]
+set $cmd_volume_up [@ .cmd.wayland.volumeUp @]
+set $cmd_volume_down [@ .cmd.wayland.volumeDown @]
+set $cmd_volume_mute_toggle [@ .cmd.wayland.volumeMute @]
+
+# Lock screen command
+set $cmd_lock_screen [@ .cmd.wayland.lockScreen @]
 
 # }}} (Variables)
-# {{{ Various settings
+# {{{ Various settings (background, keyboard layout, etc.)
 
 # Desktop background
 [@ if and .misc.background.useImage (ne .misc.background.imagePath "/dev/null") (stat .misc.background.imagePath) (lookPath "swaybg") -@]
@@ -40,13 +43,6 @@ output * bg [@ .misc.background.imagePath | quote @] [@ .misc.background.imageMo
 [@- else -@]
 output * bg [@ .misc.background.color | quote @] solid_color
 [@- end @]
-
-#
-# Example configuration:
-#
-#	output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
 
 # Various stuff
 focus_follows_mouse no
@@ -61,7 +57,7 @@ input "type:keyboard" {
 	repeat_rate [@ .misc.kbd.repeat | int @] 
 }
 
-# }}}
+# }}} (Various settings)
 # {{{ Autostart
 
 # Update environment variables
@@ -82,7 +78,7 @@ exec swaykbdd
 exec swayosd-server >/dev/null 2>&1
 
 # Conky system monitor
-exec sleep 1 && conky -p [@ int .conky.startupDelay @] -d
+exec sleep 1 && conky --pause=[@ int .conky.startupDelay @] --daemonize
 
 # Udiskie
 exec udiskie --smart-tray --notify --automount
@@ -103,24 +99,21 @@ exec CLIPBOARD_STATE=sensitive wl-paste --watch cliphist store
 # This is a temporary solution for that:
 seat * hide_cursor [@ mul (sub (mul .misc.idle.lockDelay 60) 1) 1000 | int @]
 
-# The command to lock the screen
-set $lock swaylock -f -c 000000
-
 # Idle configuration
 exec swayidle -w \
-	timeout [@ mul .misc.idle.lockDelay 60 | int @] '$lock' \
+	timeout [@ mul .misc.idle.lockDelay 60 | int @] '$cmd_lock_screen' \
 	timeout [@ mul .misc.idle.poweroffDelay 60 | int @] 'swaymsg "output * power off"' \
 		resume 'swaymsg "output * power on"; /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @]; sleep 1; swaymsg focus' \
-	before-sleep '$lock'
+	before-sleep '$cmd_lock_screen'
 
 # }}} (Idle configuration)
 # {{{ Key bindings
-# {{{ Basics
+# {{{ Inherent Sway stuff
 
-# Kill focused window
+# Super-Q: Kill focused window
 bindsym --to-code $mod+q kill
 
-# Start your launcher
+# Super-Enter, Super-Shift-Enter: Start your launcher
 bindsym $mod+Return exec $menu
 bindsym $mod+Shift+Return exec $dmenu
 
@@ -131,22 +124,47 @@ bindsym $mod+Shift+Return exec $dmenu
 # mouse button for dragging.
 floating_modifier $mod normal
 
-# Reload the configuration file
+# Super-Shift-C: Reload the Sway configuration file
 bindsym --to-code $mod+Shift+c reload, exec notify-send --urgency=low --icon='openbox' 'Sway config reloaded'
 
+# Super-Shift-W: Reload the waybar configuration
 bindsym --to-code $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --urgency=low 'Waybar config reloaded'
 
-# Exit sway (logs you out of your Wayland session)
+# Super-Shift-E: Exit sway (logs you out of your Wayland session)
 bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Super-Shift-Esc: Exit (run wlogout)
+bindsym $mod+Shift+Escape exec wlogout
+
+# Super-Ctrl-L: Lock screen
+bindsym --to-code $mod+Ctrl+l exec $cmd_lock_screen && sleep 1 && swaymsg seat - cursor move 1 1
 
 # }}}
 # {{{ Applications
 
-# Default browser: Firefox
+# Super-Ctrl-B: Default browser: Firefox
 bindsym --to-code $mod+Ctrl+b exec firefox-esr
 
-# Start a terminal
+# Super-Ctrl-C: Libreoffice Calc
+bindsym --to-code $mod+Ctrl+c exec libreoffice --calc
+
+# Super-Ctrl-I: Libreoffice Impress
+bindsym --to-code $mod+Ctrl+i exec libreoffice --impress
+
+# Super-Ctrl-P: Pavucontrol
+bindsym --to-code $mod+Ctrl+p exec [@ .cmd.audioMixer @]
+
+# Super-Ctrl-T: Terminal emulator with tmux support
 bindsym --to-code $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @]
+
+# Super-Shift-T: Bare terminal emulator
+bindsym --to-code $mod+Shift+t exec $term
+
+# Super-Ctrl-V: Virt-manager
+bindsym --to-code $mod+Ctrl+v exec virt-manager
+
+# Super-Ctrl-W: Libreoffice Writer
+bindsym --to-code $mod+Ctrl+w exec libreoffice --writer
 
 # }}}
 # {{{ Volume control
@@ -306,12 +324,14 @@ bindsym $mod+r mode "resize"
 
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
+for_window [app_id="gtk3-widget-factory"] floating enable
 
 default_floating_border normal 2
 for_window [window_type="dialog"] floating enable, border normal
 
 # }}} (Theme setup)
-# {{{ Theme setup
+# {{{ Titlebars setup
+# {{{ General settings
 
 #font pango: DejaVu Sans Condensed 11
 font pango: Ubuntu Nerd Font 12
@@ -323,20 +343,56 @@ title_align left
 set $win_title_text <span font_weight='medium'>%title</span>
 
 # Generic window
-for_window [title="."] title_format "󰣆 $win_title_text %class"
+for_window [title="."] title_format "󰣆 $win_title_text %class [%app_id]"
 
-# Browsers
+# }}} (General settings)
+# {{{ Browsers
+
 for_window [app_id="firefox-esr"] inhibit_idle fullscreen, title_format "<span color='#ff7f1f'>󰈹</span> $win_title_text"
 for_window [app_id="chromium"] inhibit_idle fullscreen, title_format "<span color='#6199f6'></span> $win_title_text"
 for_window [app_id="vivaldi"] inhibit_idle fullscreen, title_format "<span color='#ef3939'>󰕷</span> $win_title_text"
 for_window [app_id="Opera"] inhibit_idle fullscreen, title_format "<span color='#f23845'></span> $win_title_text"
+for_window [app_id="librewolf"] inhibit_idle fullscreen, title_format "<span color='#97cfeb'></span> $win_title_text"
+for_window [app_id="Tor Browser"] inhibit_idle fullscreen, title_format "<span color='#ab7cc3'></span> $win_title_text"
 
-# Terminal emulators
-set $symbol_terminal <span color='#8ec07c'></span> 
-for_window [app_id="Alacritty"] title_format "$symbol_terminal $win_title_text"
-for_window [app_id="foot"] title_format "$symbol_terminal $win_title_text"
+# }}}
+# {{{ File managers
 
-# Office
+for_window [class="Caja"] title_format "<span color='#eeca8f'></span> $win_title_text"
+
+# }}}
+# {{{ Image viewers
+
+for_window [app_id="eom"] title_format " $win_title_text"
+for_window [app_id="geeqie"] title_format " $win_title_text"
+
+# }}}
+# {{{ Image editors
+
+for_window [app_id="gimp"] title_format "<span color='#e99012'></span> $win_title_text"
+
+# }}}
+# {{{ Internet
+
+for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> $win_title_text"
+for_window [app_id="amule"] title_format "<span color='#c78b52'></span> $win_title_text"
+for_window [app_id="wireshark"] title_format "<span background='#4e91d9' color='#343434'></span> $win_title_text"
+
+# }}}
+# {{{ Multimedia
+
+# Audio players
+for_window [app_id="deadbeef"] title_format "󰝚 $win_title_text"
+
+# Video players
+for_window [app_id="mpv"] inhibit_idle fullscreen, title_format "<span color='#a579a5'></span> $win_title_text"
+for_window [app_id="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
+for_window [class="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
+
+# }}}
+# {{{ Office
+
+# Libreoffice suite
 for_window [app_id="libreoffice-startcenter"] title_format "<span color='#d9d6ce'></span> $win_title_text"
 for_window [app_id="libreoffice-base"] title_format "<span color='#8b3ea7'></span> $win_title_text"
 for_window [app_id="libreoffice-calc"] title_format "<span color='#4ba425'></span> $win_title_text"
@@ -345,34 +401,27 @@ for_window [app_id="libreoffice-impress"] title_format "<span color='#e96412'>�
 for_window [app_id="libreoffice-math"] title_format "<span color='#da477d'></span> $win_title_text"
 for_window [app_id="libreoffice-writer"] title_format "<span color='#1b83d4'></span> $win_title_text"
 
-# Varia
-for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $win_title_text"
+# }}}
+# {{{ Terminal emulators
 
-# Internet
-for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> $win_title_text"
-for_window [app_id="amule"] title_format "<span color='#c78b52'></span> $win_title_text"
-for_window [app_id="wireshark"] title_format "<span background='#4e91d9' color='#343434'></span> $win_title_text"
+set $symbol_terminal <span color='#8ec07c'></span> 
+for_window [app_id="Alacritty"] title_format "$symbol_terminal $win_title_text"
+for_window [app_id="foot"] title_format "$symbol_terminal $win_title_text"
 
+# }}}
+# {{{ Text editors
 
-# Multimedia
-for_window [app_id="deadbeef"] title_format "󰝚 $win_title_text"
-for_window [app_id="mpv"] inhibit_idle fullscreen, title_format "<span color='#a579a5'></span> $win_title_text"
-for_window [app_id="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
-for_window [class="vlc"] inhibit_idle fullscreen, title_format "<span color='#ffac4d'>󰕼</span> $win_title_text"
-
-# Image viewers
-for_window [app_id="eom"] title_format " $win_title_text"
-for_window [app_id="geeqie"] title_format " $win_title_text"
-
-# Image editors
-for_window [app_id="gimp"] title_format "<span color='#e99012'></span> $win_title_text"
-
-# File managers
-for_window [class="Caja"] title_format "<span color='#eeca8f'></span> $win_title_text"
-
-# Text editors
 for_window [app_id="emacs"] title_format "<span color='#a5a3d0'></span> $win_title_text"
 for_window [app_id="geany"] title_format "<span color='#fabd2f'></span> $win_title_text"
+
+# }}} (Text editors)
+# {{{ Utilities
+
+for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $win_title_text"
+
+# }}}
+# }}} (Titlebars setup)
+# {{{ Theme setup
 
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface
@@ -428,7 +477,7 @@ client.focused_inactive	#464544			#252321			#8b8589			#3b5b4c		#1a2a22
 ## Background / special tagged windows
 #client.background #1a2a22 #1a2a22 #888888 #1a2a22 #1a2a22
 
-# }}}
+# }}} (Color scheme)
 
 include /etc/sway/config.d/*
 
