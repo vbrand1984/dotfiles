@@ -1,0 +1,36 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+#
+# This template contains layout structure for wlogout.
+# (~/.config/wlogout/layout file)
+# It is to be translated into JSON format!
+#
+# See: https://github.com/ArtsyMacaw/wlogout/blob/master/layout
+#
+# chezmoi variable to store relative path to this template: .tmpl.wlogoutLayout
+#
+
+{@'- $cmdBase := .sys.hasSystemd | ternary "systemctl" "loginctl" -'@}
+
+---
+
+- label: shutdown
+  action: {@' cat $cmdBase "poweroff" '@}
+  text: Shutdown
+  keybind: s
+
+- label: suspend
+  action: {@' cat $cmdBase "suspend" '@}
+  text: Suspend
+  keybind: u
+
+- label: reboot
+  action: {@' cat $cmdBase "reboot" '@}
+  text: Reboot
+  keybind: r
+
+- label: logout
+  action: 'loginctl terminate-user $USER'
+  text: Logout
+  keybind: l
+
+...

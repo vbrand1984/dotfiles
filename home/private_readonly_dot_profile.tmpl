@@ -35,9 +35,8 @@ export XDG_CACHE_HOME="${cachedir}"
 unset cachedir
 
 ### Editor ###
-EDITOR='/usr/bin/vim'
-VISUAL="${EDITOR}"
-export EDITOR VISUAL
+export EDITOR={@' .cmd.editor | squote '@}
+export VISUAL={@' .cmd.editor | squote '@}
 
 ### Compressors options ###
 

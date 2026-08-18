@@ -134,7 +134,7 @@ bindsym --to-code $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --
 bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Super-Shift-Esc: Exit (run wlogout)
-bindsym $mod+Shift+Escape exec wlogout
+bindsym $mod+Shift+Escape exec [@ .cmd.wayland.logout @]
 
 # Super-Ctrl-L: Lock screen
 bindsym --to-code $mod+Ctrl+l exec $cmd_lock_screen && sleep 1 && swaymsg seat - cursor move 1 1
@@ -165,6 +165,18 @@ bindsym --to-code $mod+Ctrl+v exec virt-manager
 
 # Super-Ctrl-W: Libreoffice Writer
 bindsym --to-code $mod+Ctrl+w exec libreoffice --writer
+
+# }}}
+# {{{ Browsers
+
+mode "browsers" {
+	bindsym --to-code f exec firefox-esr, mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+bindsym --to-code $mod+b mode "browsers"
 
 # }}}
 # {{{ Volume control
@@ -433,6 +445,7 @@ exec_always {
 	gsettings set $gnome-schema font-name [@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @]
 }
 
+# XCursor theme - just for the case
 seat * xcursor_theme [@ .gtk.cursorTheme @] [@ int .gtk.cursorSize @]
 
 hide_edge_borders smart

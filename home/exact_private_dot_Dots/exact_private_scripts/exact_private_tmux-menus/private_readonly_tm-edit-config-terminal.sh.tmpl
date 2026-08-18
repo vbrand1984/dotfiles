@@ -15,6 +15,6 @@ exec tmux display-menu -T 'Terminal Configuration' -x C -y C \
 	'Edit foot.ini' 'f' "new-window -n 'foot.ini' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/foot/foot.ini" '@}\"" \
 	'Edit ~/.Xresources' 'x' "new-window -n '.Xresources' \"{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".Xresources" '@}\"" \
 	'' \
-	'Edit terminal palette' 'p' "new-window -n '{@' $paletteFileName '@}' '\"${EDITOR}\" {@' joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.terminal '@}'" \
+	'Edit terminal palette' 'p' "new-window -n '{@' $paletteFileName '@}' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.terminal) | squote '@}" \
 	'' \
 	'Back' 'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"

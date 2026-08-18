@@ -92,6 +92,7 @@ augroup custom_filetypes
 	autocmd BufRead,BufNewFile *.pl.tmpl setlocal filetype=perl
 	autocmd BufRead,BufNewFile *.py.tmpl setlocal filetype=python
 	autocmd BufRead,BufNewFile *.sh.tmpl setlocal filetype=sh
+	autocmd BufRead,BufNewFile *.svg.tmpl setlocal filetype=svg
 	autocmd BufRead,BufNewFile *.toml.tmpl setlocal filetype=toml
 	autocmd BufRead,BufNewFile *.xml.tmpl setlocal filetype=xml
 	autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl setlocal filetype=yaml

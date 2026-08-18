@@ -59,19 +59,24 @@ app:
 
 cmd:
 
-  # A command to start audio mixer from status bar and keyboard shortcut
+  editor: '/usr/bin/vim'
+
+  # Start audio mixer from status bar and with keyboard shortcut
   audioMixer: 'pavucontrol-qt --tab=3'
 
-  # Wayland-specific desktop stuff
+  # Wayland-specific desktop commands
   wayland:
 
-    # Commands to contol sound volume
+    # Contol sound volume
     volumeUp: 'swayosd-client --output-volume +2'
     volumeDown: 'swayosd-client --output-volume -2'
     volumeMute: 'swayosd-client --output-volume mute-toggle'
 
-    # Command to lock the screen
+    # Lock the screen
     lockScreen: 'swaylock -f -c 000000'
+
+    # Logout dialogue
+    logout: 'wlogout --buttons-per-row=2'
 
 # }}}
 # {{{ .file: Filenames
@@ -133,9 +138,11 @@ misc:
 # {{{ .tmpl: Paths to templates
 tmpl:
 
-  chromiumFlags: 'chromiumFlags.yaml.tmpl'
+  chromiumFlags: 'chromium-flags.yaml.tmpl'
 
   listFileHashes: 'list-file-hashes.tmpl'
+
+  wlogoutLayout: 'wlogout-layout.yaml.tmpl'
 
   # Openbox-related stuff
   ob:
@@ -153,9 +160,10 @@ tmpl:
 
   # Palettes for various applications
   palette:
-    tint2: 'palettes/tint2.yaml.tmpl'
-    terminal: 'palettes/terminal.yaml.tmpl'
     conky: 'palettes/conky.toml'
+    terminal: 'palettes/terminal.yaml.tmpl'
+    tint2: 'palettes/tint2.yaml.tmpl'
+    wlogout: 'palettes/wlogout.yaml.tmpl'
 
   # Package lists for installing
   pkgLists:

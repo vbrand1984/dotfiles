@@ -1,4 +1,8 @@
-{{/* vim: set ft=cfg : */ -}}
+{{/* vim: set ft=dosini : */ -}}
+#
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
+#
+
 [general]
 fade={{ int .redShift.fade }}
 adjustment-method=wayland

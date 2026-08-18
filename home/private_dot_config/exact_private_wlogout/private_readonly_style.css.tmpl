@@ -1,0 +1,54 @@
+/* chezmoi:template: left-delimiter={@' right-delimiter='@} */
+/*
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment " * " '@}
+*/
+
+{@' $palette := includeTemplate .tmpl.palette.wlogout . | fromYaml -'@}
+
+window {
+	background-color: rgba(40, 40, 40, 0.90);
+}
+
+button {
+	color: {@' $palette.fgColor '@};
+	background-color: {@' $palette.button.bg '@};
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 20%;
+
+	font-family: "Ubuntu Nerd Font", sans-serif;
+	font-size: 15pt;
+	font-weight: bold;
+
+	margin: 10px;
+	
+	border-radius: 25px;
+	border: 3px solid {@' $palette.button.border '@};
+}
+
+button:hover {
+	background-color: {@' $palette.buttonHover.bg '@};
+	border-color: {@' $palette.buttonHover.border '@};
+}
+
+button:focus,
+button:active {
+	background-color: {@' $palette.buttonActive.bg '@};
+	border-color: {@' $palette.buttonActive.border '@};
+}
+
+#shutdown {
+	background-image: url("assets/shutdown.svg");
+}
+
+#reboot {
+	background-image: url("assets/reboot.svg");
+}
+
+#suspend {
+	background-image: url("assets/suspend.svg");
+}
+
+#logout {
+	background-image: url("assets/logout.svg");
+}

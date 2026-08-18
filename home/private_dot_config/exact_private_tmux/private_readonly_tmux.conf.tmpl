@@ -146,6 +146,12 @@ set-window-option -g mode-style bg=cyan,fg=black
 set-option -g pane-border-style fg={@' $mywhite | quote '@}
 set-option -g pane-active-border-style fg={@' $greenFg | quote '@}
 
+# Menu style
+set-option -g menu-style fg=black,bg=white
+set-option -g menu-border-style fg=black,bg=white
+set-option -g menu-selected-style fg=white,bg=black
+set-option -g menu-border-lines single
+
 # Clock configuration
 set-option -g clock-mode-colour {@' $greenFgMedium | quote '@}
 set-option -g clock-mode-style 24

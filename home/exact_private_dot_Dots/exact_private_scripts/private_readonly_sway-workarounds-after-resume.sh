@@ -5,11 +5,11 @@
 # We restart those programs right away
 
 kill_process_if_it_exists() {
-	pgrep -c "$1" 1>/dev/null 2>&1 && killall "$1"
+	pgrep --count "$1" 1>/dev/null 2>&1 && killall "$1"
 }
 
 kill_process_if_it_exists conky
-sleep 1 && conky -p 7 -d
+sleep 1 && conky --pause=7 --daemonize
 
 kill_process_if_it_exists swayosd-server
 swayosd-server &
