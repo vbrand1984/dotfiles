@@ -1,0 +1,102 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@}
+#!/bin/sh
+
+# Parameters:
+# -c save to clipboard instead of file (via wl-clipboard)
+# -s choose selection instead of full screen (via slurp)
+# -d perform a delay before taking a screenshot
+
+set +e
+
+Die() {
+	{@' .cmd.notifier '@} --urgency=critical 'Screenshot failed!' "${1}"
+	exit 1
+}
+
+save_to_clipboard=''
+get_selection=''
+delay=0
+
+# Parse command line parameters
+while getopts ':cds' opt; do
+	case "$opt" in
+		c)
+			save_to_clipboard=1
+			;;
+		d)
+			delay=5
+			;;
+		s)
+			get_selection=1
+			;;
+		?)
+			echo "Unknown parameter!"
+			exit 1
+			;;
+	esac
+done
+
+# Perform a delay if necessary
+if [ $delay -ne 0 ] ; then
+	{@' .cmd.notifier '@} -t 3000 "Taking a screenshot in $delay seconds"
+	sleep $delay
+fi
+
+# Get size of the screenshot
+if [ -n "$get_selection" ] ; then
+	coords=$( slurp -d 2>/dev/null )
+
+	if [ -z "$coords" ] ; then
+		{@' .cmd.notifier '@} --icon=dialog-warning 'Screenshot NOT taken' 'Selection cancelled'
+		exit 2
+	fi
+
+	# Get resolution of the image if we gonna save to a file
+	# This will be a part of the filename
+	[ -z "$save_to_clipboard" ] && cur_res=$( printf '%s' "$coords" | sed 's/^[^ ]*\ //' )
+else
+	# Taking fullscreen screenshot... Learn what screen resolution is
+	[ -z "$save_to_clipboard" ] && cur_res=$( swaymsg -pt get_outputs | grep 'Current mode' | sed -E 's/^.*\ ([1-9][0-9]+x[1-9][0-9]+).*$/\1/' )
+fi
+
+if [ -n "$save_to_clipboard" ] ; then
+	# Saving to clipboard
+	if [ -n "$get_selection" ] ; then
+		grim -g "$coords" - | wl-copy
+	else
+		grim - | wl-copy
+	fi
+
+	# Here, a check if the operation is successful should be
+	# But I'm too lazy to implement it ATM
+	{@' .cmd.notifier '@} --icon=emblem-photos -t 3000 'Screenshot taken' 'It is copied to the clipboard'
+else
+	# Save to a file
+	# Directory to store screenshots
+	picdir={@' joinPath .chezmoi.homeDir .xdg.picturesDir "Screenshots" | quote '@}
+
+	# Create the directory if it does not exist
+	[ -d "$picdir" ] || mkdir --parents "$picdir" || Die "Could not create directory $picdir!"
+
+	# Insert date and picture resolution into the filename
+	picname="Screenshot at $( date '+%Y-%m-%d %H:%M:%S' ) $cur_res.png"
+
+	# Take the screenshot
+	if [ -n "$get_selection" ] ; then
+		grim -g "$coords" "$picdir/$picname"	
+		res=$?
+	else
+		grim "$picdir/$picname"	
+		res=$?
+	fi
+
+	if [ $res -eq 0 ] ; then
+		{@' .cmd.notifier '@} --icon=emblem-photos -t 3000 'Screenshot saved' "$picname"
+	else
+		Die 'Could not take a screenshot!'
+	fi
+fi
+

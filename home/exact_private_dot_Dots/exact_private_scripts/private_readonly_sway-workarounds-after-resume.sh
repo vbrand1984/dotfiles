@@ -9,6 +9,7 @@ kill_process_if_it_exists() {
 }
 
 kill_process_if_it_exists conky
+# Starting conky without a pause doesn't work out
 sleep 1 && conky --pause=7 --daemonize
 
 kill_process_if_it_exists swayosd-server

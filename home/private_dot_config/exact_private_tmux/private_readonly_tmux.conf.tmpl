@@ -108,9 +108,14 @@ bind-key e new-window -n 'tmux.conf' "/bin/sh -c '{@' .chezmoi.executable '@} ed
 #bind C-g display-popup -w 80% -h 80% "/bin/bash -i -l -c 'sudo dmesg'"
 
 # }}}
-# {{{ Menus (testing)
+# {{{ Menus
 
 bind-key o run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}
+
+# }}}
+# {{{ Popups (testing)
+
+bind-key h display-popup -w 90% -h 90% -E htop
 
 # }}}
 # {{{ Theming

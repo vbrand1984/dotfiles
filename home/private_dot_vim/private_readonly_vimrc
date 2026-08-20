@@ -152,21 +152,10 @@ augroup END
 " }}}
 " {{{ Theme
 
-" This is needed in order to make background color work properly in kitty
-" BTW I don't use kitty anymore
-"let &t_ut=''
-
 " Airline customization
 
 " Don't print warning about mixed whitespaces in airline
 let g:airline#extensions#whitespace#enabled = 0
-
-" Correction of the 'column number' symbol for st
-" See: ~/.vim/plugged/vim-airline/doc/airline.txt
-"if !exists('g:airline_symbols')
-"	 let g:airline_symbols = {}
-"endif
-"let g:airline_symbols.colnr = ' ㏇:'
 
 " Gruvbox default setup
 let g:gruvbox_italic = 1

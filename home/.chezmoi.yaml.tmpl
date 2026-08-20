@@ -313,7 +313,8 @@ data:
     manageService: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "manage-service.sh") | quote '@}
     tmuxMenuEditConfigMain: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirTmuxMenus "tm-edit-config-main.sh") | quote '@}
     startRofi: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "start-rofi.sh") | quote '@}
-    takeScreenshot: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot-x.sh") | quote '@}
+    takeScreenshotX: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot-x.sh") | quote '@}
+    takeScreenshot: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot.sh") | quote '@}
     reconfigureAppearance: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "reconfigure-appearance.sh") | quote '@}
     tinkerChezmoiConfig: {@' cat "/usr/bin/python3" (joinPath .chezmoi.homeDir $dirLocalScripts "tinker-chezmoi-config.py") | quote '@}
 

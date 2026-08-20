@@ -1,7 +1,5 @@
 # chezmoi:template: left-delimiter=[@ right-delimiter=@]
 [@ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @]
-#
-# Read `man 5 sway` for a complete reference.
 
 # {{{ Variables
 
@@ -61,32 +59,33 @@ input "type:keyboard" {
 # {{{ Autostart
 
 # Update environment variables
-exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway &
 
-# Desktop Portal
-exec_always /usr/libexec/xdg-desktop-portal -r
+# Desktop Portal for screen sharing and screenshots taking
+exec_always /usr/libexec/xdg-desktop-portal-wlr --replace &
 
 # Gammastep: Redshift alternative for wayland
-exec gammastep-indicator
+exec gammastep-indicator &
 
 # Network Manager applet
-exec nm-applet --indicator
+exec nm-applet --indicator &
 
 # Per-window keyboard layout
-exec swaykbdd
+exec swaykbdd &
 
-exec swayosd-server >/dev/null 2>&1
+# OSD for sound volume and brightness adjustment
+exec swayosd-server >/dev/null 2>&1 &
 
 # Conky system monitor
-exec sleep 1 && conky --pause=[@ int .conky.startupDelay @] --daemonize
+exec conky --pause=[@ int .conky.startupDelay @] --daemonize &
 
 # Udiskie
-exec udiskie --smart-tray --notify --automount
+exec udiskie --smart-tray --notify --automount &
 
 # Clipboard manager
-exec CLIPBOARD_STATE=sensitive wl-paste --watch cliphist store
+exec env CLIPBOARD_STATE=sensitive wl-paste --watch cliphist store &
 
-#exec dunst
+#exec dunst &
 
 # }}} (Autostart)
 # {{{ Idle configuration
@@ -104,7 +103,7 @@ exec swayidle -w \
 	timeout [@ mul .misc.idle.lockDelay 60 | int @] '$cmd_lock_screen' \
 	timeout [@ mul .misc.idle.poweroffDelay 60 | int @] 'swaymsg "output * power off"' \
 		resume 'swaymsg "output * power on"; /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "sway-workarounds-after-resume.sh" @]; sleep 1; swaymsg focus' \
-	before-sleep '$cmd_lock_screen'
+	before-sleep '$cmd_lock_screen' &
 
 # }}} (Idle configuration)
 # {{{ Key bindings
@@ -114,8 +113,8 @@ exec swayidle -w \
 bindsym --to-code $mod+q kill
 
 # Super-Enter, Super-Shift-Enter: Start your launcher
-bindsym $mod+Return exec $menu
-bindsym $mod+Shift+Return exec $dmenu
+bindsym $mod+Return exec $menu &
+bindsym $mod+Shift+Return exec $dmenu &
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -134,7 +133,7 @@ bindsym --to-code $mod+Shift+w exec killall -SIGUSR2 waybar, exec notify-send --
 bindsym --to-code $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Super-Shift-Esc: Exit (run wlogout)
-bindsym $mod+Shift+Escape exec [@ .cmd.wayland.logout @]
+bindsym $mod+Shift+Escape exec [@ .cmd.wayland.logout @] &
 
 # Super-Ctrl-L: Lock screen
 bindsym --to-code $mod+Ctrl+l exec $cmd_lock_screen && sleep 1 && swaymsg seat - cursor move 1 1
@@ -143,40 +142,62 @@ bindsym --to-code $mod+Ctrl+l exec $cmd_lock_screen && sleep 1 && swaymsg seat -
 # {{{ Applications
 
 # Super-Ctrl-B: Default browser: Firefox
-bindsym --to-code $mod+Ctrl+b exec firefox-esr
+bindsym --to-code $mod+Ctrl+b exec firefox-esr &
 
 # Super-Ctrl-C: Libreoffice Calc
-bindsym --to-code $mod+Ctrl+c exec libreoffice --calc
+bindsym --to-code $mod+Ctrl+c exec libreoffice --calc &
 
 # Super-Ctrl-I: Libreoffice Impress
-bindsym --to-code $mod+Ctrl+i exec libreoffice --impress
+bindsym --to-code $mod+Ctrl+i exec libreoffice --impress &
 
 # Super-Ctrl-P: Pavucontrol
-bindsym --to-code $mod+Ctrl+p exec [@ .cmd.audioMixer @]
+bindsym --to-code $mod+Ctrl+p exec [@ .cmd.audioMixer @] &
 
 # Super-Ctrl-T: Terminal emulator with tmux support
-bindsym --to-code $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @]
+bindsym --to-code $mod+Ctrl+t exec $term -e [@ joinPath .chezmoi.homeDir .dir.localBin "enter-default-tmux-session.sh" @] &
 
 # Super-Shift-T: Bare terminal emulator
-bindsym --to-code $mod+Shift+t exec $term
+bindsym --to-code $mod+Shift+t exec $term &
 
 # Super-Ctrl-V: Virt-manager
-bindsym --to-code $mod+Ctrl+v exec virt-manager
+bindsym --to-code $mod+Ctrl+v exec virt-manager &
 
 # Super-Ctrl-W: Libreoffice Writer
-bindsym --to-code $mod+Ctrl+w exec libreoffice --writer
+bindsym --to-code $mod+Ctrl+w exec libreoffice --writer &
 
 # }}}
 # {{{ Browsers
 
 mode "browsers" {
-	bindsym --to-code f exec firefox-esr, mode "default"
+	bindsym --to-code f exec firefox-esr &, mode "default"
 
+	bindsym $mod+b mode "default"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
 
 bindsym --to-code $mod+b mode "browsers"
+
+# }}}
+# {{{ Screenshots (PrtScr + optional stuff)
+
+# PrtScr: Take a screenshot (save to a file)
+bindsym Print exec [@ .cmd.takeScreenshot @]
+
+# Ctrl-PrtScr: Screenshot of a selection (save to a file)
+bindsym Ctrl+Print exec [@ .cmd.takeScreenshot @] -s
+
+# Alt-PrtScr: Screenshot with delay (save to a file)
+bindsym Alt+Print exec [@ .cmd.takeScreenshot @] -d
+
+# Super-PrtScr: Screenshot (save to clipboard)
+bindsym $mod+Print exec [@ .cmd.takeScreenshot @] -c
+
+# Super-Ctrl-PrtScr: Screenshot of a selection (save to clipboard)
+bindsym $mod+Ctrl+Print exec [@ .cmd.takeScreenshot @] -sc
+
+# Super-Alt-PrtScr: Screenshot with delay (save to clipboard)
+bindsym $mod+Alt+Print exec [@ .cmd.takeScreenshot @] -dc
 
 # }}}
 # {{{ Volume control
@@ -290,7 +311,7 @@ bindsym $mod+a focus parent
 # {{{ Clipboard control
 
 # Super+` - Show clipboard history
-bindsym --to-code $mod+grave exec /bin/sh [@ joinPath .chezmoi.homeDir .dir.localScripts "clipboard-select.sh" @]
+bindsym --to-code $mod+grave exec /bin/sh -- [@ joinPath .chezmoi.homeDir .dir.localScripts "clipboard-select.sh" @] &
 
 # }}}
 # {{{ Scratchpad
@@ -433,7 +454,7 @@ for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $
 
 # }}}
 # }}} (Titlebars setup)
-# {{{ Theme setup
+# {{{ Theme setup (GTK theme, font, cursor etc., status bar included)
 
 # GTK theme, icons and system font
 set $gnome-schema org.gnome.desktop.interface

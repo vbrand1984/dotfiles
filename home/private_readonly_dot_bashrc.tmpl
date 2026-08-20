@@ -176,13 +176,16 @@ alias c='clear'
 # Fastfetch
 alias ff='fastfetch'
 
-# Weather conditions and forecast
-# "What's the forecast" alias
-alias wtf='curl https://wttr.in/?M'
+# htop
+alias h='htop'
 
 # Vim
 alias v='vim'
 alias vs={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
+
+# Weather conditions and forecast
+# "What's the forecast" alias
+alias wtf='curl https://wttr.in/?M'
 
 # Cheats
 function cheat() { curl "cheat.sh/$1"; }
