@@ -1,0 +1,13 @@
+{
+	"label": "Gruvbox-Material",
+	"dark": {
+		"fg": "#ddc7a1",
+		"bg": "#282828",
+		"link": "#80aa9e"
+	},
+	"light": {
+		"fg": "#4f3829",
+		"bg": "#f5edca",
+		"link": "#266b79"
+	}
+}
