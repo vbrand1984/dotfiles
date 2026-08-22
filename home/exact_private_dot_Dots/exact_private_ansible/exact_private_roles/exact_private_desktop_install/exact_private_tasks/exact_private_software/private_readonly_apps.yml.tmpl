@@ -9,7 +9,7 @@
   become: true
   ansible.builtin.apt:
     name: "{{ desktop_install_pkg_apps.stable }}"
-    state: present
+    state: latest
     install_recommends: false
   tags: [packages, apps]
 

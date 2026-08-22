@@ -22,7 +22,7 @@
 - name: Desktop Package Management
   hosts: all
   pre_tasks:
-    - name: Update Apt Cache
+    - name: Update System
       ansible.builtin.import_tasks:
         file: tasks/update_package_cache.yml
       tags: always

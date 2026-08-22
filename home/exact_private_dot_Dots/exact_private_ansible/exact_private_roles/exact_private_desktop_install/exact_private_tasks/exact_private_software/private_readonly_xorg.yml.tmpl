@@ -22,7 +22,7 @@
 
 {@'- else if .sys.isVoid -'@}
 
-- name: Desktop Install | Utilities | Installing packages
+- name: Desktop Install | Xorg | Installing packages
   become: true
   community.general.xbps:
     name: "{{ desktop_install_pkg_xorg.xbps }}"
