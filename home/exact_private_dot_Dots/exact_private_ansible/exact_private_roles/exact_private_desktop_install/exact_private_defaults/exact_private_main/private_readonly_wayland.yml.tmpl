@@ -1,0 +1,55 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+desktop_install_pkg_xorg:
+{@'- if .sys.isDebianBased '@}
+  stable:
+
+    # Xorg base
+    - dbus-x11
+    - x11-utils
+    - x11-xserver-utils
+    - xinit
+    - xserver-xorg-core
+    - xserver-xorg-input-libinput
+
+    # Openbox-related stuff
+    - alacritty
+    - caffeine
+    - dunst
+    - gxkb
+    - lxrandr
+    - lxsession-logout
+    - nitrogen
+    - obconf
+    - openbox
+    - picom
+{@'- if not .sys.isVM '@}
+    - redshift-gtk
+{@'- end '@}
+    - rofi
+    - scrot
+    - tint2
+    - udiskie
+    - volumeicon-alsa
+    - xscreensaver
+    - xsettingsd
+
+    # Obmenu-generator dependencies
+    - cpanminus
+    - libfile-desktopentry-perl
+    - libgtk3-perl
+    - libmodule-build-perl
+    - perl-doc
+
+  cpan:
+    - 'Linux::DesktopFiles'
+
+{@'- else if .sys.isVoid '@}
+
+{@'- end '@}
+
+...
+{@'- end '@}
