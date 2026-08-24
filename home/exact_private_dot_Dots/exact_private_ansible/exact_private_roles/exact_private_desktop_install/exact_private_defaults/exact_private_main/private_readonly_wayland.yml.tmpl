@@ -3,51 +3,44 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-desktop_install_pkg_xorg:
+desktop_install_pkg_wayland:
 {@'- if .sys.isDebianBased '@}
   stable:
 
-    # Xorg base
-    - dbus-x11
-    - x11-utils
-    - x11-xserver-utils
-    - xinit
-    - xserver-xorg-core
-    - xserver-xorg-input-libinput
-
-    # Openbox-related stuff
     - alacritty
-    - caffeine
+    - cliphist
     - dunst
-    - gxkb
-    - lxrandr
-    - lxsession-logout
-    - nitrogen
-    - obconf
-    - openbox
-    - picom
+    - foot
 {@'- if not .sys.isVM '@}
-    - redshift-gtk
+    - gammastep
 {@'- end '@}
+    - grim
+    - jq
+    - nwg-displays
     - rofi
-    - scrot
-    - tint2
+    - slurp
+    - sway
+    - swaybg
+    - swayidle
+    - swaykbdd
+    - swaylock
+    - swayosd
     - udiskie
-    - volumeicon-alsa
-    - xscreensaver
-    - xsettingsd
-
-    # Obmenu-generator dependencies
-    - cpanminus
-    - libfile-desktopentry-perl
-    - libgtk3-perl
-    - libmodule-build-perl
-    - perl-doc
-
-  cpan:
-    - 'Linux::DesktopFiles'
+    - waybar
+    - wl-clipboard
+    - wlogout
+    - wlr-randr
+    - xdg-desktop-portal-wlr
+    - xwayland
 
 {@'- else if .sys.isVoid '@}
+
+  xbps:
+    - sway
+    - swaybg
+    - swayidle
+    - swaykbdd
+    - swaylock
 
 {@'- end '@}
 

@@ -1,0 +1,2 @@
+{{- $distroList := includeTemplate "distro-logo-list.yaml.tmpl" . | fromYaml -}}
+{{- (hasKey $distroList.distros .chezmoi.osRelease.id) | ternary (get $distroList.distros .chezmoi.osRelease.id) $distroList.default -}}

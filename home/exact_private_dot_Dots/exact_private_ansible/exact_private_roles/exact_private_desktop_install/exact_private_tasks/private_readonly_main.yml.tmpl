@@ -7,9 +7,13 @@
   ansible.builtin.import_tasks:
     file: software/utilities.yml
 
-- name: Packages | Xorg
+# - name: Packages | Xorg
+#   ansible.builtin.import_tasks:
+#     file: software/xorg.yml
+
+- name: Packages | Wayland
   ansible.builtin.import_tasks:
-    file: software/xorg.yml
+    file: software/wayland.yml
 
 - name: Packages | Appearance
   ansible.builtin.import_tasks:

@@ -5,11 +5,11 @@
 
 {@' if .sys.isDebianBased -'@}
 
-- name: Desktop Install | Update Apt Cache
+- name: Desktop Install | Upgrade Apt
   become: true
   become_user: root
   ansible.builtin.apt:
-    upgrade: 'no'
+    upgrade: 'yes'
     update-cache: true
     install_recommends: false
     autoclean: false
@@ -19,11 +19,12 @@
 
 {@'- else if .sys.isVoid -'@}
 
-- name: Desktop Install | Update Xbps Cache
+- name: Desktop Install | Upgrade Xbps
   become: true
   become_user: root
   community.general.xbps:
     update_cache: true
+    upgrade: true
     upgrade_xbps: true
   diff: true
   tags: always

@@ -412,12 +412,17 @@ for_window [class = "(?i)pinentry"] floating enable
 for_window [title = "Administrator privileges required"] floating enable
 for_window [window_role = "About"] floating enable
 
+# Certain apps
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
 for_window [app_id="gtk3-widget-factory"] floating enable
+for_window [app_id="qalculate*"] floating enable
 
 default_floating_border normal 2
 for_window [window_type="dialog"] floating enable, border normal
+
+# Games
+for_window [app_id="paradox-launcher*"] floating enable, border none
 
 # }}} (Theme setup)
 # {{{ Titlebars setup
