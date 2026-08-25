@@ -1,0 +1,38 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Librewolf | Install extrepo package
+  become: true
+  ansible.builtin.apt:
+    package: extrepo
+    state: present
+    install_recommends: false
+  tags: [packages, desktop, browsers, browser_librewolf]
+
+- name: Librewolf | Enable Librewolf repository
+  become: true
+  ansible.builtin.command:
+    cmd: 'extrepo enable librewolf'
+    creates: '/etc/apt/sources.list.d/extrepo_librewolf.sources'
+  tags: [packages, desktop, browsers, browser_librewolf]
+
+- name: Librewolf | Update extrepo data for Librewolf
+  become: true
+  ansible.builtin.command:
+    cmd: 'extrepo update librewolf'
+  changed_when: false
+  tags: [packages, desktop, browsers, browser_librewolf]
+
+- name: Librewolf | Install Librewolf package (apt)
+  become: true
+  ansible.builtin.apt:
+    package: librewolf
+    state: present
+    install_recommends: false
+    update_cache: true
+  tags: [packages, desktop, browsers, browser_librewolf]
+
+...
+{@'- end '@}

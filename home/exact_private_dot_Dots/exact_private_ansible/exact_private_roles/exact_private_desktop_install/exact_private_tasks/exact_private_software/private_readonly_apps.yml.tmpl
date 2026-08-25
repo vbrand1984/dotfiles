@@ -36,7 +36,7 @@
 - name: Desktop Install | Apps | Installing packages
   become: true
   community.general.xbps:
-    name: "{{ desktop_install_pkg_apps.xbps }}"
+    package: "{{ desktop_install_pkg_apps.xbps }}"
     state: present
   tags: [packages, apps]
 

@@ -16,17 +16,18 @@ window#waybar {
 #language,
 #idle_inhibitor {
 	background: transparent;
-	border: none;
-	padding: 0px 2px;
+	border: 2px solid transparent;
+	border-radius: 8px;
+	padding: 0px 1px;
 	margin: 0px;
 }
 
-/*#clock:hover,
+#clock:hover,
 #language:hover,
 #idle_inhibitor:hover {
-	background-color: #585756;
-	border-color: #383634;
-}*/
+	background-color: #545352;
+	border-color: #646362;
+}
 
 /* }}} */
 /* {{{ Workspaces */
@@ -111,7 +112,7 @@ window#waybar {
 /* {{{ Language */
 
 #language {
-	padding: 0px 3px;
+	padding: 0px 2px;
 	font-size: 13pt;
 	font-family: "JetBrainsMonoNL Nerd Font Mono", monospace;
 	font-weight: 800; /* ExtraBold */
@@ -123,7 +124,7 @@ window#waybar {
 /* {{{ Clock */
 
 #clock {
-	padding: 0px 4px;
+	padding: 0px 3px;
 	margin-right: 5px;
 	font-size: 12pt;
 	font-family: Roboto;

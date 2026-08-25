@@ -1,0 +1,34 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isVoid .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+
+- name: Browsers | Set default browser (via update-alternatives)
+  become: true
+  community.general.alternatives:
+    name: "{{ item }}"
+    link: "/usr/bin/{{ item }}"
+    path: '/usr/bin/firefox-esr'
+    state: selected
+  loop:
+    - gnome-www-browser
+    - x-www-browser
+  tags: [packages, desktop, browsers, set_default_browser]
+
+{@'- end '@}
+
+- name: Browsers | Set default browser (via xdg-mime)
+  community.general.xdg_mime:
+    handler: firefox-esr.desktop
+    mime_types:
+      - x-scheme-handler/http
+      - x-scheme-handler/https      
+      - text/html
+      - text/xml
+      - application/xml
+  tags: [packages, desktop, browsers, set_default_browser]
+
+...
+{@'- end '@}

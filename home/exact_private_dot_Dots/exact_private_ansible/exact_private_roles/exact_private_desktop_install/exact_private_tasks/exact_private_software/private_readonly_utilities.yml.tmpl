@@ -5,10 +5,19 @@
 
 {@' if .sys.isDebianBased -'@}
 
+- name: Desktop Install | Utilities | dpkg-reconfigure wireshark
+  become: true
+  ansible.builtin.debconf:
+    pkg: wireshark-common
+    question: wireshark-common/install-setuid
+    value: false
+    vtype: boolean
+  tags: [packages, utilities]
+
 - name: Desktop Install | Utilities | Installing packages (stable)
   become: true
   ansible.builtin.apt:
-    name: "{{ desktop_install_pkg_utilities.stable }}"
+    package: "{{ desktop_install_pkg_utilities.stable }}"
     state: latest
     install_recommends: false
   tags: [packages, utilities]
@@ -16,18 +25,26 @@
 - name: Desktop Install | Utilities | Installing packages (backports)
   become: true
   ansible.builtin.apt:
-    name: "{{ desktop_install_pkg_utilities.backports }}"
+    package: "{{ desktop_install_pkg_utilities.backports }}"
     default_release: {@' .chezmoi.osRelease.versionCodename '@}-backports
     state: latest
     install_recommends: false
   tags: [packages, utilities]
+
+- name: Desktop Install | Utilities | Adding the user to the `wireshark' group
+  become: true
+  ansible.builtin.user:
+    user: {@' .chezmoi.username '@}
+    groups: wireshark
+    append: true
+  tags: [packages, utilities, groups]
 
 {@'- else if .sys.isVoid -'@}
 
 - name: Desktop Install | Utilities | Installing packages
   become: true
   community.general.xbps:
-    name: "{{ desktop_install_pkg_utilities.xbps }}"
+    package: "{{ desktop_install_pkg_utilities.xbps }}"
     state: present
   tags: [packages, utilities]
 

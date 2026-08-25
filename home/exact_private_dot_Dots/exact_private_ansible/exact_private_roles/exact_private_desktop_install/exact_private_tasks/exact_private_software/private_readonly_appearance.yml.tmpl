@@ -27,7 +27,7 @@
 - name: Desktop Install | Appearance | Installing packages
   become: true
   community.general.xbps:
-    name: "{{ desktop_install_pkg_appearance.xbps }}"
+    package: "{{ desktop_install_pkg_appearance.xbps }}"
     state: present
   tags: [packages, appearance]
 

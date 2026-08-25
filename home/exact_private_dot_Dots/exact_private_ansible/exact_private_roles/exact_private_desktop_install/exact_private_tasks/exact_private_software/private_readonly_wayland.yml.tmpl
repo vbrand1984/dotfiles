@@ -8,7 +8,7 @@
 - name: Desktop Install | Wayland | Installing packages (stable)
   become: true
   ansible.builtin.apt:
-    name: "{{ desktop_install_pkg_wayland.stable }}"
+    package: "{{ desktop_install_pkg_wayland.stable }}"
     state: latest
     install_recommends: false
   tags: [packages, wayland, sway]
@@ -18,7 +18,7 @@
 - name: Desktop Install | Wayland | Installing packages
   become: true
   community.general.xbps:
-    name: "{{ desktop_install_pkg_wayland.xbps }}"
+    package: "{{ desktop_install_pkg_wayland.xbps }}"
     state: present
   tags: [packages, wayland, sway]
 

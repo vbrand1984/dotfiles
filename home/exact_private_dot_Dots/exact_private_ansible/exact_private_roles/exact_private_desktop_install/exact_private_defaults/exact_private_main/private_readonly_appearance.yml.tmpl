@@ -4,10 +4,10 @@
 ---
 
 desktop_install_pkg_appearance:
-{@'- if .sys.isDebianBased '@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-Based */'@}
   stable:
+    # {{{ Fonts
 
-    # Fonts
     - fonts-dejavu
     - fonts-dejavu-extra
     - fonts-firacode
@@ -23,7 +23,9 @@ desktop_install_pkg_appearance:
     - fonts-roboto
     - fonts-ubuntu
 
-    # Themes
+    # }}}
+    # {{{ Themes
+
     - gnome-themes-extra
     - gtk2-engines
     - mate-themes
@@ -34,18 +36,21 @@ desktop_install_pkg_appearance:
     - qt5ct
     - qt6ct
 
-    # Icons
+    # }}}
+    # {{{ Icons
+
     - bibata-cursor-theme
     - breeze-icon-theme
     - gnome-extra-icons
     - gnome-icon-theme
     - papirus-icon-theme
 
-{@'- else if .sys.isVoid '@}
-
+    # }}}
+{@'- /* }}} */ -'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
   xbps:
+    # {{{ Fonts
 
-    # Fonts
     - dejavu-fonts-ttf
     - font-firacode
     - font-hack-ttf
@@ -58,7 +63,9 @@ desktop_install_pkg_appearance:
     - noto-fonts-ttf
     - ttf-ubuntu-font-family
 
-    # Themes
+    # }}}
+    # {{{ Themes
+
     - gtk2-engines
     - kvantum
     - mate-themes
@@ -66,7 +73,9 @@ desktop_install_pkg_appearance:
     - qt5ct
     - qt6ct
 
-    # Icons
+    # }}}
+    # {{{ Icons
+
     - breeze-icons
     - gnome-icon-theme
     - gnome-icon-theme-extras
@@ -74,7 +83,8 @@ desktop_install_pkg_appearance:
     - papirus-icon-theme
     - xcursor-vanilla-dmz
 
-{@'- end '@}
+    # }}}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

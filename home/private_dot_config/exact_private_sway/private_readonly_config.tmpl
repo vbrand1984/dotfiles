@@ -322,6 +322,9 @@ bindsym --to-code $mod+Ctrl+f exec caja &
 # Super-Ctrl-I: Libreoffice Impress
 bindsym --to-code $mod+Ctrl+i exec libreoffice --impress &
 
+# Super-Ctrl-Q: Qalculate!
+bindsym --to-code $mod+Ctrl+q exec qalculate-gtk &
+
 # Super-Ctrl-P: Pavucontrol
 bindsym --to-code $mod+Ctrl+p exec [@ .cmd.audioMixer @] &
 
@@ -417,6 +420,7 @@ for_window [app_id="gsimplecal"] floating enable, border none, move position 100
 for_window [app_id="conky"] floating enable, border none
 for_window [app_id="gtk3-widget-factory"] floating enable
 for_window [app_id="qalculate*"] floating enable
+for_window [app_id="galculator"] floating enable
 
 default_floating_border normal 2
 for_window [window_type="dialog"] floating enable, border normal
@@ -526,6 +530,10 @@ for_window [app_id="geany"] title_format "<span color='#fabd2f'></span> $win_
 for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $win_title_text"
 for_window [app_id="kvantummanager"] title_format "<span color='#fcb533'></span> $win_title_text" 
 for_window [app_id="qt6ct"] title_format "<span color='#0dce64'></span> $win_title_text" 
+
+# Calculators
+for_window [app_id="galculator"] title_format "<span color='#d1dae6'></span> $win_title_text" 
+for_window [app_id="qalculate*"] title_format "<span color='#e73ca6'></span> $win_title_text" 
 
 # }}}
 # }}} (Titlebars setup)

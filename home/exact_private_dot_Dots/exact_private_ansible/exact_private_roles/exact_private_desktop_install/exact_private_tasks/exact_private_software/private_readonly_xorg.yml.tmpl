@@ -8,8 +8,8 @@
 - name: Desktop Install | Xorg | Installing packages (stable)
   become: true
   ansible.builtin.apt:
-    name: "{{ desktop_install_pkg_xorg.stable }}"
-    state: present
+    package: "{{ desktop_install_pkg_xorg.stable }}"
+    state: latest
     install_recommends: false
   tags: [packages, xorg]
 
@@ -25,7 +25,7 @@
 - name: Desktop Install | Xorg | Installing packages
   become: true
   community.general.xbps:
-    name: "{{ desktop_install_pkg_xorg.xbps }}"
+    package: "{{ desktop_install_pkg_xorg.xbps }}"
     state: present
   tags: [packages, xorg]
 

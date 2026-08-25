@@ -9,7 +9,7 @@
   become: true
   become_user: root
   ansible.builtin.apt:
-    upgrade: 'yes'
+    upgrade: 'safe'
     update-cache: true
     install_recommends: false
     autoclean: false
