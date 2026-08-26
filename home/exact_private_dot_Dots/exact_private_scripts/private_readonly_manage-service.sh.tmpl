@@ -39,7 +39,7 @@ start_conky () {
 
 stop_conky() {
 	if pgrep --count conky 1>/dev/null 2>&1 ; then
-		killall conky && {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='conky' 'Conky stopped'
+		killall -9 conky && {@' .cmd.notifier '@} --urgency="${urg_std}" --icon='conky' 'Conky stopped'
 	else
 		{@' .cmd.notifier '@} --urgency="${urg_std}" --icon='dialog-warning' 'Conky is not running. Nothing to stop.'
 	fi
@@ -69,7 +69,7 @@ do_conky () {
 
 do_dunst() {
 	if [ "x${1}" = 'xrestart' ] ; then
-		killall dunst
+		killall -9 dunst
 		{@' .cmd.notifier '@} --urgency="${urg_std}" --icon='preferences-desktop-notifications' 'Dunst restarted'
 	else
 		die_with_dignity

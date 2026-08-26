@@ -5,7 +5,7 @@
 # We restart those programs right away
 
 kill_process_if_it_exists() {
-	pgrep --count "$1" 1>/dev/null 2>&1 && killall "$1"
+	pgrep --count "$1" 1>/dev/null 2>&1 && killall -KILL "$1"
 }
 
 kill_process_if_it_exists conky

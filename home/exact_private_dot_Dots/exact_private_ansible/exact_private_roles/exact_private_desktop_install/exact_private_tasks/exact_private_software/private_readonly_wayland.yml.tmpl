@@ -18,7 +18,7 @@
 - name: Desktop Install | Wayland | Installing packages
   become: true
   community.general.xbps:
-    package: "{{ desktop_install_pkg_wayland.xbps }}"
+    name: "{{ desktop_install_pkg_wayland.xbps }}"
     state: present
   tags: [packages, wayland, sway]
 

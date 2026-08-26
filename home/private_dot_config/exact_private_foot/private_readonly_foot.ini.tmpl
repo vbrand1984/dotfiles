@@ -6,7 +6,7 @@
 
 # shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)
 # term=foot (or xterm-256color if built with -Dterminfo=disabled)
-term=xterm-256color
+#term=xterm-256color
 # login-shell=no
 
 # app-id=foot
@@ -33,8 +33,8 @@ font-bold-italic={@' .app.terminal.font.family '@}:slant=italic:weight={@' .app.
 
 # notify=notify-send -a ${app-id} -i ${app-id} ${title} ${body}
 
-#bold-text-in-bright=palette-based
-bold-text-in-bright=no
+bold-text-in-bright=palette-based
+#bold-text-in-bright=no
 # word-delimiters=,│`|:"'()[]{}<>
 # selection-target=primary
 # workers=<number of logical CPUs>
@@ -87,7 +87,11 @@ bold-text-in-bright=no
 # }}}
 # {{{ colors
 
+{@' if .sys.isDebianBased -'@}
 [colors]
+{@'- else -'@}
+[colors-dark]
+{@'- end '@}
 {@' $palette := includeTemplate .tmpl.palette.terminal | fromYaml -'@}
 
 alpha=1.0

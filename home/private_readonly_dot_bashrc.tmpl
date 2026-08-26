@@ -48,6 +48,10 @@ tabs -4
 
 {@'- /* {{{ Template variables definition */'@}
 
+{@'- /* These escape-sequences are only needed for PS1 */'@}
+{@'- $escStart := `\[` '@}
+{@'- $escEnd := `\]` '@}
+
 {@'- /* Terminal color codes */'@}
 {@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
 {@'- $coloRed := `\033[01;31m` '@}
@@ -59,19 +63,33 @@ tabs -4
 {@'- $coloWhite := `\033[01;37m` '@}
 {@'- $coloDefault := `\033[00m` '@}
 
-{@'- /* These color codes are used in our function in printf */'@}
+{@'- /* Terminal color codes to be used in PS1 */'@}
+{@'- $colourRed := print $escStart $coloRed $escEnd '@}
+{@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
+{@'- $colourYellow := print $escStart $coloYellow $escEnd '@}
+{@'- $colourBlue := print $escStart $coloBlue $escEnd '@}
+{@'- $colourMagenta := print $escStart $coloMagenta $escEnd '@}
+{@'- $colourCyan := print $escStart $coloCyan $escEnd '@}
+{@'- $colourWhite := print $escStart $coloWhite $escEnd '@}
+{@'- $colourDefault := print $escStart $coloDefault $escEnd '@}
+
+{@'- /* These color codes (without $escStart and $escEnd) are used in our function in printf */'@}
 {@'- $lineColo := $coloGreen '@}
 {@'- $bracketColo := $coloGreen '@}
 {@'- $branchCleanColo := $coloBlue '@}
 {@'- $branchDirtyColo := $coloRed '@}
-{@'- $distroColo := $coloCyan '@}
 {@'- $exitCodeOk := $coloBlue '@}
 {@'- $exitCodeBad := $coloRed '@}
-{@'- $usernameColo := $coloCyan '@}
-{@'- $clockColo := $coloBlue '@}
-{@'- $pathColo := $coloBlue '@}
-{@'- $usernameColo := $coloCyan '@}
-{@'- $endCharacterColo := $coloGreen '@}
+
+{@'- /* These color codes (with $escStart and $escEnd) are used in PS1 directly */'@}
+{@'- $lineColour := print $escStart $lineColo $escEnd '@}
+{@'- $bracketColour := print $escStart $bracketColo $escEnd '@}
+{@'- $clockColour := $colourBlue '@}
+{@'- $jobColour := $colourBlue '@}
+{@'- $pathColour := $colourBlue '@}
+{@'- $distroColour := $colourCyan '@}
+{@'- $usernameColour := $colourCyan '@}
+{@'- $endCharacterColour := $colourGreen '@}
 
 {@'- /* Box characters to be used in the prompt */'@}
 {@'- $lineBottomCorner := `\342\224\224` '@}
@@ -97,7 +115,9 @@ function VBD_PrintGitBranch() {
 			# Untracked changes are present. The repo is "dirty".
 			branch_colo={@' $branchDirtyColo | squote '@}
 		fi
-		printf {@' print `"` $bracketColo "[" "${branch_colo}" $gitBranchSymbol "$(git branch --show-current)" $bracketColo "]" $lineColo $lineStraight `"` '@}
+		printf {@' print `"` `\001` $bracketColo `\002` "["
+			`\001` "${branch_colo}" `\002` $gitBranchSymbol "$(git branch --show-current)"
+			`\001` $bracketColo `\002` "]" `\001` $lineColo `\002` $lineStraight `"` '@}
 	fi
 }
 
@@ -105,9 +125,9 @@ function VBD_PrintGitBranch() {
 function VBD_PrintExitCode() {
 	local exit_code=$?
 	if [[ $exit_code -eq 0 ]] ; then
-		printf {@' print $exitCodeOk "0" | squote '@}
+		printf {@' print `\001` $exitCodeOk `\002` "0" | squote '@}
 	else
-		printf {@' print $exitCodeBad "%i" | squote '@} $exit_code
+		printf {@' print `\001` $exitCodeBad `\002` "%i" | squote '@} $exit_code
 	fi
 }
 
@@ -118,13 +138,13 @@ else
 fi
 
 PS1={@' print
-	$lineColo $lineUpperCorner $lineStraight $lineStraight
-	$bracketColo "(" $distroColo `'"$distro_logo"'` $bracketColo ")" $lineColo $lineStraight
-	$bracketColo "[" $usernameColo `\u@\h ` $pathColo `\w` $bracketColo "]" $coloDefault `\n`
-	$lineColo $lineBottomCorner $lineStraight $lineStraight
-	$bracketColo "(" "$(VBD_PrintExitCode)" $bracketColo ")" $lineColo $lineStraight "$(VBD_PrintGitBranch)"
-	$bracketColo "[" $clockColo `\t` $bracketColo "]" $lineColo $lineStraight
-	$endCharacterColo $endCharacter "$(tput sgr0)" " "
+	$lineColour $lineUpperCorner $lineStraight $lineStraight
+	$bracketColour "(" $distroColour `'"$distro_logo"'` $bracketColour ")" $lineColour $lineStraight
+	$bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n`
+	$lineColour $lineBottomCorner $lineStraight $lineStraight
+	$bracketColour "(" `$(VBD_PrintExitCode)` $bracketColour ")" $lineColour $lineStraight `$(VBD_PrintGitBranch)`
+	$bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight
+	$endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " "
 	| squote
 '@}
 

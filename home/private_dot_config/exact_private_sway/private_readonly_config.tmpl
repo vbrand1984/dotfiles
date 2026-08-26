@@ -64,6 +64,12 @@ exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --syste
 # Desktop Portal for screen sharing and screenshots taking
 exec_always /usr/libexec/xdg-desktop-portal-wlr --replace &
 
+[@- if .sys.isVoid @]
+
+exec pipewire &
+
+[@- end @]
+
 # Gammastep: Redshift alternative for wayland
 exec gammastep-indicator &
 
@@ -77,7 +83,7 @@ exec swaykbdd &
 exec swayosd-server >/dev/null 2>&1 &
 
 # Conky system monitor
-exec conky --pause=[@ int .conky.startupDelay @] --daemonize &
+exec conky --pause=[@ int .conky.startupDelay @] --daemonize
 
 # Udiskie
 exec udiskie --smart-tray --notify --automount &
@@ -311,7 +317,7 @@ bindsym $mod+r mode "resize"
 # {{{ Applications
 
 # Super-Ctrl-B: Default browser: Firefox
-bindsym --to-code $mod+Ctrl+b exec firefox-esr &
+bindsym --to-code $mod+Ctrl+b exec [@ .cmd.firefox @] &
 
 # Super-Ctrl-C: Libreoffice Calc
 bindsym --to-code $mod+Ctrl+c exec libreoffice --calc &
@@ -447,7 +453,7 @@ for_window [title="."] title_format "󰣆 $win_title_text %class [%app_id]"
 # }}} (General settings)
 # {{{ Browsers
 
-for_window [app_id="firefox-esr"] inhibit_idle fullscreen, title_format "<span color='#ff7f1f'>󰈹</span> $win_title_text"
+for_window [app_id="[Ff]irefox(|-esr)"] inhibit_idle fullscreen, title_format "<span color='#ff7f1f'>󰈹</span> $win_title_text"
 for_window [app_id="chromium"] inhibit_idle fullscreen, title_format "<span color='#6199f6'></span> $win_title_text"
 for_window [app_id="vivaldi"] inhibit_idle fullscreen, title_format "<span color='#ef3939'>󰕷</span> $win_title_text"
 for_window [app_id="Opera"] inhibit_idle fullscreen, title_format "<span color='#f23845'></span> $win_title_text"
@@ -457,7 +463,10 @@ for_window [app_id="Tor Browser"] inhibit_idle fullscreen, title_format "<span c
 # }}}
 # {{{ File managers
 
-for_window [class="Caja"] title_format "<span color='#eeca8f'></span> $win_title_text"
+set $icon_file_manager <span color='#eeca8f'></span>
+for_window [class="Caja"] title_format "$icon_file_manager $win_title_text"
+for_window [app_id="caja"] title_format "$icon_file_manager $win_title_text"
+for_window [app_id="pcmanfm"] title_format "$icon_file_manager $win_title_text"
 
 # }}}
 # {{{ Image viewers
@@ -547,6 +556,7 @@ exec_always {
 	gsettings set $gnome-schema cursor-theme [@ .gtk.cursorTheme | squote @]
 	gsettings set $gnome-schema cursor-size [@ int .gtk.cursorSize @]
 	gsettings set $gnome-schema font-name [@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @]
+	gsettings set $gnome-schema color-scheme [@ .gtk.preferDarkTheme | ternary "prefer-dark" "prefer-light" | squote @]
 }
 
 # XCursor theme - just for the case

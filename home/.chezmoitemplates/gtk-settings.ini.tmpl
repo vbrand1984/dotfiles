@@ -1,0 +1,35 @@
+{{- if false -}}
+# vim: set ft=dosini:
+# 
+# This template contains content for the GTK settings config files:
+# ~/.config/gtk-3.0/settings.ini
+# ~/.config/gtk-4.0/settings.ini
+#
+# Both files are identical in this config
+#
+# chezmoi variable to store relative path to this template: .tmpl.gtkConfigIni
+#
+{{- end -}}
+[Settings]
+gtk-button-images={{ int .gtk.buttonImages }}
+gtk-menu-images={{ int .gtk.menuImages }}
+gtk-cursor-theme-name={{ .gtk.cursorTheme }}
+gtk-cursor-theme-size={{ .gtk.cursorSize }}
+gtk-enable-event-sounds={{ int .gtk.enableEventSounds }}
+gtk-enable-input-feedback-sounds={{ int .gtk.enableInputFeedbackSounds }}
+gtk-font-name={{ cat .gtk.font.family .gtk.font.weight .gtk.font.size }}
+gtk-icon-theme-name={{ .gtk.iconTheme }}
+gtk-theme-name={{ .gtk.themeName }}
+gtk-toolbar-icon-size={{ .gtk.toolbarIconSize }}
+gtk-toolbar-style={{ .gtk.toolbarStyle }}
+gtk-xft-antialias={{ int .xft.antialias }}
+gtk-xft-hinting={{ int .xft.hinting }}
+gtk-xft-hintstyle={{ .xft.hintStyle }}
+gtk-xft-rgba={{ .xft.rgba }}
+gtk-decoration-layout={{ .gtk.decorationLayout }}
+gtk-application-prefer-dark-theme={{ .gtk.preferDarkTheme | int }}
+gtk-print-preview-command=atril %f
+gtk-scrolling=smooth
+gtk-overlay-scrolling=0
+gtk-dialogs-use-header=0
+gtk-enable-animations=1

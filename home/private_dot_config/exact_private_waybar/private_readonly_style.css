@@ -1,5 +1,7 @@
 /* {{{ The bar itself */
 
+* { all: unset; }
+
 window#waybar {
 	background-image: linear-gradient(#353331, #3b3937);
 	color: #dbd7d2;
@@ -7,6 +9,22 @@ window#waybar {
 	margin: 0px;
 	padding: 0px 5px;
 	border-bottom: 1px solid #2e2c2a;
+}
+
+/* }}} */
+/* {{{ Tooltips */
+
+tooltip {
+	background-color: #eee0b1;
+	border: 1px solid #ad974c;
+}
+
+tooltip label {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: normal;
+	font-size: 12pt;
+	padding: 2px 4px;
+	color: #080808;
 }
 
 /* }}} */
@@ -49,6 +67,7 @@ window#waybar {
 	border: 1px solid #696867;
 	border-radius: 5px;
 	color: #dbd7d2;
+	min-width: 18px;
 }
 
 #workspaces button:hover {

@@ -245,7 +245,8 @@ data:
 
     # General theming
     themeName: {@' default "Greylooks" .gtk.themeName | quote '@}
-    iconTheme: {@' default "Papirus-Light" .gtk.iconTheme | quote '@}
+    iconTheme: {@' default "Papirus-Dark" .gtk.iconTheme | quote '@}
+    preferDarkTheme: {@' default true .gtk.preferDarkTheme | not | not '@}
 
     # Font settings
     font:
@@ -254,7 +255,7 @@ data:
       size: {@' default 11 .gtk.font.size | quote '@}
 
     # Mouse cursor
-    cursorTheme: {@' default (eq .chezmoi.osRelease.id "void" "arch" "artix" | ternary "Vanilla-DMZ" "DMZ-White") .gtk.cursorTheme | quote '@}
+    cursorTheme: {@' default "Bibata-Original-Classic" .gtk.cursorTheme | quote '@}
     cursorSize: {@' default 24 .gtk.cursorSize | int '@}
 
     # Various GTK settings
@@ -305,6 +306,12 @@ data:
     sudo: {@' $cmdSudo | quote '@}
 
     terminalEmulator: {@' default "alacritty" .cmd.terminalEmulator | quote '@}
+
+    {@' $cmdFirefox := $sysIsDebianBased | ternary "firefox-esr" "firefox" -'@}
+    # Depending on a distro, it's either `firefox' or `firefox-esr'
+    firefox: {@' default $cmdFirefox .cmd.firefox | quote '@}
+
+    fileManager: {@' default "caja" .cmd.fileManager | quote '@}
 
     # A command to send notifications through scripts
     # This MUST be either "notify-send" OR "dunstify"
@@ -411,7 +418,7 @@ data:
 # {{{ .rofi
 
   rofi:
-    font: {@' default ($sysHasSmallScreen | ternary "JetBrains Mono Medium 13" "JetBrains Mono Medium 14") .rofi.font | quote '@}
+    font: {@' default (cat $fontJetBrainsMono ($sysHasSmallScreen | ternary "13" "14")) .rofi.font | quote '@}
     theme: {@' default "/usr/share/rofi/themes/gruvbox-dark-soft.rasi" .rofi.theme | quote '@}
 
 # }}} (.rofi)

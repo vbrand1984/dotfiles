@@ -54,6 +54,9 @@ app:
       sha512: 'b57090e51fafc315141777303f2722592a61cbc84fed3e7d4994c24e4e74263dadc4cfeedb455931f6b7c292230364b37d54ae96ca07786086582d14aa5a7d86'
       size: 7006
 
+    graphiteGtk:
+      ver: '2026-08-23'
+
 # }}}
 # {{{ .cmd: Various commands
 
@@ -143,6 +146,8 @@ tmpl:
   listFileHashes: 'list-file-hashes.tmpl'
 
   wlogoutLayout: 'wlogout-layout.yaml.tmpl'
+
+  gtkSettingsIni: 'gtk-settings.ini.tmpl'
 
   # Openbox-related stuff
   ob:
