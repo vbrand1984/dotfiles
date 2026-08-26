@@ -57,6 +57,9 @@ app:
     graphiteGtk:
       ver: '2026-08-23'
 
+    graphiteKde:
+      ver: '2026-08-22'
+
 # }}}
 # {{{ .cmd: Various commands
 

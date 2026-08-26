@@ -103,7 +103,6 @@
 	url = "https://sourceforge.net/projects/deadbeef/files/Builds/{@' .app.version.deadbeef.ver '@}/linux/{@' $deadbeefFileName '@}/download"
 	checksum.sha512 = {@' .app.version.deadbeef.sha512 | quote '@}
 	checksum.size = {@' .app.version.deadbeef.size '@}
-	executable = false
 	refreshPeriod = 0
 
 # papirus-folders package
@@ -126,7 +125,6 @@
 	path = "obmenu-generator"
 	filter.command = "sed"
 	filter.args = [ "s/perl//g" ]
-	executable = false
 	readonly = true
 	private = true
 	refreshPeriod = 0
@@ -143,7 +141,6 @@
 	filter.command = "sed"
 	filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
 	refreshPeriod = 0
-	executable = false
 	readonly = true
 	private = true
 {@' end '@}
@@ -155,7 +152,6 @@
 	url = "http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb"
 	checksum.sha256 = "1d87328cb485c96ee5c9eca06bba05159183099a4c6df6121052fc1047cf594f"
 	checksum.size = 196336
-	executable = false
 	refreshPeriod = 0
 {@' end '@}
 
@@ -165,9 +161,6 @@
 	url = "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Original-Classic.tar.xz"
 	checksum.sha512 = "7ea3759da3628e9daa3ed5b1f92d778b73146a22e8cd74747df6b2ca534a2d00ca3604e02152b4924b755e5f1cd413b7b2cca363938362f1d3033c3a52f70135"
 	checksum.size = 1871780
-	executable = false
-	readonly = false
-	private = false
 	refreshPeriod = 0
 {@' end '@}
 

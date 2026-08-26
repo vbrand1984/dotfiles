@@ -1,7 +1,5 @@
 /* {{{ The bar itself */
 
-* { all: unset; }
-
 window#waybar {
 	background-image: linear-gradient(#353331, #3b3937);
 	color: #dbd7d2;
@@ -17,6 +15,7 @@ window#waybar {
 tooltip {
 	background-color: #eee0b1;
 	border: 1px solid #ad974c;
+	border-radius: 0px;
 }
 
 tooltip label {
@@ -68,6 +67,7 @@ tooltip label {
 	border-radius: 5px;
 	color: #dbd7d2;
 	min-width: 18px;
+	min-height: 10px;
 }
 
 #workspaces button:hover {
