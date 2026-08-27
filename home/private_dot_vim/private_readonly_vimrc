@@ -103,7 +103,7 @@ augroup certain_config_files
 	autocmd!
 	autocmd BufRead,BufNewFile *sway/*config,*sway/*config.tmpl setlocal filetype=swayconfig
 	autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl setlocal filetype=conf
-	autocmd BufRead,BufNewFile */*gtkrc-2.0.tmpl,*gtk-3.0/*settings.ini.tmpl setlocal filetype=dosini
+	autocmd BufRead,BufNewFile */*gtkrc*.tmpl,*gtk-3.0/*settings.ini.tmpl setlocal filetype=dosini
 	autocmd BufRead,BufNewFile *_bash_logout.tmpl,*_bashrc.tmpl,*_bash_profile.tmpl setlocal filetype=bash
 	autocmd BufRead,BufNewFile */*fontconfig/*_fonts.conf.tmpl setlocal filetype=xml
 	autocmd BufRead,BufNewFile *_Xresources.tmpl setlocal filetype=xdefaults

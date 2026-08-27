@@ -1,3 +1,8 @@
+/* chezmoi:template: left-delimiter={@' right-delimiter='@} */
+/*
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment " * " '@}
+ */
+
 /* {{{ The bar itself */
 
 window#waybar {
@@ -19,9 +24,9 @@ tooltip {
 }
 
 tooltip label {
-	font-family: "Ubuntu", sans-serif;
+	font-family: {@' .gtk.font.family | quote '@}, sans-serif;
 	font-weight: normal;
-	font-size: 12pt;
+	font-size: {@' .gtk.font.size | int '@}pt;
 	padding: 2px 4px;
 	color: #080808;
 }

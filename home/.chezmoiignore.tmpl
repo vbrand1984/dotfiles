@@ -12,10 +12,6 @@
 	{{ joinPath .dir.localScripts "openweathermap-id.json" }}
 {{ end }}
 
-{{ if not .sys.isVoid }}
-	.dircolors
-{{ end }}
-
 {{ if not .sys.isDebBased }}
 	{{ joinPath .dir.downloaded "*" }}
 {{ end }}

@@ -1,12 +1,72 @@
-{{ if false }}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
-if [[ -r "${HOME}/.bashrc" ]] ; then
-	source "${HOME}/.bashrc"
-fi
+[[ -r "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
 
 # set PATH so it includes user's private bin if it exists
-if [[ -d {{ joinPath .chezmoi.homeDir .dir.localBin | quote }} ]] ; then
-	PATH="$PATH:{{ joinPath .chezmoi.homeDir .dir.localBin }}"
+[[ -d {@' joinPath .chezmoi.homeDir .dir.localBin | squote '@} ]] && PATH="${PATH}:{@' joinPath .chezmoi.homeDir .dir.localBin '@}"
+
+# {{{ XDG directories
+
+# Configuring our XDG cache in RAM
+cachedir="/tmp/${USER}/.cache"
+if [[ ! -d "${cachedir}" ]] ; then
+	mkdir --parents "${cachedir}"
+	chmod 0700 "/tmp/${USER}"
+	chmod 0700 "${cachedir}"
 fi
-{{ end }}
+export XDG_CACHE_HOME="${cachedir}"
+unset cachedir
+
+# Other XDG directories
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_RUNTIME_DIR="/run/user/${UID}"
+
+# }}}
+# {{{ Various settings
+
+# Config file for wget
+# See: https://ftp.gnu.org/old-gnu/Manuals/wget-1.8.1/html_node/wget_25.html
+export WGETRC={@' joinPath .chezmoi.homeDir ".config/wget/wgetrc" | squote '@}
+
+# Editor
+export EDITOR={@' .cmd.editor | squote '@}
+export VISUAL={@' .cmd.editor | squote '@}
+
+{@' if not .sys.isGentoo -'@}
+# Colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+{@' end -'@}
+
+# }}}
+# {{{ Legacy (just for the case)
+
+# Xauthority file
+XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
+
+# Gtk2 config file
+GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc"
+
+# }}}
+# {{{ Compressors
+
+# Zstd. See: https://wiki.gentoo.org/wiki/Zstd#Configuration
+# See: https://lists.archlinux.org/pipermail/arch-dev-public/2019-March/029520.html
+export STD_CLEVEL=16
+export STD_NBTHREADS=0
+
+# Xz. See https://wiki.gentoo.org/wiki/Xz-utils#Configuration
+# -T0: compress and decompress with the number of cores available
+# -9: use maximum compression level (but not extreme)
+export XZ_DEFAULTS='-9 -T0'
+
+# }}}
