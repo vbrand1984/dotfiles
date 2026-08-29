@@ -1,0 +1,86 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Opera | Check for Opera repo file
+  ansible.builtin.stat:
+    path: "{{ vbd_www_browsers_repo_data.opera.repo.filename }}"
+  register: vbd_www_browsers_opera_repo_file
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Create temporary file for signing key
+  ansible.builtin.tempfile:
+    suffix: tmp
+  register: browsers_opera_tempfile
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Download Opera signing key
+  ansible.builtin.get_url:
+    url: "{{ vbd_www_browsers_repo_data.opera.key.url }}"
+    dest: "{{ vbd_www_browsers_opera_repo_file.path }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '644'
+    force: true
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Delete Opera dearmored key if it exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ vbd_www_browsers_repo_data.opera.key.filename }}"
+    state: absent
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Dearmor Opera signing key
+  become: true
+  ansible.builtin.command:
+    cmd: "gpg --dearmor -o {{ vbd_www_browsers_repo_data.opera.key.filename }} -- {{ vbd_browsers_opera_tempfile.path }}"
+  args:
+    creates: "{{ vbd_www_browsers_repo_data.opera.key.filename }}"
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Delete temporary key file
+  ansible.builtin.file:
+    path: "{{ vbd_browsers_opera_tempfile.path }}"
+    state: absent
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Add Opera repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by={{ vbd_www_browsers_repo_data.opera.key.filename }}] \
+           {{ vbd_www_browsers_repo_data.opera.repo.url }} \
+           {{ vbd_www_browsers_repo_data.opera.repo.suite }} \
+           {{ vbd_www_browsers_repo_data.opera.repo.component }}"
+    filename: "{{ vbd_www_browsers_repo_data.opera.repo.filename | basename | splitext | first }}"
+  when: not vbd_www_browsers_opera_repo_file.stat.exists
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | debconf opera-stable
+  become: true
+  ansible.builtin.debconf:
+    pkg: opera-stable
+    question: opera-stable/add-deb-source
+    value: false
+    vtype: boolean
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+- name: Opera | Install package
+  become: true
+  ansible.builtin.apt:
+    package: opera-stable
+    state: present
+    install_recommends: false
+  tags: [packages, desktop, www_browsers, www_browser_opera]
+
+...
+{@'- end '@}

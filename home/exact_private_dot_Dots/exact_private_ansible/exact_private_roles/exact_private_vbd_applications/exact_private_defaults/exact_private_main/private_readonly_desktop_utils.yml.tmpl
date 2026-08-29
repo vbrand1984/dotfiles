@@ -1,0 +1,39 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_applications_pkgs_desktop_utils:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - caja
+    - dconf-editor
+    - emacs
+    - emacs-pgtk
+    - engrampa
+    - geany
+    - gsimplecal
+    - qalculate-gtk
+    - xdg-desktop-portal-gtk
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - caja
+    - engrampa
+    - dconf-editor
+    - geany
+    - gsimplecal-gtk3
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

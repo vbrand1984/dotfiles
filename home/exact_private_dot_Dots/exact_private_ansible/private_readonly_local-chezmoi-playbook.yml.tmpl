@@ -28,8 +28,17 @@
       tags: always
 
   roles:
-    - desktop_install
-    - browsers
+
+    # System
+    - vbd_utilities
+
+    # Desktop
+    - vbd_appearance
+    - vbd_wayland_base
+    - vbd_audio_base
+    # - vbd_desktop_install
+    - vbd_www_browsers
+    - vbd_wireshark
 
 {@'- end '@}
 
@@ -39,5 +48,5 @@
     - vars/fontconfig-config.yml
 
   roles:
-    - sys_conf
+    - vbd_sys_conf
 ...

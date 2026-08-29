@@ -1,4 +1,4 @@
-# vim: ft=yaml
+# vim: set ft=yaml:
 # This file is managed by chezmoi
 
 skip_list:

@@ -1,0 +1,14 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Run dpkg-reconfigure wireshark-common
+  become: true
+  ansible.builtin.command:
+    cmd: dpkg-reconfigure -f noninteractive wireshark-common
+  changed_when: true
+  tags: always
+
+...
+{@'- end '@}

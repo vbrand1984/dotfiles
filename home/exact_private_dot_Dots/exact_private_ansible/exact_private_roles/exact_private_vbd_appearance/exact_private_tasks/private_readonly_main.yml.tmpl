@@ -1,0 +1,19 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Appearance | Icons
+  ansible.builtin.import_tasks: packages/icons.yml
+
+- name: Appearance | Fonts
+  ansible.builtin.import_tasks: packages/fonts.yml
+
+- name: Appearance | Themes
+  ansible.builtin.import_tasks: packages/themes.yml
+
+...
+{@'- end '@}

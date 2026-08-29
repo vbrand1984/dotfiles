@@ -59,7 +59,7 @@ input "type:keyboard" {
 # {{{ Autostart
 
 # Update environment variables
-exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway &
+exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --systemd [@ end -@] XDG_SESSION_TYPE DISPLAY WAYLAND_DISPLAY I3SOCK SWAYSOCK XDG_CURRENT_DESKTOP=sway &
 
 # Desktop Portal for screen sharing and screenshots taking
 exec_always /usr/libexec/xdg-desktop-portal-wlr --replace &
@@ -67,6 +67,10 @@ exec_always /usr/libexec/xdg-desktop-portal-wlr --replace &
 [@- if .sys.isVoid @]
 
 exec pipewire &
+
+[@- else if .sys.isDevuan @]
+
+exec /bin/sh -e [@ joinPath .chezmoi.homeDir .dir.localScripts "autostarters/pipewire-devuan.sh" | quote @] &
 
 [@- end @]
 

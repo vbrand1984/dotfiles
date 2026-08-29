@@ -1,0 +1,21 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_applications_pkgs_distro_specific:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - gdebi
+    - lintian
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

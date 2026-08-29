@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_appearance_pkgs_icons:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - bibata-cursor-theme
+    - breeze-icon-theme
+    - gnome-extra-icons
+    - gnome-icon-theme
+    - papirus-icon-theme
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - breeze-icons
+    - gnome-icon-theme
+    - gnome-icon-theme-extras
+    - papirus-folders
+    - papirus-icon-theme
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

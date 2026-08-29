@@ -1,0 +1,46 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_utilities_pkgs_archivers:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - arj
+    - cabextract
+    - p7zip
+    - rar
+    - rpm
+    - unace
+    - unrar
+    - unzip
+    - xz-utils
+    - zip
+    - zstd
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - cabextract
+    - dpkg
+    - p7zip
+    - p7zip-unrar
+    - rpm
+    - unrar
+    - unzip
+    - xz
+    - zip
+    - zstd
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

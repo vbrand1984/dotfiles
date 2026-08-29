@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: Common utilities | Install packages (stable)
+  tags: [packages, system, utilities, common_utils]
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_utilities_pkgs_common.stable }}"
+    state: latest
+    install_recommends: false
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+- name: Common utilities | Install packages (xbps)
+  tags: [packages, system, utilities, common_utils]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_utilities_pkgs_common.xbps }}"
+    state: present
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

@@ -1,0 +1,30 @@
+---
+
+- name: Configuration for /root | Directories and symlinks
+  become: true
+  ansible.builtin.file:
+    src: "{{ item.src if 'src' in item else '' }}"
+    dest: "{{ item.dest }}"
+    state: "{{ item.state }}"
+    owner: "{{ 'root' if item.state != 'absent' else '' }}"
+    group: "{{ 'root' if item.state != 'absent' else '' }}"
+    follow: false
+    force: true
+    mode: "{{ '700' if item.state == 'directory' else '' }}"
+  loop: "{{ vbd_sys_conf_symlinks }}"
+  tags: [files, system_files, rootconf]
+
+- name: Configuration for /root | Files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: 'root'
+    group: 'root'
+    mode: '600'
+  loop:
+    - {src: 'mc/ini', dest: '/root/.config/mc/ini'}
+    - {src: 'mc/panels.ini', dest: '/root/.config/mc/panels.ini'}
+  tags: [files, system_files, rootconf]
+
+...

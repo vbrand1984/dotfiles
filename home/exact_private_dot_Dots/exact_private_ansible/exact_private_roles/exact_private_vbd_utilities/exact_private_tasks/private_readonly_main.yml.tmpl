@@ -1,0 +1,34 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Utilities | Archivers
+  ansible.builtin.import_tasks: software/archivers.yml
+
+- name: Utilities | RTFM
+  ansible.builtin.import_tasks: software/rtfm.yml
+
+- name: Utilities | Common utils
+  ansible.builtin.import_tasks: software/common.yml
+
+- name: Utilities | Productivity
+  ansible.builtin.import_tasks: software/productivity.yml
+
+- name: Utilities | Distro-specific
+  ansible.builtin.import_tasks: software/distro_specific.yml
+
+- name: Utilities | Hardware utils
+  ansible.builtin.import_tasks: software/hardware.yml
+
+- name: Utilities | System monitors
+  ansible.builtin.import_tasks: software/system_monitors.yml
+
+- name: Utilities | Network utils
+  ansible.builtin.import_tasks: software/network.yml
+
+...
+{@'- end '@}

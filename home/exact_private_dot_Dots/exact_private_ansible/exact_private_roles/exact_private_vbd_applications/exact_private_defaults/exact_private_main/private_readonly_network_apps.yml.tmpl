@@ -1,0 +1,33 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_applications_pkgs_network_apps:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - amule
+    - network-manager-gnome
+    # - qbittorrent
+
+  backports:
+    - qbittorrent
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - network-manager-applet
+    - qbittorrent
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

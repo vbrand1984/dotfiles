@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: Desktop | Applications | Dictionaries | Stable
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_applications_pkgs_dictionaries.stable }}"
+    state: latest
+    install_recommends: false
+  tags: [packages, desktop, applications, dictionaries]
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+- name: Desktop | Applications | Dictionaries | Xbps
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_applications_pkgs_dictionaries.xbps }}"
+    state: present
+  tags: [packages, desktop, applications, dictionaries]
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

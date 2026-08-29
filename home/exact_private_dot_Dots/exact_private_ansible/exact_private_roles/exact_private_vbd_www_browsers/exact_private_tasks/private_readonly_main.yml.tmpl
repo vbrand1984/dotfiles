@@ -1,0 +1,52 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+{@'- if .sys.isDebianBased '@}
+
+- name: Vivaldi
+  ansible.builtin.import_tasks: deb_vivaldi.yml
+
+- name: Opera
+  ansible.builtin.import_tasks: deb_opera.yml
+
+# - name: Desktop | Browsers | Librewolf
+#   ansible.builtin.import_tasks: deb_librewolf.yml
+
+- name: Install browsers (stable)
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_www_browsers_pkgs.stable }}"
+    state: latest
+    install_recommends: false
+  tags: [packages, desktop, www_browsers]
+
+- name: Copy chromium-flags config file
+  become: true
+  ansible.builtin.copy:
+    dest: '/etc/chromium.d/my-own-chromium-flags'
+    src: 'my-own-chromium-flags'
+    owner: root
+    group: root
+    mode: '644'
+  tags: [packages, desktop, www_browsers]
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Install browsers (xbps)
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_www_browsers_pkgs.xbps }}"
+    state: present
+  tags: [packages, desktop, www_browsers]
+
+{@'- end '@}
+
+- name: Set default browser
+  ansible.builtin.import_tasks: set_default_browser.yml
+
+...
+{@'- end '@}

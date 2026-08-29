@@ -76,6 +76,7 @@ conf_needed:
   - 70-noto-cjk.conf
 
   - 80-delicious.conf
+  - 90-fonts-linux-libertine.conf
   - 90-synthetic.conf
 
 ...

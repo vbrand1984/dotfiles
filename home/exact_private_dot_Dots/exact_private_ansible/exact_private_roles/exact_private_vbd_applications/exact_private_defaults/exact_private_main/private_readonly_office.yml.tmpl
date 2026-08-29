@@ -1,0 +1,31 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_applications_pkgs_office:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+
+  backports:
+    - libreoffice
+    - libreoffice-gtk3
+    - libreoffice-l10n-ru
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - libreoffice
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

@@ -5,7 +5,7 @@
 
 {@' if .sys.isDebianBased -'@}
 
-- name: Desktop Install | Upgrade Apt
+- name: Upgrade Apt
   become: true
   become_user: root
   ansible.builtin.apt:
@@ -19,7 +19,7 @@
 
 {@'- else if .sys.isVoid -'@}
 
-- name: Desktop Install | Upgrade Xbps
+- name: Upgrade Xbps
   become: true
   become_user: root
   community.general.xbps:

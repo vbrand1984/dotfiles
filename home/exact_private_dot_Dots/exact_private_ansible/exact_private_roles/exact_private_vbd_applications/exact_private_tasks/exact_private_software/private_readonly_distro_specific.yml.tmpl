@@ -1,0 +1,24 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: Desktop | Applications | Debian-specific | Stable
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_applications_pkgs_distro_specific.stable }}"
+    state: latest
+    install_recommends: false
+  tags: [packages, desktop, applications, distro_specific]
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

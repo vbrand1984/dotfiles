@@ -137,8 +137,10 @@ data:
     # Currently, does not have much effect, WIP
     useWayland: {@' default true .misc.useWayland | not | not '@}
 
-    # These settings are automatically configured during chezmoi init.
+    # Following settings are automatically configured during chezmoi init.
     # No need to change them in {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" | squote '@}, edit {@' joinPath (.chezmoi.sourceDir | replace .chezmoi.homeDir "~") "chezmoi.yaml.tmpl" | squote '@} instead.
+
+    # Distribution autodetection flags
     isDebian: {@' $sysIsDebian | not | not '@}
     isDevuan: {@' $sysIsDevuan | not | not '@}
     isDebianBased: {@' $sysIsDebianBased | not | not '@}
@@ -146,12 +148,20 @@ data:
     isDebBased: {@' $sysIsDebBased | not | not '@}
     isVoid: {@' $sysIsVoid | not | not '@}
     isGentoo: {@' $sysIsGentoo | not | not '@}
-    hasSystemd: {@' lookPath "systemctl" | not | not '@}
 
+    # Init system autodetection flags
+    hasSystemd: {@' lookPath "systemctl" | not | not '@}
+    hasSysV: {@' lookPath "sysv-rc-conf" | not | not '@}
+    hasOpenRC: {@' lookPath "rc-service" | not | not '@}
+
+    # Virtual machine autodetection
     isVM: {@' $sysIsVM | not | not '@}
 
+    # Small screen autodetection (VM or Old Laptop)
+    # This affects default font sizes for certain widgets
     hasSmallScreen: {@' $sysHasSmallScreen | not | not '@}
 
+    # Chassis autodetection (based on hostname)
     isDesktopRig: {@' $sysIsDesktopRig | not | not '@}
     isOldLaptop: {@' $sysIsOldLaptop | not | not '@}
     isNecroLaptop: {@' $sysIsNecroLaptop | not | not '@}

@@ -1,0 +1,40 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_utilities_pkgs_productivity:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - git
+    - lf
+    - mc
+    - nano
+    - rsync
+    - tmux
+    - vim-gtk3
+    - vim-syntax-gtk
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - git
+    - lf
+    - mc
+    - nano
+    - rsync
+    - tmux
+    - vim-huge
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

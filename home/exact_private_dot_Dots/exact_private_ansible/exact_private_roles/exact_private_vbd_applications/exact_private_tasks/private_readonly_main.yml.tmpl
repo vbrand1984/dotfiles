@@ -1,0 +1,44 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Desktop | Applications | Dictionaries
+  ansible.builtin.import_tasks: software/dictionaries.yml
+
+- name: Desktop | Applications | Wayland specific
+  ansible.builtin.import_tasks: software/wayland_specific.yml
+
+- name: Desktop | Applications | Desktop utils
+  ansible.builtin.import_tasks: software/desktop_utils.yml
+
+- name: Desktop | Applications | Image handling
+  ansible.builtin.import_tasks: software/image_handling.yml
+
+- name: Desktop | Applications | Video
+  ansible.builtin.import_tasks: software/video.yml
+
+- name: Desktop | Applications | Audio
+  ansible.builtin.import_tasks: software/audio.yml
+
+- name: Desktop | Applications | Office
+  ansible.builtin.import_tasks: software/Office.yml
+
+- name: Desktop | Applications | Document viewers
+  ansible.builtin.import_tasks: software/document_viewers.yml
+
+- name: Desktop | Applications | Network apps
+  ansible.builtin.import_tasks: software/network_apps.yml
+
+{@'- if .sys.isDebianBased '@}
+
+- name: Desktop | Applications | Distro specific
+  ansible.builtin.import_tasks: software/distro_specific.yml
+
+{@'- end '@}
+
+...
+{@'- end '@}

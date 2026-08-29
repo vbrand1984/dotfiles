@@ -129,6 +129,7 @@ function VBD_PrintExitCode() {
 	else
 		printf {@' print `\001` $exitCodeBad `\002` "%i" | squote '@} $exit_code
 	fi
+	export VBD_EXIT_CODE_
 }
 
 if [[ $TERM == 'linux' ]] ; then
@@ -190,9 +191,9 @@ alias la='ls -Al'
 alias l='ls -CF'
 
 # Wrap the following commands for interactive use to avoid accidental file overwrites.
-rm() { command rm -i "${@}"; }
-cp() { command cp -i "${@}"; }
-mv() { command mv -i "${@}"; }
+function rm() { command rm -i "${@}"; }
+function cp() { command cp -i "${@}"; }
+function mv() { command mv -i "${@}"; }
 
 # }}} (Generic aliases)
 # {{{ Various handy aliases
@@ -208,7 +209,7 @@ alias h='htop'
 
 # Vim
 alias v='vim'
-alias vs={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
+alias se={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
 
 # Weather conditions and forecast
 # "What's the forecast" alias
@@ -387,8 +388,10 @@ fi
 {@'- end '@}
 # {{{ Export variables
 
-### GPG options ###
-GPG_TTY=$(tty)
+# GPG options
+GPG_TTY="$(tty)"
 export GPG_TTY
+
+#xhost si:localuser:root >/dev/null
 
 # }}} (Export variables)

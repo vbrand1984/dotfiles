@@ -15,7 +15,7 @@ exec tmux display-menu -T 'WLogout Configuration' -x C -y C \
 	'Edit style'			's' "new-window -n 'wlogout-style' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/style.css" '@}'" \
 	'Edit palette'			'p' "new-window -n 'wlogout-palette' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.wlogout) | squote '@}" \
 	'' \
-	'Edit logout.svg'		'1' "new-window -n 'logout.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/logout.svg" '@} '" \
+	'Edit exit.svg'			'1' "new-window -n 'exit.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/exit.svg" '@} '" \
 	'Edit reboot.svg'		'2' "new-window -n 'reboot.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/reboot.svg" '@} '" \
 	'Edit shutdown.svg'		'3' "new-window -n 'shutdown.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/shutdown.svg" '@} '" \
 	'Edit suspend.svg'		'4' "new-window -n 'suspend.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/suspend.svg" '@} '" \

@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: RTFM | Install packages (stable)
+  tags: [packages, system, utilities, rtfm]
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_utilities_pkgs_rtfm.stable }}"
+    state: latest
+    install_recommends: false
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+- name: RTFM | Install packages (xbps)
+  tags: [packages, system, utilities, rtfm]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_utilities_pkgs_rtfm.xbps }}"
+    state: present
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

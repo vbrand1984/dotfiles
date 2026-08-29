@@ -1,0 +1,47 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@' if .sys.isDebianBased -'@}
+
+- name: Wireshark | Configure debconf wireshark-common
+  become: true
+  ansible.builtin.debconf:
+    pkg: wireshark-common
+    question: wireshark-common/install-setuid
+    value: true
+    vtype: boolean
+  notify: Run dpkg-reconfigure wireshark-common
+  tags: [packages, desktop, wireshark]
+
+- name: Wireshark | Install wireshark | Apt Stable
+  become: true
+  ansible.builtin.apt:
+    package: wireshark
+    default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+    state: latest
+    install_recommends: false
+  tags: [packages, desktop, wireshark]
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Wireshark | Install wireshark | Xbps
+  become: true
+  community.general.xbps:
+    package: wireshark
+    state: present
+  tags: [packages, desktop, wireshark]
+
+{@'- end '@}
+
+- name: Wireshark | Adding the user to the `wireshark' group
+  become: true
+  ansible.builtin.user:
+    user: {@' .chezmoi.username '@}
+    groups: wireshark
+    append: true
+  tags: [packages, desktop, wireshark, groups]
+
+...
+{@'- end '@}

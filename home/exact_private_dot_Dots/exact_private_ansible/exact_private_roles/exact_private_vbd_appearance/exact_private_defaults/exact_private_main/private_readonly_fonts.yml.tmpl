@@ -1,0 +1,59 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_appearance_pkgs_fonts:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+    - fonts-atkinson-hyperlegible
+    - fonts-crosextra-caladea
+    - fonts-crosextra-carlito
+    - fonts-dejavu
+    - fonts-dejavu-extra
+    - fonts-firacode
+    - fonts-freefont-otf
+    - fonts-hack
+    - fonts-jetbrains-mono
+    - fonts-liberation
+    - fonts-liberation2
+    - fonts-linuxlibertine
+    - fonts-noto
+    - fonts-noto-cjk
+    - fonts-noto-color-emoji
+    - fonts-paratype
+    - fonts-roboto
+    - fonts-roboto-slab
+    - fonts-ubuntu
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - dejavu-fonts-ttf
+    - font-atkinson-hyperlegible-otf
+    - font-crosextra-caladea-ttf
+    - font-crosextra-carlito-ttf
+    - font-firacode
+    - font-hack-ttf
+    - font-libertine-otf
+    - font-weather-icons
+    - fonts-roboto-ttf
+    - freefont-ttf
+    - liberation-fonts-ttf
+    - noto-fonts-cjk
+    - noto-fonts-emoji
+    - noto-fonts-ttf
+    - ttf-ubuntu-font-family
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

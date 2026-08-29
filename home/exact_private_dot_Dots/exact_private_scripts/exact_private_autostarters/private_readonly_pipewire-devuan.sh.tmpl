@@ -1,0 +1,18 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if and .sys.isDebianBased (not .sys.hasSystemd) -'@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@}
+# Autostart pipewire
+
+# Clean up any dead instances
+pkill --euid="${USER}" --exact pipewire pipewire-pulse wireplumber 2>/dev/null || :
+
+# Start components one by one
+/usr/bin/pipewire &
+sleep 1
+/usr/bin/pipewire-pulse &
+sleep 1
+/usr/bin/wireplumber &
+
+{@'- end '@}

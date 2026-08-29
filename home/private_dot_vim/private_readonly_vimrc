@@ -82,7 +82,7 @@ augroup END
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
 
 " Filetypes
-augroup custom_filetypes
+augroup my_filetypes
 	autocmd!
 	autocmd BufRead,BufNewFile *.css.tmpl setlocal filetype=css
 	autocmd BufRead,BufNewFile *.desktop.tmpl setlocal filetype=desktop

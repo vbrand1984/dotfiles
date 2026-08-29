@@ -1,0 +1,41 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_utilities_pkgs_distro_specific:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  stable:
+{@'- if and .sys.isBrandsPrivate (ne .dir.userData .dir.userDataDefault) '@}
+    - btrfsmaintenance
+{@'- end '@}
+    - command-not-found
+    - devscripts # for checkbashisms mainly
+    - hodie
+    - python3-apt
+#    - python3-debian # backported
+    - python-is-python3
+    - vrms
+
+  backports:
+    - python3-debian
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - checkbashisms
+    - vsv
+    - xtools
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}
