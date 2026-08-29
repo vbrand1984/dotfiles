@@ -26,6 +26,15 @@
     state: latest
     install_recommends: false
 
+- name: Debian-specific | Install apt-file
+  tags: [packages, system, utilities, distro_specific]
+  become: true
+  ansible.builtin.apt:
+    package: apt-file
+    state: latest
+    install_recommends: false
+  notify: Update apt-file
+
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}

@@ -1,0 +1,8 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Opyt
+  hosts: localhost
+  tasks:
+...

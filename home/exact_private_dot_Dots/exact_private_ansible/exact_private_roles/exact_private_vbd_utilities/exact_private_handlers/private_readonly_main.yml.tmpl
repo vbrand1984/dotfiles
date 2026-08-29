@@ -1,0 +1,14 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Update apt-file
+  become: true
+  ansible.builtin.command:
+    cmd: apt-file update
+  changed_when: true
+  tags: always
+
+...
+{@'- end '@}
