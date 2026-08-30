@@ -79,7 +79,7 @@ cmd:
     volumeMute: 'swayosd-client --output-volume mute-toggle'
 
     # Lock the screen
-    lockScreen: 'swaylock -f -c 000000'
+    lockScreen: 'swaylock'
 
     # Logout dialogue
     logout: 'wlogout --buttons-per-row=2'

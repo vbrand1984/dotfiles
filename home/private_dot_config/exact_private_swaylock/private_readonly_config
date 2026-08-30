@@ -1,0 +1,65 @@
+# General behaviour settings
+daemonize
+ignore-empty-password
+
+# What to indicate
+indicator-caps-lock
+show-failed-attempts
+show-keyboard-layout
+
+# Layout
+indicator-radius=110
+indicator-thickness=30
+
+# Font settings
+font=Ubuntu Bold
+font-size=28pt
+
+#
+# Palette (mostly gruvbox/gruvbox-material)
+#
+
+# Background color
+color=000000
+
+# Text colors
+layout-text-color=d4be98
+text-color=100c08
+
+# Normal ring colors
+inside-color=6f8352
+line-color=1d2021
+ring-color=6c782e
+
+# Highlight segment
+bs-hl-color=af5f00
+key-hl-color=a9b665
+separator-color=1d2021
+
+# Clear
+inside-clear-color=b47109
+line-clear-color=1d2021
+ring-clear-color=c35e0a
+text-clear-color=100c08
+
+# Wrong
+inside-wrong-color=af3a03
+line-wrong-color=1d2021
+ring-wrong-color=9d0006
+text-wrong-color=100c08
+
+# Verification
+inside-ver-color=45707a
+line-ver-color=1d2021
+ring-ver-color=076678
+text-ver-color=100c08
+
+# Caps lock
+inside-caps-lock-color=5f0000
+ring-caps-lock-color=b57614
+text-caps-lock-color=b57614
+
+# Caps lock highlight segment colors
+caps-lock-bs-hl-color=af5f00
+caps-lock-key-hl-color=af3a03
+
