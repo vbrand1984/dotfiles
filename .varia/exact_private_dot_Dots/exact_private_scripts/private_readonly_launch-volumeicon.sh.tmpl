@@ -1,0 +1,23 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@}
+
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script launches volumeicon on Openbox start
+#
+
+volumeicon_started=false
+i=0
+
+while ! $volumeicon_started && [ $i -lt 20 ] ; do
+	if pgrep --count wireplumber >/dev/null 2>&1 ; then
+		volumeicon_started=true
+		sleep {@' if eq .dir.userData .dir.userDataDefault -'@}4{@'- else -'@}2{@'- end '@}
+		volumeicon &
+	else
+		sleep 1
+		i=$((i + 1))
+	fi
+done
