@@ -149,10 +149,8 @@ data:
     isVoid: {@' $sysIsVoid | not | not '@}
     isGentoo: {@' $sysIsGentoo | not | not '@}
 
-    # Init system autodetection flags
+    # Init system autodetection
     hasSystemd: {@' lookPath "systemctl" | not | not '@}
-    hasSysV: {@' lookPath "sysv-rc-conf" | not | not '@}
-    hasOpenRC: {@' lookPath "rc-service" | not | not '@}
 
     # Virtual machine autodetection
     isVM: {@' $sysIsVM | not | not '@}

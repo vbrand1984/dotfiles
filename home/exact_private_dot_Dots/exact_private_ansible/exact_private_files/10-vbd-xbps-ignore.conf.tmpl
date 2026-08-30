@@ -1,0 +1,113 @@
+# chezmoi:template: left-delimiter={@ right-delimiter=@}
+{@- if .sys.isVoid -@}
+# {{{ General ignorance settings
+
+ignorepkg=sudo
+ignorepkg=linux
+ignorepkg=linux-headers
+ignorepkg=linux-firmware-broadcom
+ignorepkg=base-system
+
+# }}}
+# {{{ Libreoffice
+
+ignorepkg=libreoffice-i18n-pl
+ignorepkg=libreoffice-i18n-pt
+ignorepkg=libreoffice-i18n-de
+ignorepkg=libreoffice-i18n-en-US
+ignorepkg=libreoffice-i18n-es
+ignorepkg=libreoffice-i18n-fr
+ignorepkg=libreoffice-i18n-it
+ignorepkg=noto-fonts-ttf-extra
+ignorepkg=xorg-server-xwayland
+
+# }}}
+# {{{ QEMU
+
+ignorepkg=qemu-system-aarch64
+ignorepkg=qemu-system-alpha
+ignorepkg=qemu-system-arm
+ignorepkg=qemu-system-avr
+ignorepkg=qemu-system-cris
+ignorepkg=qemu-system-hppa
+ignorepkg=qemu-system-i386
+ignorepkg=qemu-system-loongarch64
+ignorepkg=qemu-system-m68k
+ignorepkg=qemu-system-microblaze
+ignorepkg=qemu-system-microblazeel
+ignorepkg=qemu-system-mips
+ignorepkg=qemu-system-mips64
+ignorepkg=qemu-system-mips64el
+ignorepkg=qemu-system-mipsel
+ignorepkg=qemu-system-or1k
+ignorepkg=qemu-system-ppc
+ignorepkg=qemu-system-ppc64
+ignorepkg=qemu-system-riscv32
+ignorepkg=qemu-system-riscv64
+ignorepkg=qemu-system-rx
+ignorepkg=qemu-system-s390x
+ignorepkg=qemu-system-sh4
+ignorepkg=qemu-system-sh4eb
+ignorepkg=qemu-system-sparc
+ignorepkg=qemu-system-sparc64
+ignorepkg=qemu-system-tricore
+ignorepkg=qemu-system-xtensa
+ignorepkg=qemu-system-xtensaeb
+ignorepkg=qemu-user-aarch64
+ignorepkg=qemu-user-aarch64_be
+ignorepkg=qemu-user-alpha
+ignorepkg=qemu-user-arm
+ignorepkg=qemu-user-armeb
+ignorepkg=qemu-user-cris
+ignorepkg=qemu-user-hexagon
+ignorepkg=qemu-user-hppa
+ignorepkg=qemu-user-i386
+ignorepkg=qemu-user-loongarch64
+ignorepkg=qemu-user-m68k
+ignorepkg=qemu-user-microblaze
+ignorepkg=qemu-user-microblazeel
+ignorepkg=qemu-user-mips
+ignorepkg=qemu-user-mips64
+ignorepkg=qemu-user-mips64el
+ignorepkg=qemu-user-mipsel
+ignorepkg=qemu-user-mipsn32
+ignorepkg=qemu-user-mipsn32el
+ignorepkg=qemu-user-or1k
+ignorepkg=qemu-user-ppc
+ignorepkg=qemu-user-ppc64
+ignorepkg=qemu-user-ppc64le
+ignorepkg=qemu-user-riscv32
+ignorepkg=qemu-user-riscv64
+ignorepkg=qemu-user-s390x
+ignorepkg=qemu-user-sh4
+ignorepkg=qemu-user-sh4eb
+ignorepkg=qemu-user-sparc
+ignorepkg=qemu-user-sparc32plus
+ignorepkg=qemu-user-sparc64
+ignorepkg=qemu-user-static
+ignorepkg=qemu-user-xtensa
+ignorepkg=qemu-user-xtensaeb
+
+# }}}
+# {{{ google-fonts-ttf dependencies
+
+ignorepkg=cantarell-fonts
+ignorepkg=font-b612
+ignorepkg=font-fira-ttf
+ignorepkg=font-ibm-plex-ttf
+ignorepkg=font-libre-hebrew
+ignorepkg=font-manjari
+ignorepkg=font-material-design-icons-ttf
+ignorepkg=font-sil-abyssinica
+ignorepkg=font-sil-alkalami
+ignorepkg=font-sil-charis
+ignorepkg=font-sil-harmattan
+ignorepkg=font-sil-mingzat
+ignorepkg=font-sil-padauk
+ignorepkg=font-sil-tai-heritage-pro
+ignorepkg=font-vollkorn-ttf
+ignorepkg=fonts-croscore-ttf
+ignorepkg=source-sans-pro
+
+# }}}
+{@- end @}

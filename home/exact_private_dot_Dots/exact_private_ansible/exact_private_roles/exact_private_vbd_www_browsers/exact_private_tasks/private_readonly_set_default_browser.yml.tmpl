@@ -8,12 +8,12 @@
 
 {@'- if .sys.isDebianBased '@}
 
-- name: Browsers | Set default browser (via update-alternatives)
+- name: Set default browser (via update-alternatives)
   become: true
   community.general.alternatives:
     name: "{{ item }}"
     link: "/usr/bin/{{ item }}"
-    path: '/usr/bin/firefox-esr'
+    path: "/usr/bin/{{ vbd_www_browsers_default_browser }}"
     state: selected
   loop:
     - gnome-www-browser
@@ -22,9 +22,9 @@
 
 {@'- end '@}
 
-- name: Browsers | Set default browser (via xdg-mime)
+- name: Set default browser (via xdg-mime)
   community.general.xdg_mime:
-    handler: firefox-esr.desktop
+    handler: "{{ vbd_www_browsers_default_browser }}.desktop"
     mime_types:
       - x-scheme-handler/http
       - x-scheme-handler/https

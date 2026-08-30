@@ -5,9 +5,8 @@
 
 {@' if .sys.isDebianBased -'@}
 
-- name: Upgrade Apt
+- name: Apt | Upgrade system
   become: true
-  become_user: root
   ansible.builtin.apt:
     upgrade: 'yes'
     update-cache: true
@@ -15,19 +14,24 @@
     autoclean: false
     autoremove: false
   diff: true
-  tags: always
 
 {@'- else if .sys.isVoid -'@}
 
-- name: Upgrade Xbps
+- name: Xbps | Copy config file (list of ignored packages)
   become: true
-  become_user: root
+  ansible.builtin.copy:
+    src: files/10-vbd-xbps-ignore.conf
+    dest: /etc/xbps.d/10-vbd-xbps-ignore.conf
+    owner: root
+    group: root
+    mode: '644'
+
+- name: Xbps | Upgrade system
+  become: true
   community.general.xbps:
     update_cache: true
     upgrade: true
     upgrade_xbps: true
-  diff: true
-  tags: always
 
 {@'- end '@}
 

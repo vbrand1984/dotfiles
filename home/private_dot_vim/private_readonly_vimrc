@@ -84,6 +84,7 @@ augroup END
 " Filetypes
 augroup my_filetypes
 	autocmd!
+	autocmd BufRead,BufNewFile *.conf.tmpl setlocal filetype=conf
 	autocmd BufRead,BufNewFile *.css.tmpl setlocal filetype=css
 	autocmd BufRead,BufNewFile *.desktop.tmpl setlocal filetype=desktop
 	autocmd BufRead,BufNewFile *.ini.tmpl setlocal filetype=dosini

@@ -20,11 +20,11 @@
 {@' if or .sys.isDebianBased .sys.isVoid -'@}
 
 - name: Desktop Package Management
-  hosts: all
+  hosts: localhost
+
   pre_tasks:
-    - name: Upgrade System
-      ansible.builtin.import_tasks:
-        file: tasks/upgrade_system.yml
+    - name: Upgrade package manager
+      ansible.builtin.import_tasks: tasks/upgrade_package_manager.yml
       tags: always
 
   roles:
