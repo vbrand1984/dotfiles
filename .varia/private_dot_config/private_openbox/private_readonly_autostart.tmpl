@@ -1,0 +1,43 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+
+# Openbox autostart script
+
+# --== Setting keyboard and mouse parameters ==--
+xset mouse 20/10 10 r rate {@' int .misc.kbd.delay '@} {@' int .misc.kbd.repeat '@} b off
+
+# --== XSettings daemon ==--
+xsettingsd &
+
+# --== Compositor ==--
+picom --daemon &
+#xcompmgr &
+
+# --== Panel ==-- 
+tint2 &
+
+# --== Desktop Background ==--
+nitrogen --restore --force-setter=xwindows &
+
+# --== Varisous Stuff ==--
+{@' if .misc.startEmacsDaemon -'@}
+emacs --bg-daemon &
+{@'- end '@}
+udiskie --smart-tray --notify --automount &
+
+# --== Screensaver ==--
+xscreensaver --no-splash &
+
+# --== Clipboard Manager ==--
+clipit &
+
+# --== Sound Volume Manager ==--
+#(sleep {@' if eq .dir.userData .dir.userDataDefault -'@}4{@'- else -'@}2{@'- end -'@}; volumeicon) &
+/bin/sh {@' joinPath .chezmoi.homeDir .dir.localScripts "launch-volumeicon.sh" '@} &
+#pnmixer &
+
+# --== Conky System Monitor ==--
+(sleep 1; conky --pause={@' int .conky.startupDelay '@} --daemonize) &
+
+# --== Layout Switcher Indicator ==--
+(sleep 2; gxkb) &

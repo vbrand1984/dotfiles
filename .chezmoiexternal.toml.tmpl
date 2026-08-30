@@ -1,0 +1,168 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@} missing-key=invalid
+# vim: set ft=toml ts=4 sw=4 noet:
+{@' if not (env .app.envIgnoreExternals) '@}
+# {{{ General
+
+# Vim plugin manager
+[".vim/autoload/plug.vim"]
+	type = "file"
+	url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	refreshPeriod = "168h"
+
+# }}}
+# {{{ Themes
+
+# Our default GTK and Openbox themes:
+# Greylooks, GreylooksGreen, GreylooksHuman, GreylooksOk, GreylooksPurple, GreylooksSand
+{@' range .misc.greylooksThemes '@}
+[".local/share/themes/{@' . '@}"]
+	type = "archive"
+	url = "https://github.com/vbrand1984/greylooks/archive/master.zip"
+	format = "zip"
+	exact = true
+	stripComponents = 2
+	include = ["greylooks-master/{@' . '@}/**"]
+	refreshPeriod = "1680h"
+{@' end '@}
+
+# }}}
+# {{{ Desktop Backgrounds
+
+# Hercules as default wallpaper
+[{@' joinPath .dir.desktop.localBackgrounds .file.defaultWallpaper | quote '@}]
+	type = "file"
+	url = "https://images.squarespace-cdn.com/content/v1/5ce71504c7259600017b8c37/1663017845570-N437I6Y5NLT3G8LWGK4W/AdobeStock_300989887+(1).jpeg"
+	checksum.sha512 = "16c79d418c6d27149cc7c9db5c31e69cd2171be5266e39ac5744cd7ab9cc1a06e1eafeeab231d3c522a2d69c73ff7b5cbd6f60b747d958332c4c8badb0871d55"
+	checksum.size = 587384
+	executable = false
+	readonly = false
+	private = false
+	refreshPeriod = 0
+
+{@' if .sys.isBrandsPrivate '@}
+# Victor Brand's personal wallpapers
+[{@' joinPath .dir.desktop.brandsBackgrounds | quote '@}]
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1v1OQQq8HyKBEVGz4BO7tiJwacrc2_w2x"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["brands-desktop-wallpapers/*"]
+	checksum.sha512 = "fd0fa4cc92314d44006c4f1a33323fdd20d5df7abbfbe05f6c56ef51cbbd2d8002d0603b3cef41ccd0603afb76dcd9a1199919e05cc00d5520dcadd94830f86d"
+	checksum.size = 2682067
+	refreshPeriod = "1680h"
+{@' end '@}
+
+# }}}
+# {{{ Fonts
+
+# JetBrainsMonoNL and Ubuntu Nerd Font fonts
+[".local/share/fonts/nerd-fonts"]
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1v9Wldc35JyORC_IADhoTyCM3R1n009bB"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["nerd-fonts/*.ttf"]
+	checksum.sha512 = "68c85773eba99d55794d016cb8bc24f937e3e179fa43912ab8f067c3f3eaefa2cea3b6431323d4b8373b32f9901bb8f166e2eb7119039e21170adb471855ed38"
+	checksum.size = 5253639
+	refreshPeriod = "1680h"
+
+# MS fonts
+[".local/share/fonts/winfonts"]
+	type = "archive"
+	url = "https://drive.google.com/uc?export=download&id=1oqMz4-otLnuu3IgenYV5_IqJ7Mzc0kbh"
+	format = "tar.zst"
+	stripComponents = 1
+	exact = true
+	include = ["winfonts/*.tt?"]
+	checksum.sha512 = "6b1b7440c03523eea3218bf8c07002000a890c82af5567473fca1dac15a28735e3309df4b855d934fea6d1425ac744e539eccd7b29182bb4c5f8ea825d371570"
+	checksum.size = 16195257
+	refreshPeriod = "1680h"
+
+{@' if and .sys.isBrandsPrivate .sys.isDesktopRig '@}
+# Font with weather icons which is used in my python-powered conky weather widget
+# Only used on my desktop rig
+[".local/share/fonts/weathericons-regular-webfont.ttf"]
+	type = "file"
+	url = "https://github.com/erikflowers/weather-icons/raw/master/font/weathericons-regular-webfont.ttf"
+	executable = false
+	refreshPeriod = 0
+{@' end '@}
+
+# }}}
+# {{{ Distro-specific
+
+{@' if .sys.isDebBased '@}
+
+# deadbeef package
+#{@' $deadbeefFileName := (printf .app.version.deadbeef.filenamePattern .app.version.deadbeef.ver .app.version.deadbeef.build) '@}
+# https://sourceforge.net/projects/deadbeef/files/Builds/1.10.2/linux/deadbeef-static_1.10.2-1_amd64.deb/download
+[{@' joinPath .dir.downloadedDeb $deadbeefFileName | quote '@}]
+	type= "file"
+	url = "https://sourceforge.net/projects/deadbeef/files/Builds/{@' .app.version.deadbeef.ver '@}/linux/{@' $deadbeefFileName '@}/download"
+	checksum.sha512 = {@' .app.version.deadbeef.sha512 | quote '@}
+	checksum.size = {@' .app.version.deadbeef.size '@}
+	refreshPeriod = 0
+
+# papirus-folders package
+# https://launchpad.net/~papirus/+archive/ubuntu/papirus/+packages?field.name_filter=papirus-folders
+#{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) '@}
+#[{@' joinPath .dir.downloadedDeb $papirusFoldersFileName | quote '@}]
+#	type= "file"
+#	url = "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/{@' $papirusFoldersFileName '@}"
+#	checksum.sha512 = {@' .app.version.papirusFolders.sha512 | quote '@}
+#	checksum.size = {@' .app.version.papirusFolders.size '@}
+#	executable = false
+#	refreshPeriod = 0
+
+# Obmenu-generator script
+[{@' joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote '@}]
+	type= "archive-file"
+	url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{@' .app.obmenuGeneratorVersion '@}.tar.gz"
+	stripComponents = 1
+	format = "tar.gz"
+	path = "obmenu-generator"
+	filter.command = "sed"
+	filter.args = [ "s/perl//g" ]
+	readonly = true
+	private = true
+	refreshPeriod = 0
+
+{@' end '@}
+
+{@' if and .sys.isDebianBased (not .sys.hasSystemd) '@}
+# Pipewire-launcher script from Gentoo to be installed and used in Devuan
+[{@' joinPath .dir.downloadedScripts .file.devuansPipewireLauncher | quote '@}]
+	type = "file"
+	url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r4"
+	checksum.sha512 = "a6c725af79128859ef05e8e42e5069b6da65b13feeb8137b99498eafef0a02c5718003c8e820b1a73f9e1789fd4153e45ab18a7221e628a9f0cbce83d13d66bf"
+	checksum.size = 2851
+	filter.command = "sed"
+	filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
+	refreshPeriod = 0
+	readonly = true
+	private = true
+{@' end '@}
+
+{@' if not .sys.isDevuan '@}
+# Devuan keyring package
+[{@' joinPath .dir.downloadedDeb "devuan-keyring_2025.08.09_all.deb" | quote '@}]
+	type = "file"
+	url = "http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb"
+	checksum.sha256 = "1d87328cb485c96ee5c9eca06bba05159183099a4c6df6121052fc1047cf594f"
+	checksum.size = 196336
+	refreshPeriod = 0
+{@' end '@}
+
+{@' if .sys.isVoid '@}
+[".local/share/icons"]
+	type = "archive"
+	url = "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Original-Classic.tar.xz"
+	checksum.sha512 = "7ea3759da3628e9daa3ed5b1f92d778b73146a22e8cd74747df6b2ca534a2d00ca3604e02152b4924b755e5f1cd413b7b2cca363938362f1d3033c3a52f70135"
+	checksum.size = 1871780
+	refreshPeriod = 0
+{@' end '@}
+
+# }}}
+{@' end '@}

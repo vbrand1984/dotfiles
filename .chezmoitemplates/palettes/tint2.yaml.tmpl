@@ -1,0 +1,78 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+#
+# This is my palette for tint2 panel.
+#
+# chezmoi variable to store relative path to this template: .tmpl.palette.tint2
+#
+{@'- end -'@}
+---
+useGradients: true
+
+colorStopPercentUnpressed: 33
+colorStopPercentPressed: 66
+
+{@' $fgColor1 := "#080808" '@}
+{@' $fgColor2 := "#32302f" '@}
+
+panel:
+  background: '#cbc8c1'
+  border:     '#b8b5ae'
+  gradient:
+    start:    '#cecac3'
+    end:      '#c6c2bb'
+    #start:    '#cbc8c2'
+    #end:      '#c5c2bc'
+
+taskbar:
+  nameFontColor: '#32302f'
+  nameActiveFontColor: '#d9d6cf'
+
+task:
+
+  unpressed:
+    fontColor:  {@' $fgColor1 | squote '@}
+    background: '#dbd7d0'
+    border:     '#89827c'
+    gradient:
+      start:    '#cdc9c2'
+      stop:     '#d8d4cd'
+      end:      '#b2aea7'
+
+  hover:
+    background: '#ece5d4'
+    #border:     '#999792'
+    border:     '#89827c'
+    gradient:
+      start:    '#d6d2cb'
+      stop:     '#e4e0d9'
+      end:      '#bab6af'
+
+  pressed:
+    fontColor:  '#030303'
+    background: '#ddd4c5'
+    border:     '#88847e'
+    gradient:
+      start:    '#bab6af'
+      stop:     '#aaa69f'
+      end:      '#b7b3ac'
+
+  urgent:
+    background: '#f4f1ec'
+    border:     '#928f89'
+
+  iconified:
+    fontColor:  '#6c6054'
+
+tooltip:
+  fontColor:  {@' $fgColor1 | squote '@}
+  background: '#eee0b1'
+  border:     '#ad974c'
+
+clock:
+  fontColor: {@' $fgColor2 | squote '@}
+
+separator:
+  color: '#898275'
+
+...

@@ -1,0 +1,17 @@
+**/*.swp
+**/*.old
+
+{{ if not .sys.isBrandsPrivate }}
+	.config/age
+	.config/git/credentials
+	.config/gtk-3.0/bookmarks
+	.config/user-dirs.dirs
+	.config/user-dirs.locale
+	.java
+	{{ joinPath .dir.ansible.home "vars/local-symlinks.yml" }}
+	{{ joinPath .dir.localScripts "openweathermap-id.json" }}
+{{ end }}
+
+{{ if not .sys.isDebBased }}
+	{{ joinPath .dir.downloaded "*" }}
+{{ end }}

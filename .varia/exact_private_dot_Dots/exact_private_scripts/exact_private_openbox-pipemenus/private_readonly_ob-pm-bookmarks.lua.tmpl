@@ -1,0 +1,52 @@
+-- chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@' if false -'@}
+-- vim: ft=lua
+{@'- end -'@}
+
+package.path = package.path .. {@' printf ";%s" (joinPath .chezmoi.homeDir .dir.luaModules "?.lua") | squote '@}
+local obmenu = require("obmenu")
+
+-- XDG user directories
+local lgi = require("lgi")
+local GLib = lgi.GLib
+
+local home_dir = GLib.get_home_dir()
+local xdg_pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
+local xdg_download_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+local xdg_documents_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOCUMENTS)
+
+local file_manager = 'xdg-open'
+local bookmarks_file = home_dir .. '/.config/gtk-3.0/bookmarks'
+
+local the_item = obmenu:add_menuitem('Home Directory', 'folder-home')
+the_item:add_action_execute(file_manager .. ' ' .. home_dir)
+
+local f = io.open(bookmarks_file, 'r')
+
+if f ~= nil then
+	obmenu:add_separator('')
+
+	for the_line in f:lines() do
+		local item_name = string.gsub(the_line, '^[^%s]*%s', '')
+		local item_path = string.gsub(the_line, '%s[^%s]*$', '')
+		local the_str = string.sub(item_path, -(string.len(item_path)-7))
+		local icon_name
+
+		if the_str == xdg_documents_dir then
+			icon_name = 'folder-documents'
+		elseif the_str == xdg_download_dir then
+			icon_name = 'folder-download'
+		elseif the_str == xdg_pictures_dir then
+			icon_name = 'folder-pictures'
+		else
+			icon_name = 'folder'
+		end
+
+		the_item = obmenu:add_menuitem(item_name, icon_name)
+		the_item:add_action_execute(file_manager .. ' ' .. item_path)
+	end
+
+	io.close(f)
+end
+
+io.write(tostring(obmenu))

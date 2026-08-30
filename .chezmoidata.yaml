@@ -1,0 +1,197 @@
+---
+# {{{ .app: Various applications settings
+
+app:
+  envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
+
+  # This is an editor for config files to be invoked via Openbox menu entries
+  chezmoiEditorFromMenu: "/usr/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
+
+  luaVersion: '5.3'
+
+  defaultTmuxSessionName: 'A'
+
+  # A version of obmenu-generator to download from the github repo
+  # This is used in deb-based distros where is no obmenu-generator in the repos
+  # See: https://github.com/trizen/obmenu-generator
+  obmenuGeneratorVersion: '0.93'
+
+  # This thing is used in commands like notify-send and dunstify,
+  # when ``--action`` parameter is used.
+  # This delimiter separates action tag from action text,
+  # and in dunstify, it's ``,``, whereas in notify-send, it's ``=``
+  # See take-screenshot-x.sh script
+  notifierActionDelimiter:
+    dunstify: ','
+    notify-send: '='
+
+  version:
+
+    # Sources of ClipIt of this version will be downloaded, compiled and installed
+    # in deb-based distros and Void
+    # See: https://github.com/CristianHenzel/ClipIt
+    clipIt: '1.4.5'
+
+    # In deb-based distros, .deb installer for deadbeef will be downloaded from here:
+    # https://deadbeef.sourceforge.io/download.html
+    # and installed via Ansible.
+    # See also: .chezmoiexternals.toml.tmpl
+    deadbeef:
+      ver: '1.10.3'
+      build: '1'
+      filenamePattern: 'deadbeef-static_%s-%s_amd64.deb'
+      sha512: '383a75e396e92c13f9352082093ed351984af13aee46793d8df20b381af474fc32b3314fa4b72713e800ac43b7f1bfb48c034dde182c00318ea05b823a90d727'
+      size: 11856668
+
+    # In deb-based distros, .deb installer for papirus-folders will be downloaded from here:
+    # https://deadbeef.sourceforge.io/download.html
+    # and installed via Ansible.
+    # See also: .chezmoiexternals.toml.tmpl
+    papirusFolders:
+      ver: '1.14.0-1~133'
+      ubuntuVer: '24.04'
+      filenamePattern: 'papirus-folders_%s~ubuntu%s.1_all.deb'
+      sha512: 'b57090e51fafc315141777303f2722592a61cbc84fed3e7d4994c24e4e74263dadc4cfeedb455931f6b7c292230364b37d54ae96ca07786086582d14aa5a7d86'
+      size: 7006
+
+    graphiteGtk:
+      ver: '2026-08-23'
+
+    graphiteKde:
+      ver: '2026-08-22'
+
+# }}}
+# {{{ .cmd: Various commands
+
+cmd:
+
+  editor: '/usr/bin/vim'
+
+  # Start audio mixer from status bar and with keyboard shortcut
+  audioMixer: 'pavucontrol-qt --tab=3'
+
+  # Wayland-specific desktop commands
+  wayland:
+
+    # Contol sound volume
+    volumeUp: 'swayosd-client --output-volume +2'
+    volumeDown: 'swayosd-client --output-volume -2'
+    volumeMute: 'swayosd-client --output-volume mute-toggle'
+
+    # Lock the screen
+    lockScreen: 'swaylock'
+
+    # Logout dialogue
+    logout: 'wlogout --buttons-per-row=2'
+
+# }}}
+# {{{ .file: Filenames
+
+file:
+  # Under which name obmenu-generator script will be saved in Debian-based distros
+  debiansObmenuGeneratorName: 'obmenu-generator'
+
+  # Under which name gentoo-pipewire-launcher script
+  # will be saved in Devuan (and other non-systemd Debian-based distros)
+  devuansPipewireLauncher: 'pipewire-launcher'
+
+  #defaultWallpaper: 'nature-sepia-1920x1200.jpg'
+  defaultWallpaper: 'Heracles-2500x1406.jpeg'
+
+  ansible:
+    config: 'ansible.cfg'
+    inventory: 'inventory.yml'
+    localPlaybook: 'local-chezmoi-playbook.yml'
+
+# }}}
+# {{{ .message: Various messages
+
+message:
+
+  managedByChezmoi: 'This file is managed by chezmoi template:'
+  dumbShebang: 'Run this script as following:'
+  farewell: 'Vero a sessione exire vis?'
+
+# }}}
+# {{{ .misc: Miscellaneous settings
+
+misc:
+
+  papirusTheme: 'yaru'
+
+  greylooksThemes:
+    - Greylooks
+    - GreylooksGreen
+    - GreylooksHuman
+    - GreylooksOk
+    - GreylooksPurple
+    - GreylooksSand
+
+  menuSymbols:
+
+    # Non-selected radiobutton
+    radioUnchecked: 'radio-symbolic'
+
+    # Selected radiobutton
+    # Variants: selection-mode-symbolic, system-hibernate-symbolic
+    radioChecked: 'radio-checked-symbolic'
+
+    # Variants: emblem-ok-symbolic, emblem-default-symbolic,
+    # dino-tick-symbolic, process-completed-symbolic, object-select-symbolic
+    selected: 'object-select-symbolic'
+
+# }}}
+# {{{ .tmpl: Paths to templates
+tmpl:
+
+  chromiumFlags: 'chromium-flags.yaml.tmpl'
+
+  listFileHashes: 'list-file-hashes.tmpl'
+
+  wlogoutLayout: 'wlogout-layout.yaml.tmpl'
+
+  gtkSettingsIni: 'gtk-settings.ini.tmpl'
+
+  # Openbox-related stuff
+  ob:
+    # Absolute path to the obmenu-generator script
+    # Used in obmenu-generator's schema.pl and in Openbox' menu.xml
+    obmenuGeneratorPath: 'openbox/obmenuGeneratorPath.tmpl'
+
+    # Default rc.xml for Openbox to be used in the modify script for it
+    defaultOpenboxRc: 'openbox/defaultOpenboxRc.xml.tmpl'
+
+  # Messages to be printed in files or on the screen
+  msg:
+    managedByChezmoi: 'msg-managed-by-chezmoi.tmpl'
+    printRunningScriptName: 'scripts-shell/print-running-script-name.sh.tmpl'
+
+  # Palettes for various applications
+  palette:
+    conky: 'palettes/conky.toml'
+    terminal: 'palettes/terminal.yaml.tmpl'
+    tint2: 'palettes/tint2.yaml.tmpl'
+    wlogout: 'palettes/wlogout.yaml.tmpl'
+
+  # Package lists for installing
+  pkgLists:
+    clipitBuildDeps: 'pkglists/clipitBuildDeps.yaml.tmpl'
+    preInstall: 'pkglists/preInstall.yaml.tmpl'
+
+  # Shell scripts
+  sh:
+    funcEnsureSudoIsWorking: 'scripts-shell/ensure-sudo-is-working.sh.tmpl'
+    funcPrintMessage: 'scripts-shell/print-message.sh.tmpl'
+    funcPkgManager: 'scripts-shell/pkg-manager.sh.tmpl'
+
+  # Shebangs, mostly dumb
+  shebang:
+    dumbSh: 'shebangs/dumb-sh.tmpl'
+
+  # Various commands
+  shellCmd:
+    openboxLogout: 'shell-cmd/openbox-logout.tmpl'
+    obmenuGenerator: 'shell-cmd/obmenu-generator.tmpl'
+
+# }}}
+...

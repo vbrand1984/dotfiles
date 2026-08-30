@@ -1,0 +1,5 @@
+QFrame {
+	border: none;
+/*	border-width: 1px;*/
+}
+

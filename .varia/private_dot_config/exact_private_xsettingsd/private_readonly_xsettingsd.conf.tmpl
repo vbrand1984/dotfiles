@@ -1,0 +1,24 @@
+{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
+#
+# See: https://codeberg.org/derat/xsettingsd
+# See: https://www.freedesktop.org/wiki/Specifications/XSettingsRegistry/
+#
+
+# Theme settings
+Net/ThemeName {{ .gtk.themeName | quote }}
+Net/IconThemeName {{ .gtk.iconTheme | quote }}
+Gtk/CursorThemeName {{ .gtk.cursorTheme | quote }}
+Gtk/FontName {{ cat .gtk.font.family .gtk.font.weight .gtk.font.size | quote }}
+Gtk/DecorationLayout {{ .gtk.decorationLayout | quote }}
+Net/EnableEventSounds {{ int .gtk.enableEventSounds }}
+Net/EnableInputFeedbackSounds {{ int .gtk.enableInputFeedbackSounds }}
+
+# The value must be 1024*DPI
+Xft/DPI {{ mul .xft.dpi 1024 }}
+
+# Font settings
+Xft/Antialias {{ int .xft.antialias }}
+Xft/Hinting {{ int .xft.hinting }}
+Xft/HintStyle {{ .xft.hintStyle | quote }}
+Xft/RGBA {{ .xft.rgba | quote }}
+Xft/lcdfilter {{ .xft.lcdfilter | quote }}

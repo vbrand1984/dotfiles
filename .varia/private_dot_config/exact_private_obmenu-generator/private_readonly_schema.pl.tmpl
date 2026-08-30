@@ -1,0 +1,153 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=perl:
+{@'- end -'@}
+#!/usr/bin/perl
+
+# obmenu-generator - schema file
+
+=for comment
+
+	item:		add an item inside the menu				{item => ["command", "label", "icon"]},
+	cat:		add a category inside the menu			{cat => ["name", "label", "icon"]},
+	sep:		horizontal line separator				{sep => undef}, {sep => "label"},
+	pipe:		a pipe menu entry						{pipe => ["command", "label", "icon"]},
+	file:		include the content of an XML file		{file => "/path/to/file.xml"},
+	raw:		any XML data supported by Openbox		{raw => q(...)},
+	beg:		begin of a category						{beg => ["name", "icon"]},
+	end:		end of a category						{end => undef},
+	obgenmenu:	generic menu settings					{obgenmenu => ["label", "icon"]},
+	exit:		default "Exit" action					{exit => ["label", "icon"]},
+
+=cut
+
+# NOTE:
+#		* Keys and values are case sensitive. Keep all keys lowercase.
+#		* ICON can be a either a direct path to an icon or a valid icon name
+#		* Category names are case insensitive. (X-XFCE and x_xfce are equivalent)
+
+require "$ENV{HOME}/.config/obmenu-generator/config.pl";
+
+## Text editor
+my $editor = $CONFIG->{editor};
+my $chezmoi_editor = {@' .app.chezmoiEditorFromMenu | quote '@};
+
+our $SCHEMA = [
+
+	#			COMMAND					LABEL				ICON
+	{pipe =>	['/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-bookmarks.lua" '@} {@' .misc.obmenuIconSize '@}',
+										'Bookmarks',		'system-file-manager-symbolic']},
+	{item =>	['x-terminal-emulator', 'Terminal',			'utilities-terminal-symbolic']},
+	{item =>	['xdg-open http://',	'Web Browser',		'web-browser-symbolic']},
+{@'- if or .sys.isDesktopRig .sys.isOldLaptop .sys.isAlcoLaptop '@}
+{@'- $telegramCmd := .sys.isDebBased | ternary "flatpak run org.telegram.desktop" (.sys.isVoid | ternary "Telegram" "telegram-desktop") '@}
+	{item => 	[{@' $telegramCmd | quote '@}, 'Telegram', '/usr/share/icons/Papirus-Light/24x24/panel/telegram-panel.svg']},
+{@'- end '@}
+
+	{sep =>		'Applications'},
+
+	#			NAME					LABEL				ICON
+	{cat =>		['utility',				'Accessories',		'applications-utilities-symbolic']},
+	{cat =>		['development',			'Development',		'applications-engineering-symbolic']},
+	{cat =>		['education',			'Education',		'applications-science-symbolic']},
+	{cat =>		['game',				'Games',			'applications-games-symbolic']},
+	{cat =>		['graphics',			'Graphics',			'applications-graphics-symbolic']},
+	{cat =>		['audiovideo',			'Multimedia',		'applications-multimedia-symbolic']},
+	{cat =>		['network',				'Network',			'network-workgroup-symbolic']},
+	{cat =>		['office',				'Office',			'libreoffice-base-symbolic']},
+	{cat =>		['other',				'Other',			'tools-symbolic']},
+	{cat =>		['settings',			'Settings',			'utilities-tweak-tool-symbolic']},
+	{cat =>		['system',				'System',			'applications-system-symbolic']},
+
+	#			  LABEL			 ICON
+	#{beg => ['My category',  'cat-icon']},
+	#		   ... some items ...
+	#{end => undef},
+
+	#			 COMMAND	 LABEL		  ICON
+	#{pipe => ['obbrowser', 'Disk', 'drive-harddisk']},
+
+	## Generic advanced settings
+	#{sep		=> undef},
+	#{obgenmenu => ['Openbox Settings', 'applications-engineering']},
+	#{sep		=> undef},
+
+	## Custom advanced settings
+	{sep => undef},
+	#{beg => ['Advanced Settings', 'applications-engineering']},
+	{beg => ['Advanced Settings', 'preferences-other-symbolic']},
+
+		# Nitrogen
+		{item => ['nitrogen',	'Desktop wallpaper',		'preferences-desktop-wallpaper-symbolic']},
+		# Reconfiguration of the whole appearance
+		{item => [{@' .cmd.reconfigureAppearance | squote '@}, 'Reconfigure appearance', 'preferences-desktop-remote-desktop-symbolic']},
+
+		{sep => undef},
+
+		# Greylooks themes category (pipemenu)
+		{pipe => ['/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-choose-greylooks-themes.lua" '@}',
+										'Choose Greylooks theme',	'appearance-symbolic']},
+
+		# Conky category (pipemenu)
+		{pipe => ['/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-conky.lua" '@}',
+								'Conky',					'utilities-system-monitor-symbolic']},
+
+		# obmenu-generator category
+		{beg => ['Obmenu-Generator', 'edit-tag-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/obmenu-generator/schema.pl", 'Edit schema.pl', 'edit-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/obmenu-generator/config.pl", 'Edit config.pl', 'edit-symbolic']},
+
+			{sep  => undef},
+
+			{item => ['{@' includeTemplate .tmpl.shellCmd.obmenuGenerator . '@} -d', 'Refresh cache', 'view-refresh-symbolic']},
+		{end => undef},
+
+		# Openbox configuration category
+		{beg => ['Openbox', 'workspaces-symbolic']},
+			{item => ['obconf',					'Obconf',				'obconf']},
+			{item => ['openbox --reconfigure',	'Reconfigure Openbox',	'system-run-symbolic']},
+			{item => ['openbox --restart',		'Restart Openbox',		'view-refresh-symbolic']},
+
+			{sep => undef},
+
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/openbox/autostart",		'Edit autostart script',			'edit-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/openbox/menu.xml",		'Edit menu.xml',					'edit-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/openbox/keybindings.xml", 'Edit keybindings.xml',				'edit-symbolic']},
+
+			{sep => undef},
+
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/openbox/rc.xml",			'Edit modify script for rc.xml',	'edit-symbolic']},
+		{end => undef},
+
+		# Varia category
+		# settings-configure
+		{beg => ['Varia', 'preferences-system-details-symbolic']},
+			{item => ['{@' .cmd.manageService '@} restart tint2',
+					'Restart tint2', 'preferences-ubuntu-panel-symbolic']},
+			{item => ['{@' .cmd.manageService '@} restart dunst',
+					'Restart dunst', 'notifications-applet-symbolic']},
+
+			{sep => undef},
+
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/tint2/tint2rc",	  'Edit tint2rc',	  'edit-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/dunst/dunstrc",	  'Edit dunstrc',	  'edit-symbolic']},
+			{item => ["$chezmoi_editor {@' .chezmoi.homeDir '@}/.config/picom/picom.conf",  'Edit picom.conf',  'edit-symbolic']},
+		{end => undef},
+
+		# XSettingsD category (pipemenu)
+		{pipe => ['/usr/bin/lua -- {@' joinPath .chezmoi.homeDir .dir.obPipeMenus "ob-pm-xsettingsd.lua" '@}',
+					'XSettingsD',	 'preferences-desktop-apps-symbolic']},
+
+	{end => undef},
+
+	{sep => 'Exit'},
+
+	## The xscreensaver lock command
+	{item => ['xscreensaver-command -lock', 'Lock screen', 'system-lock-screen-symbolic']},
+
+	## This option uses the default Openbox's "Exit" action
+	{exit => ['Log out', 'system-log-out-symbolic']},
+
+	## This uses the 'oblogout' menu
+	{item => [{@' includeTemplate .tmpl.shellCmd.openboxLogout . | squote '@}, 'Shutdown', 'system-shutdown-symbolic']},
+]
