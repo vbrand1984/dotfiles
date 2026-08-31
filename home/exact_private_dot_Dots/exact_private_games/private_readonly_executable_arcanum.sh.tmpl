@@ -18,7 +18,7 @@ fi
 
 cd "${game_dir}"
 
-xrandr --size 1280x720
-taskset --cpu-list "1-$(( `nproc` - 1 ))" env WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
-xrandr --size 1920x1080
+#xrandr --size 1280x720
+taskset --cpu-list "1-$(( `nproc` - 1 ))" env DISPLAY= WINEPREFIX="${wine_prefix}" wine "${game_binary}" "/nocommit"
+#xrandr --size 1920x1080
 {@'- end '@}

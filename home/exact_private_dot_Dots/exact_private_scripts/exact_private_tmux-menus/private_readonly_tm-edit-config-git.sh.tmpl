@@ -13,5 +13,5 @@ exec tmux display-menu -T 'Git Configuration' -x C -y C \
 	'Edit git config'		'C' "new-window -n 'Git Cfg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/git/config" '@}'" \
 	'Edit git credentials'	'c' "new-window -n 'Git Creds' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/git/credentials" '@}'" \
 	'' \
-	'Back'			'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
+	'Back'			'.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
 

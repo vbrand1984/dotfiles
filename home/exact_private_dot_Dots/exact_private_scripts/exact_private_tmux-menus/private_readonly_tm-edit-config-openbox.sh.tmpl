@@ -27,5 +27,4 @@ exec tmux display-menu -T 'Openbox Configuration' -x C -y C \
 	"Edit obmenu-generator's config.pl"	'c' \
 		"new-window -n 'config.pl' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/obmenu-generator/config.pl" '@}'" \
 	'' \
-	'Back' 'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
-
+	'Back' '.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"

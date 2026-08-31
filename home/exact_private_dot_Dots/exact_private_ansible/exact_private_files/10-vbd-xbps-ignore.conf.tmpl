@@ -2,27 +2,32 @@
 {@- if .sys.isVoid -@}
 # {{{ General ignorance settings
 
+# System stuff
+ignorepkg=base-system
 ignorepkg=sudo
+
+# Kernel
 ignorepkg=linux
 ignorepkg=linux-headers
 ignorepkg=linux-firmware-broadcom
-ignorepkg=base-system
+
+# Varia
+ignorepkg=noto-fonts-ttf-extra
+ignorepkg=xorg-server-xwayland
 
 # }}}
-# {{{ Libreoffice
+# {{{ Libreoffice (ignore unnecessary language packs)
 
-ignorepkg=libreoffice-i18n-pl
-ignorepkg=libreoffice-i18n-pt
 ignorepkg=libreoffice-i18n-de
 ignorepkg=libreoffice-i18n-en-US
 ignorepkg=libreoffice-i18n-es
 ignorepkg=libreoffice-i18n-fr
 ignorepkg=libreoffice-i18n-it
-ignorepkg=noto-fonts-ttf-extra
-ignorepkg=xorg-server-xwayland
+ignorepkg=libreoffice-i18n-pl
+ignorepkg=libreoffice-i18n-pt
 
 # }}}
-# {{{ QEMU
+# {{{ QEMU (ignore unnecessary architectures)
 
 ignorepkg=qemu-system-aarch64
 ignorepkg=qemu-system-alpha

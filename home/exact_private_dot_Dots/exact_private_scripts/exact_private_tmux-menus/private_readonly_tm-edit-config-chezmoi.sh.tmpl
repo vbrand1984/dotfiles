@@ -18,5 +18,5 @@ exec tmux display-menu -T 'chezmoi configuration' -x C -y C \
 	'Edit .chezmoiignore'			'i' "new-window -n '.chezmoiignore'		{@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoiignore.tmpl") | squote '@}" \
 	'Edit .chezmoiremove'			'r' "new-window -n '.chezmoiremove'		{@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoiremove.tmpl") | squote '@}" \
 	'' \
-	'Back'							'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
+	'Back'							'.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
 

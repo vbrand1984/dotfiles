@@ -8,12 +8,12 @@ show-failed-attempts
 show-keyboard-layout
 
 # Layout
-indicator-radius=110
-indicator-thickness=30
+indicator-radius=75
+indicator-thickness=20
 
 # Font settings
 font=Ubuntu Bold
-font-size=28pt
+font-size=24pt
 
 #
 # Palette (mostly gruvbox/gruvbox-material)

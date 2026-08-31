@@ -17,4 +17,4 @@ exec tmux display-menu -T 'Terminal Configuration' -x C -y C \
 	'' \
 	'Edit terminal palette' 'p' "new-window -n '{@' $paletteFileName '@}' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.terminal) | squote '@}" \
 	'' \
-	'Back' 'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
+	'Back' '.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"

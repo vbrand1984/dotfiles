@@ -20,5 +20,4 @@ exec tmux display-menu -T 'WLogout Configuration' -x C -y C \
 	'Edit shutdown.svg'		'3' "new-window -n 'shutdown.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/shutdown.svg" '@} '" \
 	'Edit suspend.svg'		'4' "new-window -n 'suspend.svg' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/assets/suspend.svg" '@} '" \
 	'' \
-	'Back'					'b' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
-
+	'Back'					'.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"

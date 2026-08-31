@@ -1,16 +1,13 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
 [[ -r "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
 
 # set PATH so it includes user's private bin if it exists
 [[ -d {@' joinPath .chezmoi.homeDir .dir.localBin | squote '@} ]] && PATH="${PATH}:{@' joinPath .chezmoi.homeDir .dir.localBin '@}"
+[[ -d {@' joinPath .chezmoi.homeDir .dir.localGames | squote '@} ]] && PATH="${PATH}:{@' joinPath .chezmoi.homeDir .dir.localGames '@}"
 
 # {{{ XDG directories
 

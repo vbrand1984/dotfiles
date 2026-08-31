@@ -28,6 +28,7 @@
 
 {@'- /* These variables MUST contain RELATIVE (to $HOME) paths */ -'@}
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
+{@'- $dirLocalGames := joinPath $defaultDotsDir "games" -'@}
 {@'- $dirDownloaded := joinPath $defaultDotsDir "downloaded" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
 {@'- $dirInclude := joinPath $dirLocalScripts "include" -'@}
@@ -201,6 +202,7 @@ data:
     # These variables MUST contain paths RELATIVE to $HOME
     localCache: {@' $dirLocalCache | quote '@}
     localBin: {@' $dirLocalBin | quote '@}
+    localGames: {@' $dirLocalGames | quote '@}
     downloaded: {@' $dirDownloaded | quote '@}
     downloadedDeb: {@' joinPath $dirDownloaded "deb" | quote '@}
     downloadedMisc: {@' joinPath $dirDownloaded "misc" | quote '@}

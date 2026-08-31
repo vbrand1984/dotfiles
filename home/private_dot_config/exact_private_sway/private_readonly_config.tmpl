@@ -64,13 +64,9 @@ exec_always dbus-update-activation-environment [@ if .sys.hasSystemd -@] --syste
 # Desktop Portal for screen sharing and screenshots taking
 exec_always /usr/libexec/xdg-desktop-portal-wlr --replace &
 
-[@- if .sys.isVoid @]
+[@- if not .sys.hasSystemd @]
 
-exec pipewire &
-
-[@- else if .sys.isDevuan @]
-
-exec /bin/sh -e [@ joinPath .chezmoi.homeDir .dir.localScripts "autostarters/pipewire-devuan.sh" | quote @] &
+exec /bin/sh -e [@ joinPath .chezmoi.homeDir .dir.localScripts "autostarters/pipewire-no-systemd.sh" | quote @] &
 
 [@- end @]
 

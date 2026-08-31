@@ -1,77 +1,191 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
 shell_patterns=0
-
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
 # See: https://softpanorama.org/OFM/MC/user_menu.shtml
-
-{{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
+#
+# {{{ mc maintenance
 
 m   Edit ~/.config/mc/menu
-    cd ~/.config/mc
-    {{ .chezmoi.executable }} edit --refresh-externals=never --exclude=externals,scripts,encrypted --apply {{ joinPath .chezmoi.homeDir ".config/mc/menu" | quote }}
+	cd {@' joinPath .chezmoi.homeDir ".config/mc" '@}
+	{@' .chezmoi.executable '@} edit --refresh-externals=never --exclude=externals,scripts,encrypted --apply {@' joinPath .chezmoi.homeDir ".config/mc/menu" | quote '@}
 
 h   Edit mc directory hotlist
-    $EDITOR {{ joinPath .dir.symlinked ".config/mc/hotlist" }}
+	{@' cat .cmd.editor (joinPath .dir.symlinked ".config/mc/hotlist") '@}
 
-{{ if false }}
-+
-= ! t rl
-c   Edit chezmoi config
-    {{ .chezmoi.executable }} edit-config
+# }}}
+# {{{ chezmoi stuff
 
-C   Edit chezmoi config template
-    {{ .chezmoi.executable }} edit-config-template
+# `chezmoi edit' current file
++ t rl & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+= t rl & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+e   Run `chezmoi edit' with current file
+	{@' .chezmoi.executable '@} edit --exclude=externals --apply "%f"
 
-{{ $alacrittyConfFileExt := .sys.isDebianBased | ternary "yml" "toml" -}}
-a   Edit alacritty.{{ $alacrittyConfFileExt }}
-    cd ~/.config/alacritty
-    {{ .chezmoi.executable }} edit --apply alacritty.{{ $alacrittyConfFileExt }}
+# chezmoi add regular file
++ t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+a   Add current file to chezmoi
+	{@' .chezmoi.executable '@} add "%f"
 
-o   Edit conky.conf
-    cd ~/.config/conky
-    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply conky.conf
+# chezmoi add regular file + encrypt
++ t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+E   Add current file to chezmoi + encrypt it
+	{@' .chezmoi.executable '@} add --encrypt "%f"
 
-r   Edit vimrc
-    #cd ~/.vim
-    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply ~/.vim/vimrc
+# chezmoi add regular file + template
++ t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+t   Add current file to chezmoi + template it
+	{@' .chezmoi.executable '@} add --template "%f"
 
-t   Edit tmux.conf
-    cd ~/.config/tmux
-    {{ .chezmoi.executable }} edit --exclude=externals,scripts,encrypted --apply tmux.conf
-{{ end }}
+# chezmoi add regular file + encrypt + template
++ t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+T   Add current file to chezmoi + template + encrypt it
+	{@' .chezmoi.executable '@} add --encrypt --template "%f"
 
-+ t rl
-= t rl
-e   Run chezmoi edit with current file
-    {{ .chezmoi.executable }} edit --exclude=externals --apply %f
+# chezmoi add directory
++ t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+= t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+a   Add directory to chezmoi
+	{@' .chezmoi.executable '@} add "%f"
+
++ t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+A   Add directory to chezmoi with `exact_' prefix
+	{@' .chezmoi.executable '@} add --exact "%f"
+
+# }}}
+# {{{ General commands
 
 + t r & T r
 v   vimdiff files in both panels
-    vimdiff "%d/%f" "%D/%F"
+	vimdiff "%d/%f" "%D/%F"
 
-1   Compress the current subdirectory (tar.xz)
-    Pwd=`basename %d /`
-    echo -n "Name of the compressed file (without extension) [$Pwd]: "
-    read archive_name
-    [ "${archive_name}x" = "x" ] && archive_name="${Pwd}"
-    cd .. && \
-    tar cvf - "$Pwd" | xz -f > "${archive_name}.tar.xz" && \
-    echo "../$archive_name.tar.xz created."
+=
+o   Open current directory in {@' .cmd.fileManager '@}
+	{@' .cmd.fileManager '@} "%d" &
 
-2   Compress the current subdirectory (tar.gz)
-    Pwd=`basename %d /`
-    echo -n "Name of the compressed file (without extension) [$Pwd]: "
-    read tar
-    [ "$tar"x = x ] && tar="$Pwd"
-    cd .. && \
-    tar cvf - "$Pwd" | gzip -f9 > "$tar.tar.gz" && \
-    echo "../$tar.tar.gz created."
+# }}}
+# {{{ Compress target file or directory
 
-3   Compress the current subdirectory (tar.zst)
-    Pwd=`basename %d /`
-    echo -n "Name of the compressed file (without extension) [${Pwd}]: "
-    read archive_name
-    [ "${archive_name}x" = 'x' ] && archive_name="$Pwd"
-    cd .. && \
-    env ZSTD_CLEVEL=19 tar cvf "${archive_name}.tar.zst" --zstd "${Pwd}" && \
-    echo "../${archive_name}.tar.zst created."
++ t rd & !t t & !f [.][.]
+x   Compress target (tar.xz)
+	Pwd="%f"
+	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar cJpvf "${archive_name}.tar.xz" -- "%f" && \
+		echo "${archive_name}.tar.xz created."
 
-#    tar cJf "$archive_name.tar.xz" "${Pwd}" && \
++ t rd & !t t & !f [.][.]
+g   Compress target (tar.gz)
+	Pwd="%f"
+	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar czpvf "${archive_name}.tar.gz" -- "%f" && \
+		echo "${archive_name}.tar.gz created."
+
++ t rd & !t t & !f [.][.]
+z   Compress target (tar.zst)
+	Pwd="%f"
+	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar cpvf "${archive_name}.tar.zst" -zstd -- "%f" && \
+		echo "${archive_name}.tar.zst created."
+
++ t rd & !t t & !f [.][.]
+Z   Compress target (zip)
+	Pwd="%f"
+	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	zip -r "${archive_name}.zip" -- "%f" && \
+		echo "${archive_name}.zip created."
+
+# }}}
+# {{{ Compress selected targets
+
++ t t
+x   Compress targets (tar.xz)
+	Pwd="$(basename %d /)"
+	[ "${Pwd}" = '/' ] && Pwd='archive'
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar cJpvf "${archive_name}.tar.xz" -- %t && \
+		echo "${archive_name}.tar.xz created."
+
++ t t
+g   Compress targets (tar.gz)
+	Pwd="$(basename %d /)"
+	[ "${Pwd}" = '/' ] && Pwd='archive'
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar czpvf "${archive_name}.tar.gz" -- %t && \
+		echo "${archive_name}.tar.gz created."
+
++ t t
+z   Compress targets (tar.zst)
+	Pwd="$(basename %d /)"
+	[ "${Pwd}" = '/' ] && Pwd='archive'
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	tar cpvf "${archive_name}.tar.zst" --zstd -- %t && \
+		echo "${archive_name}.tar.zst created."
+
++ t t
+Z   Compress targets (zip)
+	Pwd="$(basename %d /)"
+	[ "${Pwd}" = '/' ] && Pwd='archive'
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	zip -r "${archive_name}.zip" -- %t && \
+		echo "${archive_name}.zip created."
+
+# }}}
+# {{{ Compress current subdirectory
+
++ !d ^/$
+1   Compress current subdirectory (tar.xz)
+	Pwd="$(basename %d /)"
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	cd .. && \
+		tar cJpvf "${archive_name}.tar.xz" -- "${Pwd}" && \
+		echo "../${archive_name}.tar.xz created."
+
++ !d ^/$
+2   Compress current subdirectory (tar.gz)
+	Pwd="$(basename %d /)"
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	cd .. && \
+		tar czpvf "${archive_name}.tar.gz" -- "${Pwd}" && \
+		echo "../${archive_name}.tar.gz created."
+
++ !d ^/$
+3   Compress current subdirectory (tar.zst)
+	Pwd="$(basename %d /)"
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	cd .. && \
+		tar cpvf "${archive_name}.tar.zst" --zstd -- "${Pwd}" && \
+		echo "../${archive_name}.tar.zst created."
+
++ !d ^/$
+4   Compress current subdirectory (zip)
+	Pwd="$(basename %d /)"
+	printf "Name of the compressed file (without extension) [${Pwd}]: "
+	read archive_name
+	[ -z "${archive_name}" ] && archive_name="${Pwd}"
+	cd .. && \
+		zip -r "${archive_name}.zip" -- "${Pwd}" && \
+		echo "../${archive_name}.zip created."
+
+# }}}

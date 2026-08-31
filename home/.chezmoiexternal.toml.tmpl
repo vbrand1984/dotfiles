@@ -95,16 +95,6 @@
 
 {@' if .sys.isDebBased '@}
 
-# deadbeef package
-#{@' $deadbeefFileName := (printf .app.version.deadbeef.filenamePattern .app.version.deadbeef.ver .app.version.deadbeef.build) '@}
-# https://sourceforge.net/projects/deadbeef/files/Builds/1.10.2/linux/deadbeef-static_1.10.2-1_amd64.deb/download
-[{@' joinPath .dir.downloadedDeb $deadbeefFileName | quote '@}]
-	type= "file"
-	url = "https://sourceforge.net/projects/deadbeef/files/Builds/{@' .app.version.deadbeef.ver '@}/linux/{@' $deadbeefFileName '@}/download"
-	checksum.sha512 = {@' .app.version.deadbeef.sha512 | quote '@}
-	checksum.size = {@' .app.version.deadbeef.size '@}
-	refreshPeriod = 0
-
 # papirus-folders package
 # https://launchpad.net/~papirus/+archive/ubuntu/papirus/+packages?field.name_filter=papirus-folders
 #{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) '@}
@@ -116,37 +106,12 @@
 #	executable = false
 #	refreshPeriod = 0
 
-# Obmenu-generator script
-[{@' joinPath .dir.downloadedScripts .file.debiansObmenuGeneratorName | quote '@}]
-	type= "archive-file"
-	url = "https://github.com/trizen/obmenu-generator/archive/refs/tags/{@' .app.obmenuGeneratorVersion '@}.tar.gz"
-	stripComponents = 1
-	format = "tar.gz"
-	path = "obmenu-generator"
-	filter.command = "sed"
-	filter.args = [ "s/perl//g" ]
-	readonly = true
-	private = true
-	refreshPeriod = 0
-
-{@' end '@}
-
-{@' if and .sys.isDebianBased (not .sys.hasSystemd) '@}
-# Pipewire-launcher script from Gentoo to be installed and used in Devuan
-[{@' joinPath .dir.downloadedScripts .file.devuansPipewireLauncher | quote '@}]
-	type = "file"
-	url = "https://gitweb.gentoo.org/repo/gentoo.git/plain/media-video/pipewire/files/gentoo-pipewire-launcher.in-r4"
-	checksum.sha512 = "a6c725af79128859ef05e8e42e5069b6da65b13feeb8137b99498eafef0a02c5718003c8e820b1a73f9e1789fd4153e45ab18a7221e628a9f0cbce83d13d66bf"
-	checksum.size = 2851
-	filter.command = "sed"
-	filter.args = [ "s/@GENTOO_PORTAGE_EPREFIX@//g" ]
-	refreshPeriod = 0
-	readonly = true
-	private = true
 {@' end '@}
 
 {@' if not .sys.isDevuan '@}
-# Devuan keyring package
+# Devuan keyring package for non-Devuan installations.
+# The keyring is needed when installing Devuan via debootstrap
+# in order to verify the package files.
 [{@' joinPath .dir.downloadedDeb "devuan-keyring_2025.08.09_all.deb" | quote '@}]
 	type = "file"
 	url = "http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb"
@@ -156,6 +121,7 @@
 {@' end '@}
 
 {@' if .sys.isVoid '@}
+# Bibata cursor theme for Void Linux
 [".local/share/icons"]
 	type = "archive"
 	url = "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Original-Classic.tar.xz"
