@@ -1,0 +1,9 @@
+{{ if false -}}
+
+This template prints absolute path to the obmenu-generator script
+
+chezmoi variable: .tmpl.shellCmd.obmenuGenerator
+
+{{- end -}}
+
+{{ .sys.isDebBased | ternary (cat "/usr/bin/perl --" (joinPath .chezmoi.homeDir .dir.downloadedScripts .file.debiansObmenuGeneratorName)) "obmenu-generator" -}}
