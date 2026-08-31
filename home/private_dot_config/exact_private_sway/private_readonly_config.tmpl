@@ -83,7 +83,7 @@ exec swaykbdd &
 exec swayosd-server >/dev/null 2>&1 &
 
 # Conky system monitor
-exec conky --pause=[@ int .conky.startupDelay @] --daemonize
+exec /bin/sh -e [@ joinPath .chezmoi.homeDir .dir.localScripts "autostarters/conky.sh" | quote @] &
 
 # Udiskie
 exec udiskie --smart-tray --notify --automount &
@@ -557,6 +557,7 @@ exec_always {
 	gsettings set $gnome-schema cursor-size [@ int .gtk.cursorSize @]
 	gsettings set $gnome-schema font-name [@ cat .gtk.font.family .gtk.font.weight .gtk.font.size | squote @]
 	gsettings set $gnome-schema color-scheme [@ .gtk.preferDarkTheme | ternary "prefer-dark" "prefer-light" | squote @]
+	gsettings set $gnome-schema enable-animations false
 }
 
 # XCursor theme - just for the case

@@ -4,17 +4,7 @@
 app:
   envIgnoreExternals: 'CHEZMOI_IGNORE_ALL_OF_THE_EXTERNALS'
 
-  # This is an editor for config files to be invoked via Openbox menu entries
-  chezmoiEditorFromMenu: "/usr/bin/env VISUAL='/usr/bin/gvim --nofork' chezmoi edit --apply --"
-
-  luaVersion: '5.3'
-
   defaultTmuxSessionName: 'A'
-
-  # A version of obmenu-generator to download from the github repo
-  # This is used in deb-based distros where is no obmenu-generator in the repos
-  # See: https://github.com/trizen/obmenu-generator
-  obmenuGeneratorVersion: '0.93'
 
   # This thing is used in commands like notify-send and dunstify,
   # when ``--action`` parameter is used.
@@ -25,46 +15,13 @@ app:
     dunstify: ','
     notify-send: '='
 
-  version:
-
-    # Sources of ClipIt of this version will be downloaded, compiled and installed
-    # in deb-based distros and Void
-    # See: https://github.com/CristianHenzel/ClipIt
-    clipIt: '1.4.5'
-
-    # In deb-based distros, .deb installer for deadbeef will be downloaded from here:
-    # https://deadbeef.sourceforge.io/download.html
-    # and installed via Ansible.
-    # See also: .chezmoiexternals.toml.tmpl
-    deadbeef:
-      ver: '1.10.3'
-      build: '1'
-      filenamePattern: 'deadbeef-static_%s-%s_amd64.deb'
-      sha512: '383a75e396e92c13f9352082093ed351984af13aee46793d8df20b381af474fc32b3314fa4b72713e800ac43b7f1bfb48c034dde182c00318ea05b823a90d727'
-      size: 11856668
-
-    # In deb-based distros, .deb installer for papirus-folders will be downloaded from here:
-    # https://deadbeef.sourceforge.io/download.html
-    # and installed via Ansible.
-    # See also: .chezmoiexternals.toml.tmpl
-    papirusFolders:
-      ver: '1.14.0-1~133'
-      ubuntuVer: '24.04'
-      filenamePattern: 'papirus-folders_%s~ubuntu%s.1_all.deb'
-      sha512: 'b57090e51fafc315141777303f2722592a61cbc84fed3e7d4994c24e4e74263dadc4cfeedb455931f6b7c292230364b37d54ae96ca07786086582d14aa5a7d86'
-      size: 7006
-
-    graphiteGtk:
-      ver: '2026-08-23'
-
-    graphiteKde:
-      ver: '2026-08-22'
-
 # }}}
 # {{{ .cmd: Various commands
 
 cmd:
 
+  # Default editor to use.
+  # That's the value for $EDITOR and $VISUAL environment variables
   editor: '/usr/bin/vim'
 
   # Start audio mixer from status bar and with keyboard shortcut
@@ -88,20 +45,48 @@ cmd:
 # {{{ .file: Filenames
 
 file:
-  # Under which name obmenu-generator script will be saved in Debian-based distros
-  debiansObmenuGeneratorName: 'obmenu-generator'
-
-  # Under which name gentoo-pipewire-launcher script
-  # will be saved in Devuan (and other non-systemd Debian-based distros)
-  devuansPipewireLauncher: 'pipewire-launcher'
-
-  #defaultWallpaper: 'nature-sepia-1920x1200.jpg'
   defaultWallpaper: 'Heracles-2500x1406.jpeg'
 
   ansible:
     config: 'ansible.cfg'
     inventory: 'inventory.yml'
     localPlaybook: 'local-chezmoi-playbook.yml'
+
+  # https://pkginfo.devuan.org/cgi-bin/policy-query.html??c=package&q=devuan-keyring
+  devuanKeyring:
+    pattern: 'devuan-keyring_%s_all.deb'
+    current: excalibur
+
+    # https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=devuan-keyring=2025.08.09
+    excalibur:
+      ver: '2025.08.09'
+      sha256: '1d87328cb485c96ee5c9eca06bba05159183099a4c6df6121052fc1047cf594f'
+      size: 196336
+
+    # https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=devuan-keyring=2026.01.13
+    freia:
+      ver: '2026.01.13'
+      sha256: 'c53429b645bea3a6edd427d70b7fb49b629a99fc9b9915260026a300540400f2'
+      size: 199160
+
+  graphite:
+
+    # 
+    gtk:
+      pattern: 'Graphite-gtk-theme-%s.tar.gz'
+      ver: '2026-08-23'
+
+    # https://github.com/vinceliuice/Graphite-gtk-theme
+    kde:
+      pattern: 'Graphite-kde-theme-%s.tar.gz'
+      ver: '2026-08-22'
+
+  # For deb-based distros:
+  papirusFolders:
+    pattern: 'papirus-folders-%s.tar.gz'
+    ver: '1.14.0'
+    sha512: 'f66592828052080c40a73f76f1d26d32cbbee895061d299aa32490668457aa702c4d21d689c04b241623072cf6d2da41e4db757dd6db1a107deb046e91c8c9f3'
+    size: 10513
 
 # }}}
 # {{{ .message: Various messages
@@ -117,8 +102,6 @@ message:
 
 misc:
 
-  papirusTheme: 'yaru'
-
   greylooksThemes:
     - Greylooks
     - GreylooksGreen
@@ -126,19 +109,6 @@ misc:
     - GreylooksOk
     - GreylooksPurple
     - GreylooksSand
-
-  menuSymbols:
-
-    # Non-selected radiobutton
-    radioUnchecked: 'radio-symbolic'
-
-    # Selected radiobutton
-    # Variants: selection-mode-symbolic, system-hibernate-symbolic
-    radioChecked: 'radio-checked-symbolic'
-
-    # Variants: emblem-ok-symbolic, emblem-default-symbolic,
-    # dino-tick-symbolic, process-completed-symbolic, object-select-symbolic
-    selected: 'object-select-symbolic'
 
 # }}}
 # {{{ .tmpl: Paths to templates

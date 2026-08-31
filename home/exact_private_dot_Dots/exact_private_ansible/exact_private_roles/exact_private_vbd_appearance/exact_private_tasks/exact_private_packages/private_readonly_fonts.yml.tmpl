@@ -23,7 +23,7 @@
 
 - name: Fonts | Install packages (xbps)
   tags: [packages, desktop, appearance, fonts]
-  become: true
+  become: yes
   community.general.xbps:
     package: "{{ vbd_appearance_pkgs_fonts.xbps }}"
     state: present

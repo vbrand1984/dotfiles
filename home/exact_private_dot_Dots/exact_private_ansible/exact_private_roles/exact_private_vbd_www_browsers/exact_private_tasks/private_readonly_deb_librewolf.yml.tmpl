@@ -6,36 +6,34 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Librewolf | Install extrepo package
-  become: true
-  ansible.builtin.apt:
-    package: extrepo
-    state: present
-    install_recommends: false
+- name: Librewolf | Installation
   tags: [packages, desktop, www_browsers, www_browser_librewolf]
+  become: true
+  block:
 
-- name: Librewolf | Enable Librewolf repository
-  become: true
-  ansible.builtin.command:
-    cmd: 'extrepo enable librewolf'
-    creates: '/etc/apt/sources.list.d/extrepo_librewolf.sources'
-  tags: [packages, desktop, www_browsers, www_browser_librewolf]
+    - name: Librewolf | Install extrepo package
+      ansible.builtin.apt:
+        package: extrepo
+        state: present
+        install_recommends: false
 
-- name: Librewolf | Update extrepo data for Librewolf
-  become: true
-  ansible.builtin.command:
-    cmd: 'extrepo update librewolf'
-  changed_when: false
-  tags: [packages, desktop, www_browsers, www_browser_librewolf]
+    - name: Librewolf | Enable Librewolf repository
+      ansible.builtin.command:
+        cmd: 'extrepo enable librewolf'
+      args:
+        creates: '/etc/apt/sources.list.d/extrepo_librewolf.sources'
 
-- name: Librewolf | Install Librewolf package (apt)
-  become: true
-  ansible.builtin.apt:
-    package: librewolf
-    state: present
-    install_recommends: false
-    update_cache: true
-  tags: [packages, desktop, www_browsers, www_browser_librewolf]
+    - name: Librewolf | Update extrepo data for Librewolf
+      ansible.builtin.command:
+        cmd: 'extrepo update librewolf'
+      changed_when: false
+
+    - name: Librewolf | Install Librewolf package (apt)
+      ansible.builtin.apt:
+        package: librewolf
+        state: present
+        install_recommends: false
+        update_cache: true
 
 ...
 {@'- end '@}

@@ -16,32 +16,33 @@
 # - name: Desktop | Browsers | Librewolf
 #   ansible.builtin.import_tasks: deb_librewolf.yml
 
-- name: Install browsers (stable)
-  become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_www_browsers_pkgs.stable }}"
-    state: latest
-    install_recommends: false
+- name: Browsers installation and configuration
   tags: [packages, desktop, www_browsers]
+  become: true
+  block:
 
-- name: Copy chromium-flags config file
-  become: true
-  ansible.builtin.copy:
-    dest: '/etc/chromium.d/my-own-chromium-flags'
-    src: 'my-own-chromium-flags'
-    owner: root
-    group: root
-    mode: '644'
-  tags: [packages, desktop, www_browsers]
+    - name: Install browsers (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_www_browsers_pkgs.stable }}"
+        state: latest
+        install_recommends: false
+
+    - name: Copy my-own-chromium-flags config file to /etc/chromium.d
+      ansible.builtin.copy:
+        dest: '/etc/chromium.d/my-own-chromium-flags'
+        src: 'my-own-chromium-flags'
+        owner: root
+        group: root
+        mode: '644'
 
 {@'- else if .sys.isVoid '@}
 
 - name: Install browsers (xbps)
+  tags: [packages, desktop, www_browsers]
   become: true
   community.general.xbps:
     package: "{{ vbd_www_browsers_pkgs.xbps }}"
     state: present
-  tags: [packages, desktop, www_browsers]
 
 {@'- end '@}
 

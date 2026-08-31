@@ -1,0 +1,11 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@}
+# Autostart conky in sway
+
+# Clean up any dead instances
+[ pgrep --euid="${USER}" --count conky 2>/dev/null ] && killall -u "${USER}" -9 conky 2>/dev/null || :
+
+conky --pause={@' int .conky.startupDelay '@} --daemonize
+

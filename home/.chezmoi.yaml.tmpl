@@ -204,9 +204,9 @@ data:
     localBin: {@' $dirLocalBin | quote '@}
     localGames: {@' $dirLocalGames | quote '@}
     downloaded: {@' $dirDownloaded | quote '@}
-    downloadedDeb: {@' joinPath $dirDownloaded "deb" | quote '@}
-    downloadedMisc: {@' joinPath $dirDownloaded "misc" | quote '@}
-    downloadedScripts: {@' joinPath $dirDownloaded "scripts" | quote '@}
+    #downloadedDeb: {@' joinPath $dirDownloaded "deb" | quote '@}
+    #downloadedMisc: {@' joinPath $dirDownloaded "misc" | quote '@}
+    #downloadedScripts: {@' joinPath $dirDownloaded "scripts" | quote '@}
     localScripts: {@' $dirLocalScripts | quote '@}
     include: {@' $dirInclude | quote '@}
     luaModules: {@' $dirLuaModules | quote '@}
@@ -360,6 +360,8 @@ data:
 # {{{ .misc: (Miscellaneous settings for desktop)
 
   misc:
+
+    papirusFoldersTheme: {@' default "yaru" .misc.papirusFoldersTheme | quote '@}
 
     # Icon sizes for various applications
     obmenuIconSize: {@' default 24 .misc.obmenuIconSize | int '@}

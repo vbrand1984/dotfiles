@@ -12,7 +12,6 @@
 # }}}
 # {{{ Themes
 
-# Our default GTK and Openbox themes:
 # Greylooks, GreylooksGreen, GreylooksHuman, GreylooksOk, GreylooksPurple, GreylooksSand
 {@' range .misc.greylooksThemes '@}
 [".local/share/themes/{@' . '@}"]
@@ -24,6 +23,18 @@
 	include = ["greylooks-master/{@' . '@}/**"]
 	refreshPeriod = "1680h"
 {@' end '@}
+
+# Graphite GTK theme
+[{@' joinPath .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | quote '@}]
+	type = "file"
+	url = "https://github.com/vinceliuice/Graphite-gtk-theme/archive/refs/tags/{@' .file.graphite.gtk.ver '@}.tar.gz"
+	refreshPeriod = 0
+
+# Graphite KDE theme
+[{@' joinPath .dir.downloaded (printf .file.graphite.kde.pattern .file.graphite.kde.ver) | quote '@}]
+	type = "file"
+	url = "https://github.com/vinceliuice/Graphite-kde-theme/archive/refs/tags/{@' .file.graphite.kde.ver '@}.tar.gz"
+	refreshPeriod = 0
 
 # }}}
 # {{{ Desktop Backgrounds
@@ -93,31 +104,45 @@
 # }}}
 # {{{ Distro-specific
 
-{@' if .sys.isDebBased '@}
+{@' if .sys.isDebianBased '@}
 
-# papirus-folders package
-# https://launchpad.net/~papirus/+archive/ubuntu/papirus/+packages?field.name_filter=papirus-folders
-#{@' $papirusFoldersFileName := (printf .app.version.papirusFolders.filenamePattern .app.version.papirusFolders.ver .app.version.papirusFolders.ubuntuVer) '@}
-#[{@' joinPath .dir.downloadedDeb $papirusFoldersFileName | quote '@}]
-#	type= "file"
-#	url = "https://launchpad.net/~papirus/+archive/ubuntu/papirus/+files/{@' $papirusFoldersFileName '@}"
-#	checksum.sha512 = {@' .app.version.papirusFolders.sha512 | quote '@}
-#	checksum.size = {@' .app.version.papirusFolders.size '@}
-#	executable = false
-#	refreshPeriod = 0
+# papirus-folders package for Debian-based installations
+# https://github.com/PapirusDevelopmentTeam/papirus-folders
+[{@' joinPath .dir.downloaded (printf .file.papirusFolders.pattern .file.papirusFolders.ver) | quote '@}]
+	type= "file"
+	url = "https://github.com/PapirusDevelopmentTeam/papirus-folders/archive/v{@' .file.papirusFolders.ver '@}.tar.gz"
+	checksum.sha512 = {@' .file.papirusFolders.sha512 | quote '@}
+	checksum.size = {@' .file.papirusFolders.size '@}
+	refreshPeriod = 0
 
 {@' end '@}
 
 {@' if not .sys.isDevuan '@}
+
+#
 # Devuan keyring package for non-Devuan installations.
 # The keyring is needed when installing Devuan via debootstrap
 # in order to verify the package files.
-[{@' joinPath .dir.downloadedDeb "devuan-keyring_2025.08.09_all.deb" | quote '@}]
+#
+# Info on Devuan keyrings:
+# https://www.devuan.org/os/keyring
+# https://pkginfo.devuan.org/cgi-bin/policy-query.html??c=package&q=devuan-keyring
+#
+# Keyring for excalibur:
+# https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=devuan-keyring=2025.08.09
+#
+# Keyring for freia:
+# https://pkginfo.devuan.org/cgi-bin/package-query.html?c=package&q=devuan-keyring=2026.01.13
+#
+
+{@' $devuanCurrent := (get .file.devuanKeyring .file.devuanKeyring.current) '@}
+[{@' joinPath .dir.downloaded (printf .file.devuanKeyring.pattern $devuanCurrent.ver) | quote '@}]
 	type = "file"
-	url = "http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb"
-	checksum.sha256 = "1d87328cb485c96ee5c9eca06bba05159183099a4c6df6121052fc1047cf594f"
-	checksum.size = 196336
+	url = "http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_{@' $devuanCurrent.ver '@}_all.deb"
+	checksum.sha256 = {@' $devuanCurrent.sha256 | quote '@}
+	checksum.size = {@' $devuanCurrent.size | int '@}
 	refreshPeriod = 0
+
 {@' end '@}
 
 {@' if .sys.isVoid '@}

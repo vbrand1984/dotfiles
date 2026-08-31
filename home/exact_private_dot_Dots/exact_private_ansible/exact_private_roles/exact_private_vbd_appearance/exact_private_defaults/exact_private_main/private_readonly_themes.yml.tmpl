@@ -6,13 +6,21 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+vbd_appearance_graphite:
+  gtk:
+    archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | squote '@}
+    ver: {@' .file.graphite.gtk.ver | squote '@}
+
 vbd_appearance_pkgs_themes:
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
   stable:
     - gnome-themes-extra
+    - gtk-3-examples
+    - gtk-4-examples
     - gtk2-engines
+    - gtk2-engines-murrine
     - mate-themes
     - qt-style-kvantum
     - qt-style-kvantum-l10n
@@ -20,6 +28,7 @@ vbd_appearance_pkgs_themes:
     - qt5-gtk-platformtheme
     - qt5ct
     - qt6ct
+    - sassc
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -32,6 +41,7 @@ vbd_appearance_pkgs_themes:
     - qt5-styleplugins
     - qt5ct
     - qt6ct
+    - sassc
 
 {@'- /* }}} */'@}
 {@'- end '@}

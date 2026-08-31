@@ -19,10 +19,21 @@
 
 {@' if or .sys.isDebianBased .sys.isVoid -'@}
 
-- name: Desktop Package Management
+- name: General system configuration
   hosts: localhost
 
   pre_tasks:
+
+    - name: Create /etc/ansible/facts.d
+      tags: always
+      become: true
+      ansible.builtin.file:
+        path: /etc/ansible/facts.d
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
     - name: Upgrade package manager
       ansible.builtin.import_tasks: tasks/upgrade_package_manager.yml
       tags: always

@@ -20,6 +20,7 @@ vbd_www_browsers_pkgs:
     - firefox-esr-l10n-ru
 
 vbd_www_browsers_repo_data:
+
   opera:
     repo:
       suite: 'stable'
@@ -29,6 +30,16 @@ vbd_www_browsers_repo_data:
     key:
       filename: '/etc/apt/keyrings/opera-stable.gpg'
       url: 'https://deb.opera.com/archive.key'
+
+  vivaldi:
+    repo:
+      suite: 'stable'
+      component: 'main'
+      filename: '/etc/apt/sources.list.d/vivaldi.sources'
+      url: 'https://repo.vivaldi.com/stable/deb/'
+    key:
+      filename: '/etc/apt/keyrings/vivaldi.asc'
+      url: 'https://repo.vivaldi.com/stable/linux_signing_key.pub'
 
 
 {@'- else if .sys.isVoid '@}

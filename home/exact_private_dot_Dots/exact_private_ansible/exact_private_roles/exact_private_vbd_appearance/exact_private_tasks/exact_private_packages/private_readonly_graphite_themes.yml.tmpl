@@ -1,0 +1,52 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Graphite GTK | Installation
+  tags: [packages, desktop, appearance, themes, graphite, graphite_gtk]
+  when: >
+    ansible_local.vbd_graphite_gtk.installed_version is not defined or
+    ansible_local.vbd_graphite_gtk.installed_version != vbd_appearance_graphite.gtk.ver
+  block:
+
+    - name: Graphite | GTK | Create temporary directory
+      ansible.builtin.tempfile:
+        # We create the file in the $XDG_RUNTIME_DIR,
+        # because /tmp may be mounted with the `noexec' option
+        path: "/run/user/{{ ansible_real_user_id }}"
+        suffix: ".tmp"
+        state: directory
+      register: vbd_appearance_temp_dir
+
+    - name: Graphite | GTK | Unarchive theme installer
+      ansible.builtin.unarchive:
+        src: "{{ vbd_appearance_graphite.gtk.archive }}"
+        dest: "{{ vbd_appearance_temp_dir.path }}"
+
+    - name: Graphite | GTK | Install themes
+      become: true
+      ansible.builtin.command:
+        chdir: "{{ vbd_appearance_temp_dir.path }}/Graphite-gtk-theme-{{ vbd_appearance_graphite.gtk.ver }}"
+        cmd: ./install.sh -d /usr/share/themes -c dark --tweaks rimless
+      changed_when: true
+
+    - name: Graphite | GTK | Delete temporary directory
+      ansible.builtin.file:
+        path: "{{ vbd_appearance_temp_dir.path }}"
+        state: absent
+
+    - name: "Graphite | GTK | Set fact | Installed version: {{ vbd_appearance_graphite.gtk.ver }}"
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/ansible/facts.d/vbd_graphite_gtk.fact
+        content: "{ \"installed_version\": \"{{ vbd_appearance_graphite.gtk.ver }}\" }"
+        owner: root
+        group: root
+        mode: '0644'
+
+...
+{@'- end '@}

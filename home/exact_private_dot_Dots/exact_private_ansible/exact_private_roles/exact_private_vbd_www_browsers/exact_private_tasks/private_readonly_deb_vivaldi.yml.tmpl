@@ -6,51 +6,45 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Browsers | Vivaldi | Check for Vivaldi repo file
-  ansible.builtin.stat:
-    path: '/etc/apt/sources.list.d/vivaldi.sources'
-  register: vbd_www_browsers_vivaldi_repo_file
+- name: Vivaldi | Installation
   tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+  block:
 
-- name: Browsers | Vivaldi | Download Vivaldi signing key
-  become: true
-  ansible.builtin.get_url:
-    url: 'https://repo.vivaldi.com/archive/linux_signing_key.pub'
-    dest: '/etc/apt/keyrings/vivaldi.asc'
-    owner: root
-    group: root
-    mode: '644'
-  when: not vbd_www_browsers_vivaldi_repo_file.stat.exists
-  tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+    - name: Vivaldi | Check for Vivaldi repo file
+      ansible.builtin.stat:
+        path: "{{ vbd_www_browsers_repo_data.vivaldi.repo.filename }}"
+      register: vbd_vivaldi_repo_file
 
-- name: Browsers | Vivaldi | Vivaldi Repo
-  become: true
-  ansible.builtin.deb822_repository:
-    name: vivaldi
-    types: deb
-    architectures: amd64
-    suites: stable
-    components: main
-    signed_by: '/etc/apt/keyrings/vivaldi.asc'
-    uris: 'https://repo.vivaldi.com/stable/deb/'
-  when: not vbd_www_browsers_vivaldi_repo_file.stat.exists
-  register: vbd_www_browsers_add_vivaldi_repo
-  tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+    - name: Vivaldi | Configure repository
+      become: true
+      when: not vbd_vivaldi_repo_file.stat.exists | bool
+      block:
 
-- name: Browsers | Vivaldi | Update apt cache
-  become: true
-  ansible.builtin.apt:
-    update_cache: true
-  when: vbd_www_browsers_add_vivaldi_repo is defined and vbd_www_browsers_add_vivaldi_repo.changed | bool
-  tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+        - name: Vivaldi | Download package signing key
+          ansible.builtin.get_url:
+            url: "{{ vbd_www_browsers_repo_data.vivaldi.key.url }}"
+            dest: "{{ vbd_www_browsers_repo_data.vivaldi.key.filename }}"
+            owner: root
+            group: root
+            mode: '644'
+            force: true
 
-- name: Browsers | Vivaldi | Install Vivaldi package (apt)
-  become: true
-  ansible.builtin.apt:
-    package: vivaldi-stable
-    state: present
-    install_recommends: false
-  tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+        - name: Vivaldi | Install repo file
+          ansible.builtin.deb822_repository:
+            name: "{{ vbd_www_browsers_repo_data.vivaldi.repo.filename | basename | splitext | first }}"
+            architectures: amd64
+            suites: "{{ vbd_www_browsers_repo_data.vivaldi.repo.suite }}"
+            components: "{{ vbd_www_browsers_repo_data.vivaldi.repo.component }}"
+            signed_by: "{{ vbd_www_browsers_repo_data.vivaldi.key.filename }}"
+            uris: "{{ vbd_www_browsers_repo_data.vivaldi.repo.url }}"
+
+    - name: Vivaldi | Install Vivaldi package (apt)
+      become: true
+      ansible.builtin.apt:
+        package: vivaldi-stable
+        state: present
+        install_recommends: false
+        update_cache: true
 
 ...
 {@'- end '@}

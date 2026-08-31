@@ -6,10 +6,16 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-vbd_appearance_pkgs_icons:
+vbd_appearance_papirus_folders_theme: {@' .misc.papirusFoldersTheme | squote '@}
+
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
+vbd_appearance_papirus_folders:
+  ver: {@' .file.papirusFolders.ver | squote '@}
+  archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf "papirus-folders-%s.tar.gz" .file.papirusFolders.ver) | squote '@}
+
+vbd_appearance_pkgs_icons:
   stable:
     - bibata-cursor-theme
     - breeze-icon-theme
@@ -21,6 +27,7 @@ vbd_appearance_pkgs_icons:
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
+vbd_appearance_pkgs_icons:
   xbps:
     - breeze-icons
     - gnome-icon-theme

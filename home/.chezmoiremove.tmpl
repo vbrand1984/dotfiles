@@ -15,3 +15,12 @@
 	.local/bin
 	bin
 {{ end }}
+
+# downloaded directory handling
+#{{ .dir.downloaded }}/
+#{{ if not .sys.isDevuan }}
+#	!{{ joinPath .dir.downloaded (printf "devuan-keyring_%s_all.deb" .file.devuanKeyring.ver) }}
+#{{ end }}
+#{{ if .sys.isDebianBased }}
+#	!{{ joinPath .dir.downloaded (printf .file.papirusFolders.pattern .file.papirusFolders.ver) }}
+#{{ end }}

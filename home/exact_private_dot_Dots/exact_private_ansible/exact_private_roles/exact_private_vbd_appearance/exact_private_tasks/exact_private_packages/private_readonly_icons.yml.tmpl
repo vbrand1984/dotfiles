@@ -17,6 +17,54 @@
     state: latest
     install_recommends: false
 
+- name: Icons | papirus-folders
+  tags: [packages, desktop, appearance, icons, papirus_folders]
+  when: >
+    ansible_local.vbd_papirus_folders.installed_version is not defined or
+    ansible_local.vbd_papirus_folders.installed_version != vbd_appearance_papirus_folders.ver
+  block:
+
+    - name: Icons | papirus-folders | Delete papirus-folders package (apt)
+      become: true
+      ansible.builtin.apt:
+        package: papirus-folders
+        state: absent
+        purge: true
+
+    - name: Icons | papirus-folders | Create temporary directory
+      ansible.builtin.tempfile:
+        state: directory
+      register: vbd_appearance_temp_dir
+
+    - name: Icons | papirus-folders | Unarchive papirus-folders installer
+      ansible.builtin.unarchive:
+        src: "{{ vbd_appearance_papirus_folders.archive }}"
+        dest: "{{ vbd_appearance_temp_dir.path }}"
+
+    - name: Icons | papirus-folders | Install papirus-folders
+      become: true
+      ansible.builtin.command:
+        chdir: "{{ vbd_appearance_temp_dir.path }}/papirus-folders-{{ vbd_appearance_papirus_folders.ver }}"
+        cmd: /bin/sh install.sh
+      environment:
+        TAG: "v{{ vbd_appearance_papirus_folders.ver }}"
+        PREFIX: '/usr/local'
+      changed_when: true
+
+    - name: Icons | papirus-folders | Delete temporary directory
+      ansible.builtin.file:
+        path: "{{ vbd_appearance_temp_dir.path }}"
+        state: absent
+
+    - name: "Icons | papirus-folders | Set fact | Installed version: {{ vbd_appearance_papirus_folders.ver }}"
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/ansible/facts.d/vbd_papirus_folders.fact
+        content: "{ \"installed_version\": \"{{ vbd_appearance_papirus_folders.ver }}\" }"
+        owner: root
+        group: root
+        mode: '0644'
+
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
@@ -30,6 +78,20 @@
 
 {@'- /* }}} */'@}
 {@'- end '@}
+{@'- /* {{{ Common ground */'@}
 
+- name: Icons | Check papirus-folders theme
+  tags: [packages, desktop, appearance, icons, papirus_folders]
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      papirus-folders -l | grep ">" | sed "s/[^[:alpha:]]//g"
+  args:
+    executable: /bin/bash
+  register: vbd_appearance_shell_result
+  changed_when: vbd_appearance_shell_result.stdout != vbd_appearance_papirus_folders_theme
+  notify: Set papirus-folders theme
+
+{@'- /* }}} */'@}
 ...
 {@'- end '@}

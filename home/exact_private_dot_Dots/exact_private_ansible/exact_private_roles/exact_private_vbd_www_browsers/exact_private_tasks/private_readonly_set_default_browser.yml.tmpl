@@ -8,7 +8,8 @@
 
 {@'- if .sys.isDebianBased '@}
 
-- name: Set default browser (via update-alternatives)
+- name: "Update-alternatives | Set default browser to {{ vbd_www_browsers_default_browser }}"
+  tags: [packages, desktop, www_browsers, set_default_browser]
   become: true
   community.general.alternatives:
     name: "{{ item }}"
@@ -18,11 +19,11 @@
   loop:
     - gnome-www-browser
     - x-www-browser
-  tags: [packages, desktop, www_browsers, set_default_browser]
 
 {@'- end '@}
 
-- name: Set default browser (via xdg-mime)
+- name: "Xdg-mime | Set default browser to {{ vbd_www_browsers_default_browser }}"
+  tags: [packages, desktop, www_browsers, set_default_browser]
   community.general.xdg_mime:
     handler: "{{ vbd_www_browsers_default_browser }}.desktop"
     mime_types:
@@ -31,7 +32,6 @@
       - text/html
       - text/xml
       - application/xml
-  tags: [packages, desktop, www_browsers, set_default_browser]
 
 ...
 {@'- end '@}

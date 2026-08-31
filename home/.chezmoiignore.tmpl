@@ -1,6 +1,7 @@
 **/*.swp
 **/*.old
 
+# Ignore local games directory if it's empty
 {{ .dir.localGames }}
 !{{ .dir.localGames }}/**
 
@@ -16,6 +17,20 @@
 	{{ joinPath .dir.localScripts "openweathermap-id.json" }}
 {{ end }}
 
-{{ if not .sys.isDebBased }}
-	{{ joinPath .dir.downloaded "*" }}
+
+# `downloaded' directory handling
+{{ if env .app.envIgnoreExternals }}
+
+	# papirus-folders package for debian-based distros
+	{{ if .sys.isDebianBased }}
+		{{ joinPath .dir.downloaded (printf .file.papirusFolders.pattern .file.papirusFolders.ver) }}
+	{{ end }}
+
+	# Devuan keyring for non-Devuan distros
+	{{ if not .sys.isDevuan }}
+		{{ $devuanCurrent := (get .file.devuanKeyring .file.devuanKeyring.current) }}
+		{{ joinPath .dir.downloaded (printf .file.devuanKeyring.pattern $devuanCurrent.ver) }} 
+	{{ end }}
+
 {{ end }}
+
