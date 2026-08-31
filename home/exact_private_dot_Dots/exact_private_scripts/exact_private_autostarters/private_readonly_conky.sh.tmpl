@@ -5,7 +5,12 @@
 # Autostart conky in sway
 
 # Clean up any dead instances
-[ pgrep --euid="${USER}" --count conky 2>/dev/null ] && killall -u "${USER}" -9 conky 2>/dev/null || :
+if pgrep -u "${USER}" -c conky 1>/dev/null 2>&1 ; then
+	# We *MUST* KILL it, otherwise the thing doesn't do the job
+	killall -u "${USER}" -9 conky 1>/dev/null 2>&1
+	wait
+fi
 
+# Start our gizmo after a delay
 conky --pause={@' int .conky.startupDelay '@} --daemonize
 
