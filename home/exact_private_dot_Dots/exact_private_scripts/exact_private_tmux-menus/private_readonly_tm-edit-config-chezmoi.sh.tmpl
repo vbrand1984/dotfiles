@@ -9,7 +9,7 @@
 # This script opens an edit config menu for chezmoi in tmux
 #
 
-exec tmux display-menu -T 'chezmoi configuration' -x C -y C \
+exec tmux display-menu -T ' chezmoi configuration ' -x C -y C \
 	'Edit chezmoi config template'	'C' "new-window -n '{@' .chezmoi.configFile | base '@}.tmpl'	'{@' .chezmoi.executable '@} edit-config-template'" \
 	'Edit chezmoi config file'		'c' "new-window -n {@' .chezmoi.configFile | base | squote '@}	'{@' .chezmoi.executable '@} edit-config'" \
 	'' \

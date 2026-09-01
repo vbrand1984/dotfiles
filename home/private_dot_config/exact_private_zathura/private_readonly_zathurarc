@@ -1,0 +1,7 @@
+#set guioptions "shv"
+
+set recolor-lightcolor "#ff0000"
+set recolor-darkcolor "#080808"
+set default-bg "#ff0000"
+
+set statusbar-page-percent true

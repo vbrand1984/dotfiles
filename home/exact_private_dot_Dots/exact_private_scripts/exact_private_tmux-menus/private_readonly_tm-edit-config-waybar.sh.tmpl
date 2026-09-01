@@ -9,7 +9,7 @@
 # This script opens an edit config menu for waybar in tmux
 #
 
-exec tmux display-menu -T 'Waybar Configuration' -x C -y C \
+exec tmux display-menu -T ' Waybar configuration ' -x C -y C \
 	'Edit config'	'c' "new-window -n 'waybar-conf' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/waybar/config.jsonc" '@}'" \
 	'Edit style'	's' "new-window -n 'waybar-style' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/waybar/style.css" '@}'" \
 	'' \

@@ -115,7 +115,9 @@ bind-key o run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}
 # }}}
 # {{{ Popups (testing)
 
-bind-key h display-popup -w 90% -h 90% -E htop
+bind-key h display-popup -w 90% -h 90% -T " System Monitor " -E htop
+
+bind-key s display-popup -w 90% -h 90% -E '/bin/bash'
 
 # }}}
 # {{{ Theming
@@ -155,7 +157,7 @@ set-option -g pane-active-border-style fg={@' $greenFg | quote '@}
 set-option -g menu-style fg=black,bg=white
 set-option -g menu-border-style fg=black,bg=white
 set-option -g menu-selected-style fg=white,bg=black
-set-option -g menu-border-lines single
+set-option -g menu-border-lines {@' .sys.isVoid | ternary "single" "double" '@}
 
 # Clock configuration
 set-option -g clock-mode-colour {@' $greenFgMedium | quote '@}
@@ -164,14 +166,11 @@ set-option -g clock-mode-style 24
 # Highlight a tab when activity occurs
 set-window-option -g monitor-activity on
 
-
 # Do NOT reset-option the color of the tab after activity stops occuring
 set-window-option -g monitor-silence 0
 
-
 # Disable bell
 set-window-option -g monitor-bell off
-
 
 # Disable visual text box when activity occurs
 set-option -g visual-activity off
