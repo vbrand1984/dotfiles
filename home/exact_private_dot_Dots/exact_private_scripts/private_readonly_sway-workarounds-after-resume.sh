@@ -6,7 +6,7 @@
 
 kill_process_if_it_exists() {
 	if pgrep --euid="${USER}" --count "${1}" >/dev/null 2>&1 ; then 
-		killall --euid="${USER}" -KILL "${1}"
+		killall --user="${USER}" -KILL "${1}"
 		wait
 	fi
 }
