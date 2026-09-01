@@ -24,17 +24,17 @@
 	refreshPeriod = "1680h"
 {@' end '@}
 
-# Graphite GTK theme
-[{@' joinPath .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | quote '@}]
-	type = "file"
-	url = "https://github.com/vinceliuice/Graphite-gtk-theme/archive/refs/tags/{@' .file.graphite.gtk.ver '@}.tar.gz"
-	refreshPeriod = 0
-
-# Graphite KDE theme
-[{@' joinPath .dir.downloaded (printf .file.graphite.kde.pattern .file.graphite.kde.ver) | quote '@}]
-	type = "file"
-	url = "https://github.com/vinceliuice/Graphite-kde-theme/archive/refs/tags/{@' .file.graphite.kde.ver '@}.tar.gz"
-	refreshPeriod = 0
+## Graphite GTK theme
+#[{@' joinPath .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | quote '@}]
+#	type = "file"
+#	url = "https://github.com/vinceliuice/Graphite-gtk-theme/archive/refs/tags/{@' .file.graphite.gtk.ver '@}.tar.gz"
+#	refreshPeriod = 0
+#
+## Graphite KDE theme
+#[{@' joinPath .dir.downloaded (printf .file.graphite.kde.pattern .file.graphite.kde.ver) | quote '@}]
+#	type = "file"
+#	url = "https://github.com/vinceliuice/Graphite-kde-theme/archive/refs/tags/{@' .file.graphite.kde.ver '@}.tar.gz"
+#	refreshPeriod = 0
 
 # }}}
 # {{{ Desktop Backgrounds

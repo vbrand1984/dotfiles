@@ -9,24 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Wayland specific | Stable
+- name: Wayland-specific apps | Install packages (stable)
+  tags: [packages, desktop, applications, wayland_specific]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_wayland_specific.stable }}"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, wayland_specific]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Wayland specific | Xbps
+- name: Wayland-specific apps | Install packages (xbps)
+  tags: [packages, desktop, applications, wayland_specific]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_wayland_specific.xbps }}"
     state: present
-  tags: [packages, desktop, applications, wayland_specific]
 
 {@'- /* }}} */'@}
 {@'- end '@}

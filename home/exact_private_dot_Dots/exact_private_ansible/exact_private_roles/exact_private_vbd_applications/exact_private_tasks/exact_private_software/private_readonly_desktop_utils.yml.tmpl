@@ -9,24 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Desktop utilities | Stable
+- name: Desktop utilities | Install packages (stable)
+  tags: [packages, desktop, applications, desktop_utils]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_desktop_utils.stable }}"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, desktop_utils]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Desktop utilities | Xbps
+- name: Desktop utilities | Install packages (xbps)
+  tags: [packages, desktop, applications, desktop_utils]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_desktop_utils.xbps }}"
     state: present
-  tags: [packages, desktop, applications, desktop_utils]
 
 {@'- /* }}} */'@}
 {@'- end '@}

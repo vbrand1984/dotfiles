@@ -9,25 +9,25 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Office | Backports
+- name: Office apps | Install packages (backports)
+  tags: [packages, desktop, applications, office]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_video.backports }}"
     default_release: "{{ ansible_facts['distribution_release'] }}-backports"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, office]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Office | Xbps
+- name: Office apps | Install packages (xbps)
+  tags: [packages, desktop, applications, office]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_office.xbps }}"
     state: present
-  tags: [packages, desktop, applications, office]
 
 {@'- /* }}} */'@}
 {@'- end '@}

@@ -5,9 +5,10 @@
 
 ---
 
-{@' if ne .app "opera" -'@}
+# This setting doesn't work for Opera, for some reason
+# Ofc, it has nothing to do with a tiling compositor like Sway either
+# I keep this here just for the case and for historical reasons
 - --start-maximized
-{@'- end '@}
 
 # Hardware video acceleration
 - --enable-accelerated-video-decode
@@ -22,11 +23,7 @@
 # See: https://wiki.archlinux.org/title/Chromium#Disable_JIT
 #- --js-flags=--jitless
 
-# Set up cache in tmpfs.
-# See: https://wiki.archlinux.org/title/Chromium#Cache_in_tmpfs
-- --disk-cache-dir=/run/user/{@' .userid '@}/{@' .app '@}-cache
-
-{@'- if .useWayland '@}
+{@'- if .sys.useWayland '@}
 - --enable-features=UseOzonePlatform
 - --ozone-platform=wayland
 

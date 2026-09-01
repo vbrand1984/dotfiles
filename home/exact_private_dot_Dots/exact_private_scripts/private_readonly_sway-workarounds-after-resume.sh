@@ -5,7 +5,10 @@
 # We restart those programs right away
 
 kill_process_if_it_exists() {
-	pgrep --count "$1" 1>/dev/null 2>&1 && killall -KILL "$1"
+	if pgrep --euid="${USER}" --count "${1}" >/dev/null 2>&1 ; then 
+		killall --euid="${USER}" -KILL "${1}"
+		wait
+	fi
 }
 
 kill_process_if_it_exists conky

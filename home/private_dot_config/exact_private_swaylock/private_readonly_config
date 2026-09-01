@@ -29,11 +29,11 @@ text-color=100c08
 # Normal ring colors
 inside-color=000000
 line-color=1d2021
-ring-color=6c782e
+ring-color=6f8352
 
 # Highlight segment
 bs-hl-color=af5f00
-key-hl-color=a9b665
+key-hl-color=89b482
 separator-color=1d2021
 
 # Clear

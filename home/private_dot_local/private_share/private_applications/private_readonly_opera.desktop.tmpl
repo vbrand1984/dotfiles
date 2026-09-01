@@ -1,7 +1,7 @@
 {{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
 #
 
-{{ $params := includeTemplate .tmpl.chromiumFlags (dict "app" "opera" "userid" .chezmoi.uid "useWayland" .sys.useWayland) | fromYaml | join " " -}}
+{{ $params := includeTemplate .tmpl.chromiumFlags . | fromYaml | join " " -}}
 
 [Desktop Entry]
 Version=1.0

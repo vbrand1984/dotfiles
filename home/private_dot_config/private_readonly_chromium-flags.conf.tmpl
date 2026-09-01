@@ -3,7 +3,7 @@
 {@- includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @}
 #
 
-{@ $chromiumFlags := includeTemplate .tmpl.chromiumFlags (dict "app" "chromium" "userid" .chezmoi.uid "useWayland" .sys.useWayland) | fromYaml | join "\n" -@}
+{@ $chromiumFlags := includeTemplate .tmpl.chromiumFlags . | fromYaml | join "\n" -@}
 
 {@ $chromiumFlags -@}
 

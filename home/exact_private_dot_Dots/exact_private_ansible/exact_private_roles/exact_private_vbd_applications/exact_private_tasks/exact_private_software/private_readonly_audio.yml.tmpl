@@ -9,24 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Audio | Stable
+- name: Audio applications | Install packages (stable)
+  tags: [packages, desktop, applications, audio]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_audio.stable }}"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, audio]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Audio | Xbps
+- name: Audio applications | Install packages (xbps)
+  tags: [packages, desktop, applications, audio]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_audio.xbps }}"
     state: present
-  tags: [packages, desktop, applications, audio]
 
 {@'- /* }}} */'@}
 {@'- end '@}

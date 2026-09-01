@@ -9,33 +9,34 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Network | Stable
-  become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_applications_pkgs_network_apps.stable }}"
-    state: latest
-    install_recommends: false
+- name: Network apps | Install packages
   tags: [packages, desktop, applications, network_apps]
+  become: true
+  block:
 
-- name: Desktop | Applications | Network | Backports
-  become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_applications_pkgs_network_apps.backports }}"
-    default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-    state: latest
-    install_recommends: false
-  tags: [packages, desktop, applications, network_apps]
+    - name: Network apps | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_applications_pkgs_network_apps.stable }}"
+        state: latest
+        install_recommends: false
+
+    - name: Network apps | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_applications_pkgs_network_apps.backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest
+        install_recommends: false
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Network | Xbps
+- name: Network apps | Install packages (xbps)
+  tags: [packages, desktop, applications, network_apps]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_network_apps.xbps }}"
     state: present
-  tags: [packages, desktop, applications, network_apps]
 
 {@'- /* }}} */'@}
 {@'- end '@}

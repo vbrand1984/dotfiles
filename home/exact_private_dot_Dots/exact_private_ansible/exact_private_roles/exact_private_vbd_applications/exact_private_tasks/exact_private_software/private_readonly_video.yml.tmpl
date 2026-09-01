@@ -9,24 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Video | Stable
+- name: Video apps | Install packages (stable)
+  tags: [packages, desktop, applications, video]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_video.stable }}"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, video]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Video | Xbps
+- name: Video apps | Install packages (xbps)
+  tags: [packages, desktop, applications, video]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_video.xbps }}"
     state: present
-  tags: [packages, desktop, applications, video]
 
 {@'- /* }}} */'@}
 {@'- end '@}

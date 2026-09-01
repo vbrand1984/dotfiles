@@ -1,13 +1,15 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: set ft=sh ts=4 sw=4:
-{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
 # Autostart conky in sway
+#
 
 # Clean up any dead instances
-if pgrep -u "${USER}" -c conky 1>/dev/null 2>&1 ; then
+if pgrep --euid="${USER}" --count conky >/dev/null 2>&1 ; then
 	# We *MUST* KILL it, otherwise the thing doesn't do the job
-	killall -u "${USER}" -9 conky 1>/dev/null 2>&1
+	killall --euid="${USER}" -KILL conky >/dev/null 2>&1
 	wait
 fi
 

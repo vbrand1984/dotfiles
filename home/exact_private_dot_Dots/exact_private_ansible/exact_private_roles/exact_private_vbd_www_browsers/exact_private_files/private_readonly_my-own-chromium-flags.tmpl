@@ -6,7 +6,7 @@
 {@'- includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 
-{@' $chromiumFlags := includeTemplate .tmpl.chromiumFlags (dict "app" "chromium" "userid" "$(id -u)" "useWayland" .sys.useWayland) | fromYaml | join " " -'@}
+{@' $chromiumFlags := includeTemplate .tmpl.chromiumFlags . | fromYaml | join " " -'@}
 
 CHROMIUM_FLAGS="$CHROMIUM_FLAGS {@' $chromiumFlags -'@}"
 

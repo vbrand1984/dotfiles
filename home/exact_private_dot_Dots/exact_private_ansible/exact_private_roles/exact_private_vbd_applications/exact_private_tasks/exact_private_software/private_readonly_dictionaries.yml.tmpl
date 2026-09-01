@@ -9,24 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop | Applications | Dictionaries | Stable
+- name: Dictionaries | Install packages (stable)
+  tags: [packages, desktop, applications, dictionaries]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_applications_pkgs_dictionaries.stable }}"
     state: latest
     install_recommends: false
-  tags: [packages, desktop, applications, dictionaries]
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
-- name: Desktop | Applications | Dictionaries | Xbps
+- name: Dictionaries | Install packages (xbps)
+  tags: [packages, desktop, applications, dictionaries]
   become: true
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_dictionaries.xbps }}"
     state: present
-  tags: [packages, desktop, applications, dictionaries]
 
 {@'- /* }}} */'@}
 {@'- end '@}
