@@ -1,0 +1,25 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_flatpak_packages:
+
+{@'- if .sys.isDebianBased '@}
+
+  - org.telegram.desktop
+  - us.zoom.Zoom
+
+{@'- else if .sys.isVoid '@}
+
+  - io.gitlab.librewolf-community
+  - org.telegram.desktop
+  - us.zoom.Zoom
+
+{@'- end '@}
+
+...
+{@'- end '@}

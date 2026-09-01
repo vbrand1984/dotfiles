@@ -1,0 +1,44 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Install Flatpak and its stuff
+  tags: [packages, desktop, flatpak]
+  become: true
+  block:
+
+{@'- if .sys.isDebianBased '@}
+
+    - name: Install flatpak and flatseal (stable)
+      ansible.builtin.apt:
+        package:
+          - flatpak
+          - flatseal
+        state: latest
+
+{@'- else if .sys.isVoid '@}
+
+    - name: Install flatpak and flatseal (xbps)
+      community.general.xbps:
+        package:
+          - flatpak
+          - flatseal
+        state: present
+
+{@'- end '@}
+
+    - name: Add `flathub' remote repository
+      community.general.flatpak_remote:
+        name: flathub
+        flatpakrepo_url: 'https://flathub.org'
+
+    - name: Install flatpak packages
+      community.general.flatpak:
+        name: "{{ vbd_flatpak_packages }}"
+
+...
+{@'- end '@}
