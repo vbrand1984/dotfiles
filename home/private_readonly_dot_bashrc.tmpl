@@ -347,6 +347,10 @@ alias upg='{@' .cmd.sudo '@} xbps-install -Su'
 # Upgrade the package manager
 alias upgx='{@' .cmd.sudo '@} xbps-install -u xbps'
 
+# Track down package's parent dependencies
+# (kinda alternative to 'aptitude why' from Debian)
+alias xw='xbps-query -X'
+
 {@'/* }}} */ -'@}
 {@'/* {{{ Gentoo */ -'@}
 {@' else if .sys.isGentoo -'@}

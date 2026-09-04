@@ -1,24 +1,72 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+{@'- /* {{{ Void variables for ALSA/PipeWire config files */'@}
+{@'- if .sys.isVoid'@}
+
+# See: https://docs.voidlinux.org/config/media/pipewire.html
+vbd_desktop_base_void_audio_conf: 
+
+  # Alsa config for pipewire
+  - dest: /etc/alsa/conf.d
+    state: directory
+  - dest: /etc/alsa/conf.d/99-pipewire-default.conf
+    src: /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
+    state: link
+  - dest: /etc/alsa/conf.d/50-pipewire.conf
+    src: /usr/share/alsa/alsa.conf.d/50-pipewire.conf
+    state: link
+
+  # Pipewire configuration
+  - dest: /etc/pipewire/pipewire.conf.d
+    state: directory
+  - dest: /etc/pipewire/pipewire.conf.d/10-wireplumber.conf
+    src: /usr/share/examples/wireplumber/10-wireplumber.conf
+    state: link
+  - dest: /etc/pipewire/pipewire.conf.d/20-pipewire-pulse.conf
+    src: /usr/share/examples/pipewire/20-pipewire-pulse.conf
+    state: link
+
+{@'- end '@}
+{@'- /* }}} */'@}
+
 vbd_desktop_base_pkgs_audio_base:
 {@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
 
-  deb_stable:
-    - alsa-utils
-    - alsa-topology-conf
-    - alsa-ucm-conf
-    - pipewire
-    - pipewire-pulse
-    - wireplumber
+  alsa:
+    deb_stable:
+      - alsa-utils
+      - alsa-topology-conf
+      - alsa-ucm-conf
 
+  pipewire:
+    deb_stable:
+      - pipewire
+      - pipewire-pulse
+      - wireplumber
+
+{@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
 
-  xbps:
-    - alsa-utils
+  alsa:
+    xbps:
+      - alsa-utils
+      - alsa-ucm-conf
+      - alsa-plugins
 
+  pipewire:
+    xbps:
+      - alsa-pipewire
+      - pipewire
+
+{@'- /* }}} */'@}
 {@'- end '@}
 
 ...

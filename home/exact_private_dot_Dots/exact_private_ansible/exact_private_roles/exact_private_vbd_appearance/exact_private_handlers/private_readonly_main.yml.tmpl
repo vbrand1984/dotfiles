@@ -1,13 +1,16 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or .sys.isDebianBased -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 - name: Set papirus-folders theme
-  tags: [packages, desktop, appearance, icons, papirus_folders]
+  tags: always
   become: true
   ansible.builtin.command:
-    cmd: "papirus-folders -C {{ vbd_appearance_papirus_folders_theme }}"
+    cmd: "papirus-folders --color {{ vbd_appearance_papirus_folders_theme | quote }}"
   changed_when: true
 
 ...

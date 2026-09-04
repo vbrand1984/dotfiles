@@ -1,21 +1,19 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@' if .sys.isDebianBased -'@}
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
 
 - name: Audio base | Install packages
   tags: [packages, desktop, desktop_base, audio_base]
   become: true
   when: ansible_facts['os_family'] == 'Debian'
   block:
-
-    - name: Audio Base | Installing packages (stable)
-      ansible.builtin.apt:
-        package: "{{ vbd_desktop_base_pkgs_audio_base.deb_stable }}"
-        state: latest
-        install_recommends: false
 
     - name: Audio Base | Ensure that Pulseaudio is not installed (apt)
       become: true
@@ -24,7 +22,22 @@
         state: absent
         purge: true
 
-{@'- else if .sys.isVoid -'@}
+    - name: Audio Base | Install ALSA (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_desktop_base_pkgs_audio_base.alsa.deb_stable }}"
+        state: latest
+        install_recommends: false
+      notify: Run alsactl init
+
+    - name: Audio Base | Install PipeWire (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable }}"
+        state: latest
+        install_recommends: false
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
 
 - name: Audio base | Install packages
   tags: [packages, desktop, desktop_base, audio_base]
@@ -32,16 +45,33 @@
   when: ansible_facts['distribution'] == 'Void'
   block:
 
-    - name: Audio Base | Install packages (xbps)
-      community.general.xbps:
-        name: "{{ vbd_desktop_base_pkgs_audio_base.xbps }}"
-        state: present
-
-    - name: Audio Base | Ensure that Pulseaudio is not installed (xbps)
+    - name: Audio Base | Ensure that PulseAudio is not installed (xbps)
       community.general.xbps:
         name: pulseaudio
         state: absent
 
+    - name: Audio Base | Install ALSA (xbps)
+      community.general.xbps:
+        name: "{{ vbd_desktop_base_pkgs_audio_base.alsa.xbps }}"
+        state: present
+      notify: Run alsactl init
+
+    - name: Audio Base | Install PipeWire (xbps)
+      community.general.xbps:
+        name: "{{ vbd_desktop_base_pkgs_audio_base.pipewire.xbps }}"
+        state: present
+
+    - name: Audio Base | Apply ALSA and PipeWire system configuration
+      ansible.builtin.file:
+        dest: "{{ item.dest }}"
+        src: "{{ item.src if item.src is defined else '' }}"
+        state: "{{ item.state }}"
+        mode: "{{ '755' if item.state == 'directory' else '' }}"
+        owner: root
+        group: root
+      loop: "{{ vbd_desktop_base_void_audio_conf }}"
+
+{@'- /* }}} */'@}
 {@'- end '@}
 
 ...

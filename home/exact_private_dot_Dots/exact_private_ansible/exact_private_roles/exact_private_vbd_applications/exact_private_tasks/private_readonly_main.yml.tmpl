@@ -9,11 +9,11 @@
 - name: Applications | Desktop utils
   ansible.builtin.import_tasks: software/desktop_utils.yml
 
-- name: Applications | Office
-  ansible.builtin.import_tasks: software/office.yml
-
 - name: Applications | Multimedia
   ansible.builtin.import_tasks: software/multimedia.yml
+
+- name: Applications | Office
+  ansible.builtin.import_tasks: software/office.yml
 
 - name: Applications | Wireshark
   ansible.builtin.import_tasks: software/wireshark.yml

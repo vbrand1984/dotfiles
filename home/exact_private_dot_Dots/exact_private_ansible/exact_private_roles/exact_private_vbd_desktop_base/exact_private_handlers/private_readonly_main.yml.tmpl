@@ -6,20 +6,12 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-vbd_applications_flatpak_packages:
-
-{@'- if .sys.isDebianBased '@}
-
-  - org.telegram.desktop
-  - us.zoom.Zoom
-
-{@'- else if .sys.isVoid '@}
-
-  - com.github.tchx84.Flatseal
-  - io.gitlab.librewolf-community
-  - us.zoom.Zoom
-
-{@'- end '@}
+- name: Run alsactl init
+  tags: always
+  become: true
+  ansible.builtin.command:
+    cmd: alsactl init
+  changed_when: true
 
 ...
 {@'- end '@}

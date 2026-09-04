@@ -1,10 +1,14 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_desktop_base_pkgs_xdg:
 {@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
 
   deb_stable:
     - xdg-desktop-portal
@@ -13,7 +17,9 @@ vbd_desktop_base_pkgs_xdg:
     - xdg-user-dirs
     - xdg-utils
 
+{@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
 
   xbps:
     - xdg-desktop-portal
@@ -22,6 +28,7 @@ vbd_desktop_base_pkgs_xdg:
     - xdg-user-dirs
     - xdg-utils
 
+{@'- /* }}} */'@}
 {@'- end '@}
 
 ...

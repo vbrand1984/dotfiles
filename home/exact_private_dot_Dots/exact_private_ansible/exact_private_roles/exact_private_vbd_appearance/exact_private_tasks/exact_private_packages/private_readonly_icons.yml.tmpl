@@ -83,7 +83,7 @@
 {@'- end '@}
 {@'- /* {{{ Common ground */'@}
 
-- name: Icons | Check papirus-folders theme
+- name: "Icons | Check that papirus-folders theme is {{ vbd_appearance_papirus_folders_theme }}"
   tags: [packages, desktop, appearance, icons, papirus_folders]
   ansible.builtin.shell:
     cmd: |

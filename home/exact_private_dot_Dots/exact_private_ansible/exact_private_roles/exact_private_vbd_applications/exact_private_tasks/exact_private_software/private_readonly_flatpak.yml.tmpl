@@ -23,11 +23,9 @@
 
 {@'- else if .sys.isVoid '@}
 
-    - name: Flatpak | Install flatpak and flatseal (xbps)
+    - name: Flatpak | Install flatpak (xbps)
       community.general.xbps:
-        package:
-          - flatpak
-          - flatseal
+        package: flatpak
         state: present
       when: ansible_facts['distribution'] == 'Void'
 

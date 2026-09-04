@@ -1,10 +1,14 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_desktop_base_pkgs_filesystems_support:
 {@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
 
   deb_stable:
     - gvfs
@@ -21,12 +25,16 @@ vbd_desktop_base_pkgs_filesystems_support:
     - libmtp-runtime
 {@'- end '@}
 
+{@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
 
   xbps:
     - gvfs
+    - gvfs-mtp
     - udisks2
 
+{@'- /* }}} */'@}
 {@'- end '@}
 
 ...

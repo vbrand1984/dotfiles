@@ -1,9 +1,13 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@' if .sys.isDebianBased -'@}
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
 
 - name: XDG | Install packages (stable)
   tags: [packages, desktop, desktop_base, xdg]
@@ -14,7 +18,9 @@
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
-{@'- else if .sys.isVoid -'@}
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
 
 - name: XDG | Install packages (xbps)
   tags: [packages, desktop, desktop_base, xdg]
@@ -24,6 +30,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
+{@'- /* }}} */'@}
 {@'- end '@}
 
 ...
