@@ -17,7 +17,7 @@ vbd_desktop_base_pkgs_video_base:
     - mesa-va-drivers
     {@'- else if .sys.isAlcoLaptop '@}
     - i965-va-driver-shaders
-    {@'- else if or .sys.isOldLaptop .sys.isNecroLaptop'@}
+    {@'- else if or .sys.isOldLaptop .sys.isNecroLaptop '@}
     - intel-media-va-driver-non-free
     {@'- end '@}
 
@@ -32,7 +32,35 @@ vbd_desktop_base_pkgs_video_base:
 {@'- /* {{{ Void */'@}
 
   xbps:
+
+    # Machine-specific packages
+    {@'- if .sys.isDesktopRig '@}
+    # See: https://docs.voidlinux.org/config/graphical-session/graphics-drivers/amd.html
+    - mesa-vulkan-radeon
+    - mesa-vaapi
+    {@'- else if or .sys.isAlcoLaptop .sys.isNecroLaptop .sys.isOldLaptop '@}
+    # See: https://docs.voidlinux.org/config/graphical-session/graphics-drivers/intel.html
+    {@'- if .sys.isAlcoLaptop '@}
+    - libva-intel-driver
+    {@'- else '@}
+    - intel-media-driver
+    {@'- end '@} {@'- /* if .sys.isAlcoLaptop */'@}
+    - mesa-vulkan-intel
+    {@'- else '@} {@'- /* else if or ... */'@}
+    # No specific machine configuration, install everything
+    - intel-media-driver
+    - libva-intel-driver
+    - mesa-vaapi
+    - mesa-vulkan-intel
+    - mesa-vulkan-radeon
+    {@'- end '@}
+
+    # Common ground
+    - libva-utils # vainfo is here
+    - mesa-demos
     - mesa-dri
+    - vulkan-loader
+    - Vulkan-Tools
 
 {@'- /* }}} */'@}
 {@'- end '@}

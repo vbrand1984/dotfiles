@@ -10,16 +10,12 @@
 
 ### Exporting variables ###
 
-### Firefox options ###
-
-export MOZ_WEBRENDER=1
+# Firefox options
 #export MOZ_X11_EGL=1
+export MOZ_WEBRENDER=1
 export MOZ_ENABLE_WAYLAND=1
 
-### Graphical Gtk and Qt options ###
-
-export XDG_CURRENT_DESKTOP=sway
-
+# Graphical Gtk and Qt options
 export GDK_BACKEND=wayland,x11
 export QT_QPA_PLATFORM=wayland
 export QT_QPA_PLATFORMTHEME=qt5ct
@@ -31,6 +27,23 @@ export NO_AT_BRIDGE=1
 # See: https://bbs.archlinux.org/viewtopic.php?id=196118
 # See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
 export GTK_OVERLAY_SCROLLING=0
+
+# Current desktop settings
+export XDG_CURRENT_DESKTOP=sway
+
+{@'- if .sys.isBrandsPrivate '@}
+
+# Video acceleration settings
+{@'- if .sys.isDesktopRig '@}
+export LIBVA_DRIVER_NAME=radeonsi
+{@'- else if or .sys.isNecroLaptop .sys.isOldLaptop '@}
+export LIBVA_DRIVER_NAME=iHD
+{@'- else if .sys.isAlcoLaptop '@}
+export LIBVA_DRIVER_NAME=i965
+{@'- end '@}
+
+{@'- end '@}
+
 
 #export BEMENU_OPTS="--fn={@' cat .misc.fontJetBrainsMono "Medium" "13" | squote '@}"
 
