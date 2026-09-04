@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<map MAP_XML_VERSION="1.0">
+  <entry key="Article" value="jabref-entrytype: Article: req[author;title;journal/journaltitle;year;address;publisher;pages;hyphenation;langid] opt[subtitle;editor;series;volume;number;issue;note;issn;eprint;eprintclass;eprinttype;url;translator;annotator;commentator;editora;editorb;editorc;journalsubtitle;issuetitle;issuesubtitle;language;origlanguage;month;version;addendum;pubstate]"/>
+  <entry key="Book" value="jabref-entrytype: Book: req[author;shortauthor;title;subtitle;shorttitle;address;publisher;year;langid] opt[editor;titleaddon;maintitle;mainsubtitle;volume;edition;chapter;pages;pagetotal;translator;annotator;origlanguage;part;volumes;series;number;eprint;url;urldate;isbn;options;related;relatedtype;relatedstring;howpublished]"/>
+  <entry key="Inbook" value="jabref-entrytype: Inbook: req[author;title;booktitle;year;address;publisher;pages;hyphenation;langid] opt[bookauthor;editor;subtitle;booksubtitle;volume;edition;chapter;translator;origlanguage;part;volumes;series;number;crossref]"/>
+</map>

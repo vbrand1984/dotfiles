@@ -1,0 +1,26 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@}
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens a main edit config menu in tmux
+#
+
+exec tmux display-menu -T ' Edit config files ' -x C -y C \
+	'Edit ~/.bashrc'	'b' "new-window -n '~/.bashrc'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".bashrc" '@}'" \
+	'Edit conky.conf'	'y' "new-window -n 'conky.conf'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/conky/conky.conf" '@}'" \
+	'Edit vimrc'		'v' "new-window -n 'vimrc'		'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".vim/vimrc" '@}'" \
+	'Edit sway config'	's' "new-window -n 'sway'		'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/sway/config" '@}'" \
+	'Edit fonts.conf'	'f' "new-window -n 'fonts.conf'	'{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/fontconfig/fonts.conf" '@}'" \
+	'' \
+	'chezmoi...'		'c' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-chezmoi.sh" '@}'" \
+	'dunst...'			'd' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-dunst.sh" '@}'" \
+	'git...'			'g' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-git.sh" '@}'" \
+	'Openbox...'		'o' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-openbox.sh" '@}'" \
+	'Panel (tint2)...'	'p' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-panel.sh" '@}'" \
+	'Terminal...'		't' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-terminal.sh" '@}'" \
+	'Waybar...'			'w' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-waybar.sh" '@}'" \
+	'Wlogout...'		'l' "run-shell '/bin/sh -e {@' joinPath .chezmoi.homeDir .dir.tmuxMenus "tm-edit-config-wlogout.sh" '@}'"
