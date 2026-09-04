@@ -1,0 +1,19 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+local=
+domain=
+addn-hosts=/etc/hosts
+expand-hosts
+
+domain-needed
+bogus-priv
+
+listen-address=127.0.0.1
+bind-interfaces
+
+{@' if .sys.isDebianBased -'@}
+conf-file=/usr/share/dnsmasq-base/trust-anchors.conf
+{@' else -'@}
+conf-file=/usr/share/dnsmasq/trust-anchors.conf
+{@' end -'@}
+dnssec
+dnssec-check-unsigned

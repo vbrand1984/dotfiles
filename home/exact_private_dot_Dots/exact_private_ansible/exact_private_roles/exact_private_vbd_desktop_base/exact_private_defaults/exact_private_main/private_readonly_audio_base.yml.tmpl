@@ -1,0 +1,25 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_desktop_base_pkgs_audio_base:
+{@'- if .sys.isDebianBased '@}
+
+  deb_stable:
+    - alsa-utils
+    - alsa-topology-conf
+    - alsa-ucm-conf
+    - pipewire
+    - pipewire-pulse
+    - wireplumber
+
+{@'- else if .sys.isVoid '@}
+
+  xbps:
+    - alsa-utils
+
+{@'- end '@}
+
+...
+{@'- end '@}

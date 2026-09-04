@@ -8,6 +8,7 @@
 
 - name: Vivaldi | Installation
   tags: [packages, desktop, www_browsers, www_browser_vivaldi]
+  when: ansible_facts['os_family'] == 'Debian'
   block:
 
     - name: Vivaldi | Check for Vivaldi repo file

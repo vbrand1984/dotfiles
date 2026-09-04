@@ -1,0 +1,71 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_desktop_base_pkgs_wayland_base:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - cliphist
+    - foot
+{@'- if not .sys.isVM '@}
+    - gammastep
+{@'- end '@}
+    # The following is needed for gammastep and IDK for what else:
+    - gir1.2-ayatanaappindicator3-0.1
+    - grim
+    - jq
+    - nwg-displays
+    - slurp
+    - sway
+    - swaybg
+    - swayidle
+    - swaykbdd
+    - swaylock
+    - swayosd
+    - waybar
+    - wl-clipboard
+    - wlogout
+    - wlr-randr
+
+    # XWayland stuff
+    - x11-xserver-utils
+    - xwayland
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - SwayOSD
+    - Waybar
+    - cliphist
+    - foot
+    - gammastep
+    - gammastep-indicator
+    - grim
+    - jq
+    - slurp
+    - sway
+    - swaybg
+    - swayidle
+    - swaykbdd
+    - swaylock
+    - wl-clipboard
+    - wlogout
+    - wlr-randr
+
+    # XWayland stuff
+    - xlsclients
+    - xorg-server-xwayland
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

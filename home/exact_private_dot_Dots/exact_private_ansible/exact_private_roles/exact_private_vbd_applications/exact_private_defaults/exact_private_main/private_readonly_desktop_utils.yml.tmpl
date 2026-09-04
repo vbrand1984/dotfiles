@@ -10,27 +10,49 @@ vbd_applications_pkgs_desktop_utils:
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-  stable:
+  deb_stable:
+    - alacritty
     - caja
+    - conky-std
     - dconf-editor
-    - emacs
+    - dunst
     - emacs-pgtk
     - engrampa
+    - firejail
+    - firejail-profiles
     - geany
     - gsimplecal
+    - network-manager-applet
     - qalculate-gtk
-    - xdg-desktop-portal-gtk
+    - rofi
+    - udiskie
+
+    # IDK whether it should be here
+    # But nothing pulls it automatically for whatever reason
+    - libnotify-bin
+
+    # Debian-based-specific
+    - gdebi
+    - lintian
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
   xbps:
+    - alacritty
     - caja
-    - engrampa
     - dconf-editor
+    - emacs-pgtk
+    - engrampa
+    - firejail
     - geany
     - gsimplecal-gtk3
+    - network-manager-applet
+    - qalculate-gtk
+    - rofi
+    - rofi-calc
+    - udiskie
 
 {@'- /* }}} */'@}
 {@'- end '@}

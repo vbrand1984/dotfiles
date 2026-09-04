@@ -30,6 +30,7 @@
 {@'- $dirLocalBin := joinPath $defaultDotsDir "bin" -'@}
 {@'- $dirLocalGames := joinPath $defaultDotsDir "games" -'@}
 {@'- $dirDownloaded := joinPath $defaultDotsDir "downloaded" -'@}
+{@'- $dirPrivate := joinPath $defaultDotsDir "private" -'@}
 {@'- $dirLocalScripts := joinPath $defaultDotsDir "scripts" -'@}
 {@'- $dirInclude := joinPath $dirLocalScripts "include" -'@}
 {@'- $dirLuaModules := joinPath $dirLocalScripts "lua-modules" -'@}
@@ -37,6 +38,8 @@
 {@'- $dirTmuxMenus := joinPath $dirLocalScripts "tmux-menus" -'@}
 {@'- $dirLocalBackgrounds := ".local/share/backgrounds" -'@}
 {@'- $dirBrandsBackgrounds := joinPath $dirLocalBackgrounds "brands-desktop-wallpapers" -'@}
+
+{@'- $dirChezmoiEncrypted := joinPath .chezmoi.sourceDir ".chezmoiencrypted" -'@}
 
 {@'- /* }}} (Local directories) */ -'@}
 {@'- /* {{{ Personal data initialization */ -'@}
@@ -204,6 +207,7 @@ data:
     localBin: {@' $dirLocalBin | quote '@}
     localGames: {@' $dirLocalGames | quote '@}
     downloaded: {@' $dirDownloaded | quote '@}
+    private: {@' $dirPrivate | quote '@}
     #downloadedDeb: {@' joinPath $dirDownloaded "deb" | quote '@}
     #downloadedMisc: {@' joinPath $dirDownloaded "misc" | quote '@}
     #downloadedScripts: {@' joinPath $dirDownloaded "scripts" | quote '@}
@@ -216,6 +220,7 @@ data:
     # These variables MUST contain ABSOLUTE paths
     symlinked: {@' joinPath (.chezmoi.sourceDir | dir) "symlinked" | quote '@}
     helperScripts: {@' $dirHelperScripts | quote '@}
+    chezmoiEncrypted: {@' $dirChezmoiEncrypted | quote '@}
 
     # Ansible-related
     # Do not change these in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
@@ -266,7 +271,7 @@ data:
       size: {@' default 11 .gtk.font.size | quote '@}
 
     # Mouse cursor
-    cursorTheme: {@' default "Bibata-Original-Classic" .gtk.cursorTheme | quote '@}
+    cursorTheme: {@' default ($sysIsVM | ternary "mate" "Bibata-Original-Classic") .gtk.cursorTheme | quote '@}
     cursorSize: {@' default 24 .gtk.cursorSize | int '@}
 
     # Various GTK settings

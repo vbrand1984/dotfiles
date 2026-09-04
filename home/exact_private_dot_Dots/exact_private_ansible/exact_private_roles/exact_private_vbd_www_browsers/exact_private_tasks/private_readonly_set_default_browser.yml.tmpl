@@ -19,6 +19,7 @@
   loop:
     - gnome-www-browser
     - x-www-browser
+  when: ansible_facts['os_family'] == 'Debian'
 
 {@'- end '@}
 

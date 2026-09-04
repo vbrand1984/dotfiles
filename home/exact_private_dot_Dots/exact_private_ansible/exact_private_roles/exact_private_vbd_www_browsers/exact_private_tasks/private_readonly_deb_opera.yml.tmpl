@@ -8,6 +8,7 @@
 
 - name: Opera | Installation
   tags: [packages, desktop, www_browsers, www_browser_opera]
+  when: ansible_facts['os_family'] == 'Debian'
   block:
 
     - name: Opera | Check for Opera repo file

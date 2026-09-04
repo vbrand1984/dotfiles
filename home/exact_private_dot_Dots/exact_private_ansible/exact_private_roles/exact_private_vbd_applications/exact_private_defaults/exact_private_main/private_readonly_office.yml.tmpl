@@ -10,19 +10,79 @@ vbd_applications_pkgs_office:
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-  stable:
+  deb_stable:
 
-  backports:
+    # Dictionaries
+    - hunspell
+    - hunspell-de-de
+    - hunspell-en-gb
+    - hunspell-ru
+
+    # Image handling
+    - eom
+    - gimp
+    - geeqie
+    - imagemagick
+    - inkscape
+    - kolourpaint
+
+    # Document viewers
+    - atril
+    - djview4
+    - foliate
+    - okular
+    - okular-extra-backends
+    - okular-mobile
+    - zathura
+
+    # Network apps
+    - amule
+    # - qbittorrent
+
+  deb_backports:
+
+    # Libreoffice
     - libreoffice
     - libreoffice-gtk3
     - libreoffice-l10n-ru
+
+    # Network
+    - qbittorrent
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
   xbps:
+
+    # Dictionaries
+    - hunspell
+    - hunspell-de
+    - hunspell-en
+    - hunspell-ru_RU-ieyo
+
+    # Image handling
+    - ImageMagick
+    - eom
+    - geeqie
+    - gimp
+    - inkscape
+    - kolourpaint
+
+    # Document viewers
+    - atril
+    - djview
+    - foliate
+    - okular
+    - zathura
+
+    # Network
+    - qbittorrent
+    - telegram-desktop
+
+    # Libreoffice
     - libreoffice
+    - libreoffice-i18n-ru
 
 {@'- /* }}} */'@}
 {@'- end '@}

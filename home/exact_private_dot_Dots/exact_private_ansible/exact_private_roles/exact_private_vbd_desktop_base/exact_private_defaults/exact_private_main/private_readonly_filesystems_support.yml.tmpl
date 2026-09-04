@@ -1,0 +1,33 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_desktop_base_pkgs_filesystems_support:
+{@'- if .sys.isDebianBased '@}
+
+  deb_stable:
+    - gvfs
+    - gvfs-backends
+    - gvfs-fuse
+    - mtp-tools
+    - udisks2
+    - udisks2-btrfs
+    - udisks2-lvm2
+
+{@'- if not .sys.hasSystemd '@}
+
+    # It seems that Devuan's eudev needs that
+    - libmtp-runtime
+{@'- end '@}
+
+{@'- else if .sys.isVoid '@}
+
+  xbps:
+    - gvfs
+    - udisks2
+
+{@'- end '@}
+
+...
+{@'- end '@}

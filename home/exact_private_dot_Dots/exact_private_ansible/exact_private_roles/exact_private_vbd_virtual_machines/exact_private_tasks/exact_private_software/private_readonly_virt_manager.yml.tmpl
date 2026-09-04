@@ -1,0 +1,57 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Virt-manager | Installation
+  tags: [packages, virtual_machines, virt_manager]
+  become: true
+  block:
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+    - name: Virt-manager | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_virtual_machines_pkgs_virt_manager.deb_stable }}"
+        state: latest
+        install_recommends: false
+      when: ansible_facts['os_family'] == 'Debian'
+
+{@'- if .sys.hasSystemd '@}
+
+    - name: Virt-manager | Stop the ``libvirt-guests'' service
+      ansible.builtin.systemd_service:
+        unit: libvirt-guests
+        state: stopped
+        enabled: false
+      when:
+        - ansible_facts['os_family'] == 'Debian'
+        - ansible_facts['service_mgr'] == 'systemd'
+
+{@'- end '@}
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+    - name: Virt-manager | Install packages (xbps)
+      community.general.xbps:
+        package: "{{ vbd_virtual_machines_pkgs_virt_manager.xbps }}"
+        state: present
+      when: ansible_facts['distribution'] == 'Void'
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+    - name: Virt-manager | Add user to the ``libvirt'' group
+      ansible.builtin.user:
+        user: "{{ ansible_facts['user_id'] }}"
+        groups: libvirt
+        append: true
+
+...
+{@'- end '@}

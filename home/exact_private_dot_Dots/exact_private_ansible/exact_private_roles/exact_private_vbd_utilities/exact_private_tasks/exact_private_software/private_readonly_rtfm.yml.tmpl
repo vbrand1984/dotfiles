@@ -13,9 +13,10 @@
   tags: [packages, system, utilities, rtfm]
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_rtfm.stable }}"
+    package: "{{ vbd_utilities_pkgs_rtfm.deb_stable }}"
     state: latest
     install_recommends: false
+  when: ansible_facts['os_family'] == 'Debian'
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -27,6 +28,7 @@
   community.general.xbps:
     package: "{{ vbd_utilities_pkgs_rtfm.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- /* }}} */'@}
 {@'- end '@}

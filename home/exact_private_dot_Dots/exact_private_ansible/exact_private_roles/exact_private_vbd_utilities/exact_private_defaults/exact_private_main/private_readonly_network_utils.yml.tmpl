@@ -1,0 +1,43 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_utilities_pkgs_network_utils:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - bind9-dnsutils
+    - curl
+    - inetutils-ping
+    - iperf3
+#    - nmap # backported
+    - rfkill
+    - tcpdump
+    - traceroute
+    - wget
+
+  deb_backports:
+    - nmap
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - bind-utils
+    - curl
+    - nmap
+    - tcpdump
+    - traceroute
+    - wget
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

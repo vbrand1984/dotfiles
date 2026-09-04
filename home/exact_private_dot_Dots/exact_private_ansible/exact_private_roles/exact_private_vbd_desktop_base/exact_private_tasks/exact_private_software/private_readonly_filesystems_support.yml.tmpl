@@ -1,0 +1,30 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@' if .sys.isDebianBased -'@}
+
+- name: Filesystems support | Install packages (stable)
+  tags: [packages, desktop, desktop_base, xdg]
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_desktop_base_pkgs_filesystems_support.deb_stable }}"
+    state: latest
+    install_recommends: false
+  when: ansible_facts['os_family'] == 'Debian'
+
+{@'- else if .sys.isVoid -'@}
+
+- name: Filesystems support | Install packages (xbps)
+  tags: [packages, desktop, desktop_base, xdg]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_desktop_base_pkgs_filesystems_support.xbps }}"
+    state: present
+  when: ansible_facts['distribution'] == 'Void'
+
+{@'- end '@}
+
+...
+{@'- end '@}

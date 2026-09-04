@@ -9,13 +9,23 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Productivity utils | Install packages (stable)
+- name: Productivity utils | Installation
   tags: [packages, system, utilities, productivity]
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_productivity.stable }}"
-    state: latest
-    install_recommends: false
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Productivity utils | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_productivity.deb_stable }}"
+        state: latest
+        install_recommends: false
+
+    - name: Productivity utils | Disable the ``rsync'' service
+      ansible.builtin.service:
+        name: rsync
+        state: stopped
+        enabled: false
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -27,6 +37,7 @@
   community.general.xbps:
     package: "{{ vbd_utilities_pkgs_productivity.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- /* }}} */'@}
 {@'- end '@}

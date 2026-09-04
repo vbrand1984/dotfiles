@@ -1,0 +1,34 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_desktop_base_pkgs_video_base:
+{@'- if .sys.isDebianBased '@}
+  deb_stable:
+
+    # See: https://wiki.debian.org/HardwareVideoAcceleration
+    {@'- if .sys.isDesktopRig '@}
+    - mesa-va-drivers
+    {@'- else if .sys.isAlcoLaptop '@}
+    - i965-va-driver-shaders
+    {@'- else if or .sys.isOldLaptop .sys.isNecroLaptop'@}
+    - intel-media-va-driver-non-free
+    {@'- end '@}
+
+    - libvulkan1
+    - mesa-utils
+    - mesa-vulkan-drivers
+    - vainfo
+    - vulkan-tools
+
+{@'- else if .sys.isVoid '@}
+
+  xbps:
+
+    - mesa-dri
+
+{@'- end '@}
+
+...
+{@'- end '@}

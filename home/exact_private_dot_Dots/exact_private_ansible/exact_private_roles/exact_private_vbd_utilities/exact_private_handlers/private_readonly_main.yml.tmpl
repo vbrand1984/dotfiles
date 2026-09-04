@@ -4,11 +4,12 @@
 ---
 
 - name: Update apt-file
+  tags: always
   become: true
   ansible.builtin.command:
     cmd: apt-file update
   changed_when: true
-  tags: always
+  when: ansible_facts['os_family'] == 'Debian'
 
 ...
 {@'- end '@}

@@ -1,0 +1,49 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: Hardware utils | Installation
+  tags: [packages, system, utilities, hardware_utils]
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Hardware utils | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_hardware_utils.deb_stable }}"
+        state: latest
+        install_recommends: false
+
+    - name: Hardware utils | Disable unwanted services
+      ansible.builtin.service:
+        name: "{{ item }}"
+        enabled: false
+      loop:
+        - glances
+        - lm-sensors
+        - smartmontools
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+- name: Hardware utils | Install packages (xbps)
+  tags: [packages, system, utilities, hardware_utils]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_utilities_pkgs_hardware_utils.xbps }}"
+    state: present
+  when: ansible_facts['distribution'] == 'Void'
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

@@ -1,0 +1,28 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_desktop_base_pkgs_xdg:
+{@'- if .sys.isDebianBased '@}
+
+  deb_stable:
+    - xdg-desktop-portal
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-wlr
+    - xdg-user-dirs
+    - xdg-utils
+
+{@'- else if .sys.isVoid '@}
+
+  xbps:
+    - xdg-desktop-portal
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-wlr
+    - xdg-user-dirs
+    - xdg-utils
+
+{@'- end '@}
+
+...
+{@'- end '@}

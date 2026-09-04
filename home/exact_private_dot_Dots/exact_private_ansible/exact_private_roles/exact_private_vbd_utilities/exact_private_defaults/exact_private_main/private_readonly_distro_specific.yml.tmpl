@@ -10,7 +10,7 @@ vbd_utilities_pkgs_distro_specific:
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-  stable:
+  deb_stable:
 {@'- if and .sys.isBrandsPrivate (ne .dir.userData .dir.userDataDefault) '@}
     - btrfsmaintenance
 {@'- end '@}
@@ -22,7 +22,7 @@ vbd_utilities_pkgs_distro_specific:
     - python-is-python3
     - vrms
 
-  backports:
+  deb_backports:
     - python3-debian
 
 {@'- /* }}} */'@}

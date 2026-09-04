@@ -9,14 +9,24 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Office apps | Install packages (backports)
+- name: Office apps | Install packages
   tags: [packages, desktop, applications, office]
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_applications_pkgs_video.backports }}"
-    default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-    state: latest
-    install_recommends: false
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Office apps | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_applications_pkgs_office.deb_stable }}"
+        state: latest
+        install_recommends: false
+
+    - name: Office apps | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_applications_pkgs_office.deb_backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest
+        install_recommends: false
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -28,6 +38,7 @@
   community.general.xbps:
     package: "{{ vbd_applications_pkgs_office.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- /* }}} */'@}
 {@'- end '@}

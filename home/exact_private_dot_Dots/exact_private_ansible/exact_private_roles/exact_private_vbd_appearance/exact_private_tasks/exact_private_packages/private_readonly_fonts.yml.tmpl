@@ -13,9 +13,10 @@
   tags: [packages, desktop, appearance, fonts]
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_appearance_pkgs_fonts.stable }}"
+    package: "{{ vbd_appearance_pkgs_fonts.deb_stable }}"
     state: latest
     install_recommends: false
+  when: ansible_facts['os_family'] == 'Debian'
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -27,6 +28,7 @@
   community.general.xbps:
     package: "{{ vbd_appearance_pkgs_fonts.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- /* }}} */'@}
 {@'- end '@}

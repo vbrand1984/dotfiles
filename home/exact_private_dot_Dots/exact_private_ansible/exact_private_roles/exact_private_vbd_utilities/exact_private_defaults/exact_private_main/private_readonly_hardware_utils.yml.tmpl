@@ -1,0 +1,59 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_utilities_pkgs_hardware_utils:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - cpuid
+    - cpuinfo
+    - dmidecode
+    - hwinfo
+    - inxi
+    - lm-sensors
+    - lshw
+    - lsscsi
+    - pciutils
+    - smartmontools
+    - usbutils
+
+    # Hardware monitors
+    - btop
+    - glances
+    - htop
+    - iotop
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - cpuid
+    - cpuinfo
+    - dmidecode
+    - hwinfo
+    - inxi
+    - lm_sensors
+    - lshw
+    - lsscsi
+    - pciutils
+    - smartmontools
+    - usbutils
+
+    # Hardware monitors
+    - btop
+    - glances
+    - htop
+    - iotop
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

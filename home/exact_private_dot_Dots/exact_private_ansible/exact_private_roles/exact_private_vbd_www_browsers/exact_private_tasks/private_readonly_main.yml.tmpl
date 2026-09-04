@@ -19,11 +19,12 @@
 - name: Browsers installation and configuration
   tags: [packages, desktop, www_browsers]
   become: true
+  when: ansible_facts['distribution'] in ['Debian', 'Devuan']
   block:
 
     - name: Install browsers (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_www_browsers_pkgs.stable }}"
+        package: "{{ vbd_www_browsers_pkgs.deb_stable }}"
         state: latest
         install_recommends: false
 
@@ -43,6 +44,7 @@
   community.general.xbps:
     package: "{{ vbd_www_browsers_pkgs.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- end '@}
 

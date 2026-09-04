@@ -16,8 +16,8 @@
     - name: Graphite | GTK | Create temporary directory
       ansible.builtin.tempfile:
         # We create the file in the $XDG_RUNTIME_DIR,
-        # because /tmp may be mounted with the `noexec' option
-        path: "/run/user/{{ ansible_real_user_id }}"
+        # because /tmp may be mounted with the ``noexec'' option
+        path: "/run/user/{{ ansible_facts['real_user_id'] }}"
         suffix: ".tmp"
         state: directory
       register: vbd_appearance_temp_dir
@@ -31,7 +31,7 @@
       become: true
       ansible.builtin.command:
         chdir: "{{ vbd_appearance_temp_dir.path }}/Graphite-gtk-theme-{{ vbd_appearance_graphite.gtk.ver }}"
-        cmd: ./install.sh -d /usr/share/themes -c dark --tweaks rimless
+        cmd: ./install.sh -d /usr/local/share/themes -c dark --tweaks rimless
       changed_when: true
 
     - name: Graphite | GTK | Delete temporary directory

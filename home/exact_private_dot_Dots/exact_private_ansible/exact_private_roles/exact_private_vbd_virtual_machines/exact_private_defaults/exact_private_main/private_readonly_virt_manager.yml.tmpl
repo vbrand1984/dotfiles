@@ -1,0 +1,38 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_virtual_machines_pkgs_virt_manager:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - bridge-utils
+    - gir1.2-spiceclientgtk-3.0
+    - libvirt-clients
+    - libvirt-daemon-system
+    - ovmf
+    - qemu-block-extra
+    - qemu-system-modules-spice
+    - qemu-system-x86
+    - qemu-utils
+    - virt-manager
+    - virtiofsd
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - edk2-ovmf
+    - virt-manager
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

@@ -1,0 +1,60 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Wireshark | Installation
+  tags: [packages, desktop, applications, wireshark]
+  become: true
+  block:
+
+{@'- if .sys.isDebianBased '@}
+
+    - name: Wireshark | Configure ``debconf wireshark-common''
+      ansible.builtin.debconf:
+        pkg: wireshark-common
+        question: wireshark-common/install-setuid
+        value: true
+        vtype: boolean
+      register: vbd_applications_wireshark_reconfigured
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Wireshark | Install the package (backports)
+      ansible.builtin.apt:
+        package: wireshark
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest
+        install_recommends: false
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Wireshark | Run ``dpkg-reconfigure wireshark-common''
+      become: true
+      ansible.builtin.command:
+        cmd: dpkg-reconfigure -f noninteractive wireshark-common
+      changed_when: true
+      # ``when'' condition instead of a handler is a MUST here,
+      # because the next task is adding user to the ``wireshark'' group,
+      # and without this reconfiguration, this group may not be present
+      when: vbd_applications_wireshark_reconfigured is changed # noqa: no-handler
+
+{@'- else if .sys.isVoid '@}
+
+    - name: Wireshark | Install the package (xbps)
+      community.general.xbps:
+        package: wireshark
+        state: present
+      when: ansible_facts['distribution'] == 'Void'
+
+{@'- end '@}
+
+    - name: Wireshark | Add user to the ``wireshark'' group
+      ansible.builtin.user:
+        user: "{{ ansible_facts['user_id'] }}"
+        groups: wireshark
+        append: true
+
+...
+{@'- end '@}

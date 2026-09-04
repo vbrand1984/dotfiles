@@ -7,9 +7,9 @@
     dest: "{{ item.dest }}"
     state: "{{ item.state }}"
     mode: "{{ item.mode if 'mode' in item else '' }}"
-#    owner: "{{ item.owner if 'owner' in item else ansible_user_id }}"
-#    group: "{{ item.group if 'group' in item else ansible_user_id }}"
-    owner: "{{ item.owner if 'owner' in item else {@' .chezmoi.username | squote '@} }}"
-    group: "{{ item.group if 'group' in item else {@' .chezmoi.group | squote '@} }}"
+    owner: "{{ item.owner if 'owner' in item else ansible_facts['user_id'] }}"
+    group: "{{ item.group if 'group' in item else ansible_facts['group_id'] }}"
+#    owner: "{{ item.owner if 'owner' in item else {@' .chezmoi.username | squote '@} }}"
+#    group: "{{ item.group if 'group' in item else {@' .chezmoi.group | squote '@} }}"
   loop: "{{ file_list }}"
 ...

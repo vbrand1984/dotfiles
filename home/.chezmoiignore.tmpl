@@ -13,6 +13,7 @@
 	.config/user-dirs.dirs
 	.config/user-dirs.locale
 	.java
+	{{ .dir.private }}
 	{{ joinPath .dir.ansible.home "vars/local-symlinks.yml" }}
 	{{ joinPath .dir.localScripts "openweathermap-id.json" }}
 {{ end }}

@@ -1,0 +1,25 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Desktop base | Filesystems support
+  ansible.builtin.import_tasks: software/filesystems_support.yml
+
+- name: Desktop base | Audio base
+  ansible.builtin.import_tasks: software/audio_base.yml
+
+- name: Desktop base | Video base
+  ansible.builtin.import_tasks: software/video_base.yml
+
+- name: Desktop base | Wayland base
+  ansible.builtin.import_tasks: software/wayland_base.yml
+
+- name: Desktop base | XDG
+  ansible.builtin.import_tasks: software/xdg.yml
+
+...
+{@'- end '@}

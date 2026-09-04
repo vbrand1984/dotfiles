@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_system_base_pkgs_network_services:
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - network-manager
+    - network-manager-l10n
+    - wpasupplicant
+    - chrony
+    - dnsmasq
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+  xbps:
+    - NetworkManager
+    - wpa_supplicant
+    - chrony
+    - dnsmasq
+    - dnssec-anchors
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

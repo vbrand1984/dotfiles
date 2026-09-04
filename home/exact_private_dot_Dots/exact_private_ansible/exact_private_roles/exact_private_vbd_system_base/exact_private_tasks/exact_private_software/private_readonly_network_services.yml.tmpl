@@ -1,0 +1,35 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- if .sys.isDebianBased '@}
+{@'- /* {{{ Debian-based */'@}
+
+- name: Network services | Install packages (stable)
+  tags: [packages, system, network, network_services]
+  become: true
+  ansible.builtin.apt:
+    package: "{{ vbd_system_base_pkgs_network_services.deb_stable }}"
+    state: latest
+    install_recommends: false
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@}
+{@'- /* {{{ Void */'@}
+
+- name: Network services | Install packages (xbps)
+  tags: [packages, system, network, network_services]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_system_base_pkgs_network_services.xbps }}"
+    state: present
+
+{@'- /* }}} */'@}
+{@'- end '@}
+
+...
+{@'- end '@}

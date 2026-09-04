@@ -22,13 +22,10 @@
   ansible.builtin.import_tasks: software/distro_specific.yml
 
 - name: Utilities | Hardware utils
-  ansible.builtin.import_tasks: software/hardware.yml
-
-- name: Utilities | System monitors
-  ansible.builtin.import_tasks: software/system_monitors.yml
+  ansible.builtin.import_tasks: software/hardware_utils.yml
 
 - name: Utilities | Network utils
-  ansible.builtin.import_tasks: software/network.yml
+  ansible.builtin.import_tasks: software/network_utils.yml
 
 ...
 {@'- end '@}

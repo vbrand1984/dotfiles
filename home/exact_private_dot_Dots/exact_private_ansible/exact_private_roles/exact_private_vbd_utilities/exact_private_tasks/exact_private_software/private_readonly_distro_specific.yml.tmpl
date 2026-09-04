@@ -9,31 +9,31 @@
 {@'- if .sys.isDebianBased '@}
 {@'- /* {{{ Debian-based */'@}
 
-- name: Debian-specific | Install packages (stable)
+- name: Debian-specific | Install packages
   tags: [packages, system, utilities, distro_specific]
+  when: ansible_facts['os_family'] == 'Debian'
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_distro_specific.stable }}"
-    state: latest
-    install_recommends: false
+  block:
 
-- name: Debian-specific | Install packages (backports)
-  tags: [packages, system, utilities, distro_specific]
-  become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_distro_specific.backports }}"
-    default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-    state: latest
-    install_recommends: false
+    - name: Debian-specific | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_distro_specific.deb_stable }}"
+        state: latest
+        install_recommends: false
 
-- name: Debian-specific | Install apt-file
-  tags: [packages, system, utilities, distro_specific]
-  become: true
-  ansible.builtin.apt:
-    package: apt-file
-    state: latest
-    install_recommends: false
-  notify: Update apt-file
+    - name: Debian-specific | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_distro_specific.deb_backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest
+        install_recommends: false
+
+    - name: Debian-specific | Install the ``apt-file'' utility
+      ansible.builtin.apt:
+        package: apt-file
+        state: latest
+        install_recommends: false
+      notify: Update apt-file
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@}
@@ -45,6 +45,7 @@
   community.general.xbps:
     package: "{{ vbd_utilities_pkgs_distro_specific.xbps }}"
     state: present
+  when: ansible_facts['distribution'] == 'Void'
 
 {@'- /* }}} */'@}
 {@'- end '@}
