@@ -30,8 +30,13 @@ if not the_key in allowed_keys:
     print("The key '" + the_key + "' is not allowed to be changed via this script!")
     exit(2)
 
+# Create instance of ruamel-yaml
 yaml = YAML()
+
+# Set its parameters
 yaml.preserve_quotes = True
+yaml.explicit_start = True
+yaml.explicit_end = True
 
 try:
     with open(config_file, "rt") as f:

@@ -1,7 +1,7 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -25,7 +25,7 @@
     - name: Install browsers (stable)
       ansible.builtin.apt:
         package: "{{ vbd_www_browsers_pkgs.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
     - name: Copy my-own-chromium-flags config file to /etc/chromium.d

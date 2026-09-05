@@ -1,14 +1,13 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_system_base_pkgs_network_services:
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
   deb_stable:
     - network-manager
@@ -18,8 +17,7 @@ vbd_system_base_pkgs_network_services:
     - dnsmasq
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
   xbps:
     - NetworkManager
@@ -28,8 +26,7 @@ vbd_system_base_pkgs_network_services:
     - dnsmasq
     - dnssec-anchors
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

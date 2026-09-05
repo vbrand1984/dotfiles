@@ -1,20 +1,19 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Icons | Install packages (stable)
   tags: [packages, desktop, appearance, icons]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_appearance_pkgs_icons.deb_stable }}"
-    state: latest
+    state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
@@ -68,8 +67,7 @@
         mode: '0644'
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Icons | Install packages (xbps)
   tags: [packages, desktop, appearance, icons]
@@ -79,16 +77,15 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
-{@'- /* {{{ Common ground */'@}
+{@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground: check papirus-folders theme */'@}
 
 - name: "Icons | Check that papirus-folders theme is {{ vbd_appearance_papirus_folders_theme }}"
   tags: [packages, desktop, appearance, icons, papirus_folders]
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      papirus-folders -l | grep ">" | sed "s/[^[:alpha:]]//g"
+      papirus-folders --list | grep '>' | sed 's/[^[:alpha:]]//g'
   args:
     executable: /bin/bash
   register: vbd_appearance_shell_result
@@ -96,5 +93,6 @@
   notify: Set papirus-folders theme
 
 {@'- /* }}} */'@}
+
 ...
 {@'- end '@}

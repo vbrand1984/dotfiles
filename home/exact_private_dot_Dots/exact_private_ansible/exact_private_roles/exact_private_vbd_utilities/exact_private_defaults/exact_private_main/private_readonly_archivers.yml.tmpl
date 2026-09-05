@@ -1,14 +1,13 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_utilities_pkgs_archivers:
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
   deb_stable:
     - arj
@@ -24,8 +23,7 @@ vbd_utilities_pkgs_archivers:
     - zstd
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
   xbps:
     - cabextract
@@ -39,8 +37,7 @@ vbd_utilities_pkgs_archivers:
     - zip
     - zstd
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

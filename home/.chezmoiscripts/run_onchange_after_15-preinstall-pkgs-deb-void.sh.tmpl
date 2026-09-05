@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if and (or .sys.isDebBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
+{@'- if and (or .sys.isDebianBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
 {@'- if false -'@}
 # vim: ft=sh
 {@'- end -'@}

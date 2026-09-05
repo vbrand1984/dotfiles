@@ -1,26 +1,24 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Fonts | Install packages (stable)
   tags: [packages, desktop, appearance, fonts]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_appearance_pkgs_fonts.deb_stable }}"
-    state: latest
+    state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Fonts | Install packages (xbps)
   tags: [packages, desktop, appearance, fonts]
@@ -30,8 +28,8 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
 {@'- end '@}
+{@'- /* }}} */'@}
 
 ...
 {@'- end '@}

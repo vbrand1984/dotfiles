@@ -1,14 +1,13 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_virtual_machines_pkgs_virt_manager:
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
   deb_stable:
     - bridge-utils
@@ -24,15 +23,13 @@ vbd_virtual_machines_pkgs_virt_manager:
     - virtiofsd
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
   xbps:
     - edk2-ovmf
     - virt-manager
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

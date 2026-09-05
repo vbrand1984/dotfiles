@@ -1,14 +1,14 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_www_browsers_default_browser: {@' .cmd.firefox '@}
 
-{@'- if .sys.isDebianBased '@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 vbd_www_browsers_pkgs:
   deb_stable:
@@ -42,7 +42,8 @@ vbd_www_browsers_repo_data:
       url: 'https://repo.vivaldi.com/stable/linux_signing_key.pub'
 
 
-{@'- else if .sys.isVoid '@}
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 vbd_www_browsers_pkgs:
   xbps:
@@ -53,7 +54,7 @@ vbd_www_browsers_pkgs:
     - opera
     - vivaldi
 
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

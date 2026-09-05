@@ -1,13 +1,12 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Debian-specific | Install packages
   tags: [packages, system, utilities, distro_specific]
@@ -18,26 +17,25 @@
     - name: Debian-specific | Install packages (stable)
       ansible.builtin.apt:
         package: "{{ vbd_utilities_pkgs_distro_specific.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
     - name: Debian-specific | Install packages (backports)
       ansible.builtin.apt:
         package: "{{ vbd_utilities_pkgs_distro_specific.deb_backports }}"
         default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-        state: latest
+        state: latest # noqa: package-latest
         install_recommends: false
 
     - name: Debian-specific | Install the ``apt-file'' utility
       ansible.builtin.apt:
         package: apt-file
-        state: latest
+        state: present
         install_recommends: false
       notify: Update apt-file
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Void-specific | Install packages (xbps)
   tags: [packages, system, utilities, distro_specific]
@@ -47,8 +45,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

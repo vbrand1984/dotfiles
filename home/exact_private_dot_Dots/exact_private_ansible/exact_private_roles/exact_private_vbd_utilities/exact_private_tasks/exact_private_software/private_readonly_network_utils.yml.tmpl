@@ -1,13 +1,12 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Network utils | Installation
   tags: [packages, system, utilities, network, network_utils]
@@ -18,19 +17,18 @@
     - name: Network utils | Install packages (stable)
       ansible.builtin.apt:
         package: "{{ vbd_utilities_pkgs_network_utils.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
     - name: Network utils | Install packages (backports)
       ansible.builtin.apt:
         package: "{{ vbd_utilities_pkgs_network_utils.deb_backports }}"
         default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-        state: latest
+        state: latest # noqa: package-latest
         install_recommends: false
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Network utils | Install packages (xbps)
   tags: [packages, system, utilities, network, network_utils]
@@ -40,8 +38,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

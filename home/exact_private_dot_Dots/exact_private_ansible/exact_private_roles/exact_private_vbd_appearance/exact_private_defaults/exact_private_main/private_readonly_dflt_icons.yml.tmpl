@@ -1,15 +1,15 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+# Default color theme for papirus-folders
 vbd_appearance_papirus_folders_theme: {@' .misc.papirusFoldersTheme | squote '@}
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 vbd_appearance_papirus_folders:
   ver: {@' .file.papirusFolders.ver | squote '@}
@@ -23,8 +23,7 @@ vbd_appearance_pkgs_icons:
     - gnome-icon-theme
     - papirus-icon-theme
 
-{@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
+{@'- /* }}} */'@} {@'- else if .sys.isVoid '@}
 {@'- /* {{{ Void */'@}
 
 vbd_appearance_pkgs_icons:
@@ -35,8 +34,7 @@ vbd_appearance_pkgs_icons:
     - papirus-folders
     - papirus-icon-theme
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

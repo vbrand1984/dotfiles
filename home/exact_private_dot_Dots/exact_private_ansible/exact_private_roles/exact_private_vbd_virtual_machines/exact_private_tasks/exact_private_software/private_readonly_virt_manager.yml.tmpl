@@ -1,7 +1,7 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -11,13 +11,12 @@
   become: true
   block:
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
     - name: Virt-manager | Install packages (stable)
       ansible.builtin.apt:
         package: "{{ vbd_virtual_machines_pkgs_virt_manager.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
       when: ansible_facts['os_family'] == 'Debian'
 
@@ -35,8 +34,7 @@
 {@'- end '@}
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
     - name: Virt-manager | Install packages (xbps)
       community.general.xbps:
@@ -44,14 +42,16 @@
         state: present
       when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground: add user to the libvirt group */'@}
 
     - name: Virt-manager | Add user to the ``libvirt'' group
       ansible.builtin.user:
         user: "{{ ansible_facts['user_id'] }}"
         groups: libvirt
         append: true
+
+{@'- /* }}} */'@}
 
 ...
 {@'- end '@}

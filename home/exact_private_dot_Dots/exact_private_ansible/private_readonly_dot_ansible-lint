@@ -1,8 +1,4 @@
-# vim: set ft=yaml:
-# This file is managed by chezmoi
-
-skip_list:
-
-  # Disable 'Package installs should not use latest' error message
-  # See: https://stackoverflow.com/a/61735133 
-  - '403'
+---
+offline: true
+profile: production
+...

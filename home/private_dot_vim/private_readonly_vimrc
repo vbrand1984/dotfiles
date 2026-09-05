@@ -34,7 +34,7 @@ set ruler
 
 set viminfo='50,f1,<500,n~/.vim/.viminfo
 
-" Set cwd to the directory where edited file is
+" Set cwd to the directory where the edited file is
 set autochdir
 
 " Search options
@@ -76,7 +76,7 @@ augroup END
 " modeline for chezmoi home directory
 augroup modeline_for_chezmoi_source_dir
 	autocmd!
-	autocmd BufRead,BufNewFile ~/.Dots/chezmoi/home/* setlocal modeline
+	autocmd BufRead,BufNewFile ~/.Dots/chezmoi/Haus/* setlocal modeline
 augroup END
 
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
@@ -96,7 +96,7 @@ augroup my_filetypes
 	autocmd BufRead,BufNewFile *.svg.tmpl setlocal filetype=svg
 	autocmd BufRead,BufNewFile *.toml.tmpl setlocal filetype=toml
 	autocmd BufRead,BufNewFile *.xml.tmpl setlocal filetype=xml
-	autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl setlocal filetype=yaml
+	autocmd BufRead,BufNewFile *.yml.tmpl,*.yaml.tmpl,*.yaml.age setlocal filetype=yaml
 augroup END
 
 " Certain config files
@@ -116,6 +116,7 @@ augroup certain_config_files
 	autocmd BufRead,BufNewFile *sway/*config,*sway/*config.tmpl setlocal filetype=swayconfig
 	autocmd BufRead,BufNewFile *swaylock/*config setlocal filetype=cfg
 	autocmd BufRead,BufNewFile *tint2rc.*,*xsettingsd.tmpl,*xsettingsd.conf*,*_dunstrc.tmpl setlocal filetype=conf
+	autocmd BufRead,BufNewFile .ansible-lint,*dot_ansible-lint setlocal filetype=yaml
 	autocmd BufRead,BufNewFile .chezmoiignore.tmpl,.chezmoiremove.tmpl setlocal filetype=cfg
 	autocmd BufRead,BufNewFile .profile,*dot_profile* setlocal filetype=sh
 	autocmd BufRead,BufNewFile ansible.cfg,*ansible.cfg.tmpl setlocal filetype=dosini

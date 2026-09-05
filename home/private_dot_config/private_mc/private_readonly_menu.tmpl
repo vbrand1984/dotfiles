@@ -3,7 +3,7 @@ shell_patterns=0
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # See: https://softpanorama.org/OFM/MC/user_menu.shtml
-#
+# 
 # {{{ mc maintenance
 
 m   Edit ~/.config/mc/menu
@@ -15,6 +15,21 @@ h   Edit mc directory hotlist
 
 # }}}
 # {{{ chezmoi stuff
+# {{{ General chezmoi commands
+
+u   Run `chezmoi update'
+	{@' .chezmoi.executable '@} update
+
+i   Run `chezmoi init'
+	{@' .chezmoi.executable '@} init
+	printf 'Press [Enter] to continue...'
+	read -r _
+
+y   Run `chezmoi apply'
+	{@' .chezmoi.executable '@} apply
+
+# }}} (General chezmoi commands)
+# {{{ chezmoi edit commands
 
 # `chezmoi edit' current file
 + t rl & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
@@ -22,37 +37,52 @@ h   Edit mc directory hotlist
 e   Run `chezmoi edit' with current file
 	{@' .chezmoi.executable '@} edit --exclude=externals --apply "%f"
 
-# chezmoi add regular file
+# `chezmoi edit-encrypted' current file
+# when inside chezmoi source directory
++ t r & f .+\.age & d {@' .chezmoi.sourceDir | dir '@}/*
+= t r & d {@' .chezmoi.sourceDir | dir '@}/*
+e   Run `chezmoi edit-encrypted' with current file
+	{@' .chezmoi.executable '@} edit-encrypted "%f"
+
+# }}} (chezmoi edit commands)
+# {{{ Add a file to chezmoi
+
+# Add a regular file to chezmoi
 + t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
 a   Add current file to chezmoi
 	{@' .chezmoi.executable '@} add "%f"
 
-# chezmoi add regular file + encrypt
+# Add a regular file + encrypt
 + t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
-E   Add current file to chezmoi + encrypt it
+A   Add current file to chezmoi + encrypt it
 	{@' .chezmoi.executable '@} add --encrypt "%f"
 
-# chezmoi add regular file + template
+# Add a regular file + template
 + t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
 t   Add current file to chezmoi + template it
 	{@' .chezmoi.executable '@} add --template "%f"
 
-# chezmoi add regular file + encrypt + template
+# Add a regular file + encrypt + template
 + t r & !t t & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
 T   Add current file to chezmoi + template + encrypt it
 	{@' .chezmoi.executable '@} add --encrypt --template "%f"
 
-# chezmoi add directory
-+ t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
-= t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+# }}} (Add a file to chezmoi)
+# {{{ Add a directory to chezmoi
+
+# Add a directory to chezmoi
++ t d & !t t & !f ^\.\.$ & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+= t d & !t t & !f ^\.\.$ & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
 a   Add directory to chezmoi
 	{@' .chezmoi.executable '@} add "%f"
 
-+ t d & !t t & !f [.][.] & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
+# Add a directory with the `exact_' prefix
++ t d & !t t & !f ^\.\.$ & d {@' .chezmoi.homeDir '@}/* & !d {@' .chezmoi.sourceDir | dir '@}/*
 A   Add directory to chezmoi with `exact_' prefix
 	{@' .chezmoi.executable '@} add --exact "%f"
 
-# }}}
+# }}} (Add a directory to chezmoi)
+# }}} (chezmoi stuff)
 # {{{ General commands
 
 + t r & T r

@@ -1,6 +1,6 @@
 # chezmoi:template: left-delimiter={@ right-delimiter=@}
 
-{@- $libDir := .sys.isDebBased | ternary "/usr/lib" "/usr/libexec" -@}
+{@- $libDir := .sys.isDebianBased | ternary "/usr/lib" "/usr/libexec" -@}
 
 # Midnight Commander 4.0 extension file
 #

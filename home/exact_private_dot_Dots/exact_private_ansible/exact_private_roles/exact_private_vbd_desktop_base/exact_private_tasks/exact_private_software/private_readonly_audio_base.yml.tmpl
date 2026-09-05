@@ -1,13 +1,12 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Audio base | Install packages
   tags: [packages, desktop, desktop_base, audio_base]
@@ -25,19 +24,18 @@
     - name: Audio Base | Install ALSA (stable)
       ansible.builtin.apt:
         package: "{{ vbd_desktop_base_pkgs_audio_base.alsa.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
       notify: Run alsactl init
 
     - name: Audio Base | Install PipeWire (stable)
       ansible.builtin.apt:
         package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Audio base | Install packages
   tags: [packages, desktop, desktop_base, audio_base]
@@ -71,8 +69,7 @@
         group: root
       loop: "{{ vbd_desktop_base_void_audio_conf }}"
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

@@ -1,25 +1,23 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Network services | Install packages (stable)
   tags: [packages, system, network, network_services]
   become: true
   ansible.builtin.apt:
     package: "{{ vbd_system_base_pkgs_network_services.deb_stable }}"
-    state: latest
+    state: present
     install_recommends: false
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Network services | Install packages (xbps)
   tags: [packages, system, network, network_services]
@@ -28,8 +26,7 @@
     package: "{{ vbd_system_base_pkgs_network_services.xbps }}"
     state: present
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

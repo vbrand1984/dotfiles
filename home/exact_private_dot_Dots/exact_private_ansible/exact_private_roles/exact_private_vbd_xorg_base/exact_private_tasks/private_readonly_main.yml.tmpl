@@ -9,7 +9,7 @@
   become: true
   ansible.builtin.apt:
     package: "{{ desktop_install_pkg_xorg.stable }}"
-    state: latest
+    state: present
     install_recommends: false
   tags: [packages, xorg]
 

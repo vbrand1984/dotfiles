@@ -1,13 +1,12 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Office apps | Install packages
   tags: [packages, desktop, applications, office]
@@ -18,19 +17,18 @@
     - name: Office apps | Install packages (stable)
       ansible.builtin.apt:
         package: "{{ vbd_applications_pkgs_office.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
     - name: Office apps | Install packages (backports)
       ansible.builtin.apt:
         package: "{{ vbd_applications_pkgs_office.deb_backports }}"
         default_release: "{{ ansible_facts['distribution_release'] }}-backports"
-        state: latest
+        state: latest # noqa: package-latest
         install_recommends: false
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Office apps | Install packages (xbps)
   tags: [packages, desktop, applications, office]
@@ -40,8 +38,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}

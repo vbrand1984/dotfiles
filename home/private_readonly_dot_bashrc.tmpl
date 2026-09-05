@@ -191,7 +191,7 @@ alias la='ls -Al'
 alias l='ls -CF'
 
 # Wrap the following commands for interactive use to avoid accidental file overwrites.
-function rm() { command rm -i "${@}"; }
+function rm() { command rm -I --preserve-root "${@}"; }
 function cp() { command cp -i "${@}"; }
 function mv() { command mv -i "${@}"; }
 
@@ -226,7 +226,7 @@ alias man="/usr/bin/env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m
 
 {@' end -'@}
 
-{@' if and .sys.isDebBased (lookPath "doas") -'@}
+{@' if and .sys.isDebianBased (lookPath "doas") -'@}
 alias doas="{@' lookPath "doas" '@} {@' lookPath "env" '@} PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'"
 
 {@' end -'@}
@@ -276,7 +276,7 @@ alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
 # {{{ Aliases for package manager. {@'- /* Supported distros only. */'@}
 
 {@'/* {{{ Debian-based */ -'@}
-{@' if .sys.isDebBased -'@}
+{@' if .sys.isDebianBased -'@}
 
 # Show available versions of a package
 alias av='aptitude versions'
@@ -374,7 +374,7 @@ alias upg='{@' .cmd.sudo '@} emerge --update --verbose --deep --ask --newuse --k
 # }}} (Aliases for package manager)
 
 # }}} (Aliases)
-{@'- if .sys.isDebBased '@}
+{@'- if .sys.isDebianBased '@}
 # {{{ Bash-completion configuration from default Deb-based distros skel
 
 # enable programmable completion features (you don't need to enable

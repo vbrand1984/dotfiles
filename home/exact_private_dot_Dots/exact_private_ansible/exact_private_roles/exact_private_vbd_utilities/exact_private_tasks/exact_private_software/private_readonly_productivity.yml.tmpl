@@ -1,13 +1,12 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
 # vim: set ft=yaml:
-{@'- end -'@}
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@}
-{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
 - name: Productivity utils | Installation
   tags: [packages, system, utilities, productivity]
@@ -18,7 +17,7 @@
     - name: Productivity utils | Install packages (stable)
       ansible.builtin.apt:
         package: "{{ vbd_utilities_pkgs_productivity.deb_stable }}"
-        state: latest
+        state: present
         install_recommends: false
 
     - name: Productivity utils | Disable the ``rsync'' service
@@ -28,8 +27,7 @@
         enabled: false
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@}
-{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
 - name: Productivity utils | Install packages (xbps)
   tags: [packages, system, utilities, productivity]
@@ -39,8 +37,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- /* }}} */'@}
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 ...
 {@'- end '@}
