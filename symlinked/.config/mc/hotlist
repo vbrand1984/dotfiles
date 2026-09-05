@@ -1,4 +1,4 @@
-ENTRY "chezmoi source directory" URL "~/.Dots/chezmoi/home"
+ENTRY "chezmoi source directory" URL "~/.Dots/chezmoi/Haus"
 ENTRY "/mnt/data" URL "/mnt/data"
 ENTRY "~/Downloads/themes/gtk" URL "~/Downloads/themes/gtk"
 GROUP "dotfiles"
