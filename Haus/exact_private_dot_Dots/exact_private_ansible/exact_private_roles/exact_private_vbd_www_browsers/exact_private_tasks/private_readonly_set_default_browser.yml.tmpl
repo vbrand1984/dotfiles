@@ -13,7 +13,6 @@
   become: true
   community.general.alternatives:
     name: "{{ item }}"
-    link: "/usr/bin/{{ item }}"
     path: "/usr/bin/{{ vbd_www_browsers_default_browser }}"
     state: selected
   loop:

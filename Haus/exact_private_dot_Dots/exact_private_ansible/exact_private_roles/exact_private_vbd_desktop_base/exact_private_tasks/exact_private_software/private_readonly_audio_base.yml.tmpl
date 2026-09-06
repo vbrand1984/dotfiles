@@ -33,6 +33,19 @@
         package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable }}"
         state: present
         install_recommends: false
+      when:
+        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable is defined
+        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable | length > 0
+
+    - name: Audio Base | Install PipeWire (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire.deb_backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest # noqa: package-latest
+        install_recommends: false
+      when:
+        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_backports is defined
+        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_backports | length > 0
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}

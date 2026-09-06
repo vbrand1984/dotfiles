@@ -1,29 +1,34 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
 # vim: set ft=sh ts=4 sw=4:
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@' includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # This file is intended to be sourced in scripts from
 # the .chezmoiscripts directory and others
 #
 # It adds following functions to print coloured messages:
 #
-# print_message <message> - prints a message with newline
-# print_message_no_linebreak <message> - prints a message without newline
-# print_message_header <message> - prints a message in a bold color starting from a newline
+# vbd_Print_Message <message> - prints a message with newline
+# vbd_Print_Message_NLB <message> - prints a message without newline
+# vbd_Print_Header <message> - prints a message in a bold color starting from a newline
 #
 
 {@' $colorDefault := "\\033[00m" -'@}
 {@' $colorMessage := "\\033[00;36m" -'@}
 {@' $colorHeader := "\\033[01;35m" -'@}
 
-print_message_no_linebreak() {
+vbd_Print_Message_NLB() {
 	printf "{@' $colorMessage '@}${1}{@' $colorDefault '@}"
 }
 
-print_message() {
-	print_message_no_linebreak "${1}"
+vbd_Print_Message() {
+	vbd_Print_Message_NLB "${1}"
 	printf "\n"
 }
 
-print_message_header() {
+vbd_Print_Header() {
 	printf "\n{@' $colorHeader '@}${1}{@' $colorDefault '@}\n"
 }

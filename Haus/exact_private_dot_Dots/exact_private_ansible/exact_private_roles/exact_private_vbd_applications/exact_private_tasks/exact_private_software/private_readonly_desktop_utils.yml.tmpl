@@ -8,19 +8,28 @@
 
 {@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
-- name: Desktop utilities | Install packages (stable)
+- name: Desktop utilities | Installation
   tags: [packages, desktop, applications, desktop_utils]
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_applications_pkgs_desktop_utils.deb_stable }}"
-    state: present
-    install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Desktop utils | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_applications_pkgs_desktop_utils.deb_stable }}"
+        state: present
+        install_recommends: false
+
+    - name: "Desktop utils | Update-alternatives | Set default terminal emulator to {{ vbd_applications_default_terminal }}"
+      community.general.alternatives:
+        name: x-terminal-emulator
+        path: "/usr/bin/{{ vbd_applications_default_terminal }}"
+        state: selected
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
-- name: Desktop utilities | Install packages (xbps)
+- name: Desktop utils | Install packages (xbps)
   tags: [packages, desktop, applications, desktop_utils]
   become: true
   community.general.xbps:
@@ -29,6 +38,14 @@
   when: ansible_facts['distribution'] == 'Void'
 
 {@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground: set default file manager */'@}
 
+- name: Desktop utils | Set default file manager
+  tags: [packages, desktop, applications, desktop_utils]
+  community.general.xdg_mime:
+    handler: "{{ vbd_applications_default_file_manager }}.desktop"
+    mime_types: inode/directory
+
+{@'- /* }}} */'@}
 ...
 {@'- end '@}

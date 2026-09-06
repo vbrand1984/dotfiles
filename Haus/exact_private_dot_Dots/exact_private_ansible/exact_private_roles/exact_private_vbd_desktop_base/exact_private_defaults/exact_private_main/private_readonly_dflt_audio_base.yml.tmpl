@@ -45,8 +45,12 @@ vbd_desktop_base_pkgs_audio_base:
       - alsa-ucm-conf
 
   pipewire:
-    deb_stable:
+    deb_backports:
+      - libcamera-ipa
+      - libspa-0.2-bluetooth
+      - libspa-0.2-libcamera
       - pipewire
+      - pipewire-alsa
       - pipewire-pulse
       - wireplumber
 

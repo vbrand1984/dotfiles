@@ -1,4 +1,9 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template */ -'@}
+{@'- if false -'@}
+# vim: set ft=sh ts=4 sw=4:
+{@'- end -'@} {@'- /* }}} */ -'@}
+
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 
 # {{{ Generic intro
@@ -48,62 +53,41 @@ tabs -4
 
 {@'- /* {{{ Template variables definition */'@}
 
-{@'- /* These escape-sequences are only needed for PS1 */'@}
-{@'- $escStart := `\[` '@}
-{@'- $escEnd := `\]` '@}
+{@'- /* Load ANSI terminal color codes */'@}
+{@'- $C := includeTemplate .tmpl.palette.ansiTerminalColors | fromYaml '@}
+{@'- $B := $C.bold '@}
 
-{@'- /* Terminal color codes */'@}
-{@'- /* See: https://misc.flogisoft.com/bash/tip_colors_and_formatting */'@}
-{@'- $coloRed := `\033[01;31m` '@}
-{@'- $coloGreen := `\033[01;32m` '@}
-{@'- $coloYellow := `\033[01;33m` '@}
-{@'- $coloBlue := `\033[01;34m` '@}
-{@'- $coloMagenta := `\033[01;35m` '@}
-{@'- $coloCyan := `\033[01;36m` '@}
-{@'- $coloWhite := `\033[01;37m` '@}
-{@'- $coloDefault := `\033[00m` '@}
+{@'- /* These color codes (without $C.esc.bashStart and $C.esc.bashStart) are used in dynamic functions in printf */'@}
+{@'- $bracketColo :=		$B.green '@}
+{@'- $branchCleanColo :=	$B.blue '@}
+{@'- $branchDirtyColo :=	$B.yellow '@}
+{@'- $exitCodeBad :=		$B.red '@}
+{@'- $exitCodeOk :=			$B.blue '@}
+{@'- $lineColo :=			$B.green '@}
 
-{@'- /* Terminal color codes to be used in PS1 */'@}
-{@'- $colourRed := print $escStart $coloRed $escEnd '@}
-{@'- $colourGreen := print $escStart $coloGreen $escEnd '@}
-{@'- $colourYellow := print $escStart $coloYellow $escEnd '@}
-{@'- $colourBlue := print $escStart $coloBlue $escEnd '@}
-{@'- $colourMagenta := print $escStart $coloMagenta $escEnd '@}
-{@'- $colourCyan := print $escStart $coloCyan $escEnd '@}
-{@'- $colourWhite := print $escStart $coloWhite $escEnd '@}
-{@'- $colourDefault := print $escStart $coloDefault $escEnd '@}
-
-{@'- /* These color codes (without $escStart and $escEnd) are used in our function in printf */'@}
-{@'- $lineColo := $coloGreen '@}
-{@'- $bracketColo := $coloGreen '@}
-{@'- $branchCleanColo := $coloBlue '@}
-{@'- $branchDirtyColo := $coloRed '@}
-{@'- $exitCodeOk := $coloBlue '@}
-{@'- $exitCodeBad := $coloRed '@}
-
-{@'- /* These color codes (with $escStart and $escEnd) are used in PS1 directly */'@}
-{@'- $lineColour := print $escStart $lineColo $escEnd '@}
-{@'- $bracketColour := print $escStart $bracketColo $escEnd '@}
-{@'- $clockColour := $colourBlue '@}
-{@'- $jobColour := $colourBlue '@}
-{@'- $pathColour := $colourBlue '@}
-{@'- $distroColour := $colourCyan '@}
-{@'- $usernameColour := $colourCyan '@}
-{@'- $endCharacterColour := $colourGreen '@}
+{@'- /* These color codes (with $C.esc.bashStart and $C.esc.bashEnd) are used in PS1 directly */'@}
+{@'- $bracketColour :=		print $C.esc.bashStart		$bracketColo	$C.esc.bashEnd '@}
+{@'- $clockColour :=		print $C.esc.bashStart		$B.blue			$C.esc.bashEnd '@}
+{@'- $distroColour :=		print $C.esc.bashStart		$B.cyan			$C.esc.bashEnd '@}
+{@'- $endCharacterColour :=	print $C.esc.bashStart		$B.green		$C.esc.bashEnd '@}
+{@'- $jobColour :=			print $C.esc.bashStart		$B.blue			$C.esc.bashEnd '@}
+{@'- $lineColour :=			print $C.esc.bashStart		$lineColo		$C.esc.bashEnd '@}
+{@'- $pathColour :=			print $C.esc.bashStart		$B.blue			$C.esc.bashEnd '@}
+{@'- $usernameColour :=		print $C.esc.bashStart		$B.cyan			$C.esc.bashEnd '@}
 
 {@'- /* Box characters to be used in the prompt */'@}
-{@'- $lineBottomCorner := `\342\224\224` '@}
-{@'- $lineUpperCorner := `\342\224\214` '@}
-{@'- $lineStraight := `\342\224\200` '@}
+{@'- $lineBottomCorner :=	`\342\224\224` '@}
+{@'- $lineUpperCorner :=	`\342\224\214` '@}
+{@'- $lineStraight :=		`\342\224\200` '@}
 
 {@'- /* Special symbols */'@}
-{@'- $endCharacter := `\$` '@}
-{@'- $gitBranchSymbol := `` '@}
+{@'- $endCharacter :=		`\$` '@}
+{@'- $gitBranchSymbol :=	`` '@}
 
 {@'- /* }}} */'@}
 
 # If inside a git working tree, print current git branch in the bottom line of the command prompt
-function VBD_PrintGitBranch() {
+function VBD_Print_Git_Branch() {
 	if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 ; then 
 		local branch_colo
 		# Check if there are changes in the local repo and choose color of the branch name accordingly
@@ -115,21 +99,20 @@ function VBD_PrintGitBranch() {
 			# Untracked changes are present. The repo is "dirty".
 			branch_colo={@' $branchDirtyColo | squote '@}
 		fi
-		printf {@' print `"` `\001` $bracketColo `\002` "["
-			`\001` "${branch_colo}" `\002` $gitBranchSymbol "$(git branch --show-current)"
-			`\001` $bracketColo `\002` "]" `\001` $lineColo `\002` $lineStraight `"` '@}
+		printf {@' print `"` $C.esc.start $bracketColo $C.esc.end "["
+			$C.esc.start "${branch_colo}" $C.esc.end $gitBranchSymbol "$(git branch --show-current)"
+			$C.esc.start $bracketColo $C.esc.end "]" $C.esc.start $lineColo $C.esc.end $lineStraight `"` '@}
 	fi
 }
 
 # Print exit code. This function should be called from inside brackets 
-function VBD_PrintExitCode() {
+function VBD_Print_Exit_Code() {
 	local exit_code=$?
 	if [[ $exit_code -eq 0 ]] ; then
-		printf {@' print `\001` $exitCodeOk `\002` "0" | squote '@}
+		printf {@' print $C.esc.start $exitCodeOk $C.esc.end "0" | squote '@}
 	else
-		printf {@' print `\001` $exitCodeBad `\002` "%i" | squote '@} $exit_code
+		printf {@' print $C.esc.start $exitCodeBad $C.esc.end "%i" | squote '@} $exit_code
 	fi
-	export VBD_EXIT_CODE_
 }
 
 if [[ $TERM == 'linux' ]] ; then
@@ -141,11 +124,11 @@ fi
 PS1={@' print
 	$lineColour $lineUpperCorner $lineStraight $lineStraight
 	$bracketColour "(" $distroColour `'"$distro_logo"'` $bracketColour ")" $lineColour $lineStraight
-	$bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $colourDefault `\n`
+	$bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $C.reset `\n`
 	$lineColour $lineBottomCorner $lineStraight $lineStraight
-	$bracketColour "(" `$(VBD_PrintExitCode)` $bracketColour ")" $lineColour $lineStraight `$(VBD_PrintGitBranch)`
+	$bracketColour "(" `$(VBD_Print_Exit_Code)` $bracketColour ")" $lineColour $lineStraight `$(VBD_Print_Git_Branch)`
 	$bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight
-	$endCharacterColour $endCharacter $escStart "$(tput sgr0)" $escEnd " "
+	$endCharacterColour $endCharacter $C.esc.bashStart "$(tput sgr0)" $C.esc.bashEnd " "
 	| squote
 '@}
 
@@ -176,9 +159,9 @@ esac
 if [ -x /usr/bin/dircolors ]; then
 	# We do not have the ~/.dircolors file
 	#test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-	alias ls='ls --color=auto'
-	alias dir='dir --color=auto'
-	alias vdir='vdir --color=auto'
+	alias ls='ls --color=auto --group-directories-first'
+	alias dir='dir --color=auto --group-directories-first'
+	alias vdir='vdir --color=auto --group-directories-first'
 
 	alias grep='grep --color=auto'
 	alias fgrep='fgrep --color=auto'
@@ -186,9 +169,9 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-alias ll='ls -l'
-alias la='ls -Al'
-alias l='ls -CF'
+alias ll='ls -l --group-directories-first'
+alias la='ls -Al --group-directories-first'
+alias l='ls -CF --group-directories-first'
 
 # Wrap the following commands for interactive use to avoid accidental file overwrites.
 function rm() { command rm -I --preserve-root "${@}"; }
@@ -208,7 +191,7 @@ alias ff='fastfetch'
 alias h='htop'
 
 # Vim
-alias v='vim'
+alias v={@' .cmd.editor | squote '@}
 alias se={@' (eq .cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" "doas vim") | squote '@}
 
 # Weather conditions and forecast
@@ -234,26 +217,26 @@ alias doas="{@' lookPath "doas" '@} {@' lookPath "env" '@} PATH='/usr/local/sbin
 # }}} (Various handy aliases)
 # {{{ chezmoi aliases
 
-{@'- /* If this is not a "Brands private PC", the "--exclude=encrypted" suffix will be added to the aliases */'@}
-{@'- $excludeSuffix := .sys.isBrandsPrivate | ternary "" "--exclude=encrypted" '@}
-
 # chezmoi apply
-alias Ca={@' cat .chezmoi.executable "apply" $excludeSuffix | trim | squote '@}
+alias Ca={@' cat .chezmoi.executable "apply" | squote '@}
+
+# chezmoi cd
+alias Cc={@' cat .chezmoi.executable "cd" | squote '@}
 
 # chezmoi diff
-alias Cd={@' cat .chezmoi.executable "diff" $excludeSuffix | trim | squote '@}
+alias Cd={@' cat .chezmoi.executable "diff" | squote '@}
 
 # chezmoi edit --apply
-alias Ce={@' cat .chezmoi.executable "edit --apply" $excludeSuffix | trim | squote '@}
+alias Ce={@' cat .chezmoi.executable "edit --apply" | squote '@}
 
 # chezmoi init
-alias Ci={@' cat .chezmoi.executable "init" $excludeSuffix | trim | squote '@}
+alias Ci={@' cat .chezmoi.executable "init" | squote '@}
 
 # chezmoi status
-alias Cs={@' cat .chezmoi.executable "status" $excludeSuffix | trim | squote '@}
+alias Cs={@' cat .chezmoi.executable "status" | squote '@}
 
 # chezmoi update
-alias Cu={@' cat .chezmoi.executable "update" $excludeSuffix | trim | squote '@}
+alias Cu={@' cat .chezmoi.executable "update" | squote '@}
 
 # }}} (chezmoi aliases)
 # {{{ git aliases
@@ -393,8 +376,7 @@ fi
 # {{{ Export variables
 
 # GPG options
-GPG_TTY="$(tty)"
-export GPG_TTY
+export GPG_TTY="$(tty)"
 
 #xhost si:localuser:root >/dev/null
 

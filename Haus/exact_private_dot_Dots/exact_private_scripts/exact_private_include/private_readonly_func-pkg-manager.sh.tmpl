@@ -2,38 +2,38 @@
 {@'- if or .sys.isVoid .sys.isDebianBased -'@}
 # vim: ft=sh ts=4 sw=4:
 
-{@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
-{@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
+{@'/* Include the ``vbd_Sudo'' function */ -'@}
+{@' includeTemplate .tmpl.sh.funcSudo . '@}
 
-install_pkg() {
+vbd_Install_Pkg() {
 {@'- if .sys.isDebianBased '@}
-	ensure_sudo_is_working aptitude --assume-yes --without-recommends install -- "${@}"
+	vbd_Sudo aptitude --assume-yes --without-recommends install -- "${@}"
 {@'- else if .sys.isVoid '@}
-	ensure_sudo_is_working xbps-install -Sy -- "${@}"
+	vbd_Sudo xbps-install -Sy -- "${@}"
 {@'- end '@}
 }
 
-remove_pkg() {
+vbd_Remove_Pkg() {
 {@'- if .sys.isDebianBased '@}
-	ensure_sudo_is_working aptitude --assume-yes purge -- "${@}"
+	vbd_Sudo aptitude --assume-yes purge -- "${@}"
 {@'- else if .sys.isVoid '@}
-	ensure_sudo_is_working xbps-remove -Ry -- "${@}"
+	vbd_Sudo xbps-remove -Ry -- "${@}"
 {@'- end '@}
 }
 
-update_system() {
+vbd_Update_System() {
 {@'- if .sys.isDebianBased '@}
-	ensure_sudo_is_working aptitude update && ensure_sudo_is_working aptitude --assume-yes upgrade
+	vbd_Sudo aptitude update && vbd_Sudo aptitude --assume-yes upgrade
 {@'- else if .sys.isVoid '@}
-	ensure_sudo_is_working xbps-install -Syu xbps && ensure_sudo_is_working xbps-install -Syu
+	vbd_Sudo xbps-install -Syu xbps && vbd_Sudo xbps-install -Syu
 {@'- end '@}
 }
 
-update_pkg_cache() {
+vbd_Update_Pkg_Cache() {
 {@'- if .sys.isDebianBased '@}
-	ensure_sudo_is_working aptitude update
+	vbd_Sudo aptitude update
 {@'- else if .sys.isVoid '@}
-	ensure_sudo_is_working xbps-install -Sy
+	vbd_Sudo xbps-install -Sy
 {@'- end '@}
 }
 

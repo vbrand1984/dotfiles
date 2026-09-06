@@ -1,7 +1,7 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
-# vim: ft=sh
-{@'- end -'@}
+# vim: set ft=sh:
+{@'- end -'@} {@'- /* }}} */ -'@}
 #!/bin/sh -e
 #
 # This script updates fonts cache when downloaded fonts are changed
@@ -10,17 +10,15 @@
 
 {@'/* {{{ Include stuff and initialize variables */ -'@}
 
-{@'/* Include the ``print_message*'' functions */ -'@}
-{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
-
-{@'/* Print the name of this script */ -'@}
+{@'/* Print the name of the script... */ -'@}
+{@'/* ...and also include the ``_Print_Message*'' functions */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 {@' $fontsBaseDir := joinPath .chezmoi.homeDir ".local/share/fonts" -'@}
 
 {@'/* }}} */ -'@}
 
-print_message "Updating fonts cache..."
+vbd_Print_Message "Updating fonts cache..."
 fc-cache --force --verbose {@' $fontsBaseDir | quote '@}
 
 {@'/* {{{ Include hashes of the files */ -'@}

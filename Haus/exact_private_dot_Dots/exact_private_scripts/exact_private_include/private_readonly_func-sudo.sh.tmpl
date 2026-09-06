@@ -1,4 +1,10 @@
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
 # vim: set ft=sh ts=4 sw=4:
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@' includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 #
 # This file is intended to be sourced  in shell scripts from the .chezmoiscripts directory and others.
 # It adds a function which makes user to enter sudo/doas password until he succeeds.
@@ -6,15 +12,18 @@
 # it calls the ``sudo'' command with the parameters passed.
 #
 
-ensure_sudo_is_working() {
+vbd_Sudo() {
 
 	# Make user to enter a valid ``sudo'' password if needed
 	sudo_working=1
 	while [ $sudo_working -ne 0 ] ; do
-		{{ .cmd.sudo }} true && sudo_working=0 || sudo_working=1
+		if {@' .cmd.sudo '@} true ; then
+			sudo_working=0
+		fi
 	done
 
 	# Then execute the commands passed to the function as arguments
 	# (if these exist)
-	[ $# -gt 0 ] && {{ .cmd.sudo }} "${@}"
+	[ $# -gt 0 ] && {@' .cmd.sudo '@} "${@}"
 }
+

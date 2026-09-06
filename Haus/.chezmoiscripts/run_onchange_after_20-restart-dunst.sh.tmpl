@@ -1,26 +1,27 @@
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@} {@'- /* }}} */ -'@}
 #!/bin/sh -e
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #
 # Automatically restart dunst if its configuration has been changed
 #
 
 {@'/* {{{ Include stuff */ -'@}
 
-{@'/* Include the ``print_message*'' functions */ -'@}
-{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
-
-{@'/* Print the name of this script */ -'@}
+{@'/* Print the name of the script... */ -'@}
+{@'/* ...and also include the ``vbd_Print_Message*'' functions */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 {@'/* }}} */ -'@}
 
 # Restart dunst if Xorg (namely Openbox) is running
-if pgrep --count openbox 1>/dev/null 2>&1 ; then
-    print_message_no_linebreak "Restarting dunst... "
+if pgrep --count '^sway$' 1>/dev/null 2>&1 ; then
+    vbd_Print_Message_NLB "Restarting dunst... "
 	{@' .cmd.manageService '@} restart dunst
-    print_message "Done."
+    vbd_Print_Message "Done."
 else
-    print_message "Xorg is not running. Doing nothing."
+    vbd_Print_Message "Sway is not running. Doing nothing."
 fi
 
 {@'/* This template will include hashes for the files listed */ -'@}

@@ -8,14 +8,27 @@
 
 {@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
-- name: RTFM | Install packages (stable)
+- name: RTFM | Installation
   tags: [packages, system, utilities, rtfm]
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_rtfm.deb_stable }}"
-    state: present
-    install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: RTFM | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_rtfm.deb_stable }}"
+        state: present
+        install_recommends: false
+
+    - name: RTFM | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_rtfm.deb_backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest # noqa: package-latest
+        install_recommends: false
+      when:
+        - vbd_utilities_pkgs_rtfm.deb_backports is defined
+        - vbd_utilities_pkgs_rtfm.deb_backports | length > 0
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}

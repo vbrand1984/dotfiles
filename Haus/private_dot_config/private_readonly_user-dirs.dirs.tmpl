@@ -1,5 +1,4 @@
 {{ includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " }}
-#
 XDG_DESKTOP_DIR={{ joinPath .chezmoi.homeDir .xdg.desktopDir | quote }}
 XDG_DOCUMENTS_DIR={{ joinPath .chezmoi.homeDir .xdg.documentsDir | quote }}
 XDG_DOWNLOAD_DIR={{ joinPath .chezmoi.homeDir .xdg.downloadDir | quote }}

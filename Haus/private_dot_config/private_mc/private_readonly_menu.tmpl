@@ -17,16 +17,45 @@ h   Edit mc directory hotlist
 # {{{ chezmoi stuff
 # {{{ General chezmoi commands
 
+{@'- $C := includeTemplate .tmpl.palette.ansiTerminalColors . | fromYaml '@}
+{@'- $cMessage := $C.cyan '@}
+{@'- $cOk := $C.bold.magenta '@}
+{@'- $cFailed := $C.bold.red '@}
+
 u   Run `chezmoi update'
 	{@' .chezmoi.executable '@} update
 
 i   Run `chezmoi init'
-	{@' .chezmoi.executable '@} init
-	printf 'Press [Enter] to continue...'
+	printf "{@' $cMessage '@}Running chezmoi init...{@' $C.reset '@}\n"
+	{@' .chezmoi.executable '@} init --source={@' .chezmoi.sourceDir | dir | quote '@}
+	result=$?
+	if [ $result -eq 0 ] ; then
+		printf "{@' $cOk '@}OK{@' $C.reset '@}\n"
+	else
+		printf "{@' $cFailed '@}FAILED{@' $C.reset '@}\n"
+	fi
+	printf "{@' $cMessage '@}Press [Enter] to continue...{@' $C.reset '@}"
 	read -r _
+	exit $result
 
 y   Run `chezmoi apply'
+	printf "{@' $cMessage '@}Running chezmoi apply...{@' $C.reset '@}\n"
 	{@' .chezmoi.executable '@} apply
+	result=$?
+	if [ $result -eq 0 ] ; then
+		printf "{@' $cOk '@}OK{@' $C.reset '@}\n"
+	else
+		printf "{@' $cFailed '@}FAILED{@' $C.reset '@}\n"
+	fi
+	printf "{@' $cMessage '@}Press [Enter] to continue...{@' $C.reset '@}"
+	read -r _
+	exit $result
+
+# 
++= t r & f .+\.age$ & d {@' .chezmoi.sourceDir | dir '@}/*
+#= t r & d {@' .chezmoi.sourceDir | dir '@}/*
+w   View contents of the encrypted file
+	%view{ascii,unformatted} {@' .chezmoi.executable '@} decrypt %f
 
 # }}} (General chezmoi commands)
 # {{{ chezmoi edit commands
@@ -40,7 +69,7 @@ e   Run `chezmoi edit' with current file
 # `chezmoi edit-encrypted' current file
 # when inside chezmoi source directory
 + t r & f .+\.age & d {@' .chezmoi.sourceDir | dir '@}/*
-= t r & d {@' .chezmoi.sourceDir | dir '@}/*
+#= t r & d {@' .chezmoi.sourceDir | dir '@}/*
 e   Run `chezmoi edit-encrypted' with current file
 	{@' .chezmoi.executable '@} edit-encrypted "%f"
 
@@ -96,40 +125,40 @@ o   Open current directory in {@' .cmd.fileManager '@}
 # }}}
 # {{{ Compress target file or directory
 
-+ t rd & !t t & !f [.][.]
++ t rd & !t t & !f ^\.\.$
 x   Compress target (tar.xz)
-	Pwd="%f"
+	Pwd=%f
 	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar cJpvf "${archive_name}.tar.xz" -- "%f" && \
+	tar cJvf "${archive_name}.tar.xz" -- %f && \
 		echo "${archive_name}.tar.xz created."
 
-+ t rd & !t t & !f [.][.]
++ t rd & !t t & !f ^\.\.$
 g   Compress target (tar.gz)
-	Pwd="%f"
+	Pwd=%f
 	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar czpvf "${archive_name}.tar.gz" -- "%f" && \
+	tar czvf "${archive_name}.tar.gz" -- %f && \
 		echo "${archive_name}.tar.gz created."
 
-+ t rd & !t t & !f [.][.]
++ t rd & !t t & !f ^\.\.$
 z   Compress target (tar.zst)
-	Pwd="%f"
+	Pwd=%f
 	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar cpvf "${archive_name}.tar.zst" -zstd -- "%f" && \
+	tar cvf "${archive_name}.tar.zst" -zstd -- %f && \
 		echo "${archive_name}.tar.zst created."
 
-+ t rd & !t t & !f [.][.]
++ t rd & !t t & !f ^\.\.$
 Z   Compress target (zip)
-	Pwd="%f"
+	Pwd=%f
 	printf "Name of the compressed file (without archive extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	zip -r "${archive_name}.zip" -- "%f" && \
+	zip -r "${archive_name}.zip" -- %f && \
 		echo "${archive_name}.zip created."
 
 # }}}
@@ -142,7 +171,7 @@ x   Compress targets (tar.xz)
 	printf "Name of the compressed file (without extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar cJpvf "${archive_name}.tar.xz" -- %t && \
+	tar cJpvf "${archive_name}.tar.xz" -- %u && \
 		echo "${archive_name}.tar.xz created."
 
 + t t
@@ -152,7 +181,7 @@ g   Compress targets (tar.gz)
 	printf "Name of the compressed file (without extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar czpvf "${archive_name}.tar.gz" -- %t && \
+	tar czpvf "${archive_name}.tar.gz" -- %u && \
 		echo "${archive_name}.tar.gz created."
 
 + t t
@@ -162,7 +191,7 @@ z   Compress targets (tar.zst)
 	printf "Name of the compressed file (without extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	tar cpvf "${archive_name}.tar.zst" --zstd -- %t && \
+	tar cpvf "${archive_name}.tar.zst" --zstd -- %u && \
 		echo "${archive_name}.tar.zst created."
 
 + t t
@@ -172,7 +201,7 @@ Z   Compress targets (zip)
 	printf "Name of the compressed file (without extension) [${Pwd}]: "
 	read archive_name
 	[ -z "${archive_name}" ] && archive_name="${Pwd}"
-	zip -r "${archive_name}.zip" -- %t && \
+	zip -r "${archive_name}.zip" -- %u && \
 		echo "${archive_name}.zip created."
 
 # }}}

@@ -5,11 +5,11 @@
 # This template is used in scripts from the .chezmoiscripts directory.
 # It adds a function which makes user to enter sudo password until he succeeds
 #
-# chezmoi variable to store relative path to this template: .tmpl.sh.funcEnsureSudoIsWorking
+# chezmoi variable to store relative path to this template: .tmpl.sh.funcSudo
 #
 {@'- end -'@}
 
-# Include the ``ensure_sudo_is_working'' function
-. {@' joinPath .chezmoi.homeDir .dir.include "func-ensure-sudo-is-working.sh" '@}
+# Include the ``vbd_Sudo'' function
+. {@' joinPath .chezmoi.homeDir .dir.include "func-sudo.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}

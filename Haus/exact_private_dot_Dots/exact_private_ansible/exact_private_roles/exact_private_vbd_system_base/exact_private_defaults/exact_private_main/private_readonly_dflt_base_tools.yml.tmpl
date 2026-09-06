@@ -1,0 +1,40 @@
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=yaml:
+{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_system_base_pkgs_network_services:
+{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+
+  deb_stable:
+    - hdparm
+    - patch
+
+    # Filesystem tools
+    - btrfs-progs
+    - dosfstools
+    - e2fsprogs
+    - e2fsprogs-l10n
+    - exfatprogs
+    - ntfs-3g
+
+{@'- /* }}} */'@}
+{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+
+  xbps:
+    - hdparm
+    - patch
+
+    - btrfs-progs
+    - ntfs-3g
+    - e2fsprogs
+    - exfatprogs
+    - dosfstools
+
+{@'- end '@} {@'- /* }}} */'@}
+
+...
+{@'- end '@}

@@ -1,11 +1,13 @@
-{{- if false -}}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+#
+# This template inserts a dumb shebang for /bin/sh scripts.
+#
+# chezmoi variable to store relative path to this template: .tmpl.shebang.dumbSh
+#
+{@'- end -'@}
 
-This template inserts a dumb shebang for /bin/sh scripts.
+#!/usr/bin/echo {@' cat .message.dumbShebang "/bin/sh -e" | quote '@}
 
-chezmoi variable to store relative path to this template: .tmpl.shebang.dumbSh
-
-{{- end -}}
-
-#!/usr/bin/echo {{ .message.dumbShebang }} /bin/sh -e
-
-{{- /* This deletes an empty line after the template */ -}}
+{@'- /* This deletes an empty line after the template */ -'@}

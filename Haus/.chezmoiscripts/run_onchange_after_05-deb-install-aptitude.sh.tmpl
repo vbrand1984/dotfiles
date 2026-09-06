@@ -1,7 +1,7 @@
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- if false -'@}
-# vim: ft=sh
-{@'- end -'@}
+# vim: set ft=sh:
+{@'- end -'@} {@'- /* }}} */ -'@}
 {@'- if and .sys.isDebianBased (not (lookPath "aptitude")) -'@}
 #!/bin/sh
 #
@@ -10,24 +10,22 @@
 
 {@'/* {{{ Include stuff */ -'@}
 
-{@'/* Include the ``ensure_sudo_is_working'' function */ -'@}
+{@'/* Include the ``vbd_Sudo'' function */ -'@}
 {@' includeTemplate .tmpl.sh.funcEnsureSudoIsWorking . '@}
 
-{@'/* Include the ``print_message*'' functions */ -'@}
-{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
-
-{@'/* Print the name of the script */ -'@}
+{@'/* Print the name of the script... */ -'@}
+{@'/* ...and also include the ``_PrintMessage*'' functions */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 {@'/* }}} */ -'@}
 
-print_message "\nPreparing to install aptitude. Updating apt..."
-ensure_sudo_is_working apt update
+vbd_Print_Message "\nPreparing to install aptitude. Updating apt..."
+vbd_Sudo apt update
 
-print_message "\nUpgrading apt..."
-ensure_sudo_is_working apt-get --assume-yes --no-install-recommends upgrade
+vbd_Print_Message "\nUpgrading apt..."
+vbd_Sudo apt-get --assume-yes --no-install-recommends upgrade
 
-print_message "\nInstalling aptitude..."
-ensure_sudo_is_working apt-get --assume-yes --no-install-recommends install aptitude
+vbd_Print_Message "\nInstalling aptitude..."
+vbd_Sudo apt-get --assume-yes --no-install-recommends install aptitude
 
-{@'- end -'@}
+{@'- end '@}

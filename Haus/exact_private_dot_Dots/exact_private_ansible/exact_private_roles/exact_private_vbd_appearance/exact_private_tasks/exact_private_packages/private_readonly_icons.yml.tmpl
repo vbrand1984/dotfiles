@@ -8,63 +8,71 @@
 
 {@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
-- name: Icons | Install packages (stable)
+- name: Icons | Installation
   tags: [packages, desktop, appearance, icons]
   become: true
-  ansible.builtin.apt:
-    package: "{{ vbd_appearance_pkgs_icons.deb_stable }}"
-    state: present
-    install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
-
-- name: Icons | papirus-folders
-  tags: [packages, desktop, appearance, icons, papirus_folders]
-  when: >
-    ansible_facts['os_family'] == 'Debian' and
-    (ansible_local.vbd_papirus_folders.installed_version is not defined or
-    ansible_local.vbd_papirus_folders.installed_version != vbd_appearance_papirus_folders.ver)
   block:
 
-    - name: Icons | papirus-folders | Delete papirus-folders package (apt)
-      become: true
+    - name: Icons | Install packages (stable)
       ansible.builtin.apt:
-        package: papirus-folders
-        state: absent
-        purge: true
+        package: "{{ vbd_appearance_pkgs_icons.deb_stable }}"
+        state: present
+        install_recommends: false
 
-    - name: Icons | papirus-folders | Create temporary directory
-      ansible.builtin.tempfile:
-        state: directory
-      register: vbd_appearance_temp_dir
+    - name: "Icons | Update-alternatives | Set cursor theme to {{ vbd_appearance_cursor_theme }}"
+      community.general.alternatives:
+        name: x-cursor-theme
+        path: "/usr/share/icons/{{ vbd_appearance_cursor_theme }}/cursor.theme"
+        state: selected
+      failed_when: false
 
-    - name: Icons | papirus-folders | Unarchive papirus-folders installer
-      ansible.builtin.unarchive:
-        src: "{{ vbd_appearance_papirus_folders.archive }}"
-        dest: "{{ vbd_appearance_temp_dir.path }}"
+    - name: Icons | papirus-folders
+      when: >
+        ansible_local.vbd_papirus_folders.installed_version is not defined or
+        ansible_local.vbd_papirus_folders.installed_version != vbd_appearance_papirus_folders.ver
+      block:
 
-    - name: Icons | papirus-folders | Install papirus-folders
-      become: true
-      ansible.builtin.command:
-        chdir: "{{ vbd_appearance_temp_dir.path }}/papirus-folders-{{ vbd_appearance_papirus_folders.ver }}"
-        cmd: /bin/sh install.sh
-      environment:
-        TAG: "v{{ vbd_appearance_papirus_folders.ver }}"
-        PREFIX: '/usr/local'
-      changed_when: true
+        - name: Icons | papirus-folders | Delete papirus-folders package (apt)
+          become: true
+          ansible.builtin.apt:
+            package: papirus-folders
+            state: absent
+            purge: true
 
-    - name: Icons | papirus-folders | Delete temporary directory
-      ansible.builtin.file:
-        path: "{{ vbd_appearance_temp_dir.path }}"
-        state: absent
+        - name: Icons | papirus-folders | Create temporary directory
+          ansible.builtin.tempfile:
+            state: directory
+          register: vbd_appearance_temp_dir
 
-    - name: "Icons | papirus-folders | Set fact | Installed version: {{ vbd_appearance_papirus_folders.ver }}"
-      become: true
-      ansible.builtin.copy:
-        dest: /etc/ansible/facts.d/vbd_papirus_folders.fact
-        content: "{ \"installed_version\": \"{{ vbd_appearance_papirus_folders.ver }}\" }"
-        owner: root
-        group: root
-        mode: '0644'
+        - name: Icons | papirus-folders | Unarchive papirus-folders installer
+          ansible.builtin.unarchive:
+            src: "{{ vbd_appearance_papirus_folders.archive }}"
+            dest: "{{ vbd_appearance_temp_dir.path }}"
+
+        - name: Icons | papirus-folders | Install papirus-folders
+          become: true
+          ansible.builtin.command:
+            chdir: "{{ vbd_appearance_temp_dir.path }}/papirus-folders-{{ vbd_appearance_papirus_folders.ver }}"
+            cmd: /bin/sh install.sh
+          environment:
+            TAG: "v{{ vbd_appearance_papirus_folders.ver }}"
+            PREFIX: '/usr/local'
+          changed_when: true
+
+        - name: Icons | papirus-folders | Delete temporary directory
+          ansible.builtin.file:
+            path: "{{ vbd_appearance_temp_dir.path }}"
+            state: absent
+
+        - name: "Icons | papirus-folders | Set fact | Installed version: {{ vbd_appearance_papirus_folders.ver }}"
+          become: true
+          ansible.builtin.copy:
+            dest: /etc/ansible/facts.d/vbd_papirus_folders.fact
+            content: "{ \"installed_version\": \"{{ vbd_appearance_papirus_folders.ver }}\" }"
+            owner: root
+            group: root
+            mode: '0644'
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}

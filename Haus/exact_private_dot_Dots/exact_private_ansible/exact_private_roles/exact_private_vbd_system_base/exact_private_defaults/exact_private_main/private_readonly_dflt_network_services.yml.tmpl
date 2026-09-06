@@ -10,21 +10,25 @@ vbd_system_base_pkgs_network_services:
 {@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 
   deb_stable:
+    - ca-certificates
+    - chrony
+    - dns-root-data
+    - dnsmasq
     - network-manager
     - network-manager-l10n
+    - rfkill
+    - wireless-regdb
     - wpasupplicant
-    - chrony
-    - dnsmasq
 
 {@'- /* }}} */'@}
 {@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
 
   xbps:
-    - NetworkManager
-    - wpa_supplicant
     - chrony
     - dnsmasq
     - dnssec-anchors
+    - NetworkManager
+    - wpa_supplicant
 
 {@'- end '@} {@'- /* }}} */'@}
 

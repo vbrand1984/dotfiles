@@ -6,6 +6,9 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+vbd_applications_default_terminal: {@' .cmd.terminalEmulator | squote '@}
+vbd_applications_default_file_manager: {@' .cmd.fileManager | squote '@}
+
 vbd_applications_pkgs_desktop_utils:
 {@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
 

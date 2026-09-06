@@ -114,54 +114,39 @@ misc:
 # {{{ .tmpl: Paths to templates
 tmpl:
 
-  chromiumFlags: 'chromium-flags.yaml.tmpl'
+  chromiumFlags: 'chromium-flags.yaml'
 
-  listFileHashes: 'list-file-hashes.tmpl'
+  listFileHashes: 'list-file-hashes.cfg'
 
   wlogoutLayout: 'wlogout-layout.yaml.tmpl'
 
   gtkSettingsIni: 'gtk-settings.ini.tmpl'
 
-  # Openbox-related stuff
-  ob:
-    # Absolute path to the obmenu-generator script
-    # Used in obmenu-generator's schema.pl and in Openbox' menu.xml
-    obmenuGeneratorPath: 'openbox/obmenuGeneratorPath.tmpl'
-
-    # Default rc.xml for Openbox to be used in the modify script for it
-    defaultOpenboxRc: 'openbox/defaultOpenboxRc.xml.tmpl'
-
   # Messages to be printed in files or on the screen
   msg:
-    managedByChezmoi: 'msg-managed-by-chezmoi.tmpl'
-    printRunningScriptName: 'scripts-shell/print-running-script-name.sh.tmpl'
+    managedByChezmoi: 'msg-managed-by-chezmoi.cfg'
+    printRunningScriptName: 'scripts-shell/print-running-script-name.sh'
 
   # Palettes for various applications
   palette:
+    ansiTerminalColors: 'palettes/ansi-terminal-colors.yaml'
     conky: 'palettes/conky.toml'
     terminal: 'palettes/terminal.yaml.tmpl'
-    tint2: 'palettes/tint2.yaml.tmpl'
     wlogout: 'palettes/wlogout.yaml.tmpl'
 
   # Package lists for installing
   pkgLists:
-    clipitBuildDeps: 'pkglists/clipitBuildDeps.yaml.tmpl'
     preInstall: 'pkglists/preInstall.yaml.tmpl'
 
   # Shell scripts
   sh:
-    funcEnsureSudoIsWorking: 'scripts-shell/ensure-sudo-is-working.sh.tmpl'
-    funcPrintMessage: 'scripts-shell/print-message.sh.tmpl'
-    funcPkgManager: 'scripts-shell/pkg-manager.sh.tmpl'
+    funcPkgManager: 'scripts-shell/func-pkg-manager.sh'
+    funcPrintMessage: 'scripts-shell/func-print-message.sh'
+    funcSudo: 'scripts-shell/func-sudo.sh'
 
   # Shebangs, mostly dumb
   shebang:
     dumbSh: 'shebangs/dumb-sh.tmpl'
-
-  # Various commands
-  shellCmd:
-    openboxLogout: 'shell-cmd/openbox-logout.tmpl'
-    obmenuGenerator: 'shell-cmd/obmenu-generator.tmpl'
 
 # }}}
 ...

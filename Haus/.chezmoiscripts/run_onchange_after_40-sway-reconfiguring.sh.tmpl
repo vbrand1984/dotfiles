@@ -1,30 +1,31 @@
+# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+{@'- end -'@} {@'- /* }}} */ -'@}
 #!/bin/sh -e
-# chezmoi:template: left-delimiter={@' right-delimiter='@}
 #
 # Automatically reconfigure Sway if its configuration has been changed
 #
 
 {@'/* {{{ Include stuff */ -'@}
 
-{@'/* Include the ``print_message*'' functions */ -'@}
-{@' includeTemplate .tmpl.sh.funcPrintMessage . '@}
-
-{@'/* Print the name of this script */ -'@}
+{@'/* Print the name of the script... */ -'@}
+{@'/* ...and also include the ``vbd_Print_Message*'' functions */ -'@}
 {@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
 
 {@'/* }}} */ -'@}
 
 # Reconfiugre sway if it is running
-if pgrep --count '^sway$' 1>/dev/null 2>&1 ; then
-    print_message_no_linebreak "Reconfiguring Sway... "
+if pgrep --count '^sway$' >/dev/null 2>&1 ; then
+    vbd_Print_Message_NLB "Reconfiguring Sway... "
     if swaymsg reload >/dev/null ; then
-		print_message "Done."
+		vbd_Print_Message "Done."
 		{@' .cmd.notifier '@} --urgency=low --icon='openbox' "Sway reconfigured"
 	else
-		print_message "Error! Couldn't reconfigure sway."
+		vbd_Print_Message "Error! Couldn't reconfigure sway."
 	fi
 else
-    print_message "Sway is not running. Doing nothing."
+    vbd_Print_Message "Sway is not running. Doing nothing."
 fi
 
 {@'/* {{{ Include hash of the sway config file */ -'@}

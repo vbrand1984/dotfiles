@@ -1,17 +1,16 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@' if false -'@}
-# vim: ft=sh
+# vim: set ft=sh:
 #
 # This template is used in scripts from the .chezmoiscripts directory.
-# It adds two functions to print coloured messages:
-# print_message <message> - prints a message with newline
-# print_message_no_linebreak <message> - prints a message without newline
+# It includes the ``func-print-message.sh'' file which holds
+# several functions for printing coloured messages in the terminal
 #
 # chezmoi variable to store relative path to this template: .tmpl.sh.funcPrintMessage
 #
 {@'- end -'@}
 
-# Include the ``print_message*'' functions
+# Include the ``vbd_Print_Message*'' functions
 . {@' joinPath .chezmoi.homeDir .dir.include "func-print-message.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}

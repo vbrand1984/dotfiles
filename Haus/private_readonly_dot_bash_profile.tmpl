@@ -38,6 +38,12 @@ export WGETRC={@' joinPath .chezmoi.homeDir ".config/wget/wgetrc" | squote '@}
 export EDITOR={@' .cmd.editor | squote '@}
 export VISUAL={@' .cmd.editor | squote '@}
 
+{@'- if .sys.isVoid '@}
+
+export MANLESS="\ Manual\ page\ \$MAN_PN\ ?ltline\ %lt?L/%L.:byte\ %bB?s/%s..?\ (END):?pB\ %pB\\%..(press h for help or q to quit)"
+
+{@'- end '@}
+
 {@' if not .sys.isGentoo -'@}
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'

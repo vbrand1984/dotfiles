@@ -9,7 +9,7 @@
 #
 {@'- end -'@}
 
-# Include  functions
+# Include wrapper functions for package manager
 . {@' joinPath .chezmoi.homeDir .dir.include "func-pkg-manager.sh" '@}
 
 {@'- /* This deletes an empty line after the template */ -'@}
