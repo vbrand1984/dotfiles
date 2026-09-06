@@ -379,11 +379,9 @@ fi
 export GPG_TTY="$(tty)"
 
 export LESS='-FimQx4 --mouse --no-histdups -Pm?ltLines\ %lt.?lb-%lb.?L/%L.?e\ (END):?Pm\ (%Pm\%)..%t'
-#export LESS_SHELL_LINES=2
+export LESS_SHELL_LINES=2
 export LESSSECURE=1
 export MANPAGER='less -L'
-#export LESSSECURE_ALLOW=history
-
-#xhost si:localuser:root >/dev/null
+export LESSSECURE_ALLOW=history
 
 # }}} (Export variables)
