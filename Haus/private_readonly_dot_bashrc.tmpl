@@ -205,7 +205,7 @@ function cheat() { curl "cheat.sh/$1"; }
 # Coloured man pages for non-Gentoo distros
 # Also, GROFF_NO_SGR=1 must be exported for that
 # See: https://forum.endeavouros.com/t/coloured-man-pages/45375
-alias man="/usr/bin/env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' GROFF_NO_SGR=1 man"
+alias man="/usr/bin/env LESS_TERMCAP_mb=\$'\e[1;36m' LESS_TERMCAP_md=\$'\e[1;36m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_se=\$'\e[0m' LESS_TERMCAP_so=\$'\e[30m\e[47m' LESS_TERMCAP_me=\$'\e[0m' LESS_TERMCAP_ue=\$'\e[0m' LESS_TERMCAP_us=\$'\e[4;33m' GROFF_NO_SGR=1 man {@'- if .sys.isVoid '@} -O width=$(( $(tput cols)-1 )) {@'- end '@}"
 
 {@' end -'@}
 
@@ -377,6 +377,12 @@ fi
 
 # GPG options
 export GPG_TTY="$(tty)"
+
+export LESS='-FimQx4 --mouse --no-histdups -Pm?ltLines\ %lt.?lb-%lb.?L/%L.?e\ (END):?Pm\ (%Pm\%)..%t'
+#export LESS_SHELL_LINES=2
+export LESSSECURE=1
+export MANPAGER='less -L'
+#export LESSSECURE_ALLOW=history
 
 #xhost si:localuser:root >/dev/null
 

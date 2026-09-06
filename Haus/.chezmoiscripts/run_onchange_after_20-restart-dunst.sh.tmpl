@@ -17,9 +17,11 @@
 
 # Restart dunst if Xorg (namely Openbox) is running
 if pgrep --count '^sway$' 1>/dev/null 2>&1 ; then
-    vbd_Print_Message_NLB "Restarting dunst... "
-	{@' .cmd.manageService '@} restart dunst
-    vbd_Print_Message "Done."
+	if pgrep --count dunst >/dev/null 2>&1 ; then
+		vbd_Print_Message_NLB "Restarting dunst... "
+		{@' .cmd.manageService '@} restart dunst
+		vbd_Print_Message "Done."
+	fi
 else
     vbd_Print_Message "Sway is not running. Doing nothing."
 fi
