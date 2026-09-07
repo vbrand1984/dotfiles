@@ -1,7 +1,9 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -10,7 +12,8 @@ vbd_applications_default_terminal: {@' .cmd.terminalEmulator | squote '@}
 vbd_applications_default_file_manager: {@' .cmd.fileManager | squote '@}
 
 vbd_applications_pkgs_desktop_utils:
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
   deb_stable:
     - alacritty
@@ -38,7 +41,8 @@ vbd_applications_pkgs_desktop_utils:
     - lintian
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
   xbps:
     - alacritty
@@ -49,6 +53,7 @@ vbd_applications_pkgs_desktop_utils:
     - firejail
     - geany
     - gsimplecal-gtk3
+    - mime-types
     - network-manager-applet
     - qalculate-gtk
     - rofi

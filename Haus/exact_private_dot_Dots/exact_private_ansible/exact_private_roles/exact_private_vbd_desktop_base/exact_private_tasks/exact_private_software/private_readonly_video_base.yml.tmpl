@@ -1,12 +1,15 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
 - name: Video base | Install packages
   tags: [packages, desktop, video_base]
@@ -18,7 +21,8 @@
   when: ansible_facts['os_family'] == 'Debian'
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
 - name: Video base | Install packages
   tags: [packages, desktop, video_base]

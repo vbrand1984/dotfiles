@@ -1,7 +1,9 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -32,11 +34,11 @@ vbd_desktop_base_void_audio_conf:
     src: /usr/share/examples/pipewire/20-pipewire-pulse.conf
     state: link
 
-{@'- end '@}
-{@'- /* }}} */'@}
+{@'- end '@} {@'- /* }}} */'@}
 
 vbd_desktop_base_pkgs_audio_base:
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
   alsa:
     deb_stable:
@@ -55,7 +57,8 @@ vbd_desktop_base_pkgs_audio_base:
       - wireplumber
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
   alsa:
     xbps:

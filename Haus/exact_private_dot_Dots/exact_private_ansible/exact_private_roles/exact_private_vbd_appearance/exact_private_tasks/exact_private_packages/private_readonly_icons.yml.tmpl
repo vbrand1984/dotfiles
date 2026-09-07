@@ -1,12 +1,15 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
 - name: Icons | Installation
   tags: [packages, desktop, appearance, icons]
@@ -75,7 +78,8 @@
             mode: '0644'
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
 - name: Icons | Install packages (xbps)
   tags: [packages, desktop, appearance, icons]

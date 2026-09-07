@@ -378,10 +378,12 @@ fi
 # GPG options
 export GPG_TTY="$(tty)"
 
-export LESS='-FimQx4 --mouse --no-histdups -Pm?ltLines\ %lt.?lb-%lb.?L/%L.?e\ (END):?Pm\ (%Pm\%)..%t'
+export LESS='-FimQRx4 --mouse --no-histdups -Pm\ ?ltLines\:\ %lt.?lb-%lb?L/%L..?db\ |\ Page\:\ %db?D/%D..?e\ |\ END:?Pb\ |\ %Pb\%..%t'
 export LESS_SHELL_LINES=2
 export LESSSECURE=1
-export MANPAGER='less -L'
 export LESSSECURE_ALLOW=history
+
+export MANPAGER='less -M'
+export MANLESS='\ Man\ page\:\ \$MAN_PN\ |\ ?ltLines\:\ %lt?lb-%lb.?L/%L..?db\ |\ Page\:\ %db?D/%D..?e\ |\ END:?Pb\ |\ %Pb\%..%t'
 
 # }}} (Export variables)

@@ -1,10 +1,14 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
+
+{@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
 - name: Vivaldi
@@ -36,6 +40,8 @@
         group: root
         mode: '644'
 
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
 - name: Install browsers (xbps)
@@ -46,7 +52,7 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
 
 - name: Set default browser
   ansible.builtin.import_tasks: set_default_browser.yml

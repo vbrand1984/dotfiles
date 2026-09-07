@@ -1,11 +1,14 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isVoid .sys.isDebianBased -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+{@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
 - name: "Update-alternatives | Set default browser to {{ vbd_www_browsers_default_browser }}"
@@ -20,7 +23,8 @@
     - x-www-browser
   when: ansible_facts['os_family'] == 'Debian'
 
-{@'- end '@}
+{@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground */'@}
 
 - name: "Xdg-mime | Set default browser to {{ vbd_www_browsers_default_browser }}"
   tags: [packages, desktop, www_browsers, set_default_browser]
@@ -32,6 +36,8 @@
       - text/html
       - text/xml
       - application/xml
+
+{@'- /* }}} */'@}
 
 ...
 {@'- end '@}

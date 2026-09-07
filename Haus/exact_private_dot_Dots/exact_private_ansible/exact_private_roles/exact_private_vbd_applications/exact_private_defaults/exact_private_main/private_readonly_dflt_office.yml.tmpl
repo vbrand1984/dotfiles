@@ -1,13 +1,16 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_applications_pkgs_office:
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
   deb_stable:
 
@@ -50,7 +53,8 @@ vbd_applications_pkgs_office:
     - qbittorrent
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
   xbps:
 

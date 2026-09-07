@@ -1,7 +1,9 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -12,7 +14,8 @@ vbd_appearance_graphite:
     ver: {@' .file.graphite.gtk.ver | squote '@}
 
 vbd_appearance_pkgs_themes:
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
   deb_stable:
     - gnome-themes-extra
@@ -31,8 +34,9 @@ vbd_appearance_pkgs_themes:
     - qtwayland5
     - sassc
 
-{@'- /* }}} */'@} {@'- else if .sys.isVoid '@}
+{@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
   xbps:
     - gtk+3-demo

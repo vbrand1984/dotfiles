@@ -1,7 +1,9 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
@@ -12,7 +14,8 @@ vbd_appearance_papirus_folders_theme: {@' .misc.papirusFoldersTheme | squote '@}
 # Mouse cursor theme
 vbd_appearance_cursor_theme: {@' .gtk.cursorTheme | squote '@}
 
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
 vbd_appearance_papirus_folders:
   ver: {@' .file.papirusFolders.ver | squote '@}
@@ -26,8 +29,9 @@ vbd_appearance_pkgs_icons:
     - gnome-icon-theme
     - papirus-icon-theme
 
-{@'- /* }}} */'@} {@'- else if .sys.isVoid '@}
+{@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
 vbd_appearance_pkgs_icons:
   xbps:

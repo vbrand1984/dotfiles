@@ -2,15 +2,18 @@
 {@'- if false -'@}
 # vim: set ft=yaml:
 {@'- end -'@} {@'- /* }}} */ -'@}
+
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
 vbd_utilities_pkgs_rtfm:
-{@'- if .sys.isDebianBased '@} {@'- /* {{{ Debian-based */'@}
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
 
   deb_stable:
     - freebsd-manpages
+    - groff
     - info
     - man-db
     - manpages
@@ -23,10 +26,10 @@ vbd_utilities_pkgs_rtfm:
     - manpages-ru-dev
 
 {@'- /* }}} */'@}
-{@'- else if .sys.isVoid '@} {@'- /* {{{ Void */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
 
   xbps:
-    - man-db
     - man-pages
     - man-pages-devel
     - man-pages-posix
