@@ -28,8 +28,14 @@ export NO_AT_BRIDGE=1
 # See: https://docs.gtk.org/gtk4/property.Settings.gtk-overlay-scrolling.html
 export GTK_OVERLAY_SCROLLING=0
 
+# Gtk2 config file
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc"
+
 # Current desktop settings
 export XDG_CURRENT_DESKTOP=sway
+
+# Xauthority file
+#export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"
 
 {@'- if .sys.isBrandsPrivate '@}
 
@@ -43,7 +49,6 @@ export LIBVA_DRIVER_NAME=i965
 {@'- end '@}
 
 {@'- end '@}
-
 
 #export BEMENU_OPTS="--fn={@' cat .misc.fontJetBrainsMono "Medium" "13" | squote '@}"
 

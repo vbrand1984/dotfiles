@@ -1,7 +1,5 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: set ft=yaml:
-{@'- end -'@} {@'- /* }}} */ -'@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}

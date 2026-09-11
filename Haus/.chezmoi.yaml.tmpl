@@ -180,6 +180,17 @@ data:
     isBrandsPrivate: {@' $isBrandsPrivate | not | not '@}
 
 # }}} (.sys)
+# {{{ .sysConf: Tweakable system configuration
+
+  sysConf:
+
+    userCachePrefix: {@' default (print "vbd-cache-" (randAlphaNum 6) "-") .sysConf.userCachePrefix | squote '@}
+
+    sysctl:
+      yamaPtrace: {@' default 3 .sysConf.sysctl.yamaPtrace | int '@}
+      ipv6disable: {@' (default true .sysConf.yamaPtrace.ipv6disable) | not | not '@}
+
+# }}} (.sys)
 {@' if $isBrandsPrivate -'@} # {{{ .git: Name and email for git
 
   git:
@@ -315,6 +326,7 @@ data:
     # If sudo is found in $PATH, then sudo, else if doas is found in $PATH, then doas, else ""
     sudo: {@' $cmdSudo | squote '@}
 
+    # alacritty or foot
     terminalEmulator: {@' default "alacritty" .cmd.terminalEmulator | squote '@}
 
     {@' $cmdFirefox := $sysIsDebianBased | ternary "firefox-esr" "firefox" -'@}

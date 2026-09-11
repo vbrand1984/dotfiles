@@ -1,8 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
-{@'- if false -'@}
-# vim: set ft=yaml:
-{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
@@ -11,8 +8,8 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Vivaldi
-  ansible.builtin.import_tasks: deb_vivaldi.yml
+# - name: Vivaldi
+#   ansible.builtin.import_tasks: deb_vivaldi.yml
 
 - name: Opera
   ansible.builtin.import_tasks: deb_opera.yml

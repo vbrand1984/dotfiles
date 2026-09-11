@@ -4,6 +4,8 @@ directories:
   - '.vim/autoload'
   - '.config/gtk-3.0'
   - '.config/mc'
+  - '.local/share'
+  - '.local/state'
 
 symlinks:
   - '.vim/vimrc'

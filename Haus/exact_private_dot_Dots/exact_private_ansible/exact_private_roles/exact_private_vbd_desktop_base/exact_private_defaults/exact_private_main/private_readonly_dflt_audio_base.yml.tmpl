@@ -1,8 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
-{@'- if false -'@}
-# vim: set ft=yaml:
-{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
@@ -47,6 +44,10 @@ vbd_desktop_base_pkgs_audio_base:
       - alsa-ucm-conf
 
   pipewire:
+
+    deb_stable:
+      - rtkit
+
     deb_backports:
       - libcamera-ipa
       - libspa-0.2-bluetooth

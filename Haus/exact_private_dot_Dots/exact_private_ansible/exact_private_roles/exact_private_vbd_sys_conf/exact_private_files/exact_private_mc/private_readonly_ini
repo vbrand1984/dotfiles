@@ -82,11 +82,7 @@ editor_backup_extension=~
 editor_filesize_threshold=64M
 editor_stop_format_chars=-+*\\,.;:&>
 mcview_eof=
-{{- if .sys.isVoid }}
-skin=modarcon16root-defbg-thin
-{{- else }}
-skin=modarcon16root-defbg
-{{- end }}
+skin=gotar
 
 shadows=true
 

@@ -1,0 +1,185 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+# {{{ Generic intro
+
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+	*i*) ;;
+	  *) return;;
+esac
+
+# }}} (Generic intro)
+# {{{ HISTCONTROL and other various settings
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL='ignoreboth:erasedups'
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=12000
+HISTFILESIZE=8000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# I just sometimes love tabs btw
+tabs -4
+
+# }}} (HISTCONTROL)
+# {{{ PS1: Command line prompt configuration
+
+# See: https://www.learnlinux.tv/10-linux-terminal-tips-and-tricks-to-enhance-your-workflow/
+
+{@'- /* {{{ Template variables definition */'@}
+
+{@'- /* Load ANSI terminal color codes */'@}
+{@'- $C := includeTemplate .data.tmpl.palette.ansiTerminalColors | fromYaml '@}
+{@'- $B := $C.bold '@}
+
+{@'- /* These color codes (without $C.esc.bashStart and $C.esc.bashStart) are used in dynamic functions in printf */'@}
+{@'- $bracketColo :=		(.isRoot | ternary $B.red $B.green) '@}
+{@'- $branchCleanColo :=	$B.blue '@}
+{@'- $branchDirtyColo :=	$B.red '@}
+{@'- $exitCodeBad :=		(.isRoot | ternary $B.yellow $B.red) '@}
+{@'- $exitCodeOk :=			$B.blue '@}
+{@'- $lineColo :=			(.isRoot | ternary $B.red $B.green) '@}
+
+{@'- /* These color codes (with $C.esc.bashStart and $C.esc.bashEnd) are used in PS1 directly */'@}
+{@'- $bracketColour :=	print $C.esc.bashStart	$bracketColo	$C.esc.bashEnd '@}
+{@'- $clockColour :=	print $C.esc.bashStart	$B.blue	$C.esc.bashEnd '@}
+{@'- $distroColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.yellow $B.cyan)	$C.esc.bashEnd '@}
+{@'- $endCharColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.red $B.green)	$C.esc.bashEnd '@}
+{@'- $lineColour :=		print $C.esc.bashStart	$lineColo		$C.esc.bashEnd '@}
+{@'- $pathColour :=		print $C.esc.bashStart	$B.blue	$C.esc.bashEnd '@}
+{@'- $usernameColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.yellow $B.cyan)	$C.esc.bashEnd '@}
+
+{@'- /* Box characters to be used in the prompt */'@}
+{@'- $lineBottomCorner :=	`\342\224\224` '@}
+{@'- $lineUpperCorner :=	`\342\224\214` '@}
+{@'- $lineStraight :=		`\342\224\200` '@}
+
+{@'- /* Special symbols */'@}
+{@'- $endCharacter :=		`\$` '@}
+{@'- $gitBranchSymbol :=	`` '@}
+
+{@'- /* }}} */'@}
+
+{@'- if not .isRoot '@}
+
+# If inside a git working tree, print current git branch in the bottom line of the command prompt
+function VBD_Print_Git_Branch() {
+	if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1 ; then 
+		local branch_colo
+		# Check if there are changes in the local repo and choose color of the branch name accordingly
+		# See: https://stackoverflow.com/a/5148851
+		if git diff-files --quiet --ignore-submodules 1>/dev/null 2>&1 ; then
+			# No changes in the repository. The repo is "clean".
+			branch_colo={@' $branchCleanColo | squote '@}
+		else
+			# Untracked changes are present. The repo is "dirty".
+			branch_colo={@' $branchDirtyColo | squote '@}
+		fi
+		printf {@' print `"` $C.esc.start $bracketColo $C.esc.end "["
+			$C.esc.start "${branch_colo}" $C.esc.end $gitBranchSymbol "$(git branch --show-current)"
+			$C.esc.start $bracketColo $C.esc.end "]" $C.esc.start $lineColo $C.esc.end $lineStraight `"` '@}
+	fi
+}
+
+{@'- end '@}
+
+# Print exit code. This function should be called from inside brackets 
+function VBD_Print_Exit_Code() {
+	local exit_code=$?
+	if [[ $exit_code -eq 0 ]] ; then
+		printf {@' print $C.esc.start $exitCodeOk $C.esc.end "0" | squote '@}
+	else
+		printf {@' print $C.esc.start $exitCodeBad $C.esc.end "%i" | squote '@} $exit_code
+	fi
+}
+
+if [[ $TERM == 'linux' ]] ; then
+	distro_logo={@' .data.chezmoi.osRelease.id | squote '@}
+else
+	distro_logo={@' includeTemplate "distro-logo.tmpl" .data | squote '@}
+fi
+
+PS1={@' print
+	$lineColour $lineUpperCorner $lineStraight $lineStraight
+	$bracketColour "(" $distroColour `'"${distro_logo}"'` $bracketColour ")" $lineColour $lineStraight
+	$bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $C.reset `\n`
+	$lineColour $lineBottomCorner $lineStraight $lineStraight
+	$bracketColour "(" `$(VBD_Print_Exit_Code)` $bracketColour ")" $lineColour $lineStraight
+	(print (.isRoot | ternary "" `$(VBD_Print_Git_Branch)`))
+	$bracketColour "[" $clockColour `\t` $bracketColour "]" $lineColour $lineStraight
+	$endCharColour $endCharacter $C.esc.bashStart "$(tput sgr0)" $C.esc.bashEnd " "
+	| squote
+'@}
+
+unset distro_logo
+
+# If this is a graphical terminal, then set the window title to 'user@host: dir'
+# The list of conditions is borrowed from Gentoo's global bash config
+case "${TERM}" in
+	alacritty	  |\
+	foot*		  |\
+	rxvt-unicode* |\
+	screen*		  |\
+	st-256color   |\
+	tmux*		  |\
+	xterm*		  )
+		PS1="\[\e]0;\u@\h: \w\a\]${PS1}"
+		;;
+	*)
+		;;
+esac
+
+# }}} (PS1)
+# {{{ Aliases
+
+{@' includeTemplate .data.tmpl.configFiles.shell.aliases (dict "data" .data "isRoot" .isRoot "shell" "bash") '@}
+
+# }}} (Aliases)
+{@'- if .data.sys.isDebianBased '@}
+# {{{ Bash-completion configuration from default Deb-based distros skel
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
+fi
+
+# }}} (Bash-completion configuration)
+{@'- end '@}
+# {{{ Export variables
+
+{@' if .isRoot -'@}
+
+{@'		includeTemplate .data.tmpl.configFiles.shell.envProfile .data '@}
+{@' end -'@}
+
+{@' includeTemplate .data.tmpl.configFiles.shell.envRc (dict "data" .data "isRoot" .isRoot) '@}
+
+# }}} (Export variables)
+
+{@'- /* This deletes an empty line after the template */ -'@}

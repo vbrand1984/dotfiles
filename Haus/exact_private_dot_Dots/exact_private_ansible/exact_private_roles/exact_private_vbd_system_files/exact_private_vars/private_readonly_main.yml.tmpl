@@ -1,0 +1,29 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_system_files_dir_list:
+  - /etc/sysctl.d
+  - /etc/profile.d
+
+  {@'- if .sys.isDesktopRig '@}
+  - /lib/firmware/edid
+  {@'- end '@}
+
+vbd_system_files_conf_list:
+  - src: 'sysctl/99-vbd-kernel-hardening.conf'
+    dest: '/etc/sysctl.d/99-vbd-kernel-hardening.conf'
+  - src: 'sysctl/99-vbd-network-hardening.conf'
+    dest: '/etc/sysctl.d/99-vbd-network-hardening.conf'
+
+  - src: 'vbd-environment.sh'
+    dest: '/etc/profile.d/vbd-environment.sh'
+
+  {@'- if .sys.isDesktopRig '@}
+  - src: 'edid.bin'
+    dest: '/lib/firmware/edid/edid.bin'
+  {@'- end '@}
+
+...

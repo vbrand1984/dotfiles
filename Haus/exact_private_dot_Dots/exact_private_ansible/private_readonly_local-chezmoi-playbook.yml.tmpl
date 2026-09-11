@@ -1,7 +1,9 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
-{@' if .sys.isBrandsPrivate -'@}
+{@'- if .sys.isBrandsPrivate '@}
 
 # - name: Establish local symlinks
 #   hosts: all
@@ -17,7 +19,7 @@
 
 {@'- end '@}
 
-{@' if or .sys.isDebianBased .sys.isVoid -'@}
+{@'- if or .sys.isDebianBased .sys.isVoid '@}
 
 - name: General system configuration
   hosts: localhost
@@ -42,6 +44,7 @@
 
     # System
     - vbd_utilities
+    - vbd_system_files
 
     # Desktop
     - vbd_desktop_base

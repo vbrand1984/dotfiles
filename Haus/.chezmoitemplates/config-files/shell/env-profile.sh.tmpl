@@ -1,0 +1,42 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+# {{{ XDG directories
+
+# Configuring our XDG cache in RAM
+cachedir="/tmp/{@' .sysConf.userCachePrefix'@}${USER}"
+if [ ! -d "${cachedir}" ] ; then
+	mkdir -p "${cachedir}"
+	chmod 0700 "${cachedir}"
+fi
+export XDG_CACHE_HOME="${cachedir}"
+unset cachedir
+
+# Other XDG directories
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+
+# }}}
+# {{{ Editor
+
+# Editor
+export EDITOR={@' .cmd.editor | squote '@}
+export VISUAL={@' .cmd.editor | squote '@}
+
+# }}}
+# {{{ Compressors
+
+# Zstd. See: https://wiki.gentoo.org/wiki/Zstd#Configuration
+# See: https://lists.archlinux.org/pipermail/arch-dev-public/2019-March/029520.html
+export STD_CLEVEL=16
+export STD_NBTHREADS=0
+
+# Xz. See https://wiki.gentoo.org/wiki/Xz-utils#Configuration
+# -T0: compress and decompress with the number of cores available
+# -9: use maximum compression level (but not extreme)
+export XZ_DEFAULTS='-9 -T0'
+
+# }}}
+
+{@'- /* This deletes an empty line after the template */ -'@}

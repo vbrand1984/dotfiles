@@ -1,0 +1,54 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml: */ -'@}
+
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+- name: Virt-manager | Installation
+  tags: [packages, virtual_machines, virtualbox]
+  become: true
+  block:
+
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
+
+    - name: VirtualBox | Install repository
+      ansible.builtin.deb822_repository:
+        name: virtualbox
+        architectures: amd64
+        components: contrib
+        suites: trixie
+        signed_by: 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
+        uris: 'https://download.virtualbox.org/virtualbox/debian'
+
+    - name: VirtualBox | Install package(s) (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_virtual_machines_pkgs_virtualbox.deb_stable }}"
+        state: present
+        install_recommends: false
+      when: ansible_facts['os_family'] == 'Debian'
+
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
+
+    - name: VirtualBox | Install packages (xbps)
+      community.general.xbps:
+        package: "{{ vbd_virtual_machines_pkgs_virtualbox.xbps }}"
+        state: present
+      when: ansible_facts['distribution'] == 'Void'
+
+{@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground: add user to the vboxusers group */'@}
+
+    - name: VirtualBox | Add user to the ``vboxusers'' group
+      ansible.builtin.user:
+        user: "{{ ansible_facts['user_id'] }}"
+        groups: vboxusers
+        append: true
+
+{@'- /* }}} */'@}
+
+...
+{@'- end '@}

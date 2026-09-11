@@ -122,6 +122,14 @@ tmpl:
 
   gtkSettingsIni: 'gtk-settings.ini.tmpl'
 
+  configFiles:
+
+    shell:
+      aliases: 'config-files/shell/aliases.sh.tmpl'
+      envProfile: 'config-files/shell/env-profile.sh.tmpl'
+      envRc: 'config-files/shell/env-rc.sh.tmpl'
+      bashRc: 'config-files/shell/bash-rc.sh.tmpl'
+
   # Messages to be printed in files or on the screen
   msg:
     managedByChezmoi: 'msg-managed-by-chezmoi.cfg'

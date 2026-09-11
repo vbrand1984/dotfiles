@@ -1,8 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
-{@'- if false -'@}
-# vim: set ft=yaml:
-{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
@@ -27,6 +24,8 @@ vbd_applications_pkgs_desktop_utils:
     - firejail-profiles
     - geany
     - gsimplecal
+    - libgtk-3-bin # for gtk-launch
+    - media-types # /etc/mime.types
     - network-manager-applet
     - qalculate-gtk
     - rofi

@@ -1,8 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- /* {{{ Vim modeline for the template (YAML) */ -'@}
-{@'- if false -'@}
-# vim: set ft=yaml:
-{@'- end -'@} {@'- /* }}} */ -'@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
@@ -15,7 +12,9 @@ vbd_utilities_pkgs_archivers:
   deb_stable:
     - arj
     - cabextract
+    - lbzip2
     - p7zip
+    - pigz
     - rar
     - rpm
     - unace
@@ -32,6 +31,8 @@ vbd_utilities_pkgs_archivers:
   xbps:
     - cabextract
     - dpkg
+    - lbzip2
+    - pigz
     - p7zip
     - p7zip-unrar
     - rpm

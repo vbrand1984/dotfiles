@@ -1,0 +1,30 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml: */ -'@}
+
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
+
+vbd_virtual_machines_vbox:
+  key_addr: 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
+
+vbd_virtual_machines_pkgs_virtualbox:
+  deb_stable:
+    - libsdl-ttf2.0-0
+    - virtualbox-7.2
+
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
+
+vbd_virtual_machines_pkgs_virtualbox:
+  xbps:
+    - virtualbox-ose
+
+{@'- end '@} {@'- /* }}} */'@}
+
+...
+{@'- end '@}

@@ -1,0 +1,49 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh ts=4 fdm=marker: */ -'@}
+
+# {{{ Common things
+
+{@'- if not .data.sys.isGentoo '@}
+
+# Colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+{@'- end '@}
+
+# GPG options
+export GPG_TTY="$(tty)"
+
+{@'- if not .isRoot '@}
+
+# Config file for wget
+# See: https://ftp.gnu.org/old-gnu/Manuals/wget-1.8.1/html_node/wget_25.html
+export WGETRC={@' joinPath .data.chezmoi.homeDir ".config/wget/wgetrc" | squote '@}
+
+{@'- end '@}
+
+# }}}
+# {{{ `less' configuration
+
+# General `less' options
+export LESS='-cimQrx4 --mouse --no-histdups --no-vbell --redraw-on-quit -Pm\ ?ltLines\:\ %lt.?lb-%lb?L/%L..?db\ |\ Page\:\ %db?D/%D..?e\ |\ END:?Pb\ |\ %Pb\%..%t'
+export LESS_SHELL_LINES=2
+
+# Display UTF characters as characters
+export LESSCHARSET='utf-8'
+export LESSUTFBINFMT='%C'
+
+# Security options: disable all shady functions save history
+export LESSSECURE=1
+export LESSSECURE_ALLOW=history
+
+{@'- if .data.sys.isDebianBased '@}
+
+# `less' prompt configuration for `man' in Debian-based distros
+export MANPAGER='less -M'
+export MANLESS='\ Man\ page\:\ \$MAN_PN\ |\ ?ltLines\:\ %lt?lb-%lb.?L/%L..?db\ |\ Page\:\ %db?D/%D..?e\ |\ END:?Pb\ |\ %Pb\%..%t'
+
+{@'- end '@}
+
+# }}} (`less' configuration)
+
+{@'- /* This deletes an empty line after the template */ -'@}

@@ -25,6 +25,7 @@
   loop:
     - {src: 'mc/ini', dest: '/root/.config/mc/ini'}
     - {src: 'mc/panels.ini', dest: '/root/.config/mc/panels.ini'}
+    - {src: 'bash/bashrc', dest: '/root/.bashrc'}
   tags: [files, system_files, rootconf]
 
 ...

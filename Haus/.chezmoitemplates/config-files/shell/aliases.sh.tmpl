@@ -1,0 +1,312 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- if false -'@}
+# vim: set ft=sh:
+#
+# How to include:
+# includeTemplate .tmpl.configFiles.shell.aliases (dict "data" . "isRoot" <bool> "shell" <bash|zsh>)
+#
+#
+{@'- end -'@}
+
+# {{{ Generic aliases
+
+{@'- /* Common options for all ``ls'' and ``ls''-like commands */'@}
+{@'- $lsOptions := "--color=auto --group-directories-first --time-style=long-iso" '@}
+
+{@'- /* Common options for all ``grep''-like commands */'@}
+{@'- $grepOptions := "--color=auto" '@}
+
+# enable color support of ls and also add handy aliases
+if [[ -x /usr/bin/dircolors ]] ; then
+	# We do not have the ~/.dircolors file
+	#test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls={@' cat "ls" $lsOptions | squote '@}
+	alias dir={@' cat "dir" $lsOptions | squote '@}
+	alias vdir={@' cat "vdir" $lsOptions | squote '@}
+
+	alias grep={@' cat "grep" $grepOptions | squote '@}
+	alias fgrep={@' cat "fgrep" $grepOptions | squote '@}
+	alias egrep={@' cat "egrep" $grepOptions | squote '@}
+fi
+
+# some more ls aliases
+alias ll={@' cat "ls -l" $lsOptions | squote '@}
+alias la={@' cat "ls -Al" $lsOptions | squote '@}
+alias l={@' cat "ls -CF" $lsOptions | squote '@}
+
+# }}} (Generic aliases)
+# {{{ Safety nets
+
+# Wrap the following commands for interactive use to avoid accidental file overwrites.
+function rm() { command rm -I --preserve-root "${@}"; }
+function cp() { command cp -i "${@}"; }
+function mv() { command mv -i "${@}"; }
+function ln() { command ln -i "${@}"; }
+
+# Parenting changing perms on /
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+# }}} (Safety nets)
+# {{{ Various handy aliases
+
+# Quick clear screen
+alias c='clear'
+
+{@'- if and (not .isRoot) .data.sys.isDebianBased (lookPath "doas") '@}
+
+alias doas="{@' lookPath "doas" '@} {@' lookPath "env" '@} PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'"
+{@'- end '@}
+
+# htop
+alias h='htop'
+
+{@'- if eq .shell "bash" '@}
+
+# Reload bash config
+alias Reload='source ~/.bashrc'
+{@'- end '@}
+
+# Vim
+alias v={@' .data.cmd.editor | squote '@}
+{@'- if not .isRoot '@}
+{@'- /* "sudoedit" or "doas vim" depending on whether doas is in $PATH or not */'@}
+alias se={@' (eq .data.cmd.sudo "/usr/bin/sudo" | ternary "sudoedit" (cat "doas" .data.cmd.editor)) | squote '@}
+{@'- end '@}
+
+# Show sorted environment variables
+function es() {
+	if [[ $# -ge 1 ]] ; then
+		env | sort | grep -i "${@}"
+	else
+		env | sort
+	fi
+}
+
+{@'- if not .data.sys.isGentoo '@}
+
+{@'- $C := includeTemplate .data.tmpl.palette.ansiTerminalColors | fromYaml '@}
+{@'- $caption := $C.bold.blue '@}
+{@'- $emph := $C.underline.cyan '@}
+
+# Coloured man pages for non-Gentoo distros
+# Also, GROFF_NO_SGR=1 must be exported for that
+# See: https://forum.endeavouros.com/t/coloured-man-pages/45375
+function man() {
+	{@' lookPath "env" '@} \
+		LESS_TERMCAP_mb=$ {@'- $caption | squote '@} \
+		LESS_TERMCAP_md=$ {@'- $caption | squote '@} \
+		LESS_TERMCAP_me=$ {@'- $C.reset | squote '@} \
+		LESS_TERMCAP_so=$'\033[0;30;47m' \
+		LESS_TERMCAP_se=$ {@'- $C.reset | squote '@} \
+		LESS_TERMCAP_us=$ {@'- $emph | squote '@} \
+		LESS_TERMCAP_ue=$ {@'- $C.reset | squote '@} \
+		GROFF_NO_SGR=1 \
+		man {@'- if .data.sys.isVoid '@} -O width=$(( $(tput cols)-1 )) {@'- end '@} "${@}"
+}
+
+{@'- end '@}
+
+# Splits $PATH into separate lines with optional grep filter
+function path() {
+	if [[ -n "${1}" ]] ; then
+		echo "${PATH}" | sed 's/:/\n/g' | grep -i "${1}"
+	else
+		echo "${PATH}" | sed 's/:/\n/g'
+	fi
+}
+
+# }}} (Various handy aliases)
+{@'- if not .isRoot '@}
+# {{{ Eye-candy
+
+# Fastfetch
+alias ff='fastfetch'
+alias neofetch='fastfetch --config neofetch'
+alias nf='fastfetch --config neofetch'
+
+# Weather conditions and forecast
+# "What's the forecast" alias
+alias wtf='curl https://wttr.in/?M'
+
+# Cheats
+function cheat() {
+	if [[ $# -eq 1 && -n "${1}" ]] ; then
+		curl "cheat.sh/${1}";
+	else
+		echo 'Call cheat this way: cheat <command>'
+	fi
+}
+
+# }}}
+# {{{ Power management for regular user
+
+{@'- $ctlCmd := (.data.sys.hasSystemd | ternary "systemctl" "loginctl") '@}
+
+# Reboot
+alias Reboot={@' cat $ctlCmd "reboot" | shellQuote '@}
+
+# Double alias for poweroff/shutdown
+alias Poweroff={@' cat $ctlCmd "poweroff" | shellQuote '@}
+alias Shutdown={@' cat $ctlCmd "poweroff" | shellQuote '@}
+
+# Suspend
+alias Suspend={@' cat $ctlCmd "suspend" | shellQuote '@}
+
+# Cheats
+function cheat() {
+	if [[ $# -eq 1 && -n "${1}" ]] ; then
+		curl "cheat.sh/${1}";
+	else
+		echo 'Call cheat this way: cheat <command>'
+	fi
+}
+
+# }}}
+# {{{ chezmoi aliases
+
+# chezmoi apply
+alias Ca={@' cat .data.chezmoi.executable "apply" | squote '@}
+
+# chezmoi cd
+alias Cc={@' cat .data.chezmoi.executable "cd" | squote '@}
+
+# chezmoi diff
+alias Cd={@' cat .data.chezmoi.executable "diff" | squote '@}
+
+# chezmoi edit --apply
+alias Ce={@' cat .data.chezmoi.executable "edit --apply" | squote '@}
+
+# chezmoi init
+alias Ci={@' cat .data.chezmoi.executable "init" | squote '@}
+
+# chezmoi status
+alias Cs={@' cat .data.chezmoi.executable "status" | squote '@}
+
+# chezmoi update
+alias Cu={@' cat .data.chezmoi.executable "update" | squote '@}
+
+# }}} (chezmoi aliases)
+# {{{ git aliases
+
+# Git messages to be always in English no matter what locale is
+alias git='LC_MESSAGES=C git'
+
+# }}} (git aliases)
+# {{{ Ansible aliases
+
+# Disable writing byte code for python, 
+# i.e. creating ``__pycache__`` subdirectories in module directories
+# when running ``ansible-lint``
+alias ansible-lint='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
+
+# ansible-lint short alias
+alias Al='/usr/bin/env PYTHONDONTWRITEBYTECODE=1 ansible-lint'
+
+# }}} (Ansible aliases)
+{@'- end '@}
+# {{{ Aliases for package manager {@'- /* Supported distros only. */'@}
+
+{@'- $sudo := .isRoot | ternary "" (print .data.cmd.sudo " ") '@}
+
+{@'/* {{{ Debian-based */ -'@}
+{@' if .data.sys.isDebianBased -'@}
+
+# Show available versions of a package
+alias av='aptitude versions'
+
+# Describe why the package is installed
+alias aw='aptitude why'
+
+# Search for the packages containing a file by its name
+alias f='apt-file search'
+
+# Show the list of the files a package provides
+alias F='apt-file show'
+
+# Install a package WITHOUT recommended dependencies
+alias i={@' print $sudo "aptitude -R install" | shellQuote '@}
+
+# Install a package WITH recommended dependencies
+alias I={@' print $sudo "aptitude -r install" | shellQuote '@}
+
+# Install a package from the backports repo WITHOUT recommended dependencies
+alias ib={@' print $sudo "aptitude -Rt " .data.chezmoi.osRelease.versionCodename "-backports install" | shellQuote '@}
+
+# Install a package from the backports repo WITH recommended dependencies
+alias Ib={@' print $sudo "aptitude -rt " .data.chezmoi.osRelease.versionCodename "-backports install" | shellQuote '@}
+
+# Remove a package
+alias r={@' print $sudo "aptitude purge" | shellQuote '@}
+
+# Search for a package
+alias s='aptitude search'
+
+# Show pakcage info
+alias S='aptitude show'
+
+# Update apt cache
+alias upd={@' print $sudo "aptitude update" | shellQuote '@}
+
+# Update apt-file cache
+alias updf={@' print $sudo "apt-file update" | shellQuote '@}
+
+# Upgrade the system
+alias upg={@' print $sudo "aptitude upgrade" | shellQuote '@}
+
+{@'/* }}} */ -'@}
+{@'/* {{{ Void */ -'@}
+{@' else if .data.sys.isVoid -'@}
+
+# Search for the packages containing a file by its name
+alias f='xlocate -S && xlocate'
+
+# Show the list of the files a package provides
+alias F='xbps-query -Rf'
+
+# Install a package
+alias i={@' print $sudo "xbps-install -S" | shellQuote '@}
+
+# Remove a package
+alias r={@' print $sudo "xbps-remove -R" | shellQuote '@}
+
+# Search for a package
+alias s='xbps-query -Rs'
+
+# Show package info
+alias S='xbps-query -RS'
+
+# Upgrade system
+alias upg={@' print $sudo "xbps-install -Su" | shellQuote '@}
+
+# Upgrade the package manager
+alias upgx={@' print $sudo "xbps-install -Su xbps" | shellQuote '@}
+
+# Track down package's parent dependencies
+# (kinda alternative to 'aptitude why' from Debian)
+alias xw='xbps-query -X'
+
+{@'/* }}} */ -'@}
+{@'/* {{{ Gentoo */ -'@}
+{@' else if .data.sys.isGentoo -'@}
+
+alias i='{@' .data.cmd.sudo '@} emerge --ask --verbose'
+alias s='emerge --search'
+alias d='{@' .data.cmd.sudo '@} emerge --depclean --ask --verbose'
+alias upd='{@' .data.cmd.sudo '@} emaint --allrepos sync'
+alias upg='{@' .data.cmd.sudo '@} emerge --update --verbose --deep --ask --newuse --keep-going @world'
+
+{@'/* }}} */ -'@}
+{@'/* {{{ Other distros (not supported) */ -'@}
+{@' else -'@}
+
+# The distro is not supported with this config.
+# ...Just use the right distro btw
+
+{@' end -'@}
+{@'/* }}} */ -'@}
+
+# }}} (Aliases for package manager)
+
+{@'- /* This deletes an empty line after the template */ -'@}
