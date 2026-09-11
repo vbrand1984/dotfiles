@@ -1,0 +1,14 @@
+# Language definitions
+*.css.tmpl linguist-language=css
+*.lua.tmpl linguist-language=Lua
+*.pl.tmpl linguist-language=Perl
+*.py.tmpl linguist-language=Python
+*.sh.tmpl linguist-language=Shell
+
+# Don't diff encrypted files
+*.age -diff
+*.enc -diff
+
+# binary files
+*.jpg binary
+*.png binary
