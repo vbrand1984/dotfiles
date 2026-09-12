@@ -1,0 +1,34 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+# The original name servers pushed to the NetworkManager's DNS plugin
+resolv-file=/run/NetworkManager/no-stub-resolv.conf
+
+{@'- /* RFC 8375 */'@}
+{@'- $domain := "home.arpa" '@}
+{@'- if .sys.isBrandsPrivate '@}
+{@'-	$defaults := include (joinPath .dir.chezmoiEncrypted "defaults.yaml.age") | decrypt | fromYaml '@}
+{@'-	$domain = $defaults.domainName '@}
+{@'- end '@}
+
+# Local domain configuration
+domain={@' $domain '@}
+addn-hosts=/etc/hosts
+expand-hosts
+domain-needed
+bogus-priv
+local=/{@' $domain '@}/
+
+# Interface configuration
+listen-address=127.0.0.1
+bind-interfaces
+
+# DNSSEC setup
+{@' if .sys.isDebianBased -'@}
+	conf-file=/usr/share/dnsmasq-base/trust-anchors.conf
+{@' else -'@}
+	conf-file=/usr/share/dnsmasq/trust-anchors.conf
+{@' end -'@}
+dnssec
+dnssec-check-unsigned
+
+# Enlarged cache size
+cache-size=10000

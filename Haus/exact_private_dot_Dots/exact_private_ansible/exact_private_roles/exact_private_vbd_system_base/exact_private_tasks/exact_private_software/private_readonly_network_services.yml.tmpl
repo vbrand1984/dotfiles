@@ -28,6 +28,20 @@
     state: present
 
 {@'- end '@} {@'- /* }}} */'@}
+{@'- /* {{{ Common ground: install config files */'@}
+
+- name: Network services | Install config files
+  tags: [packages, system, network, network_services]
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode if item.mode is defined else '644' }}"
+  loop: "{{ vbd_system_base_conf_list }}"
+
+{@'- /* }}} */'@}
 
 ...
 {@'- end '@}

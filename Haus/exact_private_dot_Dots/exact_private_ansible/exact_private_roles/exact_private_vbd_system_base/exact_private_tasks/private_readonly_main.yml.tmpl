@@ -5,5 +5,11 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+- name: System base | Base tools
+  ansible.builtin.import_tasks: software/base_tools.yml
+
+- name: System base | Network services
+  ansible.builtin.import_tasks: software/network_services.yml
+
 ...
 {@'- end '@}

@@ -1,0 +1,4 @@
+{{ if not .sys.isBrandsPrivate }}
+	hosts
+	chrony/nts-server.sources
+{{ end }}

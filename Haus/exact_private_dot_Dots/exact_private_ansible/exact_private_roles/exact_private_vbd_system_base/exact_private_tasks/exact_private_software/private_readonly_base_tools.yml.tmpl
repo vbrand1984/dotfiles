@@ -1,0 +1,48 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
+
+- name: Base tools | Installation
+  tags: [packages, system, base_tools]
+  become: true
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Base tools | Install packages (stable)
+      ansible.builtin.apt:
+        package: "{{ vbd_system_base_pkgs_base_tools.deb_stable }}"
+        state: present
+        install_recommends: false
+
+    - name: Base tools | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_system_base_pkgs_base_tools.deb_backports }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest # noqa: package-latest
+        install_recommends: false
+      when:
+        - vbd_system_base_pkgs_base_tools.deb_backports is defined
+        - vbd_system_base_pkgs_base_tools.deb_backports | length > 0
+
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
+
+- name: Base tools | Install packages (xbps)
+  tags: [packages, system, base_tools]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_system_base_pkgs_base_tools.xbps }}"
+    state: present
+  when: ansible_facts['distribution'] == 'Void'
+
+{@'- end '@} {@'- /* }}} */'@}
+
+...
+{@'- end '@}

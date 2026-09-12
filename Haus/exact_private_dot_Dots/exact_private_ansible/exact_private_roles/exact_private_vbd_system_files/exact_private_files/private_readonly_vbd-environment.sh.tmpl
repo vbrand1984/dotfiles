@@ -1,4 +1,4 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
 {@'- /* vim: set ft=sh: */ -'@}
 
-{@' includeTemplate "config-files/shell/env-profile.sh.tmpl" . '@}
+{@' includeTemplate "config-files/shell/env-profile.sh.tmpl" (dict "data" . "isRoot" false) '@}

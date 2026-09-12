@@ -1,0 +1,16 @@
+# System clock is set to UTC rather than local time
+# It's a common setting for Linux installations
+rtconutc
+
+# Dump directory
+{{ if .sys.isBrandsPrivate -}}
+	ntsdumpdir /var/lib/chrony
+{{ else -}}
+	dumpdir /var/lib/chrony
+{{ end -}}
+
+# Logging
+#log tracking measurements statistics
+
+# Log files location.
+logdir /var/log/chrony

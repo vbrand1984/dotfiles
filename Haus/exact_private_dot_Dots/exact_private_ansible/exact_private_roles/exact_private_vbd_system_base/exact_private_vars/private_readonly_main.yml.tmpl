@@ -1,0 +1,28 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+vbd_system_base_conf_list:
+  # Network Manager config files
+  - src: 'network_manager/dns.conf'
+    dest: '/etc/NetworkManager/conf.d/dns.conf'
+  - src: 'network_manager/dnsmasq-caching.conf'
+    dest: '/etc/NetworkManager/dnsmasq.d/dnsmasq-caching.conf'
+
+  # Chrony config
+  - src: 'chrony/10-chrony-local.conf'
+    dest: '/etc/chrony/conf.d/10-chrony-local.conf'
+{@'- if .sys.isBrandsPrivate '@}
+  - src: 'chrony/nts-server.sources'
+    dest: '/etc/chrony/sources.d/nts-server.sources'
+{@'- end '@}
+
+{@'- if .sys.isBrandsPrivate '@}
+
+  - src: 'hosts'
+    dest: '/etc/hosts'
+{@'- end '@}
+
+...

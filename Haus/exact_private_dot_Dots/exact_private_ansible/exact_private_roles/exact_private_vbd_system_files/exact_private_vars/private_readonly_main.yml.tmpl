@@ -5,8 +5,9 @@
 ---
 
 vbd_system_files_dir_list:
-  - /etc/sysctl.d
+  - /etc/modules-load.d
   - /etc/profile.d
+  - /etc/sysctl.d
 
   {@'- if .sys.isDesktopRig '@}
   - /lib/firmware/edid
@@ -21,7 +22,18 @@ vbd_system_files_conf_list:
   - src: 'vbd-environment.sh'
     dest: '/etc/profile.d/vbd-environment.sh'
 
+  - src: 'sbin/ychroot'
+    dest: '/usr/local/sbin/ychroot'
+    mode: '555'
+
+  {@'- if .sys.isBrandsPrivate '@}
+
+  - src: 'vbd-modules.conf'
+    dest: '/etc/modules-load.d/vbd-modules.conf'
+  {@'- end '@}
+
   {@'- if .sys.isDesktopRig '@}
+
   - src: 'edid.bin'
     dest: '/lib/firmware/edid/edid.bin'
   {@'- end '@}

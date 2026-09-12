@@ -5,7 +5,7 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-vbd_system_base_pkgs_network_services:
+vbd_system_base_pkgs_base_tools:
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
@@ -14,12 +14,15 @@ vbd_system_base_pkgs_network_services:
     - patch
 
     # Filesystem tools
-    - btrfs-progs
+#    - btrfs-progs # backported
     - dosfstools
     - e2fsprogs
     - e2fsprogs-l10n
     - exfatprogs
     - ntfs-3g
+
+  deb_backports:
+    - btrfs-progs
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
@@ -29,11 +32,12 @@ vbd_system_base_pkgs_network_services:
     - hdparm
     - patch
 
+    # Filesystem tools
     - btrfs-progs
-    - ntfs-3g
+    - dosfstools
     - e2fsprogs
     - exfatprogs
-    - dosfstools
+    - ntfs-3g
 
 {@'- end '@} {@'- /* }}} */'@}
 

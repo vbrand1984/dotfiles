@@ -19,6 +19,9 @@ set-option -ag terminal-overrides ",xterm-256color:Tc"
 # Update environment
 set-option -g update-environment "WAYLAND_DISPLAY SWAYSOCK DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE DBUS_SESSION_BUS_ADDRESS"
 
+# Scrollback history size
+set-option -g history-limit 10000
+
 # set-option the base-index to 1 rather than 0
 set-option -g base-index 1
 set-window-option -g pane-base-index 1

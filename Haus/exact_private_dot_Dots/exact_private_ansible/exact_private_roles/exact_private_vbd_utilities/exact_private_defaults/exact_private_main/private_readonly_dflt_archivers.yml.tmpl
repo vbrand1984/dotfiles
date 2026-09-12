@@ -1,5 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+{@'- /* vim: set ft=yaml: */ -'@}
 
 {@'- if or .sys.isDebianBased .sys.isVoid -'@}
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
@@ -32,9 +32,9 @@ vbd_utilities_pkgs_archivers:
     - cabextract
     - dpkg
     - lbzip2
-    - pigz
     - p7zip
     - p7zip-unrar
+    - pigz
     - rpm
     - unrar
     - unzip

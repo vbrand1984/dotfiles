@@ -1,18 +1,19 @@
 ---
 
 directories:
-  - '.vim/autoload'
+  - '.cache'
   - '.config/gtk-3.0'
   - '.config/mc'
   - '.local/share'
   - '.local/state'
+  - '.vim/autoload'
 
 symlinks:
-  - '.vim/vimrc'
   - '.config/gtk-3.0/settings.ini'
+  - '.vim/vimrc'
 
 remove:
-  - '.vimrc'
   - '.viminfo'
+  - '.vimrc'
 
 ...

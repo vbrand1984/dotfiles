@@ -1,0 +1,6 @@
+[main]
+dns=dnsmasq
+rc-manager=file
+{{- if .sys.hasSystemd }}
+systemd-resolved=false
+{{- end }}

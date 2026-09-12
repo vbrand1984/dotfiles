@@ -3,14 +3,22 @@
 
 # {{{ XDG directories
 
+{@'- if not .isRoot -'@}
+
 # Configuring our XDG cache in RAM
-cachedir="/tmp/{@' .sysConf.userCachePrefix'@}${USER}"
-if [ ! -d "${cachedir}" ] ; then
-	mkdir -p "${cachedir}"
-	chmod 0700 "${cachedir}"
+_uid="$(id -u)"
+if [ $_uid -ne 0 ]; then
+	cachedir="/tmp/{@' .data.sysConf.userCachePrefix'@}${_uid}"
+	if [ ! -d "${cachedir}" ] ; then
+		mkdir -p "${cachedir}"
+		chmod 0700 "${cachedir}"
+	fi
+	export XDG_CACHE_HOME="${cachedir}"
+	unset cachedir
 fi
-export XDG_CACHE_HOME="${cachedir}"
-unset cachedir
+unset _uid
+
+{@'- end '@}
 
 # Other XDG directories
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -21,8 +29,8 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 # {{{ Editor
 
 # Editor
-export EDITOR={@' .cmd.editor | squote '@}
-export VISUAL={@' .cmd.editor | squote '@}
+export EDITOR={@' .data.cmd.editor | squote '@}
+export VISUAL={@' .data.cmd.editor | squote '@}
 
 # }}}
 # {{{ Compressors

@@ -1,0 +1,93 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+#!/bin/sh -e
+#
+# ychroot: chroot into a linux installation
+# A slightly reworked xchroot utility from Void Linux' xtools bundle
+#
+
+Die() {
+	printf '%s\n' "${1}" >&2
+	exit 1
+}
+
+if [ "$(id -u)" -ne 0 ]; then
+	Die 'ychroot needs to be run as root'
+fi
+
+chroot_dir="${1}"; shift
+
+# Check the directory structure of chroot
+[ -d "${chroot_dir}" ] || Die 'not a directory'
+for _dir in dev etc proc root sys tmp; do
+	[ -d "${chroot_dir}/${_dir}" ] || Die "Fatal: no /${_dir} in chroot"
+done
+
+# Mount service pseudo-filesystems in chroot
+for _fs in dev proc sys; do
+	mount --rbind "/${_fs}" "${chroot_dir}/${_fs}"
+	mount --make-rslave "${chroot_dir}/${_fs}"
+done
+
+# Create resolv.conf in chroot environment
+touch "${chroot_dir}/etc/resolv.conf"
+mount --bind /etc/resolv.conf "${chroot_dir}/etc/resolv.conf"
+
+# Mount temporary directories
+mount -t tmpfs tmpfs -o size=30%,nosuid,nodev,noexec,mode=1777 "${chroot_dir}/tmp"
+
+if [ -d "${chroot_dir}/root/.cache" ]; then
+	rm -rf "${chroot_dir}/root/.cache"
+else
+	mkdir "${chroot_dir}/root/.cache"
+fi
+mount -t tmpfs tmpfs -o size=10%,nosuid,nodev,noexec,mode=0700 "${chroot_dir}/root/.cache"
+
+# Gentoo portage temp
+[ -d "${chroot_dir}/var/tmp/portage" ] && mount -t tmpfs tmpfs -o size=16G,nodev,mode=1777 "${chroot_dir}/var/tmp/portage"
+
+{@'- $magicDir := "" '@}
+{@'- if .sys.isBrandsPrivate '@}
+
+{@'- $defaults := include (joinPath .dir.chezmoiEncrypted "defaults.yaml.age") | decrypt | fromYaml '@}
+{@'- $magicDir = $defaults.magicDir '@}
+
+[ -d "${chroot_dir}{@' $magicDir '@}" ] && mount -t tmpfs tmpfs -o size=20%,nodev,mode=1777 "${chroot_dir}{@' $magicDir '@}"
+{@'- end '@}
+
+CleanUp() {
+	umount -R "${chroot_dir}/dev" "${chroot_dir}/proc" "${chroot_dir}/sys" \
+		"${chroot_dir}/tmp" "${chroot_dir}/root/.cache" \
+		"${chroot_dir}/etc/resolv.conf"
+	[ -d "${chroot_dir}/var/tmp/portage" ] && umount -R "${chroot_dir}/var/tmp/portage"
+{@'- if .sys.isBrandsPrivate '@}
+	[ -d "${chroot_dir}{@' $magicDir '@}" ] && umount -R "${chroot_dir}{@' $magicDir '@}"
+{@'- end '@}
+}
+
+trap CleanUp EXIT INT
+
+if [ -x "${chroot_dir}/bin/bash" ]; then
+	inner_shell="/bin/bash"
+else
+	inner_shell="/bin/sh"
+fi
+
+{@'- $C := includeTemplate .tmpl.palette.ansiTerminalColors | fromYaml '@}
+{@'- $cap := $C.bold.cyan '@}
+{@'- $cap_bad := $C.bold.red '@}
+
+printf "{@ $cap @}=> Entering chroot ${chroot_dir}{@' $C.reset '@}\n"
+#export PS1="[xchroot $chroot_dir] $PS1"
+chroot "${chroot_dir}" "${@:-$inner_shell}"
+exit_status=$?
+
+if [ $exit_status -eq 0 ]; then
+	printf "{@ $cap @}=> Exited chroot ${chroot_dir}{@' $C.reset '@}\n"
+else
+	printf "{@ $cap_bad @}=> Exited chroot ${chroot_dir} with status ${exit_status}{@' $C.reset '@}\n"
+fi
+
+exit $exit_status
+

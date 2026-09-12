@@ -1,3 +1,6 @@
+{{ if not .sys.isBrandsPrivate }}
+	vbd-modules.conf
+{{ end }}
 {{ if not .sys.isDesktopRig }}
 	edid.bin
 {{ end }}

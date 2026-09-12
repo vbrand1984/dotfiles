@@ -67,7 +67,7 @@ tabs -4
 {@'- $endCharColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.red $B.green)	$C.esc.bashEnd '@}
 {@'- $lineColour :=		print $C.esc.bashStart	$lineColo		$C.esc.bashEnd '@}
 {@'- $pathColour :=		print $C.esc.bashStart	$B.blue	$C.esc.bashEnd '@}
-{@'- $usernameColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.yellow $B.cyan)	$C.esc.bashEnd '@}
+{@'- $usernameColour :=	print $C.esc.bashStart	(.isRoot | ternary $B.red $B.cyan)	$C.esc.bashEnd '@}
 
 {@'- /* Box characters to be used in the prompt */'@}
 {@'- $lineBottomCorner :=	`\342\224\224` '@}
@@ -122,7 +122,7 @@ fi
 PS1={@' print
 	$lineColour $lineUpperCorner $lineStraight $lineStraight
 	$bracketColour "(" $distroColour `'"${distro_logo}"'` $bracketColour ")" $lineColour $lineStraight
-	$bracketColour "[" $usernameColour `\u@\h ` $pathColour `\w` $bracketColour "]" $C.reset `\n`
+	$bracketColour "[" $usernameColour (.isRoot | ternary `\h ` `\u@\h `) $pathColour `\w` $bracketColour "]" $C.reset `\n`
 	$lineColour $lineBottomCorner $lineStraight $lineStraight
 	$bracketColour "(" `$(VBD_Print_Exit_Code)` $bracketColour ")" $lineColour $lineStraight
 	(print (.isRoot | ternary "" `$(VBD_Print_Git_Branch)`))
@@ -175,7 +175,7 @@ fi
 
 {@' if .isRoot -'@}
 
-{@'		includeTemplate .data.tmpl.configFiles.shell.envProfile .data '@}
+{@'		includeTemplate .data.tmpl.configFiles.shell.envProfile (dict "data" .data "isRoot" .isRoot) '@}
 {@' end -'@}
 
 {@' includeTemplate .data.tmpl.configFiles.shell.envRc (dict "data" .data "isRoot" .isRoot) '@}

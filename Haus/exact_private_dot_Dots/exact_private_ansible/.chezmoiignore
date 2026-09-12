@@ -1,0 +1,6 @@
+.ansible
+galaxy_cache
+
+{{ if not .sys.isVoid }}
+	files
+{{ end }}

@@ -9,10 +9,13 @@
   become: true
   ansible.builtin.apt:
     upgrade: 'yes'
-    update-cache: true
     install_recommends: false
     autoclean: false
     autoremove: false
+
+    update_cache: true
+    update_cache_retries: 3
+    update_cache_retry_max_delay: 6
   diff: true
 
 {@'- else if .sys.isVoid -'@}
