@@ -5,6 +5,13 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
+{@'- if not .sys.isDevuan '@}
+
+{@'- $devuanCurrent := (get .file.devuanKeyring .file.devuanKeyring.current) '@}
+vbd_utilities_devuan_keyring_deb: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf .file.devuanKeyring.pattern $devuanCurrent.ver) | squote '@}
+
+{@'- end '@}
+
 vbd_utilities_pkgs_common:
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}

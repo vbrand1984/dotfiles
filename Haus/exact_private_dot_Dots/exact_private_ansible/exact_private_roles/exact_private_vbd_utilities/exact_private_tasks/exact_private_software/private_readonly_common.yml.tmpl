@@ -17,6 +17,19 @@
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
+{@'- if not .sys.isDevuan '@}
+
+- name: Common utilities | Install devuan-keyring
+  tags: [packages, system, utilities, common_utils]
+  become: true
+  ansible.builtin.apt:
+    deb: "{{ vbd_utilities_devuan_keyring_deb }}"
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - ansible_facts['distribution'] != 'Devuan'
+
+{@'- end '@}
+
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
