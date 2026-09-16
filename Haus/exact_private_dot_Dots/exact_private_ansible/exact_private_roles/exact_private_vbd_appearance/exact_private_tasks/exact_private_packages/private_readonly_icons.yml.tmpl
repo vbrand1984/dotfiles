@@ -29,8 +29,8 @@
 
     - name: Icons | papirus-folders
       when: >
-        ansible_local.vbd_papirus_folders.installed_version is not defined or
-        ansible_local.vbd_papirus_folders.installed_version != vbd_appearance_papirus_folders.ver
+        ansible_facts['ansible_local']['vbd_papirus_folders'] is not defined or
+        ansible_facts['ansible_local']['vbd_papirus_folders']['installed_version'] != vbd_appearance_papirus_folders['ver']
       block:
 
         - name: Icons | papirus-folders | Delete papirus-folders package (apt)
@@ -43,36 +43,43 @@
         - name: Icons | papirus-folders | Create temporary directory
           ansible.builtin.tempfile:
             state: directory
-          register: vbd_appearance_temp_dir
+          register: __vbd_appearance_temp_dir
 
         - name: Icons | papirus-folders | Unarchive papirus-folders installer
           ansible.builtin.unarchive:
-            src: "{{ vbd_appearance_papirus_folders.archive }}"
-            dest: "{{ vbd_appearance_temp_dir.path }}"
+            src: "{{ vbd_appearance_papirus_folders['archive'] }}"
+            dest: "{{ __vbd_appearance_temp_dir['path'] }}"
+          when: __vbd_appearance_temp_dir['path'] is defined
 
         - name: Icons | papirus-folders | Install papirus-folders
           become: true
           ansible.builtin.command:
-            chdir: "{{ vbd_appearance_temp_dir.path }}/papirus-folders-{{ vbd_appearance_papirus_folders.ver }}"
+            chdir: "{{ __vbd_appearance_temp_dir['path'] }}/papirus-folders-{{ vbd_appearance_papirus_folders['ver'] }}"
             cmd: /bin/sh install.sh
           environment:
-            TAG: "v{{ vbd_appearance_papirus_folders.ver }}"
+            TAG: "v{{ vbd_appearance_papirus_folders['ver'] }}"
             PREFIX: '/usr/local'
           changed_when: true
+          when: __vbd_appearance_temp_dir['path'] is defined
 
         - name: Icons | papirus-folders | Delete temporary directory
           ansible.builtin.file:
-            path: "{{ vbd_appearance_temp_dir.path }}"
+            path: "{{ __vbd_appearance_temp_dir['path'] }}"
             state: absent
+          when: __vbd_appearance_temp_dir['path'] is defined
 
-        - name: "Icons | papirus-folders | Set fact | Installed version: {{ vbd_appearance_papirus_folders.ver }}"
+        - name: "Icons | papirus-folders | Set fact | Installed version: {{ vbd_appearance_papirus_folders['ver'] }}"
           become: true
           ansible.builtin.copy:
             dest: /etc/ansible/facts.d/vbd_papirus_folders.fact
-            content: "{ \"installed_version\": \"{{ vbd_appearance_papirus_folders.ver }}\" }"
+            content: "{{ __vbd_appearance_papirus_folders_fact | ansible.builtin.to_nice_json }}"
             owner: root
             group: root
             mode: '0644'
+          vars:
+            __vbd_appearance_papirus_folders_fact:
+              installed_version: "{{ vbd_appearance_papirus_folders['ver'] }}"
+          when: __vbd_appearance_temp_dir['path'] is defined
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
@@ -119,12 +126,12 @@
         - name: "Icons | Bibata | Set fact | Installed: {{ '%s v%s' | format(vbd_appearance_bibata['variant'], vbd_appearance_bibata['ver']) }}"
           ansible.builtin.copy:
             dest: /etc/ansible/facts.d/vbd_bibata_cursor_theme.fact
-            content: "{{ vbd_appearance_bibata_fact | ansible.builtin.to_nice_json }}"
+            content: "{{ __vbd_appearance_bibata_fact | ansible.builtin.to_nice_json }}"
             owner: root
             group: root
             mode: '0644'
           vars:
-            vbd_appearance_bibata_fact:
+            __vbd_appearance_bibata_fact:
               installed_version: "{{ vbd_appearance_bibata['ver'] }}"
               installed_variant: "{{ vbd_appearance_bibata['variant'] }}"
 

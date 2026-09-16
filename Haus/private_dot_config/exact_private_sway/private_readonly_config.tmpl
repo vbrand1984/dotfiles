@@ -32,6 +32,10 @@ set $cmd_volume_mute_toggle [@ .cmd.wayland.volumeMute @]
 # Lock screen command
 set $cmd_lock_screen [@ .cmd.wayland.lockScreen @]
 
+#
+set $xorg_symbol 
+set $xorg_emblem [<span color='#f6bb4d'>$xorg_symbol</span>]
+
 # }}} (Variables)
 # {{{ Various settings (background, keyboard layout, etc.)
 
@@ -468,7 +472,7 @@ for_window [app_id="Tor Browser"] inhibit_idle fullscreen, title_format "<span c
 # {{{ File managers
 
 set $icon_file_manager <span color='#eeca8f'></span>
-for_window [class="Caja"] title_format "$icon_file_manager $win_title_text [X]"
+for_window [class="Caja"] title_format "$icon_file_manager $win_title_text $xorg_emblem"
 for_window [app_id="caja"] title_format "$icon_file_manager $win_title_text"
 for_window [app_id="pcmanfm"] title_format "$icon_file_manager $win_title_text"
 
