@@ -31,5 +31,10 @@
 		{{ joinPath .dir.downloaded (printf .file.devuanKeyring.pattern $devuanCurrent.ver) }} 
 	{{ end }}
 
+	# Bibata cursor theme for Void Linux
+	{{ if .sys.isVoid }}
+		{{ joinPath .dir.downloaded (printf .file.bibataCursorTheme.pattern .file.bibataCursorTheme.variant .file.bibataCursorTheme.ver) }}
+	{{ end }}
+
 {{ end }}
 

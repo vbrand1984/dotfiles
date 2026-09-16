@@ -1,5 +1,6 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@} missing-key=invalid
 # vim: set ft=toml ts=4 sw=4 noet:
+
 {@' if not (env .app.envIgnoreExternals) '@}
 # {{{ General
 
@@ -9,8 +10,10 @@
 	url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 	refreshPeriod = "168h"
 
-# }}}
+# }}} (General)
 # {{{ Themes
+
+# {{{ Greylooks themes
 
 # Greylooks, GreylooksGreen, GreylooksHuman, GreylooksOk, GreylooksPurple, GreylooksSand
 {@' range .misc.greylooksThemes '@}
@@ -24,6 +27,9 @@
 	refreshPeriod = "1680h"
 {@' end '@}
 
+# }}}
+# {{{ Graphite
+
 ## Graphite GTK theme
 #[{@' joinPath .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | quote '@}]
 #	type = "file"
@@ -36,10 +42,13 @@
 #	url = "https://github.com/vinceliuice/Graphite-kde-theme/archive/refs/tags/{@' .file.graphite.kde.ver '@}.tar.gz"
 #	refreshPeriod = 0
 
-# }}}
+# }}} (Graphite)
+
+# }}} (Themes)
 # {{{ Desktop Backgrounds
 
-# Hercules as default wallpaper
+# {{{ Hercules as default wallpaper
+
 [{@' joinPath .dir.desktop.localBackgrounds .file.defaultWallpaper | quote '@}]
 	type = "file"
 	url = "https://images.squarespace-cdn.com/content/v1/5ce71504c7259600017b8c37/1663017845570-N437I6Y5NLT3G8LWGK4W/AdobeStock_300989887+(1).jpeg"
@@ -49,6 +58,9 @@
 	readonly = false
 	private = false
 	refreshPeriod = 0
+
+# }}} (Hercules)
+# {{{ Victor Brand's personal wallpapers
 
 {@' if .sys.isBrandsPrivate '@}
 # Victor Brand's personal wallpapers
@@ -64,10 +76,13 @@
 	refreshPeriod = "1680h"
 {@' end '@}
 
-# }}}
+# }}} (Personal wallpapers)
+
+# }}} (Desktop Backgrounds)
 # {{{ Fonts
 
-# JetBrainsMonoNL and Ubuntu Nerd Font fonts
+# {{{ JetBrainsMonoNL and Ubuntu Nerd Font fonts
+
 [".local/share/fonts/nerd-fonts"]
 	type = "archive"
 	url = "https://drive.google.com/uc?export=download&id=1v9Wldc35JyORC_IADhoTyCM3R1n009bB"
@@ -79,7 +94,9 @@
 	checksum.size = 5253639
 	refreshPeriod = "1680h"
 
-# MS fonts
+# }}}
+# {{{ MS fonts
+
 [".local/share/fonts/winfonts"]
 	type = "archive"
 	url = "https://drive.google.com/uc?export=download&id=1oqMz4-otLnuu3IgenYV5_IqJ7Mzc0kbh"
@@ -91,6 +108,9 @@
 	checksum.size = 16195257
 	refreshPeriod = "1680h"
 
+# }}}
+# {{{ weathericons-regular-webfont
+
 {@' if and .sys.isBrandsPrivate .sys.isDesktopRig '@}
 # Font with weather icons which is used in my python-powered conky weather widget
 # Only used on my desktop rig
@@ -101,26 +121,30 @@
 	refreshPeriod = 0
 {@' end '@}
 
-# }}}
+# }}} (weathericons-regular-webfont)
+
+# }}} (Fonts)
 # {{{ Distro-specific
 
-{@' if .sys.isDebianBased '@}
+# {{{ papirus-folders package for Debian-based installations
 
-# papirus-folders package for Debian-based installations
 # https://github.com/PapirusDevelopmentTeam/papirus-folders
+
+{@' if .sys.isDebianBased '@}
 [{@' joinPath .dir.downloaded (printf .file.papirusFolders.pattern .file.papirusFolders.ver) | quote '@}]
 	type= "file"
 	url = "https://github.com/PapirusDevelopmentTeam/papirus-folders/archive/v{@' .file.papirusFolders.ver '@}.tar.gz"
 	checksum.sha512 = {@' .file.papirusFolders.sha512 | quote '@}
-	checksum.size = {@' .file.papirusFolders.size '@}
+	checksum.size = {@' .file.papirusFolders.size | int '@}
 	refreshPeriod = 0
-
 {@' end '@}
+
+# }}}
+# {{{ Devuan-keyring package for non-Devuan installations.
 
 {@' if not .sys.isDevuan '@}
 
 #
-# Devuan keyring package for non-Devuan installations.
 # The keyring is needed when installing Devuan via debootstrap
 # in order to verify the package files.
 #
@@ -145,15 +169,19 @@
 
 {@' end '@}
 
+# }}} (Devuan-keyring)
+# {{{ Bibata cursor theme for Void Linux
+
 {@' if .sys.isVoid '@}
-# Bibata cursor theme for Void Linux
-[".local/share/icons"]
-	type = "archive"
-	url = "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Original-Classic.tar.xz"
-	checksum.sha512 = "7ea3759da3628e9daa3ed5b1f92d778b73146a22e8cd74747df6b2ca534a2d00ca3604e02152b4924b755e5f1cd413b7b2cca363938362f1d3033c3a52f70135"
-	checksum.size = 1871780
+[{@' joinPath .dir.downloaded (printf .file.bibataCursorTheme.pattern .file.bibataCursorTheme.variant .file.bibataCursorTheme.ver) | quote '@}]
+	type = "file"
+	url = "https://github.com/ful1e5/Bibata_Cursor/releases/download/v{@' .file.bibataCursorTheme.ver '@}/{@' .file.bibataCursorTheme.variant '@}.tar.xz"
+	checksum.sha512 = {@' .file.bibataCursorTheme.sha512 | quote '@}
+	checksum.size = {@' .file.bibataCursorTheme.size | int '@}
 	refreshPeriod = 0
 {@' end '@}
 
-# }}}
+# }}} (Bibata cursor theme)
+
+# }}} (Distro-specific)
 {@' end '@}

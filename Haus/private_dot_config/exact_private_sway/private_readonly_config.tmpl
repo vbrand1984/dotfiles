@@ -424,9 +424,12 @@ for_window [window_role = "About"] floating enable
 # Certain apps
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
-for_window [app_id="gtk3-widget-factory"] floating enable
 for_window [app_id="qalculate*"] floating enable
 for_window [app_id="galculator"] floating enable
+
+# Gtk widget factories
+for_window [app_id="gtk3-widget-factory"] floating enable
+for_window [app_id="org.gtk.WidgetFactory4"] floating enable
 
 default_floating_border normal 2
 for_window [window_type="dialog"] floating enable, border normal
@@ -436,6 +439,7 @@ for_window [app_id="paradox-launcher*"] floating enable, border none
 
 # }}} (Theme setup)
 # {{{ Titlebars setup
+
 # {{{ General settings
 
 #font pango: DejaVu Sans Condensed 11
@@ -464,7 +468,7 @@ for_window [app_id="Tor Browser"] inhibit_idle fullscreen, title_format "<span c
 # {{{ File managers
 
 set $icon_file_manager <span color='#eeca8f'></span>
-for_window [class="Caja"] title_format "$icon_file_manager $win_title_text"
+for_window [class="Caja"] title_format "$icon_file_manager $win_title_text [X]"
 for_window [app_id="caja"] title_format "$icon_file_manager $win_title_text"
 for_window [app_id="pcmanfm"] title_format "$icon_file_manager $win_title_text"
 
@@ -550,6 +554,7 @@ for_window [app_id="nm-applet"] title_format "<span color='#d9d6ce'>󰌘</span> 
 for_window [app_id="nm-connection-editor"] title_format "<span color='#d9d6ce'>󰈀</span> $win_title_text" 
 
 # }}}
+
 # }}} (Titlebars setup)
 # {{{ Theme setup (GTK theme, font, cursor etc., status bar included)
 

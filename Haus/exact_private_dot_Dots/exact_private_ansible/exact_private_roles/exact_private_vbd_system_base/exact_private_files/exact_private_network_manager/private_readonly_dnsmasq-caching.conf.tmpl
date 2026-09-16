@@ -17,10 +17,6 @@ domain-needed
 bogus-priv
 local=/{@' $domain '@}/
 
-# Interface configuration
-listen-address=127.0.0.1
-bind-interfaces
-
 # DNSSEC setup
 {@' if .sys.isDebianBased -'@}
 	conf-file=/usr/share/dnsmasq-base/trust-anchors.conf

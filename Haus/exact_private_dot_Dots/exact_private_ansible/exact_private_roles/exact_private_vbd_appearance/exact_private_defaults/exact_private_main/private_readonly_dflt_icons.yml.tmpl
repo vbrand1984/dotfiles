@@ -14,9 +14,11 @@ vbd_appearance_cursor_theme: {@' .gtk.cursorTheme | squote '@}
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
+# Archive with the papirus-folders utility installer
+{@'- $pf := .file.papirusFolders '@}
 vbd_appearance_papirus_folders:
-  ver: {@' .file.papirusFolders.ver | squote '@}
-  archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf "papirus-folders-%s.tar.gz" .file.papirusFolders.ver) | squote '@}
+  archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf $pf.pattern $pf.ver) | squote '@}
+  ver: {@' $pf.ver | squote '@}
 
 vbd_appearance_pkgs_icons:
   deb_stable:
@@ -30,6 +32,20 @@ vbd_appearance_pkgs_icons:
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
+
+# Archive with the Bibata cursor theme
+{@'- $bct := .file.bibataCursorTheme '@}
+vbd_appearance_bibata:
+  archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf $bct.pattern $bct.variant $bct.ver) | squote '@}
+  variant: {@' $bct.variant | squote '@}
+  ver: {@' $bct.ver | squote '@}
+
+  # Where to install the theme
+  dest_dir:
+    path: /usr/local/share/icons
+    owner: root
+    group: root
+    mode: '0755'
 
 vbd_appearance_pkgs_icons:
   xbps:

@@ -81,7 +81,15 @@ file:
       pattern: 'Graphite-kde-theme-%s.tar.gz'
       ver: '2026-08-22'
 
-  # For deb-based distros:
+  # For Void Linux
+  bibataCursorTheme:
+    pattern: '%s-%s.tar.xz' # variant, then ver[sion]
+    ver: '2.0.7'
+    variant: 'Bibata-Original-Classic'
+    sha512: '7ea3759da3628e9daa3ed5b1f92d778b73146a22e8cd74747df6b2ca534a2d00ca3604e02152b4924b755e5f1cd413b7b2cca363938362f1d3033c3a52f70135'
+    size: 1871780
+
+  # `papirus-folders' utility for deb-based distros
   papirusFolders:
     pattern: 'papirus-folders-%s.tar.gz'
     ver: '1.14.0'
@@ -126,9 +134,9 @@ tmpl:
 
     shell:
       aliases: 'config-files/shell/aliases.sh.tmpl'
+      bashRc: 'config-files/shell/bash-rc.sh.tmpl'
       envProfile: 'config-files/shell/env-profile.sh.tmpl'
       envRc: 'config-files/shell/env-rc.sh.tmpl'
-      bashRc: 'config-files/shell/bash-rc.sh.tmpl'
 
   # Messages to be printed in files or on the screen
   msg:

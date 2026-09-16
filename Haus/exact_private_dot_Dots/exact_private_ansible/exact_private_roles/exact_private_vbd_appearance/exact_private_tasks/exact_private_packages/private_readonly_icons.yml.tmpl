@@ -78,13 +78,75 @@
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Icons | Install packages (xbps)
+- name: Icons | Installation
   tags: [packages, desktop, appearance, icons]
   become: true
-  community.general.xbps:
-    package: "{{ vbd_appearance_pkgs_icons.xbps }}"
-    state: present
   when: ansible_facts['distribution'] == 'Void'
+  block:
+
+    - name: Icons | Install packages (xbps)
+      community.general.xbps:
+        package: "{{ vbd_appearance_pkgs_icons.xbps }}"
+        state: present
+
+    - name: Icons | Bibata theme installation
+      when: >
+        ansible_facts['ansible_local']['vbd_bibata_cursor_theme'] is not defined or
+        ansible_facts['ansible_local']['vbd_bibata_cursor_theme']['installed_version'] != vbd_appearance_bibata['ver'] or
+        ansible_facts['ansible_local']['vbd_bibata_cursor_theme']['installed_variant'] != vbd_appearance_bibata['variant']
+      block:
+
+        - name: Icons | Bibata | Create destination directory
+          ansible.builtin.file:
+            path: "{{ vbd_appearance_bibata['dest_dir']['path'] }}"
+            state: directory
+            owner: "{{ vbd_appearance_bibata['dest_dir']['owner'] }}"
+            group: "{{ vbd_appearance_bibata['dest_dir']['group'] }}"
+            mode: "{{ vbd_appearance_bibata['dest_dir']['mode'] }}"
+
+        - name: Icons | Bibata | Delete theme directory if it exists
+          ansible.builtin.file:
+            path: "{{ (vbd_appearance_bibata['dest_dir']['path'], vbd_appearance_bibata['variant']) | ansible.builtin.path_join }}"
+            state: absent
+
+        - name: Icons | Bibata | Unarchive theme
+          ansible.builtin.unarchive:
+            src: "{{ vbd_appearance_bibata['archive'] }}"
+            dest: "{{ vbd_appearance_bibata['dest_dir']['path'] }}"
+            owner: root
+            group: root
+
+        - name: "Icons | Bibata | Set fact | Installed: {{ '%s v%s' | format(vbd_appearance_bibata['variant'], vbd_appearance_bibata['ver']) }}"
+          ansible.builtin.copy:
+            dest: /etc/ansible/facts.d/vbd_bibata_cursor_theme.fact
+            content: "{{ vbd_appearance_bibata_fact | ansible.builtin.to_nice_json }}"
+            owner: root
+            group: root
+            mode: '0644'
+          vars:
+            vbd_appearance_bibata_fact:
+              installed_version: "{{ vbd_appearance_bibata['ver'] }}"
+              installed_variant: "{{ vbd_appearance_bibata['variant'] }}"
+
+    - name: Icons | Create the ``/usr/share/icons/default'' directory
+      ansible.builtin.file:
+        path: '/usr/share/icons/default'
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: "Icons | Set system-wide default cursor theme to {{ vbd_appearance_cursor_theme }}"
+      ansible.builtin.copy:
+        dest: '/usr/share/icons/default/index.theme'
+        content: |
+          [Icon theme]
+          Name=Default
+          Comment=Default Cursor Theme
+          Inherits={{ vbd_appearance_cursor_theme }}
+        owner: root
+        group: root
+        mode: '0644'
 
 {@'- end '@} {@'- /* }}} */'@}
 {@'- /* {{{ Common ground: check papirus-folders theme */'@}
