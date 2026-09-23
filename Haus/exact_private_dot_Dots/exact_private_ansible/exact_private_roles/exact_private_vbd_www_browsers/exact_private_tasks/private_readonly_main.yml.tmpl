@@ -8,8 +8,8 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-# - name: Vivaldi
-#   ansible.builtin.import_tasks: deb_vivaldi.yml
+- name: Vivaldi
+  ansible.builtin.import_tasks: deb_vivaldi.yml
 
 - name: Opera
   ansible.builtin.import_tasks: deb_opera.yml
@@ -25,7 +25,7 @@
 
     - name: Install browsers (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_www_browsers_pkgs.deb_stable }}"
+        package: "{{ vbd_www_browsers_pkgs['deb_stable'] }}"
         state: present
         install_recommends: false
 
@@ -45,7 +45,7 @@
   tags: [packages, desktop, www_browsers]
   become: true
   community.general.xbps:
-    package: "{{ vbd_www_browsers_pkgs.xbps }}"
+    package: "{{ vbd_www_browsers_pkgs['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

@@ -5,11 +5,17 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: System base | Base tools
-  ansible.builtin.import_tasks: software/base_tools.yml
+- name: System base | Installation
+  tags: [packages, system]
+  block:
 
-- name: System base | Network services
-  ansible.builtin.import_tasks: software/network_services.yml
+    - name: System base | Base tools
+      tags: [base_tools]
+      ansible.builtin.import_tasks: components/base_tools.yml
+
+    - name: System base | Network services
+      tags: [network_services]
+      ansible.builtin.import_tasks: components/network_services.yml
 
 ...
 {@'- end '@}

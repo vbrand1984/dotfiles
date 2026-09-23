@@ -9,10 +9,9 @@
 {@'- if .sys.isDebianBased '@}
 
 - name: XDG | Install packages (stable)
-  tags: [packages, desktop, desktop_base, xdg]
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_desktop_base_pkgs_xdg.deb_stable }}"
+    package: "{{ vbd_desktop_base_pkgs_xdg['deb_stable'] }}"
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -22,10 +21,9 @@
 {@'- else if .sys.isVoid '@}
 
 - name: XDG | Install packages (xbps)
-  tags: [packages, desktop, desktop_base, xdg]
   become: true
   community.general.xbps:
-    package: "{{ vbd_desktop_base_pkgs_xdg.xbps }}"
+    package: "{{ vbd_desktop_base_pkgs_xdg['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

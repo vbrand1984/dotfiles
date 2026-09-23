@@ -5,17 +5,24 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Appearance | Icons
-  ansible.builtin.import_tasks: packages/icons.yml
+- name: Appearance tasks
+  tags: [packages, desktop, vbd_appearance]
+  block:
 
-- name: Appearance | Fonts
-  ansible.builtin.import_tasks: packages/fonts.yml
+    - name: Appearance | Icons
+      tags: [icons]
+      ansible.builtin.import_tasks: components/icons.yml
 
-- name: Appearance | Themes
-  ansible.builtin.import_tasks: packages/themes.yml
+    - name: Appearance | Fonts
+      tags: [fonts]
+      ansible.builtin.import_tasks: components/fonts.yml
+
+    - name: Appearance | Themes
+      tags: [themes]
+      ansible.builtin.import_tasks: components/themes.yml
 
 # - name: Appearance | Graphite themes
-#   ansible.builtin.import_tasks: packages/graphite_themes.yml
+#   ansible.builtin.import_tasks: components/graphite_themes.yml
 
 ...
 {@'- end '@}

@@ -5,11 +5,17 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Virtual machines | Virt-manager
-  ansible.builtin.import_tasks: software/virt_manager.yml
+- name: Virtual machines | Installation
+  tags: [packages, virtual_machines]
+  block:
 
-- name: Virtual machines | Virtualbox
-  ansible.builtin.import_tasks: software/virtualbox.yml
+    - name: Virtual machines | Virt-manager
+      tags: [virt_manager]
+      ansible.builtin.import_tasks: components/virt_manager.yml
+
+    - name: Virtual machines | Virtualbox
+      tags: [virtualbox]
+      ansible.builtin.import_tasks: components/virtualbox.yml
 
 ...
 {@'- end '@}

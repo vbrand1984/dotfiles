@@ -8,11 +8,10 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Wayland base | Install packages (stable)
-  tags: [packages, desktop, wayland_base]
+- name: Filesystems support | Install packages (stable)
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_desktop_base_pkgs_wayland_base.deb_stable }}"
+    package: "{{ vbd_desktop_base_pkgs_filesystems_support['deb_stable'] }}"
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -21,11 +20,10 @@
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Wayland base | Install packages (xbps)
-  tags: [packages, desktop, wayland_base]
+- name: Filesystems support | Install packages (xbps)
   become: true
   community.general.xbps:
-    package: "{{ vbd_desktop_base_pkgs_wayland_base.xbps }}"
+    package: "{{ vbd_desktop_base_pkgs_filesystems_support['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

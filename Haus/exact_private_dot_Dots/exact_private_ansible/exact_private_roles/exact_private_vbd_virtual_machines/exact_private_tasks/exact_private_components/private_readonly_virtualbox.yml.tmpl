@@ -6,7 +6,6 @@
 ---
 
 - name: Virt-manager | Installation
-  tags: [packages, virtual_machines, virtualbox]
   become: true
   block:
 
@@ -24,7 +23,7 @@
 
     - name: VirtualBox | Install package(s) (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_virtual_machines_pkgs_virtualbox.deb_stable }}"
+        package: "{{ vbd_virtual_machines_pkgs_virtualbox['deb_stable'] }}"
         state: present
         install_recommends: false
       when: ansible_facts['os_family'] == 'Debian'
@@ -35,7 +34,7 @@
 
     - name: VirtualBox | Install packages (xbps)
       community.general.xbps:
-        package: "{{ vbd_virtual_machines_pkgs_virtualbox.xbps }}"
+        package: "{{ vbd_virtual_machines_pkgs_virtualbox['xbps'] }}"
         state: present
       when: ansible_facts['distribution'] == 'Void'
 

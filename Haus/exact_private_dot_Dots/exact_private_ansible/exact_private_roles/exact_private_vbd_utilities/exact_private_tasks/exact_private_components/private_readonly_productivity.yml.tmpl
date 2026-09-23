@@ -9,14 +9,13 @@
 {@'- if .sys.isDebianBased '@}
 
 - name: Productivity utils | Installation
-  tags: [packages, system, utilities, productivity]
   become: true
   when: ansible_facts['os_family'] == 'Debian'
   block:
 
     - name: Productivity utils | Install packages (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_utilities_pkgs_productivity.deb_stable }}"
+        package: "{{ vbd_utilities_pkgs_productivity['deb_stable'] }}"
         state: present
         install_recommends: false
 
@@ -31,10 +30,9 @@
 {@'- else if .sys.isVoid '@}
 
 - name: Productivity utils | Install packages (xbps)
-  tags: [packages, system, utilities, productivity]
   become: true
   community.general.xbps:
-    package: "{{ vbd_utilities_pkgs_productivity.xbps }}"
+    package: "{{ vbd_utilities_pkgs_productivity['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

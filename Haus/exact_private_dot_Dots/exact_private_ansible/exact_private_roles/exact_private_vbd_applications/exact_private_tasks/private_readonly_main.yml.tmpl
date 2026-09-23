@@ -5,20 +5,29 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Applications | Desktop utils
-  ansible.builtin.import_tasks: software/desktop_utils.yml
+- name: Applications | Installation
+  tags: [packages, desktop, applications]
+  block:
 
-- name: Applications | Multimedia
-  ansible.builtin.import_tasks: software/multimedia.yml
+    - name: Applications | Desktop utils
+      tags: [desktop_utils]
+      ansible.builtin.import_tasks: components/desktop_utils.yml
 
-- name: Applications | Office
-  ansible.builtin.import_tasks: software/office.yml
+    - name: Applications | Multimedia
+      tags: [multimedia]
+      ansible.builtin.import_tasks: components/multimedia.yml
 
-- name: Applications | Wireshark
-  ansible.builtin.import_tasks: software/wireshark.yml
+    - name: Applications | Office
+      tags: [office]
+      ansible.builtin.import_tasks: components/office.yml
 
-- name: Applications | Flatpak
-  ansible.builtin.import_tasks: software/flatpak.yml
+    - name: Applications | Wireshark
+      tags: [wireshark]
+      ansible.builtin.import_tasks: components/wireshark.yml
+
+    - name: Applications | Flatpak
+      tags: [flatpak]
+      ansible.builtin.import_tasks: components/flatpak.yml
 
 ...
 {@'- end '@}

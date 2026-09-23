@@ -8,41 +8,35 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Debian-specific | Install packages
-  tags: [packages, system, utilities, distro_specific]
-  when: ansible_facts['os_family'] == 'Debian'
+- name: Base tools | Installation
   become: true
+  when: ansible_facts['os_family'] == 'Debian'
   block:
 
-    - name: Debian-specific | Install packages (stable)
+    - name: Base tools | Install packages (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_utilities_pkgs_distro_specific.deb_stable }}"
+        package: "{{ vbd_system_base_pkgs_base_tools['deb_stable'] }}"
         state: present
         install_recommends: false
 
-    - name: Debian-specific | Install packages (backports)
+    - name: Base tools | Install packages (backports)
       ansible.builtin.apt:
-        package: "{{ vbd_utilities_pkgs_distro_specific.deb_backports }}"
+        package: "{{ vbd_system_base_pkgs_base_tools['deb_backports'] }}"
         default_release: "{{ ansible_facts['distribution_release'] }}-backports"
         state: latest # noqa: package-latest
         install_recommends: false
-
-    - name: Debian-specific | Install the ``apt-file'' utility
-      ansible.builtin.apt:
-        package: apt-file
-        state: present
-        install_recommends: false
-      notify: Update apt-file
+      when:
+        - vbd_system_base_pkgs_base_tools.deb_backports is defined
+        - vbd_system_base_pkgs_base_tools.deb_backports | length > 0
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Void-specific | Install packages (xbps)
-  tags: [packages, system, utilities, distro_specific]
+- name: Base tools | Install packages (xbps)
   become: true
   community.general.xbps:
-    package: "{{ vbd_utilities_pkgs_distro_specific.xbps }}"
+    package: "{{ vbd_system_base_pkgs_base_tools['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

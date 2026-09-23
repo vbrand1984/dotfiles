@@ -6,7 +6,7 @@
 ---
 
 - name: Set papirus-folders theme
-  tags: always
+  tags: [always]
   become: true
   ansible.builtin.command:
     cmd: "papirus-folders --color {{ vbd_appearance_papirus_folders_theme | quote }}"

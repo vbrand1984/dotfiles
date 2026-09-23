@@ -5,26 +5,37 @@
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
 ---
 
-- name: Utilities | Archivers
-  ansible.builtin.import_tasks: software/archivers.yml
+- name: Utilities | Installation
+  tags: [packages, system, utilities]
+  block:
 
-- name: Utilities | RTFM
-  ansible.builtin.import_tasks: software/rtfm.yml
+    - name: Utilities | Archivers
+      tags: [archivers]
+      ansible.builtin.import_tasks: components/archivers.yml
 
-- name: Utilities | Common utils
-  ansible.builtin.import_tasks: software/common.yml
+    - name: Utilities | RTFM
+      tags: [rtfm]
+      ansible.builtin.import_tasks: components/rtfm.yml
 
-- name: Utilities | Productivity
-  ansible.builtin.import_tasks: software/productivity.yml
+    - name: Utilities | Common utils
+      tags: [common_utils]
+      ansible.builtin.import_tasks: components/common.yml
 
-- name: Utilities | Distro-specific
-  ansible.builtin.import_tasks: software/distro_specific.yml
+    - name: Utilities | Productivity
+      tags: [productivity]
+      ansible.builtin.import_tasks: components/productivity.yml
 
-- name: Utilities | Hardware utils
-  ansible.builtin.import_tasks: software/hardware_utils.yml
+    - name: Utilities | Distro-specific
+      tags: [distro_specific]
+      ansible.builtin.import_tasks: components/distro_specific.yml
 
-- name: Utilities | Network utils
-  ansible.builtin.import_tasks: software/network_utils.yml
+    - name: Utilities | Hardware utils
+      tags: [hardware_utils]
+      ansible.builtin.import_tasks: components/hardware_utils.yml
+
+    - name: Utilities | Network utils
+      tags: [network_utils]
+      ansible.builtin.import_tasks: components/network_utils.yml
 
 ...
 {@'- end '@}

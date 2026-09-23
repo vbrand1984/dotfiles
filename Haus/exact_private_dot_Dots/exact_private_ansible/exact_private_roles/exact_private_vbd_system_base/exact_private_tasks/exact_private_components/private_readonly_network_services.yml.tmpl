@@ -9,10 +9,9 @@
 {@'- if .sys.isDebianBased '@}
 
 - name: Network services | Install packages (stable)
-  tags: [packages, system, network, network_services]
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_system_base_pkgs_network_services.deb_stable }}"
+    package: "{{ vbd_system_base_pkgs_network_services['deb_stable'] }}"
     state: present
     install_recommends: false
 
@@ -21,17 +20,15 @@
 {@'- else if .sys.isVoid '@}
 
 - name: Network services | Install packages (xbps)
-  tags: [packages, system, network, network_services]
   become: true
   community.general.xbps:
-    package: "{{ vbd_system_base_pkgs_network_services.xbps }}"
+    package: "{{ vbd_system_base_pkgs_network_services['xbps'] }}"
     state: present
 
 {@'- end '@} {@'- /* }}} */'@}
 {@'- /* {{{ Common ground: install config files */'@}
 
 - name: Network services | Install config files
-  tags: [packages, system, network, network_services]
   become: true
   ansible.builtin.copy:
     src: "{{ item.src }}"

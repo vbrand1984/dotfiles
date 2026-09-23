@@ -8,11 +8,10 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Multimedia | Install packages (stable)
-  tags: [packages, desktop, applications, multimedia]
+- name: Video base | Install packages
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_applications_pkgs_multimedia.deb_stable }}"
+    package: "{{ vbd_desktop_base_pkgs_video_base['deb_stable'] }}"
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -21,11 +20,10 @@
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Multimedia | Install packages (xbps)
-  tags: [packages, desktop, applications, multimedia]
+- name: Video base | Install packages
   become: true
   community.general.xbps:
-    package: "{{ vbd_applications_pkgs_multimedia.xbps }}"
+    name: "{{ vbd_desktop_base_pkgs_video_base['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

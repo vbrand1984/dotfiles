@@ -8,11 +8,10 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Fonts | Install packages (stable)
-  tags: [packages, desktop, appearance, fonts]
+- name: Multimedia | Install packages (stable)
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_appearance_pkgs_fonts.deb_stable }}"
+    package: "{{ vbd_applications_pkgs_multimedia['deb_stable'] }}"
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -21,11 +20,10 @@
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Fonts | Install packages (xbps)
-  tags: [packages, desktop, appearance, fonts]
+- name: Multimedia | Install packages (xbps)
   become: true
   community.general.xbps:
-    package: "{{ vbd_appearance_pkgs_fonts.xbps }}"
+    package: "{{ vbd_applications_pkgs_multimedia['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 

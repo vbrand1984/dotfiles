@@ -19,7 +19,7 @@ vbd_utilities_pkgs_hardware_utils:
     - lshw
     - lsscsi
     - pciutils
-    - smartmontools
+    # - smartmontools # backported
     - usbutils
 
     # Hardware monitors
@@ -27,6 +27,9 @@ vbd_utilities_pkgs_hardware_utils:
     - glances
     - htop
     - iotop
+
+  deb_backports:
+    - smartmontools
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}

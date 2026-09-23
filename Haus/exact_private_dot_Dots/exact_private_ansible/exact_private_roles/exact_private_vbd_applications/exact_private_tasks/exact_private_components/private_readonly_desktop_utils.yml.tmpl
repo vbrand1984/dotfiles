@@ -9,14 +9,13 @@
 {@'- if .sys.isDebianBased '@}
 
 - name: Desktop utilities | Installation
-  tags: [packages, desktop, applications, desktop_utils]
   become: true
   when: ansible_facts['os_family'] == 'Debian'
   block:
 
     - name: Desktop utils | Install packages (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_applications_pkgs_desktop_utils.deb_stable }}"
+        package: "{{ vbd_applications_pkgs_desktop_utils['deb_stable'] }}"
         state: present
         install_recommends: false
 
@@ -31,10 +30,9 @@
 {@'- else if .sys.isVoid '@}
 
 - name: Desktop utils | Install packages (xbps)
-  tags: [packages, desktop, applications, desktop_utils]
   become: true
   community.general.xbps:
-    package: "{{ vbd_applications_pkgs_desktop_utils.xbps }}"
+    package: "{{ vbd_applications_pkgs_desktop_utils['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
@@ -42,7 +40,6 @@
 {@'- /* {{{ Common ground: set default file manager */'@}
 
 - name: Desktop utils | Set default file manager
-  tags: [packages, desktop, applications, desktop_utils]
   community.general.xdg_mime:
     handler: "{{ vbd_applications_default_file_manager }}.desktop"
     mime_types: inode/directory

@@ -8,11 +8,10 @@
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}
 
-- name: Archivers | Install packages (stable)
-  tags: [packages, system, utilities, archivers]
+- name: Wayland base | Install packages (stable)
   become: true
   ansible.builtin.apt:
-    package: "{{ vbd_utilities_pkgs_archivers.deb_stable }}"
+    package: "{{ vbd_desktop_base_pkgs_wayland_base['deb_stable'] }}"
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -21,11 +20,10 @@
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Archivers | Install packages (xbps)
-  tags: [packages, system, utilities, archivers]
+- name: Wayland base | Install packages (xbps)
   become: true
   community.general.xbps:
-    package: "{{ vbd_utilities_pkgs_archivers.xbps }}"
+    package: "{{ vbd_desktop_base_pkgs_wayland_base['xbps'] }}"
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
