@@ -1,7 +1,5 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: ft=sh
-{@'- end -'@}
+{@'- /* vim: set ft=sh: */ -'@}
 #!/bin/sh
 
 {@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}

@@ -122,8 +122,9 @@ exec swayidle -w \
 # Super-Q: Kill focused window
 bindsym --to-code $mod+q kill
 
-# Middle-click on window title: kill window
-bindsym --release button2 kill
+# Right-click on window title: kill window
+bindsym button3 nop
+bindsym --release button3 kill
 
 # Super-Enter, Super-Shift-Enter: Start your launcher
 bindsym $mod+Return exec $menu &
@@ -157,16 +158,16 @@ bindsym --to-code $mod+Ctrl+l exec $cmd_lock_screen && sleep 1 && swaymsg seat -
 # You can "split" the current object of your focus with
 # $mod+b or $mod+v, for horizontal and vertical splits
 # respectively.
-bindsym $mod+b splith
-bindsym $mod+v splitv
+bindsym --to-code $mod+b splith
+bindsym --to-code $mod+v splitv
 
 # Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym --to-code $mod+s layout stacking
+bindsym --to-code $mod+w layout tabbed
+bindsym --to-code $mod+e layout toggle split
 
 # Make the current focus fullscreen
-bindsym $mod+f fullscreen
+bindsym --to-code $mod+f fullscreen
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
@@ -175,7 +176,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # Move focus to the parent container
-bindsym $mod+a focus parent
+bindsym --to-code $mod+a focus parent
 
 # }}}
 # {{{ Moving around
@@ -326,6 +327,9 @@ bindsym --to-code $mod+Ctrl+b exec [@ .cmd.firefox @] &
 # Super-Ctrl-C: Libreoffice Calc
 bindsym --to-code $mod+Ctrl+c exec libreoffice --calc &
 
+# Super-Ctrl-E: Emacs
+bindsym --to-code $mod+Ctrl+e exec emacs &
+
 # Super-Ctrl-F: File manager
 bindsym --to-code $mod+Ctrl+f exec caja &
 
@@ -356,12 +360,12 @@ bindsym --to-code $mod+Ctrl+w exec libreoffice --writer &
 mode "browsers" {
 	bindsym --to-code f exec firefox-esr &, mode "default"
 
-	bindsym $mod+b mode "default"
+	bindsym $mod+g mode "default"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
 
-bindsym --to-code $mod+b mode "browsers"
+bindsym --to-code $mod+g mode "browsers"
 
 # }}}
 # {{{ Screenshots (PrtScr + optional stuff)

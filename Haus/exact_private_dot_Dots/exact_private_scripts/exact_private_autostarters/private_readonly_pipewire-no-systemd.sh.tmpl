@@ -1,13 +1,12 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
 {@'- if not .sys.hasSystemd -'@}
-{@'- if false -'@}
-# vim: set ft=sh ts=4 sw=4:
-{@'- end -'@}
 # Autostart pipewire
 
 # Clean up any dead instances
 #pkill --exact -9 pipewire pipewire-pulse wireplumber 2>/dev/null || :
-killall --euid="${USER}" pipewire pipewire-pulse wireplumber 2>/dev/null || :
+killall --user="${USER}" pipewire pipewire-pulse wireplumber 2>/dev/null || :
 wait
 
 {@'- if .sys.isVoid '@}

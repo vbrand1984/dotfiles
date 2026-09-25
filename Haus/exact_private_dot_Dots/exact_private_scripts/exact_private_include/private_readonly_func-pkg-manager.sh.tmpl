@@ -1,6 +1,7 @@
 # chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
 {@'- if or .sys.isVoid .sys.isDebianBased -'@}
-# vim: ft=sh ts=4 sw=4:
 
 {@'/* Include the ``vbd_Sudo'' function */ -'@}
 {@' includeTemplate .tmpl.sh.funcSudo . '@}

@@ -1,7 +1,6 @@
-{{ if and .sys.isBrandsPrivate .sys.isDesktopRig -}}
-#!/usr/bin/python3
-# vim: ft=python
 # chezmoi:template: missing-key=zero
+{{- if and .sys.isBrandsPrivate .sys.isDesktopRig -}}
+{{- /* vim: set ft=python: */ -}}
 #
 # In order to utilize the API of OpenWeatherMap, you MUST register there and get an AppID
 # See: https://openweathermap.org/api

@@ -187,7 +187,7 @@ data:
     userCachePrefix: {@' default (print "vbd-cache-" (randAlphaNum 6) "-") .sysConf.userCachePrefix | squote '@}
 
     sysctl:
-      yamaPtrace: {@' default 3 .sysConf.sysctl.yamaPtrace | int '@}
+      yamaPtrace: {@' default 2 .sysConf.sysctl.yamaPtrace | int '@}
       ipv6disable: {@' (default true .sysConf.yamaPtrace.ipv6disable) | not | not '@}
 
 # }}} (.sys)
