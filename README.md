@@ -24,7 +24,7 @@ Apply the configuration:
 chezmoi apply
 ```
 
-Reboot or relogin in order for changes to shell configuration to come into effect. After that, you can execute the `run-local-ansible-playbook.sh` command in order to automatically install all needed packages to the system via Ansible.
+Reboot or relogin in order for changes to shell configuration to come into effect. After that, you can execute the `Setup` command in order to automatically install all needed packages to the system via Ansible.
 
 ## Author
 
