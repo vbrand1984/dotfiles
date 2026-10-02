@@ -1,3 +1,19 @@
+" chezmoi:template: left-delimiter={{' right-delimiter='}}
+{{'- if false -'}}
+" vim: set ft=vim:
+"
+" This is a template for the vimrc config file
+" for regular user as well as for root
+"
+" Parameters for this template: dics with keys as following:
+" data: the dot in chezmoi templates
+" isRoot: (boolean) true if it's root config, else false
+"
+" chezmoi variable to store relative path to this template:
+" .tmpl.configFiles.vimRc
+"
+{{'- end -'}}
+
 " {{{ Plugins
 
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
@@ -10,14 +26,15 @@ endif
 "let g:chezmoi#use_tmp_buffer=1
 
 call plug#begin('~/.vim/plugged')
-	Plug 'sainnhe/everforest'
-	Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-	Plug 'sainnhe/gruvbox-material'
-	Plug 'vbrand1984/ob3-vim-syntax'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
+	Plug 'sainnhe/everforest'
+{{'- if not .isRoot '}}
+	Plug 'sainnhe/gruvbox-material'
 	Plug 'morhetz/gruvbox'
+	Plug 'vbrand1984/ob3-vim-syntax'
 "	 Plug 'alker0/chezmoi.vim'
+{{'- end '}}
 call plug#end()
 
 " }}}
@@ -68,16 +85,22 @@ set mouse=a
 augroup custom_indentation
 	autocmd!
 	autocmd FileType xml setlocal ts=2 sw=2
+{{'- if not .isRoot '}}
 	autocmd FileType ob3 setlocal ts=4 sw=4 noexpandtab
 	"autocmd FileType template setlocal ts=2 sw=2 expandtab
 	"autocmd FileType vim setlocal ts=2 sw=2
+{{'- end '}}
 augroup END
+
+{{'- if not .isRoot '}}
 
 " modeline for chezmoi home directory
 augroup modeline_for_chezmoi_source_dir
 	autocmd!
-	autocmd BufRead,BufNewFile ~/.Dots/chezmoi/Haus/* setlocal modeline modelines=5 nomodelineexpr
+	autocmd BufRead,BufNewFile {{' joinPath .data.chezmoi.sourceDir "*" '}} setlocal modeline modelines=5 nomodelineexpr
 augroup END
+
+{{'- end '}}
 
 " Some chezmoi-related stuff. Automatic assigning filetypes to templates
 
@@ -122,12 +145,6 @@ augroup certain_config_files
 	autocmd BufRead,BufNewFile ~/.config/conky/*.conf setlocal filetype=lua
 augroup END
 
-" Enable tabs in fstab
-augroup tabs_in_fstab
-	autocmd!
-	autocmd BufRead,BufNewFile fstab* setlocal noexpandtab
-augroup END
-
 " Imported from defaults.vim
 " Put these in an autocmd group, so that you can revert them with:
 " #":augroup vimStartup | exe 'au!' | augroup END"
@@ -151,14 +168,10 @@ augroup END
 "augroup END
 "hi def link MySee vimCommentTitle
 
-
 " }}}
 " {{{ Theme
 
-" Airline customization
-
-" Don't print warning about mixed whitespaces in airline
-let g:airline#extensions#whitespace#enabled = 0
+{{'- if not .isRoot '}}
 
 " Gruvbox default setup
 let g:gruvbox_italic = 1
@@ -166,51 +179,59 @@ let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_contrast_light = 'hard'
 let g:gruvbox_invert_selection = 0
 
-" Everforest default setup
-let g:everforest_background = 'hard'
-
 " Gruvbox-material default setup
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_foreground = 'material'
 let g:gruvbox_material_better_performance = 1
 
+{{'- end '}}
+
+" Everforest default setup
+let g:everforest_background = 'hard'
+
 set background=dark
+
+" Airline customization
+" Don't print warning about mixed whitespaces in airline
+let g:airline#extensions#whitespace#enabled = 0
 
 " You might have to force true color when using regular vim inside tmux as the
 " colorscheme can appear to be grayscale with 'termguicolors' option enabled.
 if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 if ($TERM != 'linux' || has("gui_running"))
+
+{{'- if .isRoot '}}
+
+	if (has("termguicolors"))
+		set termguicolors
+	endif
+	colorscheme everforest
+	let g:airline_theme = 'everforest'
+
+{{'- else '}}
+
 	if (has("termguicolors"))
 		set termguicolors
 		let g:gruvbox_termcolors = 256
 	else
 		let g:gruvbox_termcolors = 16
 	endif
-	if (expand('$EUID') != '0')
-		"let g:airline_theme = 'gruvbox'
-		"autocmd vimenter * ++nested colorscheme gruvbox
 
-		colorscheme gruvbox-material
-		let g:airline_theme = 'gruvbox_material'
+	"let g:airline_theme = 'gruvbox'
+	"autocmd vimenter * ++nested colorscheme gruvbox
 
-		"colorscheme everforest
-		"let g:airline_theme = 'everforest'
-	else
-		"let g:everforest_background = 'soft'
-		colorscheme everforest
-		let g:airline_theme = 'everforest'
+	colorscheme gruvbox-material
+	let g:airline_theme = 'gruvbox_material'
 
-		"colorscheme gruvbox-material
-		"let g:airline_theme = 'gruvbox_material'
+	"colorscheme everforest
+	"let g:airline_theme = 'everforest'
 
-		"set background=light
-		"let g:airline_theme = 'gruvbox'
-		"autocmd vimenter * ++nested colorscheme gruvbox
-	endif
+{{'- end '}}
+
 else
 	colorscheme desert
 	let g:airline_theme = 'term'

@@ -1,0 +1,56 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+{@'- if and .sys.isDebianBased (not .sys.hasSystemd) -'@}
+#!/bin/sh
+### BEGIN INIT INFO
+# Short-Description: SwayOSD LibInput backend daemon
+# Description:       Listens to caps-lock, scroll-lock, volume keys for SwayOSD.
+# Provides:          swayosd-libinput-backend
+# Required-Start:    $remote_fs $syslog $local_fs udev
+# Required-Stop:     $remote_fs $syslog $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+# Path to the backend binary
+DAEMON=/usr/bin/swayosd-libinput-backend
+NAME=swayosd-libinput-backend
+DESC="SwayOSD LibInput Backend"
+PIDFILE=/var/run/$NAME.pid
+
+# Check if the binary exists
+test -x $DAEMON || exit 0
+
+. /lib/lsb/init-functions
+
+case "$1" in
+	start)
+		log_daemon_msg "Starting $DESC" "$NAME"
+		# The daemon runs in the foreground by default, so we background it and create a pidfile
+		start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PIDFILE --exec $DAEMON
+		log_end_msg $?
+		;;
+	stop)
+		log_daemon_msg "Stopping $DESC" "$NAME"
+		start-stop-daemon --stop --quiet --pidfile $PIDFILE --retry 5
+		rm -f $PIDFILE
+		log_end_msg $?
+		;;
+	restart|force-reload)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_of_proc -p $PIDFILE "$DAEMON" "$NAME"
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart|status}" >&2
+		exit 1
+		;;
+esac
+
+exit 0
+
+{@'- end '@}

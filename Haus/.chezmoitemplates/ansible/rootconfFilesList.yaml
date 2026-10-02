@@ -10,7 +10,6 @@ directories:
 
 symlinks:
   - '.config/gtk-3.0/settings.ini'
-  - '.vim/vimrc'
 
 remove:
   - '.viminfo'

@@ -20,6 +20,9 @@ vbd_system_base_pkgs_base_tools:
     - e2fsprogs-l10n
     - exfatprogs
     - ntfs-3g
+{@'- if .sys.isDesktopRig '@}
+    - rasdaemon
+{@'- end '@}
 
   deb_backports:
     - btrfs-progs

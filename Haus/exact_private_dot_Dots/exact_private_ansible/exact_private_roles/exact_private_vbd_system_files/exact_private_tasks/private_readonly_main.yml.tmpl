@@ -27,4 +27,15 @@
         mode: "{{ item.mode if item.mode is defined else '644' }}"
       loop: "{{ vbd_system_files_conf_list }}"
 
+{@'- if or .sys.isVoid (and .sys.isDebianBased (not .sys.hasSystemd)) '@}
+
+    - name: Create the ``/etc/machine-id'' symlink
+      ansible.builtin.file:
+        dest: '/etc/machine-id'
+        src: '../var/lib/dbus/machine-id'
+        state: link
+        force: true
+
+{@'- end '@}
+
 ...

@@ -15,11 +15,12 @@ vbd_utilities_pkgs_hardware_utils:
     - dmidecode
     - hwinfo
     - inxi
+#    - linux-cpupower # backported
     - lm-sensors
     - lshw
     - lsscsi
     - pciutils
-    # - smartmontools # backported
+#    - smartmontools # backported
     - usbutils
 
     # Hardware monitors
@@ -29,6 +30,7 @@ vbd_utilities_pkgs_hardware_utils:
     - iotop
 
   deb_backports:
+    - linux-cpupower
     - smartmontools
 
 {@'- /* }}} */'@}
@@ -38,6 +40,7 @@ vbd_utilities_pkgs_hardware_utils:
   xbps:
     - cpuid
     - cpuinfo
+    - cpupower
     - dmidecode
     - hwinfo
     - inxi

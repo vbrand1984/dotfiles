@@ -13,38 +13,38 @@
   when: ansible_facts['os_family'] == 'Debian'
   block:
 
-    - name: Audio Base | Ensure that Pulseaudio is not installed (apt)
+    - name: Audio base | Ensure that Pulseaudio is not installed (apt)
       become: true
       ansible.builtin.apt:
         package: pulseaudio
         state: absent
         purge: true
 
-    - name: Audio Base | Install ALSA (stable)
+    - name: Audio base | Install ALSA (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_desktop_base_pkgs_audio_base.alsa['deb_stable'] }}"
+        package: "{{ vbd_desktop_base_pkgs_audio_base['alsa']['deb_stable'] }}"
         state: present
         install_recommends: false
       notify: Run alsactl init
 
-    - name: Audio Base | Install PipeWire (stable)
+    - name: Audio base | Install PipeWire (stable)
       ansible.builtin.apt:
-        package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire['deb_stable'] }}"
+        package: "{{ vbd_desktop_base_pkgs_audio_base['pipewire']['deb_stable'] }}"
         state: present
         install_recommends: false
       when:
-        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable is defined
-        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_stable | length > 0
+        - vbd_desktop_base_pkgs_audio_base['pipewire']['deb_stable'] is defined
+        - vbd_desktop_base_pkgs_audio_base['pipewire']['deb_stable'] | length > 0
 
-    - name: Audio Base | Install PipeWire (backports)
+    - name: Audio base | Install PipeWire (backports)
       ansible.builtin.apt:
-        package: "{{ vbd_desktop_base_pkgs_audio_base.pipewire['deb_backports'] }}"
+        package: "{{ vbd_desktop_base_pkgs_audio_base['pipewire']['deb_backports'] }}"
         default_release: "{{ ansible_facts['distribution_release'] }}-backports"
         state: latest # noqa: package-latest
         install_recommends: false
       when:
-        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_backports is defined
-        - vbd_desktop_base_pkgs_audio_base.pipewire.deb_backports | length > 0
+        - vbd_desktop_base_pkgs_audio_base['pipewire']['deb_backports'] is defined
+        - vbd_desktop_base_pkgs_audio_base['pipewire']['deb_backports'] | length > 0
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
@@ -55,23 +55,23 @@
   when: ansible_facts['distribution'] == 'Void'
   block:
 
-    - name: Audio Base | Ensure that PulseAudio is not installed (xbps)
+    - name: Audio base | Ensure that PulseAudio is not installed (xbps)
       community.general.xbps:
         name: pulseaudio
         state: absent
 
-    - name: Audio Base | Install ALSA (xbps)
+    - name: Audio base | Install ALSA (xbps)
       community.general.xbps:
-        name: "{{ vbd_desktop_base_pkgs_audio_base.alsa['xbps'] }}"
+        name: "{{ vbd_desktop_base_pkgs_audio_base['alsa']['xbps'] }}"
         state: present
       notify: Run alsactl init
 
-    - name: Audio Base | Install PipeWire (xbps)
+    - name: Audio base | Install PipeWire (xbps)
       community.general.xbps:
-        name: "{{ vbd_desktop_base_pkgs_audio_base.pipewire['xbps'] }}"
+        name: "{{ vbd_desktop_base_pkgs_audio_base['pipewire']['xbps'] }}"
         state: present
 
-    - name: Audio Base | Apply ALSA and PipeWire system configuration
+    - name: Audio base | Apply ALSA and PipeWire system configuration
       ansible.builtin.file:
         dest: "{{ item.dest }}"
         src: "{{ item.src if item.src is defined else '' }}"
@@ -80,6 +80,12 @@
         owner: root
         group: root
       loop: "{{ vbd_desktop_base_void_audio_conf }}"
+
+    - name: Audio base | Enable the ``alsa'' service
+      community.general.runit:
+        name: alsa
+        service_dir: /etc/runit/runsvdir/default
+        enabled: true
 
 {@'- end '@} {@'- /* }}} */'@}
 {@'- /* {{{ Common ground for systemd: establish rtkit config */'@}

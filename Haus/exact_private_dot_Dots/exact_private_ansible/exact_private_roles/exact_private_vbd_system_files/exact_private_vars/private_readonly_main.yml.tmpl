@@ -30,12 +30,14 @@ vbd_system_files_conf_list:
 
   - src: 'vbd-modules.conf'
     dest: '/etc/modules-load.d/vbd-modules.conf'
+
   {@'- end '@}
 
   {@'- if .sys.isDesktopRig '@}
 
   - src: 'edid.bin'
     dest: '/lib/firmware/edid/edid.bin'
+
   {@'- end '@}
 
 ...

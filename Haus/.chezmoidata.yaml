@@ -132,6 +132,8 @@ tmpl:
 
   configFiles:
 
+    vimRc: 'config-files/vimrc.tmpl'
+
     shell:
       aliases: 'config-files/shell/aliases.sh.tmpl'
       bashRc: 'config-files/shell/bash-rc.sh.tmpl'

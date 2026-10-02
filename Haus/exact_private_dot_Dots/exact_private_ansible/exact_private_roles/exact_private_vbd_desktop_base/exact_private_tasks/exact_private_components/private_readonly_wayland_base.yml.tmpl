@@ -16,16 +16,44 @@
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
+{@'- if not .sys.hasSystemd '@}
+
+- name: Wayland base | Install the ``swayosd-libinput-backend'' init script
+  become: true
+  ansible.builtin.copy:
+    src: sysvinit.swayosd-libinput-backend
+    dest: /etc/init.d/swayosd-libinput-backend
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Wayland base | Enable the ``swayosd-libinput-backend'' service
+  become: true
+  ansible.builtin.service:
+    name: swayosd-libinput-backend
+    enabled: true
+
+{@'- end '@}
+
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
-- name: Wayland base | Install packages (xbps)
+- name: Wayland base | Void installation
   become: true
-  community.general.xbps:
-    package: "{{ vbd_desktop_base_pkgs_wayland_base['xbps'] }}"
-    state: present
   when: ansible_facts['distribution'] == 'Void'
+  block:
+
+    - name: Wayland base | Install packages (xbps)
+      community.general.xbps:
+        package: "{{ vbd_desktop_base_pkgs_wayland_base['xbps'] }}"
+        state: present
+
+    - name: Wayland base | Enable the ``swayosd-libinput-backend'' service (runit)
+      community.general.runit:
+        name: swayosd-libinput-backend
+        service_dir: /etc/runit/runsvdir/default
+        enabled: true
 
 {@'- end '@} {@'- /* }}} */'@}
 
