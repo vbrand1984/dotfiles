@@ -21,7 +21,7 @@
 
 # Disable JIT for javascript for security reasons.
 # See: https://wiki.archlinux.org/title/Chromium#Disable_JIT
-#- --js-flags=--jitless
+- --js-flags=--jitless
 
 {@'- if .sys.useWayland '@}
 - --enable-features=UseOzonePlatform

@@ -339,13 +339,14 @@ data:
     # This MUST be either "notify-send" OR "dunstify"
     notifier: {@' default "dunstify" .cmd.notifier | squote '@}
 
+    editTemplate: {@' cat "/bin/sh" (joinPath .chezmoi.homeDir $dirLocalScripts "edit-template.sh") | squote '@}
     manageService: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "manage-service.sh") | squote '@}
-    tmuxMenuEditConfigMain: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirTmuxMenus "tm-edit-config-main.sh") | squote '@}
-    startRofi: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "start-rofi.sh") | squote '@}
-    takeScreenshotX: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot-x.sh") | squote '@}
-    takeScreenshot: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot.sh") | squote '@}
     reconfigureAppearance: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "reconfigure-appearance.sh") | squote '@}
+    startRofi: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "start-rofi.sh") | squote '@}
+    takeScreenshot: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot.sh") | squote '@}
+    takeScreenshotX: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "take-screenshot-x.sh") | squote '@}
     tinkerChezmoiConfig: {@' cat "/usr/bin/python3" (joinPath .chezmoi.homeDir $dirLocalScripts "tinker-chezmoi-config.py") | squote '@}
+    tmuxMenuEditConfigMain: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirTmuxMenus "tm-edit-config-main.sh") | squote '@}
 
 # }}} (.cmd)
 # {{{ .app: Various applications settings
