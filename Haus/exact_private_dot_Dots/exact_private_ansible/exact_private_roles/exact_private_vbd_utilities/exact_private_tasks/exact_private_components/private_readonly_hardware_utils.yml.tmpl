@@ -19,6 +19,16 @@
         state: present
         install_recommends: false
 
+    - name: Hardware utils | Install packages (backports)
+      ansible.builtin.apt:
+        package: "{{ vbd_utilities_pkgs_hardware_utils['deb_backports'] }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest # noqa: package-latest
+        install_recommends: false
+      when:
+        - vbd_utilities_pkgs_hardware_utils.deb_backports is defined
+        - vbd_utilities_pkgs_hardware_utils.deb_backports | length > 0
+
     - name: Hardware utils | Disable unwanted services
       ansible.builtin.service:
         name: "{{ item }}"
