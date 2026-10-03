@@ -13,6 +13,10 @@
       tags: [filesystems_support]
       ansible.builtin.import_tasks: components/filesystems_support.yml
 
+    - name: Desktop base | Wayland base
+      tags: [wayland_base]
+      ansible.builtin.import_tasks: components/wayland_base.yml
+
     - name: Desktop base | Audio base
       tags: [audio_base]
       ansible.builtin.import_tasks: components/audio_base.yml
@@ -20,10 +24,6 @@
     - name: Desktop base | Video base
       tags: [video_base]
       ansible.builtin.import_tasks: components/video_base.yml
-
-    - name: Desktop base | Wayland base
-      tags: [wayland_base]
-      ansible.builtin.import_tasks: components/wayland_base.yml
 
     - name: Desktop base | XDG
       tags: [xdg]
