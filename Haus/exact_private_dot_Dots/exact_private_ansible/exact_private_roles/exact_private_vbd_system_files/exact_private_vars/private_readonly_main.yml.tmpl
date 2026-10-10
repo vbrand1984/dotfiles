@@ -37,6 +37,10 @@ vbd_system_files_conf_list:
 
   - src: 'edid.bin'
     dest: '/lib/firmware/edid/edid.bin'
+  - src: 'modprobe.d/blacklist-bluetooth.conf'
+    dest: '/etc/modprobe.d/blacklist-bluetooth.conf'
+  - src: 'modprobe.d/blacklist-joydev.conf'
+    dest: '/etc/modprobe.d/blacklist-joydev.conf'
 
   {@'- end '@}
 

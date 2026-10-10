@@ -1,0 +1,15 @@
+---
+
+- name: Set fact | System setup completed
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/ansible/facts.d/vbd_system_setup.fact
+    content: "{{ __vbd_system_setup_fact | ansible.builtin.to_nice_json }}"
+    owner: root
+    group: root
+    mode: '0644'
+  vars:
+    __vbd_system_setup_fact:
+      completed: true
+
+...

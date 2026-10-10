@@ -1,0 +1,71 @@
+# chezmoi:template: left-delimiter={@ right-delimiter=@}
+{@- /* vim: set ft=cfg: */ -@}
+{@- includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " @}
+
+# General behaviour settings
+daemonize
+ignore-empty-password
+
+# What to indicate
+indicator-caps-lock
+show-failed-attempts
+show-keyboard-layout
+
+# Layout
+indicator-radius={@ .sys.isVM | ternary "50" "75" @}
+indicator-thickness={@ .sys.isVM | ternary "10" "20" @}
+
+# Font settings
+font=Ubuntu Bold
+font-size={@ print (.sys.isVM | ternary "12" "24") "pt" @}
+
+#
+# Palette (mostly gruvbox/gruvbox-material)
+#
+
+{@- $P := includeTemplate .tmpl.palette.swaylock | fromYaml @}
+
+# Background color
+color={@ $P.background @}
+
+# Text colors
+layout-text-color={@ $P.text.light @}
+text-color={@ $P.text.light @}
+
+# Normal ring colors
+inside-color={@ $P.background @}
+line-color={@ $P.separator @}
+ring-color={@ $P.normal.ring @}
+
+# Highlight segment
+bs-hl-color={@ $P.normal.hl.bs @}
+key-hl-color={@ $P.normal.hl.key @}
+separator-color={@ $P.separator @}
+
+# Clear
+inside-clear-color={@ $P.clear.inside @}
+line-clear-color={@ $P.separator @}
+ring-clear-color={@ $P.clear.ring @}
+text-clear-color={@ $P.text.dark @}
+
+# Wrong
+inside-wrong-color={@ $P.wrong.inside @}
+line-wrong-color={@ $P.separator @}
+ring-wrong-color={@ $P.wrong.ring @}
+text-wrong-color={@ $P.text.dark @}
+
+# Verification
+inside-ver-color={@ $P.ver.inside @}
+line-ver-color={@ $P.separator @}
+ring-ver-color={@ $P.ver.ring @}
+text-ver-color={@ $P.text.dark @}
+
+# Caps lock
+inside-caps-lock-color={@ $P.capsLock.inside @}
+ring-caps-lock-color={@ $P.capsLock.ring @}
+text-caps-lock-color={@ $P.capsLock.text @}
+
+# Caps lock highlight segment colors
+caps-lock-bs-hl-color={@ $P.capsLock.hl.bs @}
+caps-lock-key-hl-color={@ $P.capsLock.hl.key @}
+

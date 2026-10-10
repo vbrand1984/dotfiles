@@ -19,15 +19,16 @@
 
 {@'- end '@}
 
-{@'- if or .sys.isDebianBased .sys.isVoid '@}
 
 - name: General system configuration
   hosts: localhost
+  vars_files:
+    - vars/fontconfig-config.yml
 
   pre_tasks:
 
     - name: Create /etc/ansible/facts.d
-      tags: always
+      tags: [always]
       become: true
       ansible.builtin.file:
         path: /etc/ansible/facts.d
@@ -35,12 +36,21 @@
         owner: root
         group: root
         mode: '0755'
+      when: >
+        ansible_facts['ansible_local']['vbd_system_setup'] is not defined or
+        not ansible_facts['ansible_local']['vbd_system_setup']['completed']
+
+{@'- if or .sys.isDebianBased .sys.isVoid '@}
 
     - name: Upgrade package manager
-      tags: always
+      tags: [always]
       ansible.builtin.import_tasks: tasks/upgrade_package_manager.yml
 
+{@'- end '@}
+
   roles:
+
+{@'- if or .sys.isDebianBased .sys.isVoid '@}
 
     # System
     - vbd_system_base
@@ -57,12 +67,10 @@
 {@'- end '@}
 
 {@'- end '@}
-
-- name: System Fontconfig Configuration
-  hosts: all
-  vars_files:
-    - vars/fontconfig-config.yml
-
-  roles:
     - vbd_sys_conf
+
+  post_tasks:
+    - name: Set fact for system setup completion
+      ansible.builtin.import_tasks: tasks/set_fact_setup_completed.yml
+
 ...

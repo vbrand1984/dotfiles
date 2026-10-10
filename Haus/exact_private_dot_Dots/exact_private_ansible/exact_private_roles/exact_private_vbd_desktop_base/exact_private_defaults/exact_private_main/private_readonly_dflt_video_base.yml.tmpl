@@ -14,6 +14,7 @@ vbd_desktop_base_pkgs_video_base:
     # See: https://wiki.debian.org/HardwareVideoAcceleration
     {@'- if .sys.isDesktopRig '@}
     - mesa-va-drivers
+    - radeontop
     {@'- else if .sys.isAlcoLaptop '@}
     - i965-va-driver-shaders
     {@'- else if or .sys.isOldLaptop .sys.isNecroLaptop '@}
@@ -36,6 +37,7 @@ vbd_desktop_base_pkgs_video_base:
     # See: https://docs.voidlinux.org/config/graphical-session/graphics-drivers/amd.html
     - mesa-vulkan-radeon
     - mesa-vaapi
+    - radeontop
     {@'- else if or .sys.isAlcoLaptop .sys.isNecroLaptop .sys.isOldLaptop '@}
     # See: https://docs.voidlinux.org/config/graphical-session/graphics-drivers/intel.html
     {@'- if .sys.isAlcoLaptop '@}

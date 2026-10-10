@@ -1,4 +1,4 @@
-{{- $layout := includeTemplate .tmpl.wlogoutLayout . | fromYaml -}}
+{{- $layout := includeTemplate .tmpl.configFiles.wlogoutLayout . | fromYaml -}}
 {{- range $layout -}}
 {{		. | toPrettyJson "\t" }}
 {{ end -}}

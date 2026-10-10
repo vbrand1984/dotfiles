@@ -1,0 +1,21 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+{@'- if and (or .sys.isDebianBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
+#!/bin/sh -e
+#
+# Install crucial packages before chezmoi builds its target tree
+#
+
+{@'/* {{{ Include stuff */ -'@}
+
+{@'/* Print the name of the script... */ -'@}
+{@'/* ...and also include the ``_Print_Message*'' functions */ -'@}
+{@' includeTemplate .tmpl.msg.printRunningScriptName . '@}
+
+{@'- /* }}} */'@}
+
+{@' .cmd.setupSystem '@}
+
+{@'- end -'@}
+

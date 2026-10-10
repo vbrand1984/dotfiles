@@ -35,9 +35,12 @@
 {@'- end -'@}
 
 {@'- /* }}} (Source dir initialization) */'@}
-{@'- /* {{{ Local directories */ -'@}
+{@'- /* {{{ Local directories and files */ -'@}
 
-{@'- $dirLocalCache := joinPath $defaultDotsDir "cache" -'@}
+{@'- /* Filename of the script which runs the Ansible playbook for system setup */'@}
+{@'- $setupSystem := "Setup" '@}
+
+{@'- $dirLocalCache := joinPath $defaultDotsDir "cache" '@}
 {@'- $dirHelperScripts := joinPath (.chezmoi.sourceDir | dir) "helper-scripts" '@}
 {@'- $dirUserDataDefault := "/home" -'@}
 
@@ -339,6 +342,8 @@ data:
     # This MUST be either "notify-send" OR "dunstify"
     notifier: {@' default "dunstify" .cmd.notifier | squote '@}
 
+    # These variables are not to be changed in your {@' .chezmoi.configFile | replace .chezmoi.homeDir "~" '@}
+    setupSystem: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalBin $setupSystem) | squote '@}
     editTemplate: {@' cat "/bin/sh" (joinPath .chezmoi.homeDir $dirLocalScripts "edit-template.sh") | squote '@}
     manageService: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "manage-service.sh") | squote '@}
     reconfigureAppearance: {@' cat "/bin/sh -e" (joinPath .chezmoi.homeDir $dirLocalScripts "reconfigure-appearance.sh") | squote '@}
@@ -385,6 +390,17 @@ data:
     # This font is so good
     fontJetBrainsMono: {@' $fontJetBrainsMono | squote '@}
 
+    # This adds --js-flags=--jitless option to Chromium startup parameters
+    # Works not only for Chromium, but also for Vivaldi and Opera
+{@'- if $sysIsDebianBased '@}
+    #
+    # In Debian-based distros, it's necessary to run the {@' $setupSystem | squote '@} command
+    # in order for changes to be fully applied, because this setting also
+    # affects the /etc/chromium.d/my-own-chromium-flags file,
+    # which is deployed by Ansible
+{@'- end '@}
+    disableJitInChromium: {@' default false (.misc.disableJitInChromium | not | not) '@}
+
     # Desktop wallpaper and/or background color
     background:
 
@@ -409,6 +425,7 @@ data:
       poweroffDelay: {@' default 15 .misc.idle.poweroffDelay | int '@}
 
     # Keyboard settings
+    # See: https://gist.github.com/jatcwang/ae3b7019f219b8cdc6798329108c9aee
     kbd:
       layout: {@' default "us,ru" .misc.kbd.layout | squote '@}
       variant: {@' default "," .misc.kbd.variant | squote '@}

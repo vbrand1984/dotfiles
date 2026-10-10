@@ -34,14 +34,15 @@ set $cmd_lock_screen [@ .cmd.wayland.lockScreen @]
 
 #
 set $xorg_symbol 
-set $xorg_emblem [<span color='#f6bb4d'>$xorg_symbol</span>]
+#set $xorg_emblem <span color='#f6bb4d'>[$xorg_symbol]</span>
+set $xorg_emblem <span color='#f6c872'>[$xorg_symbol]</span>
 
 # }}} (Variables)
 # {{{ Various settings (background, keyboard layout, etc.)
 
 # Desktop background
 [@ if and .misc.background.useImage (ne .misc.background.imagePath "/dev/null") (stat .misc.background.imagePath) (lookPath "swaybg") -@]
-output * bg [@ .misc.background.imagePath | quote @] [@ .misc.background.imageMode @] [@ .misc.background.color | quote @] 
+output * bg [@ .misc.background.imagePath | quote @] [@ .misc.background.imageMode @] [@ .misc.background.color | quote @]
 [@- else -@]
 output * bg [@ .misc.background.color | quote @] solid_color
 [@- end @]
@@ -52,11 +53,11 @@ workspace_layout tabbed
 
 # Keyboard layout and configuration
 input "type:keyboard" {
-	xkb_layout [@ .misc.kbd.layout | quote @] 
+	xkb_layout [@ .misc.kbd.layout | quote @]
 	xkb_variant [@ .misc.kbd.variant | quote @]
 	xkb_options [@ .misc.kbd.options | quote @]
 	repeat_delay [@ .misc.kbd.delay | int @]
-	repeat_rate [@ .misc.kbd.repeat | int @] 
+	repeat_rate [@ .misc.kbd.repeat | int @]
 }
 
 # }}} (Various settings)
@@ -123,12 +124,14 @@ exec swayidle -w \
 bindsym --to-code $mod+q kill
 
 # Right-click on window title: kill window
-bindsym button3 nop
-bindsym --release button3 kill
+bindsym $mod+button2 nop
+bindsym --release $mod+button2 kill
 
 # Super-Enter, Super-Shift-Enter: Start your launcher
 bindsym $mod+Return exec $menu &
+bindsym $mod+KP_Enter exec $menu &
 bindsym $mod+Shift+Return exec $dmenu &
+bindsym $mod+Shift+KP_Enter exec $dmenu &
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -429,6 +432,9 @@ for_window [class = "(?i)pinentry"] floating enable
 for_window [title = "Administrator privileges required"] floating enable
 for_window [window_role = "About"] floating enable
 
+# My own rules
+for_window [title = "(glx|vk)gears"] floating enable
+
 # Certain apps
 for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
 for_window [app_id="conky"] floating enable, border none
@@ -494,7 +500,11 @@ for_window [app_id="gimp"] title_format "<span color='#e99012'></span> $win_t
 # }}}
 # {{{ Internet
 
+# Messengers
 for_window [app_id="telegram"] title_format "<span color='#28a4e2'></span> $win_title_text"
+for_window [app_id="teleguard_desktop"] title_format "<span color='#db3f83'></span> $win_title_text"
+
+# Varia
 for_window [app_id="amule"] title_format "<span color='#c78b52'></span> $win_title_text"
 for_window [app_id="wireshark"] title_format "<span background='#4e91d9' color='#343434'></span> $win_title_text"
 
@@ -532,10 +542,22 @@ for_window [app_id="libreoffice-impress"] title_format "<span color='#e96412'>�
 for_window [app_id="libreoffice-math"] title_format "<span color='#da477d'></span> $win_title_text"
 for_window [app_id="libreoffice-writer"] title_format "<span color='#1b83d4'></span> $win_title_text"
 
+# Document viewers
+set $icon_document_viewer <span color='#499dd3'></span>
+#set $icon_document_viewer <span color='#00cccc'> </span>
+for_window [app_id="org.kde.okular"] title_format "$icon_document_viewer $win_title_text"
+for_window [app_id="atril"] title_format "$icon_document_viewer $win_title_text"
+for_window [app_id="org.pwmt.zathura"] title_format "$icon_document_viewer $win_title_text"
+for_window [app_id="org.djvu.djview4"] title_format "$icon_document_viewer $win_title_text"
+for_window [app_id="com.github.johnfactotum.Foliate"] title_format "<span color='#00cccc'></span> $win_title_text"
+
+# Xournal++
+for_window [app_id="com.github.xournalpp.xournalpp"] title_format "<span color='#f9b11d'></span> $win_title_text"
+
 # }}}
 # {{{ Terminal emulators
 
-set $symbol_terminal <span color='#8ec07c'></span> 
+set $symbol_terminal <span color='#f06f35'></span>
 for_window [app_id="Alacritty"] title_format "$symbol_terminal $win_title_text"
 for_window [app_id="foot"] title_format "$symbol_terminal $win_title_text"
 
@@ -548,18 +570,35 @@ for_window [app_id="geany"] title_format "<span color='#fabd2f'></span> $win_
 # }}} (Text editors)
 # {{{ Utilities
 
+# Various settings
+for_window [app_id="kvantummanager"] title_format "<span color='#fcb533'></span> $win_title_text"
+for_window [app_id="dconf-editor"] title_format "<span color='#388bf1'></span> $win_title_text"
+for_window [app_id="qt[56]ct"] title_format "<span color='#0dce64'></span> $win_title_text"
+
 # Varia
 for_window [app_id="gammastep"] title_format "<span color='#d9d6ce'></span> $win_title_text"
-for_window [app_id="kvantummanager"] title_format "<span color='#fcb533'></span> $win_title_text" 
-for_window [app_id="qt6ct"] title_format "<span color='#0dce64'></span> $win_title_text" 
+for_window [title="glxgears"] title_format "<span color='#00c130'></span> $win_title_text"
+
+# System monitors
+for_window [app_id="mate-system-monitor"] title_format "<span color='#00e441'>󰄪</span> $win_title_text"
 
 # Calculators
-for_window [app_id="galculator"] title_format "<span color='#d1dae6'></span> $win_title_text" 
-for_window [app_id="qalculate*"] title_format "<span color='#e73ca6'></span> $win_title_text" 
+for_window [app_id="galculator"] title_format "<span color='#d1dae6'></span> $win_title_text"
+for_window [app_id="qalculate*"] title_format "<span color='#e73ca6'></span> $win_title_text"
 
 # Network Manager
-for_window [app_id="nm-applet"] title_format "<span color='#d9d6ce'>󰌘</span> $win_title_text" 
-for_window [app_id="nm-connection-editor"] title_format "<span color='#d9d6ce'>󰈀</span> $win_title_text" 
+for_window [app_id="nm-applet"] title_format "<span color='#d9d6ce'>󰌘</span> $win_title_text"
+for_window [app_id="nm-connection-editor"] title_format "<span color='#d9d6ce'>󰈀</span> $win_title_text"
+
+# Virtual machines
+set $icon_vm 
+for_window [app_id="virt-manager"] title_format "<span color='#c18797'>$icon_vm</span> $win_title_text"
+
+# VirtualBox
+set $vbox_color #3bdcff
+for_window [class="VirtualBox"] title_format "<span color='$vbox_color'>$icon_vm</span> $win_title_text $xorg_emblem"
+for_window [class="VirtualBox Manager"] title_format "<span color='$vbox_color'></span> $win_title_text $xorg_emblem"
+for_window [class="VirtualBox Machine"] title_format "<span color='$vbox_color'></span> $win_title_text $xorg_emblem"
 
 # }}}
 
@@ -625,5 +664,5 @@ client.focused_inactive	#464544			#252321			#8b8589			#3b5b4c		#1a2a22
 
 # }}} (Color scheme)
 
-include /etc/sway/config.d/*
+#include /etc/sway/config.d/*
 

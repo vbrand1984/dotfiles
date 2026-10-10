@@ -21,6 +21,9 @@
 # `downloaded' directory handling
 {{ if env .app.envIgnoreExternals }}
 
+	# WhiteSur GTK theme
+	{{ joinPath .dir.downloaded (printf .file.whiteSurTheme.pattern .file.whiteSurTheme.variant .file.whiteSurTheme.ver) }}
+
 	# papirus-folders package for debian-based distros
 	{{ if .sys.isDebianBased }}
 		{{ joinPath .dir.downloaded (printf .file.papirusFolders.pattern .file.papirusFolders.ver) }}

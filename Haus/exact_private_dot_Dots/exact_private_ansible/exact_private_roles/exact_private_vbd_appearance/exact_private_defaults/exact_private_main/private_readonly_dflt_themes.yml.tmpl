@@ -10,6 +10,20 @@ vbd_appearance_graphite:
     archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf .file.graphite.gtk.pattern .file.graphite.gtk.ver) | squote '@}
     ver: {@' .file.graphite.gtk.ver | squote '@}
 
+# Archive with the WhiteSur GTK theme
+{@'- $wst := .file.whiteSurTheme '@}
+vbd_appearance_white_sur:
+  archive: {@' joinPath .chezmoi.homeDir .dir.downloaded (printf $wst.pattern $wst.variant $wst.ver) | squote '@}
+  variant: {@' $wst.variant | squote '@}
+  ver: {@' $wst.ver | squote '@}
+
+  # Where to install the theme
+  dest_dir:
+    path: /usr/local/share/themes
+    owner: root
+    group: root
+    mode: '0755'
+
 vbd_appearance_pkgs_themes:
 {@'- /* {{{ Debian-based */'@}
 {@'- if .sys.isDebianBased '@}

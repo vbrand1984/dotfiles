@@ -59,6 +59,10 @@ kernel.oops_limit = 1
 # Disable dangerous userfaultfd usage.
 vm.unprivileged_userfaultfd = 0
 
+# That's for WINE gaming
+# See: https://www.reddit.com/r/debian/comments/1wz8hxo/debian_gaming_question_regarding_map_count/
+vm.max_map_count=1048576
+
 # }}}
 # {{{ dev.* options
 

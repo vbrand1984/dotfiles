@@ -63,6 +63,7 @@ set incsearch
 set number
 set cursorline
 set cursorlineopt=number
+set cursorcolumn
 highlight Visual cterm=none ctermfg=black ctermbg=grey
 
 " Tabulation options
@@ -202,6 +203,8 @@ if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
 	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
+{{'- $defaultTheme := "industry" '}}
+
 if ($TERM != 'linux' || has("gui_running"))
 
 {{'- if .isRoot '}}
@@ -209,8 +212,13 @@ if ($TERM != 'linux' || has("gui_running"))
 	if (has("termguicolors"))
 		set termguicolors
 	endif
-	colorscheme everforest
-	let g:airline_theme = 'everforest'
+
+	try
+		colorscheme everforest
+		let g:airline_theme = 'everforest'
+	catch /^Vim(colorscheme):E185:/
+		colorscheme {{' $defaultTheme '}}
+	endtry
 
 {{'- else '}}
 
@@ -221,19 +229,23 @@ if ($TERM != 'linux' || has("gui_running"))
 		let g:gruvbox_termcolors = 16
 	endif
 
-	"let g:airline_theme = 'gruvbox'
-	"autocmd vimenter * ++nested colorscheme gruvbox
+	try
+		"let g:airline_theme = 'gruvbox'
+		"autocmd vimenter * ++nested colorscheme gruvbox
 
-	colorscheme gruvbox-material
-	let g:airline_theme = 'gruvbox_material'
+		colorscheme gruvbox-material
+		let g:airline_theme = 'gruvbox_material'
 
-	"colorscheme everforest
-	"let g:airline_theme = 'everforest'
+		"colorscheme everforest
+		"let g:airline_theme = 'everforest'
+	catch /^Vim(colorscheme):E185:/
+		colorscheme {{' $defaultTheme '}}
+	endtry
 
 {{'- end '}}
 
 else
-	colorscheme desert
+	colorscheme {{' $defaultTheme '}}
 	let g:airline_theme = 'term'
 endif
 

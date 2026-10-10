@@ -16,7 +16,7 @@
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
 
-{@'- /* }}} */'@}
+{@'- /* }}} (Debian) */'@}
 {@'- /* {{{ Void */'@}
 {@'- else if .sys.isVoid '@}
 
@@ -27,7 +27,50 @@
     state: present
   when: ansible_facts['distribution'] == 'Void'
 
-{@'- end '@} {@'- /* }}} */'@}
+{@'- end '@} {@'- /* }}} (Void) */'@}
+{@'- /* {{{ Common ground: WhiteSur theme installation  */'@}
+
+- name: Themes | WhiteSur GTK theme installation
+  become: true
+  when: >
+    ansible_facts['ansible_local']['vbd_white_sur_theme'] is not defined or
+    ansible_facts['ansible_local']['vbd_white_sur_theme']['installed_version'] != vbd_appearance_white_sur['ver'] or
+    ansible_facts['ansible_local']['vbd_white_sur_theme']['installed_variant'] != vbd_appearance_white_sur['variant']
+  block:
+
+    - name: Themes | White Sur | Create destination directory
+      ansible.builtin.file:
+        path: "{{ vbd_appearance_white_sur['dest_dir']['path'] }}"
+        state: directory
+        owner: "{{ vbd_appearance_white_sur['dest_dir']['owner'] }}"
+        group: "{{ vbd_appearance_white_sur['dest_dir']['group'] }}"
+        mode: "{{ vbd_appearance_white_sur['dest_dir']['mode'] }}"
+
+    - name: Themes | White Sur | Delete theme directory if it exists
+      ansible.builtin.file:
+        path: "{{ (vbd_appearance_white_sur['dest_dir']['path'], vbd_appearance_white_sur['variant']) | ansible.builtin.path_join }}"
+        state: absent
+
+    - name: Themes | White Sur | Unarchive theme
+      ansible.builtin.unarchive:
+        src: "{{ vbd_appearance_white_sur['archive'] }}"
+        dest: "{{ vbd_appearance_white_sur['dest_dir']['path'] }}"
+        owner: root
+        group: root
+
+    - name: "Themes | White Sur | Set fact | Installed: {{ '%s v%s' | format(vbd_appearance_white_sur['variant'], vbd_appearance_white_sur['ver']) }}"
+      ansible.builtin.copy:
+        dest: /etc/ansible/facts.d/vbd_white_sur_theme.fact
+        content: "{{ __vbd_appearance_white_sur_fact | ansible.builtin.to_nice_json }}"
+        owner: root
+        group: root
+        mode: '0644'
+      vars:
+        __vbd_appearance_white_sur_fact:
+          installed_version: "{{ vbd_appearance_white_sur['ver'] }}"
+          installed_variant: "{{ vbd_appearance_white_sur['variant'] }}"
+
+{@'- /* }}} (Common ground) */'@}
 
 ...
 {@'- end '@}

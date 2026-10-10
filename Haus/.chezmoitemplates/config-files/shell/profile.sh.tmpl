@@ -1,0 +1,24 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+# This file is sourced by bash for login shells.  The following line
+# runs your .bashrc and is recommended by the bash info pages.
+if [ -n "${BASH_VERSION}" ]; then
+	# Include ~/.bashrc if it exists
+	[ -r "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+fi
+
+{@'- if not .isRoot '@}
+
+# Set PATH so it includes user's private bin if it exists
+{@'-	$localBin := joinPath .data.chezmoi.homeDir .data.dir.localBin '@}
+[ -d {@' $localBin | shellQuote '@} ] && PATH="${PATH}:{@' $localBin '@}"
+{@'-	if .sys.isBrandsPrivate '@}
+# ...and also user's private games...
+{@'-	$localGames := joinPath .data.chezmoi.homeDir .data.dir.localGames '@}
+[ -d {@' $localGames | shellQuote '@} ] && PATH="${PATH}:{@' $localGames '@}"
+{@'-	end '@}
+
+{@'- end '@}
+
+{@'- /* This deletes an empty line after the template */ -'@}

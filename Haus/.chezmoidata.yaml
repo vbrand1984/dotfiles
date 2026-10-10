@@ -50,7 +50,7 @@ file:
   ansible:
     config: 'ansible.cfg'
     inventory: 'inventory.yml'
-    localPlaybook: 'local-chezmoi-playbook.yml'
+    pbSetupSystem: 'pb-setup-system.yml'
 
   # https://pkginfo.devuan.org/cgi-bin/policy-query.html??c=package&q=devuan-keyring
   devuanKeyring:
@@ -96,6 +96,13 @@ file:
     sha512: 'f66592828052080c40a73f76f1d26d32cbbee895061d299aa32490668457aa702c4d21d689c04b241623072cf6d2da41e4db757dd6db1a107deb046e91c8c9f3'
     size: 10513
 
+  whiteSurTheme:
+    pattern: 'WhiteSur-%s-%s.tar.xz'
+    ver: '2026-09-10'
+    variant: 'Dark-solid-grey'
+    sha512: '6a92be04cc30efe48cc57e97b24346439528c7bd74766d8c328ff5a6da791ae2d2c05d4d8855a37b1a4b662bcc75ae2c216aae27a800fde5e99379c4ebb882f8'
+    size: 202688
+
 # }}}
 # {{{ .message: Various messages
 
@@ -126,19 +133,18 @@ tmpl:
 
   listFileHashes: 'list-file-hashes.cfg'
 
-  wlogoutLayout: 'wlogout-layout.yaml.tmpl'
-
-  gtkSettingsIni: 'gtk-settings.ini.tmpl'
-
   configFiles:
 
+    gtkSettingsIni: 'config-files/gtk-settings.ini.tmpl'
     vimRc: 'config-files/vimrc.tmpl'
+    wlogoutLayout: 'config-files/wlogout-layout.yaml.tmpl'
 
     shell:
       aliases: 'config-files/shell/aliases.sh.tmpl'
       bashRc: 'config-files/shell/bash-rc.sh.tmpl'
       envProfile: 'config-files/shell/env-profile.sh.tmpl'
       envRc: 'config-files/shell/env-rc.sh.tmpl'
+      profile: 'config-files/shell/profile.sh.tmpl'
 
   # Messages to be printed in files or on the screen
   msg:
@@ -149,6 +155,7 @@ tmpl:
   palette:
     ansiTerminalColors: 'palettes/ansi-terminal-colors.yaml'
     conky: 'palettes/conky.toml'
+    swaylock: 'palettes/swaylock.yaml'
     terminal: 'palettes/terminal.yaml.tmpl'
     wlogout: 'palettes/wlogout.yaml.tmpl'
 

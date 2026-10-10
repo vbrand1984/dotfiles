@@ -19,9 +19,11 @@
 #- --enable-features=VaapiVideoDecoder,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE
 - --enable-features=VaapiVideoDecoder,VaapiIgnoreDriverChecks
 
+{@' if .misc.disableJitInChromium '@}
 # Disable JIT for javascript for security reasons.
 # See: https://wiki.archlinux.org/title/Chromium#Disable_JIT
 - --js-flags=--jitless
+{@' end '@}
 
 {@'- if .sys.useWayland '@}
 - --enable-features=UseOzonePlatform

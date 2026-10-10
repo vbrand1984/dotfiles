@@ -1,0 +1,37 @@
+---
+
+background: '000000'
+
+separator:  '1d2021'
+
+normal:
+  ring:     '6f8352'
+  hl:
+    bs:     'af5f00'
+    key:    '89b482'
+
+text:
+  light:    'd4be98'
+  dark:     '100c08'
+
+clear:
+  inside:   'b47109'
+  ring:     'c35e0a'
+
+wrong:
+  inside:   'af3a03'
+  ring:     '9d0006'
+
+ver:
+  inside:   '45707a'
+  ring:     '076678'
+
+capsLock:
+  inside:   '5f0000'
+  ring:     'b57614'
+  text:     'b57614'
+  hl:
+    bs:     'af5f00'
+    key:    'af3a03'
+
+...

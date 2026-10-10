@@ -1,7 +1,6 @@
-# {{{ chezmoi:template: left-delimiter={@' right-delimiter='@}
-{@'- if false -'@}
-# vim: set ft=sh:
-{@'- end -'@} {@'- /* }}} */ -'@}
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
 {@'- if and (or .sys.isDebianBased .sys.isVoid) (env .app.envIgnoreExternals | not) -'@}
 #!/bin/sh -e
 #

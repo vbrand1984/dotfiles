@@ -10,7 +10,7 @@
 
 exec tmux display-menu -T ' WLogout configuration ' -x C -y C \
 	'Edit layout'			'l' "new-window -n 'wlogout-layout' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/layout" '@}'" \
-	'Edit layout template'	't' "new-window -n 'wlogout-template' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.wlogoutLayout) | squote '@}" \
+	'Edit layout template'	't' "new-window -n 'wlogout-template' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.configFiles.wlogoutLayout) | squote '@}" \
 	'Edit style'			's' "new-window -n 'wlogout-style' '{@' .chezmoi.executable '@} edit --apply {@' joinPath .chezmoi.homeDir ".config/wlogout/style.css" '@}'" \
 	'Edit palette'			'p' "new-window -n 'wlogout-palette' {@' cat .cmd.editor "--" (joinPath .chezmoi.sourceDir ".chezmoitemplates" .tmpl.palette.wlogout) | squote '@}" \
 	'' \

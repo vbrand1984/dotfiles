@@ -31,7 +31,17 @@
         package: apt-file
         state: present
         install_recommends: false
-      notify: Update apt-file
+      register: __vbd_utilities_apt_file_installed
+
+    - name: Debian-specific | Run ``apt-file update''
+      ansible.builtin.command: apt-file update
+      changed_when: true
+      # In standard Debian install, apt-file is preinstalled,
+      # so that previous task won't trigger handler
+      when: > # noqa: no-handler
+        __vbd_utilities_apt_file_installed.changed or
+        ansible_facts['ansible_local']['vbd_system_setup'] is not defined or
+        not ansible_facts['ansible_local']['vbd_system_setup']['completed']
 
 {@'- /* }}} */'@}
 {@'- /* {{{ Void */'@}

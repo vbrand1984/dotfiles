@@ -43,6 +43,17 @@
 #	refreshPeriod = 0
 
 # }}} (Graphite)
+# {{{ WhiteSur
+
+# WhiteSur GTK theme
+[{@' joinPath .dir.downloaded (printf .file.whiteSurTheme.pattern .file.whiteSurTheme.variant .file.whiteSurTheme.ver) | quote '@}]
+	type = "file"
+	url = "https://drive.google.com/uc?export=download&id=1lXnGFw5Z9Tp0ggIQuKriV_QXPxQ2kGFb"
+	checksum.sha512 = {@' .file.whiteSurTheme.sha512 | quote '@}
+	checksum.size = {@' .file.whiteSurTheme.size | int '@}
+	refreshPeriod = 0
+
+# }}} (WhiteSur)
 
 # }}} (Themes)
 # {{{ Desktop Backgrounds
