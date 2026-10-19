@@ -1,0 +1,115 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
+
+- name: Install WineHQ
+  tags: [packages, desktop, wine]
+  when: ansible_facts['os_family'] == 'Debian'
+  block:
+
+    - name: Check foreign architectures in dpkg
+      ansible.builtin.command:
+        cmd: dpkg --print-foreign-architectures
+      register: __vbd_wine_dpkg_foreign_arch
+      changed_when: false
+
+    - name: Enable 32-bit architecture
+      become: true
+      when: "'i386' not in __vbd_wine_dpkg_foreign_arch['stdout_lines']"
+      block:
+
+        - name: Enable 32-bit architecture (i386) for dpkg
+          ansible.builtin.command:
+            cmd: dpkg --add-architecture i386
+          changed_when: true
+
+        - name: Update Apt cache
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Check for WineHQ sources file
+      ansible.builtin.stat:
+        path: "{{ vbd_wine_repo_data['repo']['filename'] }}"
+      register: __vbd_winehq_sources_file
+      changed_when: not __vbd_winehq_sources_file['stat']['exists'] | bool
+
+    - name: Establish winehq repo
+      when: not __vbd_winehq_sources_file['stat']['exists'] | bool
+      block:
+
+        - name: Create temporary file for WineHQ signing key
+          ansible.builtin.tempfile:
+            suffix: tmp
+          register: __vbd_wine_tempfile
+
+        - name: Download WineHQ signing key
+          ansible.builtin.get_url:
+            url: "{{ vbd_wine_repo_data['key']['url'] }}"
+            dest: "{{ __vbd_wine_tempfile['path'] }}"
+            mode: '644'
+            force: true
+
+        - name: Delete WineHQ dearmored key if it exists
+          become: true
+          ansible.builtin.file:
+            path: "{{ vbd_wine_repo_data['key']['filename'] }}"
+            state: absent
+
+        - name: Dearmor WineHQ signing key
+          become: true
+          ansible.builtin.command:
+            cmd: "gpg --dearmor -o {{ vbd_wine_repo_data['key']['filename'] }} -- {{ __vbd_wine_tempfile['path'] }}"
+          args:
+            creates: "{{ vbd_wine_repo_data['key']['filename'] }}"
+
+        - name: Delete temporary key file
+          ansible.builtin.file:
+            path: "{{ __vbd_wine_tempfile['path'] }}"
+            state: absent
+
+        - name: Download WineHQ repository file
+          become: true
+          ansible.builtin.get_url:
+            url: "{{ vbd_wine_repo_data['repo']['url'] }}"
+            dest: "{{ vbd_wine_repo_data['repo']['filename'] }}"
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: Update Apt cache
+          become: true
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Install WineHQ (backports)
+      become: true
+      ansible.builtin.apt:
+        # We use backports repo here because there must be packages from backports
+        # from the pulled dependencies; the exact winehq package is from stable.
+        package: "{{ vbd_wine_pkgs['deb_backports'] }}"
+        default_release: "{{ ansible_facts['distribution_release'] }}-backports"
+        state: latest # noqa: package-latest
+        install_recommends: false
+
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
+
+- name: Install wine (xbps)
+  tags: [packages, desktop, wine]
+  become: true
+  community.general.xbps:
+    package: "{{ vbd_wine_pkgs['xbps'] }}"
+    state: present
+  when: ansible_facts['distribution'] == 'Void'
+
+{@'- end '@} {@'- /* }}} */'@}
+
+...
+{@'- end '@}

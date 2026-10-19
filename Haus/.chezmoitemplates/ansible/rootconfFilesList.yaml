@@ -12,6 +12,8 @@ symlinks:
   - '.config/gtk-3.0/settings.ini'
 
 remove:
+  - '.bash_login'
+  - '.bash_profile'
   - '.viminfo'
   - '.vimrc'
 

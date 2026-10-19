@@ -64,6 +64,9 @@
     - vbd_www_browsers
 {@'- if .sys.isDesktopRig '@}
     - vbd_virtual_machines
+{@'- if .sys.isDebianBased '@}
+    - vbd_wine
+{@'- end '@}
 {@'- end '@}
 
 {@'- end '@}

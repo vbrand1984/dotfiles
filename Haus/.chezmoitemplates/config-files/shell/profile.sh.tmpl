@@ -13,7 +13,7 @@ fi
 # Set PATH so it includes user's private bin if it exists
 {@'-	$localBin := joinPath .data.chezmoi.homeDir .data.dir.localBin '@}
 [ -d {@' $localBin | shellQuote '@} ] && PATH="${PATH}:{@' $localBin '@}"
-{@'-	if .sys.isBrandsPrivate '@}
+{@'-	if .data.sys.isBrandsPrivate '@}
 # ...and also user's private games...
 {@'-	$localGames := joinPath .data.chezmoi.homeDir .data.dir.localGames '@}
 [ -d {@' $localGames | shellQuote '@} ] && PATH="${PATH}:{@' $localGames '@}"

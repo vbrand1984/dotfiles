@@ -34,8 +34,7 @@ set $cmd_lock_screen [@ .cmd.wayland.lockScreen @]
 
 #
 set $xorg_symbol 
-#set $xorg_emblem <span color='#f6bb4d'>[$xorg_symbol]</span>
-set $xorg_emblem <span color='#f6c872'>[$xorg_symbol]</span>
+set $xorg_emblem <span color='#e9c278'>[$xorg_symbol]</span>
 
 # }}} (Variables)
 # {{{ Various settings (background, keyboard layout, etc.)
@@ -286,15 +285,15 @@ bindsym $mod+Ctrl+Right move container to workspace next, workspace next
 # }}}
 # {{{ Scratchpad
 
-	# Sway has a "scratchpad", which is a bag of holding for windows.
-	# You can send windows there and get them back later.
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
 
-	# Move the currently focused window to the scratchpad
-	bindsym $mod+Shift+minus move scratchpad
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
 
-	# Show the next scratchpad window or hide the focused scratchpad window.
-	# If there are multiple scratchpad windows, this command cycles through them.
-	# bindsym $mod+minus scratchpad show
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+# bindsym $mod+minus scratchpad show
 
 # }}}
 # {{{ Resizing containers
@@ -319,7 +318,7 @@ mode "resize" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym --to-code $mod+r mode "resize"
 
 # }}}
 # {{{ Applications
@@ -419,6 +418,9 @@ bindsym --to-code $mod+grave exec /bin/sh -- [@ joinPath .chezmoi.homeDir .dir.l
 # }}} (Key bindings)
 # {{{ Application rules
 
+default_floating_border normal 2
+for_window [window_type="dialog"] floating enable, border normal
+
 # See: https://wiki.gentoo.org/wiki/Sway#Automatic_floating_windows
 for_window [window_role = "pop-up"] floating enable
 for_window [window_role = "bubble"] floating enable
@@ -436,7 +438,7 @@ for_window [window_role = "About"] floating enable
 for_window [title = "(glx|vk)gears"] floating enable
 
 # Certain apps
-for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 255
+for_window [app_id="gsimplecal"] floating enable, border none, move position 100 ppt 0 px, move left 365
 for_window [app_id="conky"] floating enable, border none
 for_window [app_id="qalculate*"] floating enable
 for_window [app_id="galculator"] floating enable
@@ -445,11 +447,10 @@ for_window [app_id="galculator"] floating enable
 for_window [app_id="gtk3-widget-factory"] floating enable
 for_window [app_id="org.gtk.WidgetFactory4"] floating enable
 
-default_floating_border normal 2
-for_window [window_type="dialog"] floating enable, border normal
-
 # Games
 for_window [app_id="paradox-launcher*"] floating enable, border none
+for_window [app_id="grim dawn.exe"] move window to workspace number 8
+#assign [app_id="grim dawn.exe"] workspace number 8
 
 # }}} (Theme setup)
 # {{{ Titlebars setup
@@ -487,15 +488,17 @@ for_window [app_id="caja"] title_format "$icon_file_manager $win_title_text"
 for_window [app_id="pcmanfm"] title_format "$icon_file_manager $win_title_text"
 
 # }}}
-# {{{ Image viewers
+# {{{ Image handling
 
-for_window [app_id="eom"] title_format " $win_title_text"
-for_window [app_id="geeqie"] title_format " $win_title_text"
-
-# }}}
-# {{{ Image editors
-
+# Image editors
 for_window [app_id="gimp"] title_format "<span color='#e99012'></span> $win_title_text"
+for_window [app_id="org\.inkscape\.Inkscape"] title_format "<span color='#f0ede5'></span> $win_title_text"
+for_window [app_id="org\.kde\.kolourpaint"] title_format "<span color='#f79a30'></span> $win_title_text"
+
+# Image viewers
+set $icon_image_viewer 
+for_window [app_id="eom"] title_format "<span color='#6ccbff'>$icon_image_viewer</span> $win_title_text"
+for_window [app_id="geeqie"] title_format "<span color='#c2c85d'>$icon_image_viewer</span> $win_title_text"
 
 # }}}
 # {{{ Internet
@@ -554,6 +557,9 @@ for_window [app_id="com.github.johnfactotum.Foliate"] title_format "<span color=
 # Xournal++
 for_window [app_id="com.github.xournalpp.xournalpp"] title_format "<span color='#f9b11d'></span> $win_title_text"
 
+# JabRef
+for_window [class="net-sf-jabref-JabRefMain"] title_format "<span color='#8b97b9'></span> $win_title_text $xorg_emblem"
+
 # }}}
 # {{{ Terminal emulators
 
@@ -573,6 +579,8 @@ for_window [app_id="geany"] title_format "<span color='#fabd2f'></span> $win_
 # Various settings
 for_window [app_id="kvantummanager"] title_format "<span color='#fcb533'></span> $win_title_text"
 for_window [app_id="dconf-editor"] title_format "<span color='#388bf1'></span> $win_title_text"
+for_window [app_id="engrampa"] title_format "<span color='#5fb763'></span> $win_title_text"
+for_window [app_id="com\.github\.tchx84\.Flatseal"] title_format "<span color='#ccab8f'></span> $win_title_text"
 for_window [app_id="qt[56]ct"] title_format "<span color='#0dce64'></span> $win_title_text"
 
 # Varia
@@ -592,7 +600,9 @@ for_window [app_id="nm-connection-editor"] title_format "<span color='#d9d6ce'>�
 
 # Virtual machines
 set $icon_vm 
-for_window [app_id="virt-manager"] title_format "<span color='#c18797'>$icon_vm</span> $win_title_text"
+set $virt_manager_color #c18797
+for_window [app_id="virt-manager"] title_format "<span color='$virt_manager_color'>$icon_vm</span> $win_title_text"
+for_window [app_id="remote-viewer"] title_format "<span color='$virt_manager_color'></span> $win_title_text"
 
 # VirtualBox
 set $vbox_color #3bdcff

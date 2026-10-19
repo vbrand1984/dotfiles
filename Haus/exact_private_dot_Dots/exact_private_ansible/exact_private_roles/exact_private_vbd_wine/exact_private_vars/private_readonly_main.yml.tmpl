@@ -1,0 +1,44 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=yaml fdm=marker: */ -'@}
+
+{@'- if or .sys.isDebianBased .sys.isVoid -'@}
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+---
+
+{@'- /* {{{ Debian-based */'@}
+{@'- if .sys.isDebianBased '@}
+
+# See: https://gitlab.winehq.org/wine/wine/-/wikis/Debian-Ubuntu
+# sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
+vbd_wine_repo_data:
+  repo:
+#    suite: 'trixie'
+#    component: 'main'
+#    uris: 'https://dl.winehq.org/wine-builds/debian'
+    filename: '/etc/apt/sources.list.d/winehq-trixie.sources'
+    url: 'https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources'
+  key:
+    filename: '/etc/apt/keyrings/winehq-archive.key'
+    url: 'https://dl.winehq.org/wine-builds/winehq.key'
+
+vbd_wine_pkgs:
+  deb_backports:
+    - 'libegl1:i386'
+    - 'libvulkan1:i386'
+    - 'mesa-vulkan-drivers:i386'
+    - winehq-stable
+    - winetricks
+
+{@'- /* }}} */'@}
+{@'- /* {{{ Void */'@}
+{@'- else if .sys.isVoid '@}
+
+vbd_wine_pkgs:
+  xbps:
+    - wine
+    - winetricks
+
+{@'- end '@} {@'- /* }}} */'@}
+
+...
+{@'- end '@}
