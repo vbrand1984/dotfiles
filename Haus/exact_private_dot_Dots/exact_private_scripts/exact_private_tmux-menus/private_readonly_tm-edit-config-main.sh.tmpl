@@ -12,12 +12,12 @@
 {@'- $editApply := "edit --apply" '@}
 
 exec tmux display-menu -T ' Edit config files ' -x C -y C \
-	'Edit ~/.bashrc'	'b' "new-window -n '~/.bashrc'	{@' cat .chezmoi.executable $editApply (joinPath .chezmoi.homeDir `.bashrc`) | squote '@}" \
 	'Edit conky.conf'	'y' "new-window -n 'conky.conf'	{@' cat .chezmoi.executable $editApply (joinPath .chezmoi.homeDir `.config/conky/conky.conf`) | squote '@}" \
 	'Edit vimrc'		'v' "new-window -n 'vimrc'		{@' cat .cmd.editor (joinPath .chezmoi.sourceDir `.chezmoitemplates` .tmpl.configFiles.vimRc) | squote '@}" \
 	'Edit sway config'	's' "new-window -n 'sway'		{@' cat .chezmoi.executable $editApply (joinPath .chezmoi.homeDir `.config/sway/config`) | squote '@}" \
 	'Edit fonts.conf'	'f' "new-window -n 'fonts.conf'	{@' cat .chezmoi.executable $editApply (joinPath .chezmoi.homeDir `.config/fontconfig/fonts.conf`) | squote '@}" \
 	'' \
+	'bash...'			'b' "run-shell {@' cat $shell (joinPath .chezmoi.homeDir .dir.tmuxMenus `tm-edit-config-bash.sh`)		| squote '@}" \
 	'chezmoi...'		'c' "run-shell {@' cat $shell (joinPath .chezmoi.homeDir .dir.tmuxMenus `tm-edit-config-chezmoi.sh`)	| squote '@}" \
 	'dunst...'			'd' "run-shell {@' cat $shell (joinPath .chezmoi.homeDir .dir.tmuxMenus `tm-edit-config-dunst.sh`)		| squote '@}" \
 	'git...'			'g' "run-shell {@' cat $shell (joinPath .chezmoi.homeDir .dir.tmuxMenus `tm-edit-config-git.sh`)		| squote '@}" \

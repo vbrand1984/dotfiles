@@ -13,6 +13,9 @@
 {@'- /* Common options for all ``ls'' and ``ls''-like commands */'@}
 {@'- $lsOptions := "--color=auto --group-directories-first --time-style=long-iso" '@}
 
+{@'- /* Common options for ``eza'' */'@}
+{@'- $ezaOptions := "-g --icons=auto --smart-group --group-directories-first --time-style=long-iso" '@}
+
 {@'- /* Common options for all ``grep''-like commands */'@}
 {@'- $grepOptions := "--color=auto" '@}
 
@@ -31,8 +34,12 @@ fi
 
 # some more ls aliases
 alias ll={@' cat "ls -l" $lsOptions | squote '@}
-alias la={@' cat "ls -Al" $lsOptions | squote '@}
-alias l={@' cat "ls -CF" $lsOptions | squote '@}
+alias La={@' cat "ls -lA" $lsOptions | squote '@}
+alias L={@' cat "ls -CF" $lsOptions | squote '@}
+
+# eza aliases
+alias l={@' cat "eza -l" $ezaOptions | squote '@}
+alias la={@' cat "eza -al" $ezaOptions | squote '@}
 
 # }}} (Generic aliases)
 # {{{ Safety nets

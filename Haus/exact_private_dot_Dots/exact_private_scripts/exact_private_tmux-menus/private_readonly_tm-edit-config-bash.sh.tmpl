@@ -1,0 +1,22 @@
+# chezmoi:template: left-delimiter={@' right-delimiter='@}
+{@'- /* vim: set ft=sh: */ -'@}
+
+{@'- includeTemplate .tmpl.shebang.dumbSh . '@}
+#
+{@' includeTemplate .tmpl.msg.managedByChezmoi . | comment "# " '@}
+#
+# This script opens an edit config menu for bash in tmux
+#
+
+{@'- $tmplDir := joinPath .chezmoi.sourceDir `.chezmoitemplates` '@}
+{@'- $tmpl := .tmpl.configFiles.shell '@}
+
+exec tmux display-menu -T ' Bash configuration ' -x C -y C \
+	'Edit bashrc'		'r' "new-window -n 'bashrc'		{@' cat .cmd.editor (joinPath $tmplDir $tmpl.bashRc) | squote '@}" \
+	'Edit aliases'		'a' "new-window -n 'aliases'	{@' cat .cmd.editor (joinPath $tmplDir $tmpl.aliases) | squote '@}" \
+	'Edit profile'		'p' "new-window -n 'profile'	{@' cat .cmd.editor (joinPath $tmplDir $tmpl.profile) | squote '@}" \
+	'Edit envProfile'	'P' "new-window -n 'envProfile'	{@' cat .cmd.editor (joinPath $tmplDir $tmpl.envProfile) | squote '@}" \
+	'Edit envRc'		'e' "new-window -n 'envRc'		{@' cat .cmd.editor (joinPath $tmplDir $tmpl.envRc) | squote '@}" \
+	'' \
+	'Back'			'.' "run-shell {@' .cmd.tmuxMenuEditConfigMain | squote '@}"
+
